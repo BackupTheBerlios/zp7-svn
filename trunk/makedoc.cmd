@@ -1,0 +1,1 @@
+c:\prg\Python24\Lib\site-packages\epydoc\cli.py -o docs main.py startup.py desktop database format dbview images utils internet interop songbook songtool anchors browse config printing

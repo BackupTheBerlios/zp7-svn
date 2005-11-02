@@ -1,0 +1,137 @@
+[Config]
+Relative path=1
+Compilator.FileName=
+Compilator.PSPar=
+Compilator.Log=
+Compilator.Run=
+Compilator.DefaultDir=
+Compilator.SaveAll=0
+Compilator.Capture=0
+Compilator.ParsLog=
+Compilator.HideOutput=0
+Prog1=
+Prog2=
+Prog3=
+Prog4=
+Prog5=
+DefaultDir=
+DefaultCPIndex=6
+LogtoEnd=1
+DontOpen=0
+FileFormat=0
+DocumentRoot=
+HTServer=
+[Project tree]
+zp6
+	+lib
+		+anchors
+			anchors\__init__.py
+			anchors\content.py
+		+browse
+			browse\__init__.py
+			browse\ctrlitem.py
+			browse\dialog.py
+			browse\base.py
+			browse\ext.py
+			browse\toolbar.py
+			browse\hooks.py
+		+config 
+			config\__init__.py
+			config\cfgpanel.py
+			config\fonts.py
+			config\hotkeys.py
+		+database
+			database\__init__.py
+			database\intf.py
+			database\manager.py
+			database\songdb.py
+			database\songdef.py
+		+dbview
+			dbview\__init__.py
+			dbview\dbvpanel.py
+			dbview\songgrid.py
+			dbview\songview.py
+		+desktop
+			desktop\__init__.py
+			desktop\intf.py
+			desktop\mainwin.py
+		+format
+			format\__init__.py
+			format\canvas.py
+			format\font.py
+			format\formatter.py
+			format\panes.py
+		+internet
+			internet\__init__.py
+		+interop
+			interop\__init__.py
+			interop\anchor_loader.py
+		+printing
+			printing\__init__.py
+		+songbook
+			songbook\__init__.py
+			songbook\sbpanel.py
+			songbook\sbtype.py
+			songbook\songbook.py
+			songbook\a4distrib.py
+			songbook\realsb.py
+		+songtool
+			songtool\__init__.py
+			songtool\toolbars.py
+			songtool\transp.py
+		+utils
+			utils\__init__.py
+			utils\dialogs.py
+			utils\xmlnode.py
+			utils\xmltools.py
+		main.py
+		makedoc.cmd
+		startup.py
+[Open project files]
+0=songbook\sbtype.py
+1=songbook\realsb.py
+2=songbook\sbpanel.py
+3=browse\base.py
+4=browse\ext.py
+5=browse\ctrlitem.py
+6=songbook\a4distrib.py
+7=songbook\songbook.py
+8=songbook\paging.py
+9=browse\hooks.py
+10=desktop\mainwin.py
+[Selected Project Files]
+Main=
+Selected=songbook\sbpanel.py
+[songbook\sbtype.py]
+TopLine=154
+Caret=1,184
+[songbook\realsb.py]
+TopLine=27
+Caret=6,78
+[songbook\sbpanel.py]
+TopLine=240
+Caret=1,290
+[browse\base.py]
+TopLine=82
+Caret=41,103
+[browse\ext.py]
+TopLine=1
+Caret=1,40
+[browse\ctrlitem.py]
+TopLine=19
+Caret=51,28
+[songbook\a4distrib.py]
+TopLine=29
+Caret=1,62
+[songbook\songbook.py]
+TopLine=128
+Caret=1,178
+[songbook\paging.py]
+TopLine=25
+Caret=1,46
+[browse\hooks.py]
+TopLine=20
+Caret=35,64
+[desktop\mainwin.py]
+TopLine=42
+Caret=1,62

@@ -1,0 +1,3 @@
+import pydoc
+
+pydoc.gui()

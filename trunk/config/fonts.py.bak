@@ -1,0 +1,9 @@
+#songview in main window
+songview_label={'underline':True,'face':'Arial'}
+songview_text={'face':'Arial'}
+songview_chord={'face':'Arial','bold':True,'color':'navy'}
+
+#printing one song
+printsong_label={'size':50,'underline':True,'face':'Arial'}
+printsong_text={'size':50,'face':'Arial'}
+printsong_chord={'size':50,'bold':True,'face':'Arial'}
