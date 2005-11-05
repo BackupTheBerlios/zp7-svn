@@ -1,6 +1,7 @@
 import wx
 import utils
 import ctrlitem
+import wx.lib.stattext as stattext
 
 def _ctrlpars(ext):
   """adds to dictionary ext ctrl default parameters
@@ -97,9 +98,7 @@ class BrowseBase:
   def label(self,**kw):
     kw,mypars=self._split_args(kw,_ctrlpars({'text':'','model':None,'default':''}))
     if mypars['model']:
-      ctrl=wx.Window(self._getparent(),-1)
-      #ctrl.SetMaxSize((100,20))
-      ctrl.Bind(wx.EVT_SIZE,lambda ev:ctrl.Layout())
+      ctrl=stattext.GenStaticText(self._getparent(),-1,mypars['text'],**kw)
       res=ctrlitem._DynamicLabelCtrlItem(ctrl,mypars)
       res.load()
     else:

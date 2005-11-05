@@ -149,10 +149,7 @@ class _LabelCtrlItem(_CtrlItem):
   
 class _DynamicLabelCtrlItem(_CtrlItem):
   def setvalue(self,value):
-    try: self.lctrl.Destroy()
-    except: pass
-    self.lctrl=wx.StaticText(self.ctrl,-1,unicode(value))
-    #self.lctrl.SetConstraints(layoutf.Layoutf('t=t#1;l=l#1;r=r#1;b=b#1',(self.ctrl,)))
+    self.ctrl.SetLabel(unicode(value))
 
   def load(self):
     if self.model:

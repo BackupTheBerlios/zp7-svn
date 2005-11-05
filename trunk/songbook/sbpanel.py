@@ -87,13 +87,14 @@ class SBPanel(anchors.content.IContent):
     
     self.brw.endsizer()
     
-    self.previewbar.label(model=lambda: u"Strana %d/%d"%(self.curpage+1,self.pagecount))
+    self.previewbar.label(model=lambda: u"Strana %d/%d"%(self.curpage+1,self.pagecount),layoutflags=wx.CENTER)
+    self.previewbar.space((10,10))
     self.previewbar.button(text='<<',event=lambda ev:self.changepage(-1))
     self.previewbar.button(text='>>',event=lambda ev:self.changepage(1))
     self.previewbar.combo(id='zoom',model=['%d%%'%z for z in self._zooms],curmodel=browse.attr(self,'curzoom'),event=self.changezoom)
     self.previewbar.realize()
     
-    self.infobrw.grid(rows=3,cols=2)
+    self.infobrw.grid(rows=3,cols=2,border=5)
     self.infobrw.label(text=u'Logických stránek:')
     self.infobrw.label(model=lambda:len(self.actsb.logpages.pages),default=u'???')
     self.infobrw.label(text=u'Fyzických stránek:')
