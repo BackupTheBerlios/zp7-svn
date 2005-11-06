@@ -50,7 +50,7 @@ class SongFormatter:
   def wantpane(self,hi):
     if not self.actpane:
       self.actpane=self.panegrp.addpane()
-    if hi>self.actpane.h : self.actpane.h=hi
+    if hi>self.actpane.hi : self.actpane.hi=hi
   
   def writetextword(self,text):
     self.setaskfont('text')
@@ -167,4 +167,4 @@ class SongFormatter:
       
     self.flushlabel(self.labhi)
       
-    for pane in self.panegrp.panes : self.pagehi+=pane.h
+    for pane in self.panegrp.panes : self.pagehi+=pane.hi

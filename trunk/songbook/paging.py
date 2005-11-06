@@ -29,6 +29,10 @@ class LogPage:
     self.canvas=format.MemoryCanvas()
 
   def draw(self,canvas):
+    #acty=0
+    #for pane in self.pane: 
+      #pane.canvas.draw(format.SubCanvas(canvas,0,acty))
+      #acty+=pane.hi
     self.canvas.draw(canvas)
 
 class LogPages(PagePrinter):
@@ -50,6 +54,10 @@ class LogPages(PagePrinter):
     self.actpage=None
 
   def getpagesize(self): return self.pagesize
+    
+class DistribAlg:
+  """abstract class, which have to transform """
+  pass
     
 class DistribState:
   acty=0
