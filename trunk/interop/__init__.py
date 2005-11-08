@@ -1,9 +1,13 @@
 # -*- coding: UTF-8 -*-
 
-import anchor_loader
+#import anchor_loader
 #import weakref
+import anchors
 
-library_directory='' #set by main program
+anchor=anchors.Anchors()
+
+
+#library_directory='' #set by main program
 
 _message_disable_level=0
 _message_queue=[]
@@ -54,32 +58,4 @@ def process_messages():
   for flag in _flags: _flag_defs[flag]()
   _message_queue=[]
   _flags=set()
-  
-def define_anchor(name,intf):
-  """defines new anchor
-  
-  @type intf: class
-  """
-  assert not _anchors.has_key(name)
-  _anchors[name]=(intf,[])
-  
-def add_feature(anchor,obj):
-  """defines new feature, adds it to anchor
-  
-  @type anchor: str
-  @type obj: defined by define_anchor(anchor,XXX)
-  """
-  assert _anchors.has_key(anchor)
-  assert isinstance(obj,_anchors[anchor][0])
-  _anchors[anchor][1].append(obj)
-  
-def get_features(anchor):
-  """return list of features from given anchor
-  
-  @rtype: list(feature type)
-  """
-  return _anchors[anchor][1]
-  
-def initialize():
-  pass
-#  anchor_loader.load_anchors()
+

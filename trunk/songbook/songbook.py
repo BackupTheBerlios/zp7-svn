@@ -12,6 +12,7 @@ import paging
 import browse.hooks as hooks
 import interop
 import autodistrib
+import logpagepreview
 
 class _FmtSong:
   panegrp=None
@@ -125,6 +126,7 @@ class SongBook(object,hooks.Hookable):
     
   def _formatsong(self,song,dc,pars):
     fmt=format.SongFormatter(dc,pars,song.text,self.rbt.pgwi)
+    self.sbtype.header.printheader(song,fmt.panegrp,self.rbt)
     fmt.run()
     self.formatted[id(song)]=_FmtSong(song,fmt.panegrp)
     
@@ -187,3 +189,8 @@ class SongBook(object,hooks.Hookable):
     if songid and self.dbsongs.has_key(songid): del self.dbsongs[songid]
     if self.formatted.has_key(id(song)): del self.formatted[id(song)]
     self.wantformat()
+    
+  def logpagepreview(self):
+    if self.sbtype.hcnt % 2: return logpagepreview.SimpleLogPagePreview(self)
+    return logpagepreview.BookLogPagePreview(self)
+    

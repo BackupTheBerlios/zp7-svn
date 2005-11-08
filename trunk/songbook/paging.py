@@ -55,6 +55,10 @@ class LogPages(PagePrinter):
 
   def getpagesize(self): return self.pagesize
     
+  def __len__(self): return len(self.pages)
+  def __iter__(self): return iter(self.pages)
+  def __getitem__(self,item): return self.pages[item]
+    
 class DistribAlg:
   """abstract class, which have to transform """
   pass

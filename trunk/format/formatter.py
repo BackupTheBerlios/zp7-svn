@@ -44,6 +44,29 @@ class SongFormatter:
   labhi=0
   labelcache=None
 
+  def __init__(self,askdc,pars,text,pagewi):
+    """
+  
+    @rtype: L{PaneGrp}
+    """
+    self.askdc=askdc
+    self.text=text
+    self.pars=pars
+    self.pagewi=pagewi
+    self.panegrp=panes.PaneGrp()
+    #self.lastwaslabel=False
+    self.actpane=None
+    self.actx=0
+    self.left=0
+    self.setaskfont('text')
+    self.spwi=self.askdc.GetTextExtent(' ')[0]
+    self.thi=self.askdc.GetTextExtent('M')[1]
+    self.setaskfont('chord')
+    self.ahi=self.askdc.GetTextExtent('M')[1]
+    self.athi=self.ahi+self.thi
+    self.setaskfont('label')
+    self.labhi=self.askdc.GetTextExtent('M')[1]
+    
   def setaskfont(self,font):
     self.askdc.SetFont(self.pars.fonts[font].getwxfont())
   
@@ -128,30 +151,6 @@ class SongFormatter:
       self.actpane.canvas.text(0,linehi-self.labhi,self.labelcache)
       self.labelcache=None
       
-      
-  def __init__(self,askdc,pars,text,pagewi):
-    """
-  
-    @rtype: L{PaneGrp}
-    """
-    self.askdc=askdc
-    self.text=text
-    self.pars=pars
-    self.pagewi=pagewi
-    self.panegrp=panes.PaneGrp()
-    #self.lastwaslabel=False
-    self.actpane=None
-    self.actx=0
-    self.left=0
-    self.setaskfont('text')
-    self.spwi=self.askdc.GetTextExtent(' ')[0]
-    self.thi=self.askdc.GetTextExtent('M')[1]
-    self.setaskfont('chord')
-    self.ahi=self.askdc.GetTextExtent('M')[1]
-    self.athi=self.ahi+self.thi
-    self.setaskfont('label')
-    self.labhi=self.askdc.GetTextExtent('M')[1]
-    
   def run(self):
     lines=self.text.split("\n")
     for line in lines:

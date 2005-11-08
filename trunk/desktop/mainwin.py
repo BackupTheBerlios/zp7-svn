@@ -82,7 +82,7 @@ class MainWindow(wx.Frame,intf.IMenuCreator):
     #self.want_recreate_menu=False
     oldmenubar=None
     if self.menutree:
-      for item in interop.get_features('content'): item.on_destroy_menu()
+      for item in interop.anchor['content']: item.on_destroy_menu()
       oldmenubar=self.menutree.wxmenu
     if self.toolbar: self.toolbar.Destroy()
     
@@ -106,7 +106,7 @@ class MainWindow(wx.Frame,intf.IMenuCreator):
   def get_event_binder(self): return self
 
   def create_controls(self):
-    for item in interop.get_features('content'): 
+    for item in interop.anchor['content']:
       item.parent_window=wx.Window(self,-1)
       item.parent_window.SetConstraints(layoutf.Layoutf('t=t#1;l=l#1;r=r#1;b=b#1',(self,)))
       item.parent_window.Bind(wx.EVT_SIZE,lambda ev:item.parent_window.Layout(),None)
@@ -130,7 +130,7 @@ class MainWindow(wx.Frame,intf.IMenuCreator):
           self.visible_content.on_hide()
           self.visible_content.parent_window.Hide()
         self.visible_content=None
-        for cnt in interop.get_features('content'):
+        for cnt in interop.anchor['content']:
           if cnt.get_name()==name:
             self.visible_content=cnt
             cnt.parent_window.Show()

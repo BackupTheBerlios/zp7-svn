@@ -15,7 +15,7 @@ import sbtype
 
 class RealSBType:
   sbtype=None
-  dc=None
+  dc=None # wx.DC; ask dc
   pgwi=0
   pghi=0
   pars=None
@@ -76,4 +76,9 @@ class RealSBType:
     #res=x*self._pgwi+self.dleft,y*self._pghi+self.dtop
     #print res
     #return res
-  
+ 
+  def getfont(self,name):
+    try:
+      return self.pars.fonts[name]
+    except: 
+      return self.pars.fonts['default']

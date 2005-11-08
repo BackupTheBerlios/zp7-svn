@@ -1,5 +1,7 @@
 # -*- coding: UTF-8 -*-
 
+import stdfeatures # define features
+
 import desktop
 import sbpanel
 import config

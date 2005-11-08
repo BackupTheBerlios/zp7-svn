@@ -9,6 +9,7 @@ import config
 import wx
 import copy
 import realsb
+import interop
 
 class SBType:
   iattrs=('hcnt','vcnt','leftsp','topsp','rightsp','bottomsp')
@@ -23,11 +24,17 @@ class SBType:
   saveonlydiff=False
   fontnames=('title','author','chord','text','label')
   fonttitles={'title':u'Název','author':u'Autor','chord':u'Akord','text':u'Text','label':u'Návěští'}
+  #fontnames=('default','chord','text','label')
+  #fonttitles={'default':u'Implicitní','chord':u'Akord','text':u'Text','label':u'Návěští'}
+  #fontnames=['chord','text','label']
+  #fonttitles={'chord':u'Akord','text':u'Text','label':u'Návěští'}
   fonts={}
+  header=None
   
   def __init__(self):
     self.fonts={}
     for f in self.fontnames: self.fonts[f]=utils.emptyfont()
+    self.header=interop.anchor['songheader'].default
 
   def copyfrom(self,src):
     xml=xmlnode.XmlNode()

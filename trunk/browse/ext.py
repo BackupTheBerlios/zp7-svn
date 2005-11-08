@@ -31,7 +31,9 @@ class ToolbarExtension:
     panel=self.panel(size=(-1,25))
     self.endparent()
     panel.ctrl.Bind(wx.EVT_SIZE,lambda ev: panel.ctrl.Layout())
+    #panel.load=lambda: panel.ctrl.Layout()
     return toolbar.ToolbarBrowse(panel.ctrl)
+
 
 class PanelBrwExtension:
   def panelbrw(self):

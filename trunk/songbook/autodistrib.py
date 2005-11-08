@@ -125,9 +125,9 @@ class DistribAlg:
             if panegrpstack[0].sheetcnt(self.maxhi)<=2:
               self.addpage()
               self.addpage()
-              self.addpanegrp(0)
+              addpanegrp(0)
             else:
-              self.addpanegrp(0)
+              addpanegrp(0)
       else: # right page
         if rest==0:
           addpanegrp(0)

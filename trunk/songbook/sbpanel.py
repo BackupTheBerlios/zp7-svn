@@ -17,6 +17,84 @@ import config
 import format
 import interop
 
+class Preview:
+  pagecount=0
+  curpage=-1
+  infobrw=None
+  _zooms=(10,20,50,80,100,200,500)
+  curzoom=3
+  toolbar=None
+  panel=None
+  drawpage=None
+  formatpgnum=None
+  virtw=0
+  virth=0
+  
+  def __init__(self,panel,drawpage=lambda canvas,page:0,formatpgnum=lambda pagenum,pagecount:u''):
+    self.panel=panel
+    self.drawpage=drawpage
+    self.formatpgnum=formatpgnum
+
+  def define_brw(self,brw,title):
+    brw.page(text=title)
+    brw.vbox()
+    self.toolbar=brw.toolbar()
+    self.preview=brw.scrollwin(onpaint=self.OnPaint,proportion=1,color='white').ctrl
+    brw.endsizer()
+    brw.endparent()
+    self.define_bar()
+  
+  def OnPaint(self,event):
+    if not self.panel.actsb:
+      event.Skip()
+      return
+    zoom=self._zooms[self.curzoom]/100.0
+    dc=wx.PaintDC(self.preview)
+    self.preview.PrepareDC(dc)
+    dc.SetUserScale(self.panel.actsb.rbt.pkoefx*zoom,self.panel.actsb.rbt.pkoefy*zoom)
+    self.drawpage(format.DCCanvas(dc),self.curpage)
+  
+  def define_bar(self):
+    self.toolbar.label(model=lambda: self.formatpgnum(self.curpage,self.pagecount),layoutflags=wx.CENTER,style=wx.ST_NO_AUTORESIZE,size=(100,-1))
+    self.toolbar.space((10,10))
+    self.toolbar.button(text='<<',event=lambda ev:self.changepage(-1))
+    self.toolbar.button(text='>>',event=lambda ev:self.changepage(1))
+    self.toolbar.combo(id='zoom',model=['%d%%'%z for z in self._zooms],curmodel=browse.attr(self,'curzoom'),event=self.changezoom)
+    self.toolbar.realize()
+    
+  def setvirtsize(self,w,h):
+    self.virtw=w
+    self.virth=h
+    self.updatevirtsize()
+
+  def updatevirtsize(self):
+    if not self.panel.actsb:
+      self.preview.SetVirtualSize((0,0))
+      return
+    zoom=self._zooms[self.curzoom]/100.0
+    self.preview.SetVirtualSize((self.virtw*self.panel.actsb.rbt.pkoefx*zoom,self.virth*self.panel.actsb.rbt.pkoefy*zoom))
+
+  def update(self,pagecount):
+    self.pagecount=pagecount
+    self.changepage()
+
+  def changepage(self,d=0):
+    self.curpage+=d
+    if self.curpage<0: self.curpage=0
+    if self.curpage>=self.pagecount: self.curpage=self.pagecount-1
+    self.refresh()
+    
+  def refresh(self):
+    self.preview.Refresh()
+    self.toolbar.loadall()
+
+  def changezoom(self,ev=None):
+    self.toolbar['zoom'].save()
+    self.updatevirtsize()
+    self.refresh()
+    
+# u"Strana %d/%d"%(self.curpage+1,self.pagecount)
+ 
 class SBPanel(anchors.content.IContent):
   #songv=None
   #panel=None
@@ -29,11 +107,14 @@ class SBPanel(anchors.content.IContent):
   alloccol=None
   brw=None
   preview=None
-  curpage=-1
-  pagecount=0
-  infobrw=None
-  _zooms=(10,20,50,80,100,200,500)
-  curzoom=3
+  logpreview=None
+  lpp=None # type=LogPagePreview
+  
+  #pagecount=0
+  #curpage=-1
+  #infobrw=None
+  #_zooms=(10,20,50,80,100,200,500)
+  #curzoom=3
   #ptoolbar=None
 
   def __init__(self):
@@ -77,22 +158,45 @@ class SBPanel(anchors.content.IContent):
     self.brw.pager(proportion=1)
     self.brw.page(text=u"Text písně")
     self.brw.endparent()
-    self.brw.page(text=u"Náhled")
-    self.brw.vbox()
-    self.previewbar=self.brw.toolbar()
-    self.preview=self.brw.scrollwin(onpaint=self.OnPaintPreview,proportion=1,color='white').ctrl
-    self.brw.endsizer()
-    self.brw.endparent()
+
+    self.preview=Preview(
+      self,
+      lambda canvas,page:self.actsb.drawpage(canvas,page),
+      lambda curpage,pagecount:u"Strana %d/%d"%(curpage+1,pagecount)
+    )
+    self.preview.define_brw(self.brw,u"Náhled")
+    
+    self.logpreview=Preview(
+      self,
+      lambda canvas,page:self.lpp.drawpage(page,canvas),
+      lambda curpage,pagecount:self.lpp.fmtpagenum(curpage)
+    )
+    self.logpreview.define_brw(self.brw,u"Logické stránky")
+    
+#     self.brw.page(text=u"Náhled")
+#     self.brw.vbox()
+#     self.previewbar=self.brw.toolbar()
+#     self.preview=self.brw.scrollwin(onpaint=self.OnPaintPreview,proportion=1,color='white').ctrl
+#     self.brw.endsizer()
+#     self.brw.endparent()
+#     
+#     self.brw.page(text=u"Logické stránky")
+#     self.brw.vbox()
+#     self.logpreviewbar=self.brw.toolbar()
+#     self.logpreview=self.brw.scrollwin(onpaint=self.OnPaintLogPreview,proportion=1,color='white').ctrl
+#     self.brw.endsizer()
+#     self.brw.endparent()
+    
     self.brw.endparent()
     
     self.brw.endsizer()
     
-    self.previewbar.label(model=lambda: u"Strana %d/%d"%(self.curpage+1,self.pagecount),layoutflags=wx.CENTER)
-    self.previewbar.space((10,10))
-    self.previewbar.button(text='<<',event=lambda ev:self.changepage(-1))
-    self.previewbar.button(text='>>',event=lambda ev:self.changepage(1))
-    self.previewbar.combo(id='zoom',model=['%d%%'%z for z in self._zooms],curmodel=browse.attr(self,'curzoom'),event=self.changezoom)
-    self.previewbar.realize()
+#     self.previewbar.label(model=lambda: u"Strana %d/%d"%(self.curpage+1,self.pagecount),layoutflags=wx.CENTER)
+#     self.previewbar.space((10,10))
+#     self.previewbar.button(text='<<',event=lambda ev:self.changepage(-1))
+#     self.previewbar.button(text='>>',event=lambda ev:self.changepage(1))
+#     self.previewbar.combo(id='zoom',model=['%d%%'%z for z in self._zooms],curmodel=browse.attr(self,'curzoom'),event=self.changezoom)
+#     self.previewbar.realize()
     
     self.infobrw.grid(rows=3,cols=2,border=5)
     self.infobrw.label(text=u'Logických stránek:')
@@ -254,29 +358,37 @@ class SBPanel(anchors.content.IContent):
       self.actsb=self.opensbs[sel-len(self.predefined_sb_list)]
       self.on_select_new_sb()
 
-  def OnPaintPreview(self,event):
-    if not self.actsb:
-      event.Skip()
-      return
-    zoom=self._zooms[self.curzoom]/100.0
-    dc=wx.PaintDC(self.preview)
-    self.preview.PrepareDC(dc)
-    dc.SetUserScale(self.actsb.rbt.pkoefx*zoom,self.actsb.rbt.pkoefy*zoom)
-    self.actsb.drawpage(format.DCCanvas(dc),self.curpage)
+#   def OnPaintPreview(self,event):
+#     if not self.actsb:
+#       event.Skip()
+#       return
+#     zoom=self._zooms[self.curzoom]/100.0
+#     dc=wx.PaintDC(self.preview)
+#     self.preview.PrepareDC(dc)
+#     dc.SetUserScale(self.actsb.rbt.pkoefx*zoom,self.actsb.rbt.pkoefy*zoom)
+#     self.actsb.drawpage(format.DCCanvas(dc),self.curpage)
 
-  def refresh(self):
-    self.preview.Refresh()
-    self.previewbar.loadall()
+  def OnPaintLogPreview(self,event):
+    pass
 
-  def setvirtsize(self):
-    zoom=self._zooms[self.curzoom]/100.0
-    self.preview.SetVirtualSize((self.actsb.rbt.pw100*zoom,self.actsb.rbt.ph100*zoom))
+  #def refresh(self):
+    #self.preview.Refresh()
+    #self.previewbar.loadall()
+
+  #def setvirtsize(self):
+    #zoom=self._zooms[self.curzoom]/100.0
+    #self.preview.SetVirtualSize((self.actsb.rbt.pw100*zoom,self.actsb.rbt.ph100*zoom))
 
   def format(self):
+    self.lpp=None
     if not self.actsb: return
     self.actsb.format()
-    self.pagecount=self.actsb.a4d.sheetcnt()*2
-    self.setvirtsize()
+    self.lpp=self.actsb.logpagepreview()
+    #self.pagecount=self.actsb.a4d.sheetcnt()*2
+    self.preview.setvirtsize(self.actsb.rbt.pgwi,self.actsb.rbt.pghi)
+    self.preview.update(self.actsb.a4d.sheetcnt()*2)
+    self.logpreview.setvirtsize(*self.lpp.getpagesize())
+    self.logpreview.update(self.lpp.getcount())
     self.changepage()
     self.infobrw.loadall()
   
@@ -285,11 +397,15 @@ class SBPanel(anchors.content.IContent):
     self.actsb.clearformat()
     self.format()
 
-  def changepage(self,d=0):
-    self.curpage+=d
-    if self.curpage<0: self.curpage=0
-    if self.curpage>=self.pagecount: self.curpage=self.pagecount-1
-    self.refresh()
+  def changepage(self):
+    self.preview.changepage()
+    self.logpreview.changepage()
+
+#   def changepage(self,d=0):
+#     self.curpage+=d
+#     if self.curpage<0: self.curpage=0
+#     if self.curpage>=self.pagecount: self.curpage=self.pagecount-1
+#     self.refresh()
     
   def onchangebasesbtype(self,ev):
     self.actsb.sbtype.changebase(self.brw['sbtype'].getitem())
@@ -298,8 +414,3 @@ class SBPanel(anchors.content.IContent):
   def format_songbook(self):
     self.format()
     
-  def changezoom(self,ev=None):
-    self.previewbar['zoom'].save()
-    if not self.actsb: return
-    self.setvirtsize()
-    self.refresh()

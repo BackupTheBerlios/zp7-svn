@@ -19,4 +19,4 @@ class IContent:
   def on_destroy_menu(self):
     pass
 
-interop.define_anchor('content',IContent)
+interop.anchor.define('content',IContent)

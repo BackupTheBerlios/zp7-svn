@@ -24,7 +24,7 @@ def add_content(content):
   """adds content pane (dbview, songlistview, ...)
   
   @type content: L{intf.IContent}"""
-  interop.add_feature('content',content)
+  interop.anchor['content'].add_feature(content)
   #_contents.append(content)
   
 def show_content(name):

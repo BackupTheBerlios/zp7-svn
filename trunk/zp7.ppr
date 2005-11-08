@@ -27,6 +27,7 @@ zp6
 		+anchors
 			anchors\__init__.py
 			anchors\content.py
+			anchors\songformat.py
 		+browse
 			browse\__init__.py
 			browse\ctrlitem.py
@@ -65,7 +66,7 @@ zp6
 			internet\__init__.py
 		+interop
 			interop\__init__.py
-			interop\anchor_loader.py
+			interop\anchors.py
 		+printing
 			printing\__init__.py
 		+songbook
@@ -77,6 +78,7 @@ zp6
 			songbook\realsb.py
 			songbook\paging.py
 			songbook\autodistrib.py
+			songbook\stdfeatures.py
 		+songtool
 			songtool\__init__.py
 			songtool\toolbars.py
@@ -90,58 +92,30 @@ zp6
 		makedoc.cmd
 		startup.py
 [Open project files]
-0=songbook\sbtype.py
-1=songbook\realsb.py
-2=songbook\sbpanel.py
-3=browse\base.py
-4=browse\ext.py
-5=browse\ctrlitem.py
-6=songbook\a4distrib.py
-7=songbook\songbook.py
-8=songbook\paging.py
-9=browse\hooks.py
-10=desktop\mainwin.py
-11=format\panes.py
-12=songbook\autodistrib.py
+0=songbook\stdfeatures.py
+1=songbook\logpagepreview.py
+2=songbook\songbook.py
+3=songbook\paging.py
+4=songbook\sbpanel.py
+5=songbook\realsb.py
 [Selected Project Files]
 Main=
-Selected=songbook\autodistrib.py
-[songbook\sbtype.py]
-TopLine=179
-Caret=1,228
-[songbook\realsb.py]
-TopLine=27
-Caret=6,78
-[songbook\sbpanel.py]
-TopLine=55
-Caret=1,89
-[browse\base.py]
-TopLine=82
-Caret=24,101
-[browse\ext.py]
+Selected=songbook\sbpanel.py
+[songbook\stdfeatures.py]
 TopLine=1
-Caret=1,40
-[browse\ctrlitem.py]
-TopLine=129
-Caret=1,153
-[songbook\a4distrib.py]
+Caret=1,22
+[songbook\logpagepreview.py]
 TopLine=1
-Caret=1,62
+Caret=19,16
 [songbook\songbook.py]
-TopLine=124
-Caret=7,144
+TopLine=158
+Caret=1,197
 [songbook\paging.py]
-TopLine=26
-Caret=1,70
-[browse\hooks.py]
-TopLine=1
-Caret=35,64
-[desktop\mainwin.py]
-TopLine=42
-Caret=1,62
-[format\panes.py]
-TopLine=1
-Caret=1,39
-[songbook\autodistrib.py]
-TopLine=70
-Caret=1,96
+TopLine=32
+Caret=1,60
+[songbook\sbpanel.py]
+TopLine=28
+Caret=28,37
+[songbook\realsb.py]
+TopLine=44
+Caret=16,69
