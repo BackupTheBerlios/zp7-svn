@@ -385,7 +385,7 @@ class SBPanel(anchors.content.IContent):
     self.actsb.format()
     self.lpp=self.actsb.logpagepreview()
     #self.pagecount=self.actsb.a4d.sheetcnt()*2
-    self.preview.setvirtsize(self.actsb.rbt.pgwi,self.actsb.rbt.pghi)
+    self.preview.setvirtsize(self.actsb.rbt.bigw,self.actsb.rbt.bigh)
     self.preview.update(self.actsb.a4d.sheetcnt()*2)
     self.logpreview.setvirtsize(*self.lpp.getpagesize())
     self.logpreview.update(self.lpp.getcount())

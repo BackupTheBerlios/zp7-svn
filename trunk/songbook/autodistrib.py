@@ -77,7 +77,7 @@ class DistribAlg:
   pages=[]
   maxhi=0
   printer=None
-  firstleft=True
+  firstleft=False
 
   def __init__(self,printer,panegrps):
     self.panegrps=panegrps
@@ -101,11 +101,16 @@ class DistribAlg:
       if not self.pages[-1].canaddpane(pane):
         self.addpage()
       self.pages[-1].addpane(pane)
-    
+
   def run(self):
     def addpanegrp(index):
       self.addpanegrp(panegrpstack[index])
       del panegrpstack[index]
+      
+    def findok():
+      for panegrp in panegrpstack:
+        if self.pages[-1].extrapagecount(panegrp)<=1: return panegrp
+      return None
   
     panegrpstack=copy.copy(self.panegrps)
     self.addpage() # first page
@@ -115,6 +120,7 @@ class DistribAlg:
       rest=self.pages[-1].extrapagecount(panegrpstack[0])
       if self.isleftpage():
         if rest<=1:
+          if panegrpstack[0].sheetcnt(self.maxhi)==1: self.addpage()
           addpanegrp(0)
           wasaddedonleftpage=True
         else:
@@ -123,9 +129,14 @@ class DistribAlg:
             addpanegrp(0)
           else:
             if panegrpstack[0].sheetcnt(self.maxhi)<=2:
-              self.addpage()
-              self.addpage()
-              addpanegrp(0)
+              other=findok()
+              if other:
+                if other.sheetcnt(self.maxhi)==1: self.addpage()
+                addpanegrp(panegrpstack.index(other))
+              else:
+                self.addpage()
+                self.addpage()
+                addpanegrp(0)
             else:
               addpanegrp(0)
       else: # right page

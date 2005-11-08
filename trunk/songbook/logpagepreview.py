@@ -28,7 +28,7 @@ class BookLogPagePreview(LogPagePreview):
     else: txt+='?'
     return txt
     
-  def getpagesize(self): return self.sb.rbt.pgwi*2,self.sb.rbt.pghi*2
+  def getpagesize(self): return self.sb.rbt.pgwi*2,self.sb.rbt.pghi
   def drawpage(self,page,canvas):
     if page*2-1>=0: self.sb.logpages[page*2-1].draw(canvas)
     if page*2<len(self.sb.logpages): self.sb.logpages[page*2].draw(format.SubCanvas(canvas,self.sb.rbt.pgwi,0))
