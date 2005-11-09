@@ -142,7 +142,7 @@ class SBPanel(anchors.content.IContent):
     #self.brw.hbox(border=2,layoutflags=wx.CENTER)
     self.brw.hbox(border=2)
     self.brw.label(text=u'Typ zpěvníku:')
-    self.brw.combo(model=sbtype.sbtypes,id='sbtype',size=(100,-1),event=self.onchangebasesbtype)
+    self.brw.combo(model=sbtype.sbtypes,id='sbtype',size=(100,-1),event=self.onchangebasesbtype,valuemodel=browse.attr(self,'sb_basetype_obj'))
     self.brw.endsizer()
     self.brw.listbox(proportion=1,id='songlist',model=[])
     self.brw.button(text=u'Pokročilé nastavení')
@@ -225,6 +225,7 @@ class SBPanel(anchors.content.IContent):
     
   def edit_sb_type(self,ev=None):
     sbtype.edit_sb_type(self.actsb.sbtype)
+    self.brw['sbtype'].load()
     
   def on_destroy_menu(self):
     pass
@@ -414,3 +415,6 @@ class SBPanel(anchors.content.IContent):
   def format_songbook(self):
     self.format()
     
+  def get_sb_basetype_obj(self): return self.actsb.sbtype.basetype_obj
+  def set_sb_basetype_obj(self,value): self.actsb.sbtype.basetype_obj=value
+  sb_basetype_obj=property(get_sb_basetype_obj,set_sb_basetype_obj)

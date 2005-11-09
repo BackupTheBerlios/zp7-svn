@@ -120,7 +120,7 @@ class DistribAlg:
       rest=self.pages[-1].extrapagecount(panegrpstack[0])
       if self.isleftpage():
         if rest<=1:
-          if panegrpstack[0].sheetcnt(self.maxhi)==1: self.addpage()
+          if panegrpstack[0].sheetcnt(self.maxhi)==1: self.addpage() # vejde se na stranku, zacit vpravo
           addpanegrp(0)
           wasaddedonleftpage=True
         else:

@@ -47,11 +47,28 @@ class _CommonListCtrlItem(_CtrlItem,hooks.Hookable):
       except:
         pos=0
       self.ctrl.SetSelection(pos)
+      
+    if self.valuemodel:
+      try:
+        pos=self.model.index(self.valuemodel.get())
+      except Exception,e:
+        pos=-1
+      self.ctrl.SetSelection(pos)
 
   def save(self):
     if self.curmodel:
       try:
         self.curmodel.set(self.ctrl.GetSelection())
+      except:
+        pass
+        
+    if self.valuemodel:
+      try:
+        idx=self.ctrl.GetSelection()
+        if idx>=0:
+          self.valuemodel.set(self.model[idx])
+        else:
+          self.valuemodel.set(None)
       except:
         pass
 

@@ -11,7 +11,7 @@ import copy
 import realsb
 import interop
 
-class SBType:
+class SBType(object):
   iattrs=('hcnt','vcnt','leftsp','topsp','rightsp','bottomsp')
   hcnt=1
   vcnt=1
@@ -55,12 +55,15 @@ class SBType:
       xml.assign(full)
  
   def changebase(self,newbase):
+    oldname=self.name
     xml=xmlnode.XmlNode()
     self.xmlsavediff(xml,True)
     bxml=xmlnode.XmlNode()
     newbase.xmlsavedata(bxml)
     xmltools.xmlmerge(bxml,xml)
     self.xmlloaddata(bxml)
+    self.name=oldname
+    self.basetype=newbase.name
  
   def _xml_load_iattrs(self,xml):
     for a in self.iattrs: setattr(self,a,int(xml.attrs.get(a,0)))
@@ -111,6 +114,13 @@ class SBType:
   def getreal(self,dc):
     return realsb.RealSBType(self,dc)
 
+  def get_basetype_obj(self): return searchsbtype(self.basetype)
+  def set_basetype_obj(self,value): 
+    if value: self.basetype=value.name
+    else: self.basetype=u''
+  
+  basetype_obj=property(get_basetype_obj,set_basetype_obj)
+
 sbtypes=utils.xmlloadarray_constructor(config.xml/'sbtypes',{'sbtype':SBType.fromxml})
 
 def savesbtypes():
@@ -141,12 +151,13 @@ def edit_sb_type(sbtype):
   brw.vbox()
   brw.grid(border=5,cols=3,rows=2,flags=wx.ALL)
   
-  brw.label(text=u'Jméno')
-  brw.label(text=sbtype.name)
-  brw.space()
+  if sbtype.name:
+    brw.label(text=u'Jméno')
+    brw.label(text=sbtype.name)
+    brw.space()
   
   brw.label(text=u'Bázový typ zpěvníku',size=(100,-1))
-  brw.combo(model=sbtypes,id='basesbtype')
+  brw.combo(model=sbtypes,id='basesbtype',valuemodel=browse.attr(sbtype,'basetype_obj'))
   brw.button(text=u'Zkopírovat',event=lambda ev:sbtype.copyfrom(brw['basesbtype'].getitem()))
   
   brw.endsizer()

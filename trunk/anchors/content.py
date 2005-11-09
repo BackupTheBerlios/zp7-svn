@@ -1,6 +1,6 @@
 import interop
 
-class IContent:
+class IContent(object):
   def on_create_control(self,parent,evtbinder):
     pass
     
