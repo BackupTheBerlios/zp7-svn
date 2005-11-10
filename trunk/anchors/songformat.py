@@ -19,7 +19,19 @@ class IDistribAlg(object):
   def get_title(self): raise NotImplemented
   def creator(self,logpages,panegrps): raise NotImplemented
   def __unicode__(self): return self.get_title()
+
+class ISongDelimiter(object):
+  name=''
+  def get_title(self): raise NotImplemented
+  def printdelimiter(self,panegrp,realsb): 
+    """adds header to panegrp
+    
+    @type realsb: L{songbook.realsb.RealSBType}
+    """
+    pass
+  def __unicode__(self): return self.get_title()
   
 
 interop.anchor.define('songheader',IHeader)
 interop.anchor.define('distribalg',IDistribAlg)
+interop.anchor.define('songdelimiter',ISongDelimiter)

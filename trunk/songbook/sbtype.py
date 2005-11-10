@@ -13,6 +13,7 @@ import interop
 
 class SBType(object):
   iattrs=('hcnt','vcnt','leftsp','topsp','rightsp','bottomsp')
+  features=( ('header','songheader'),('distribalg','distribalg'),('songdelimiter','songdelimiter') )
   hcnt=1
   vcnt=1
   leftsp=0
@@ -31,12 +32,16 @@ class SBType(object):
   fonts={}
   header=None
   distribalg=None
+  songdelimiter=None
+
   
   def __init__(self):
     self.fonts={}
     for f in self.fontnames: self.fonts[f]=utils.emptyfont()
-    self.header=interop.anchor['songheader'].default
-    self.distribalg=interop.anchor['distribalg'].default
+    for attr,anchor in self.features: setattr(self,attr,interop.anchor[anchor].default)
+    #self.header=interop.anchor['songheader'].default
+    #self.distribalg=interop.anchor['distribalg'].default
+    #self.songdelimiter=interop.anchor['songdelimiter'].default
 
   def copyfrom(self,src):
     #oldname=self.name
@@ -74,8 +79,9 @@ class SBType(object):
 
   def xmlloaddata(self,xml):
     self._xml_load_iattrs(xml)
-    self.header=interop.anchor['songheader'].find(xml['header'])
-    self.distribalg=interop.anchor['distribalg'].find(xml['distribalg'])
+    #self.header=interop.anchor['songheader'].find(xml['header'])
+    #self.distribalg=interop.anchor['distribalg'].find(xml['distribalg'])
+    for attr,anchor in self.features: setattr(self,attr,interop.anchor[anchor].find(xml[attr]))
     if self.hcnt<1: self.hcnt=1
     if self.vcnt<1: self.vcnt=1
     #self.name=xml.attrs.get('name',u'')
@@ -113,8 +119,9 @@ class SBType(object):
     xml.clear()
     self._xml_save_iattrs(xml)
     for f in self.fontnames: utils.fontdicttoxml(self.fonts[f],xml/'fonts'/f)
-    xml['header']=self.header.name
-    xml['distribalg']=self.distribalg.name
+    for attr,anchor in self.features: xml[attr]=getattr(self,attr)
+    #xml['header']=self.header.name
+    #xml['distribalg']=self.distribalg.name
     
   @staticmethod
   def fromxml(xml):
@@ -180,12 +187,19 @@ def edit_sb_type(sbtype):
   brw.label(text=u'Bázový typ zpěvníku',size=(100,-1))
   brw.combo(model=sbtypes,id='basesbtype',valuemodel=browse.attr(sbtype,'basetype_obj'))
   brw.button(text=u'Zkopírovat',event=_copy_from_type)
+  
   brw.label(text=u'Rozdělení na stránku')
   brw.combo(model=list(interop.anchor['distribalg']),valuemodel=browse.attr(sbtype,'distribalg'))
   brw.label()
+  
   brw.label(text=u'Záhlaví písně')
   brw.combo(model=list(interop.anchor['songheader']),valuemodel=browse.attr(sbtype,'header'))
   brw.label()
+
+  brw.label(text=u'Oddělovač písní')
+  brw.combo(model=list(interop.anchor['songdelimiter']),valuemodel=browse.attr(sbtype,'songdelimiter'))
+  brw.label()
+  
   brw.endsizer()
   brw.label(proportion=1)
   brw.endsizer()

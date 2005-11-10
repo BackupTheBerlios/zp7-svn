@@ -130,6 +130,7 @@ class SongBook(object,hooks.Hookable):
     fmt=format.SongFormatter(dc,pars,song.text,self.rbt.pgwi)
     self.sbtype.header.printheader(song,fmt.panegrp,self.rbt)
     fmt.run()
+    self.sbtype.songdelimiter.printdelimiter(fmt.panegrp,self.rbt)
     self.formatted[id(song)]=_FmtSong(song,fmt.panegrp)
     
   def wantrbt(self):

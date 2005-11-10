@@ -55,3 +55,22 @@ interop.anchor['distribalg'].add_feature(stddistribalg)
 interop.anchor['distribalg'].set_default(stddistribalg)
 
 interop.anchor['distribalg'].add_feature(SimpleDistribAlg())
+
+
+class StdDelimiter(songformat.ISongDelimiter):
+  name='std'
+  
+  def get_title(self): return u'Jednoduchá čára'
+
+  def printdelimiter(self,panegrp,realsb):
+    pane=panegrp.addpane()
+    realsb.dc.SetFont(realsb.getfont('text').getwxfont())
+    w,h=realsb.dc.GetTextExtent('M')
+    pane.hi=h*2
+    pane.canvas.line(0,h,realsb.pgwi,h)
+
+
+stddelim=StdDelimiter()
+interop.anchor['songdelimiter'].add_feature(stddelim)
+interop.anchor['songdelimiter'].set_default(stddelim)
+
