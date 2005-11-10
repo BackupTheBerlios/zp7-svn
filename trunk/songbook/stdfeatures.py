@@ -20,7 +20,38 @@ class StdHeader(songformat.IHeader):
     printtext(song.title,'title',panegrp,realsb)
     printtext(song.author,'author',panegrp,realsb)
 
+class OnlyTitleHeader(songformat.IHeader):
+  name='title'
+  
+  def get_title(self): return u'Název'
+
+  def printheader(self,song,panegrp,realsb):
+    printtext(song.title,'title',panegrp,realsb)
+
 
 stdhdr=StdHeader()
 interop.anchor['songheader'].add_feature(stdhdr)
 interop.anchor['songheader'].set_default(stdhdr)
+
+interop.anchor['songheader'].add_feature(OnlyTitleHeader())
+
+
+class StdDistribAlg(songformat.IDistribAlg):
+  name='normal'  
+  def get_title(self): return u'Normální rozdělení'
+  def creator(self,logpages,panegrps):
+    import autodistrib
+    return autodistrib.AutoDistribAlg(logpages,panegrps)
+
+class SimpleDistribAlg(songformat.IDistribAlg):
+  name='simple'
+  def get_title(self): return u'Jednoduché rozdělení'
+  def creator(self,logpages,panegrps):
+    import autodistrib
+    return autodistrib.SimpleDistribAlg(logpages,panegrps)
+
+stddistribalg=StdDistribAlg()
+interop.anchor['distribalg'].add_feature(stddistribalg)
+interop.anchor['distribalg'].set_default(stddistribalg)
+
+interop.anchor['distribalg'].add_feature(SimpleDistribAlg())

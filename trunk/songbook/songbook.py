@@ -144,19 +144,18 @@ class SongBook(object,hooks.Hookable):
       if not self.formatted.has_key(id(song)):
         self._formatsong(song,self.rbt.dc,self.rbt.pars)
     self.logpages=paging.LogPages((self.rbt.pgwi,self.rbt.pghi))
-    if 1:
-      panegrps=[
-        autodistrib.PaneGrp(self.formatted[id(song)].panegrp.panes) 
-        for song in self.songs
-      ]
-      alg=autodistrib.DistribAlg(self.logpages,panegrps)
-      alg.run()
-      alg.printpages()            
-    else:
-      state=paging.DistribState(self.logpages)
-      for song in self.songs:
-        self.formatted[id(song)].panegrp.prndraw(state)
-      state.close()
+    panegrps=[
+      autodistrib.PaneGrp(self.formatted[id(song)].panegrp.panes) 
+      for song in self.songs
+    ]
+    alg=self.sbtype.distribalg.creator(self.logpages,panegrps)
+    alg.run()
+    alg.printpages()            
+#     else:
+#       state=paging.DistribState(self.logpages)
+#       for song in self.songs:
+#         self.formatted[id(song)].panegrp.prndraw(state)
+#       state.close()
       
     if len(self.logpages.pages)==0: return
     self.a4d=a4distrib.A4Distribution(self.sbtype.hcnt,self.sbtype.vcnt,self.logpages.pages,a4distrib.DistribType.BOOK)

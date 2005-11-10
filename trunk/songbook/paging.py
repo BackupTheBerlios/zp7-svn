@@ -59,46 +59,46 @@ class LogPages(PagePrinter):
   def __iter__(self): return iter(self.pages)
   def __getitem__(self,item): return self.pages[item]
     
-class DistribAlg:
-  """abstract class, which have to transform """
-  pass
+# class DistribAlg:
+#   """abstract class, which have to transform """
+#   pass
     
-class DistribState:
-  acty=0
-  printer=None
-  canvas=None
-  pgwi=0
-  pghi=0
-  
-  def __init__(self,printer):
-    self.acty=0
-    self.printer=printer
-    self.pgwi,self.pghi=self.printer.getpagesize()
-
-  def printpane(self,hi,callback):
-    """prints one pane
-    
-    @type callback: lambda canvas
-    """
-    if not self.canvas: self.beginpage()
-    elif self.acty+hi>self.pghi: self.nextpage()
-    callback(format.SubCanvas(self.canvas,0,self.acty))
-    self.acty+=hi
-
-  def beginpage(self):
-    if self.canvas: return
-    self.acty=0
-    self.canvas=self.printer.beginpage()
-
-  def endpage(self):
-    if not self.canvas: return
-    self.printer.endpage()
-    self.canvas=None
-
-  def nextpage(self):
-    self.endpage()
-    self.beginpage()
-
-  def close(self):
-    self.endpage()
-    self.__dict__.clear()
+# class DistribState:
+#   acty=0
+#   printer=None
+#   canvas=None
+#   pgwi=0
+#   pghi=0
+#   
+#   def __init__(self,printer):
+#     self.acty=0
+#     self.printer=printer
+#     self.pgwi,self.pghi=self.printer.getpagesize()
+# 
+#   def printpane(self,hi,callback):
+#     """prints one pane
+#     
+#     @type callback: lambda canvas
+#     """
+#     if not self.canvas: self.beginpage()
+#     elif self.acty+hi>self.pghi: self.nextpage()
+#     callback(format.SubCanvas(self.canvas,0,self.acty))
+#     self.acty+=hi
+# 
+#   def beginpage(self):
+#     if self.canvas: return
+#     self.acty=0
+#     self.canvas=self.printer.beginpage()
+# 
+#   def endpage(self):
+#     if not self.canvas: return
+#     self.printer.endpage()
+#     self.canvas=None
+# 
+#   def nextpage(self):
+#     self.endpage()
+#     self.beginpage()
+# 
+#   def close(self):
+#     self.endpage()
+#     self.__dict__.clear()

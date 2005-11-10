@@ -38,5 +38,6 @@ class PaneGrp:
       pane.canvas.draw(canvasmod.SubCanvas(canvas,0,y))
       y+=pane.hi
   
-  def prndraw(self,state):
-    for pane in self.panes: state.printpane(pane.h,pane.canvas.draw)
+#   def prndraw(self,state):
+#     for pane in self.panes: state.printpane(pane.h,pane.canvas.draw)
+    

@@ -30,11 +30,13 @@ class SBType(object):
   #fonttitles={'chord':u'Akord','text':u'Text','label':u'Návěští'}
   fonts={}
   header=None
+  distribalg=None
   
   def __init__(self):
     self.fonts={}
     for f in self.fontnames: self.fonts[f]=utils.emptyfont()
     self.header=interop.anchor['songheader'].default
+    self.distribalg=interop.anchor['distribalg'].default
 
   def copyfrom(self,src):
     #oldname=self.name
@@ -72,6 +74,8 @@ class SBType(object):
 
   def xmlloaddata(self,xml):
     self._xml_load_iattrs(xml)
+    self.header=interop.anchor['songheader'].find(xml['header'])
+    self.distribalg=interop.anchor['distribalg'].find(xml['distribalg'])
     if self.hcnt<1: self.hcnt=1
     if self.vcnt<1: self.vcnt=1
     #self.name=xml.attrs.get('name',u'')
@@ -109,6 +113,8 @@ class SBType(object):
     xml.clear()
     self._xml_save_iattrs(xml)
     for f in self.fontnames: utils.fontdicttoxml(self.fonts[f],xml/'fonts'/f)
+    xml['header']=self.header.name
+    xml['distribalg']=self.distribalg.name
     
   @staticmethod
   def fromxml(xml):
@@ -174,7 +180,12 @@ def edit_sb_type(sbtype):
   brw.label(text=u'Bázový typ zpěvníku',size=(100,-1))
   brw.combo(model=sbtypes,id='basesbtype',valuemodel=browse.attr(sbtype,'basetype_obj'))
   brw.button(text=u'Zkopírovat',event=_copy_from_type)
-  
+  brw.label(text=u'Rozdělení na stránku')
+  brw.combo(model=list(interop.anchor['distribalg']),valuemodel=browse.attr(sbtype,'distribalg'))
+  brw.label()
+  brw.label(text=u'Záhlaví písně')
+  brw.combo(model=list(interop.anchor['songheader']),valuemodel=browse.attr(sbtype,'header'))
+  brw.label()
   brw.endsizer()
   brw.label(proportion=1)
   brw.endsizer()

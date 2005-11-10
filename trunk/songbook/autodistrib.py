@@ -71,7 +71,7 @@ class LogPage:
   
   def islast(self,pane): return self.panes and self.panes[-1]==pane
   def isfirst(self,pane): return self.panes and self.panes[0]==pane
-    
+
 class DistribAlg:
   panegrps=[]
   pages=[]
@@ -84,7 +84,7 @@ class DistribAlg:
     self.pages=[]
     self.printer=printer
     self.maxhi=printer.getpagesize()[1]
-    
+
   def addpage(self):
     self.pages.append(LogPage(self.maxhi))
 
@@ -97,11 +97,27 @@ class DistribAlg:
     self.pages.append(LogPage(self.maxhi))
     
   def addpanegrp(self,panegrp):
+    if panegrp and not self.pages: self.addpage()
     for pane in panegrp:
       if not self.pages[-1].canaddpane(pane):
         self.addpage()
       self.pages[-1].addpane(pane)
 
+  def printpages(self):
+    for page in self.pages:
+      canvas=self.printer.beginpage()
+      acty=0
+      for pane in page:
+        denydraw=False
+        if pane.delim:
+          if page.isfirst(pane) or page.islast(pane):
+            denydraw=True
+        if not denydraw:
+          pane.draw(format.SubCanvas(canvas,0,acty))
+          acty+=pane.hi
+      self.printer.endpage()
+    
+class AutoDistribAlg(DistribAlg):
   def run(self):
     def addpanegrp(index):
       self.addpanegrp(panegrpstack[index])
@@ -147,16 +163,9 @@ class DistribAlg:
           self.addpage()
           addpanegrp(0)
 
-  def printpages(self):
-    for page in self.pages:
-      canvas=self.printer.beginpage()
-      acty=0
-      for pane in page:
-        denydraw=False
-        if pane.delim:
-          if page.isfirst(pane) or page.islast(pane):
-            denydraw=True
-        if not denydraw:
-          pane.draw(format.SubCanvas(canvas,0,acty))
-          acty+=pane.hi
-      self.printer.endpage()
+class SimpleDistribAlg(DistribAlg):
+  def run(self): 
+    for panegrp in self.panegrps:
+      self.addpanegrp(panegrp)
+
+  
