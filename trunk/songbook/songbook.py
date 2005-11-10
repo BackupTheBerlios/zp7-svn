@@ -87,10 +87,12 @@ class SongBook(object,hooks.Hookable):
       self.songs.append(song)
       id=song.dbidtuple()
       if id: self.dbsongs[id]=song
+    self.sbtype.xmlload(xml/'sbtype')
     
   def save(self,fw):
     xml=xmlnode.XmlNode('songbook')
     utils.xmlsavearray(self.songs,xml.add('songs'),'song')
+    self.sbtype.xmlsave(xml/'sbtype')
     xml.save(fw)
     
   def add_dbsong(self,db,songid):

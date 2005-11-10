@@ -37,9 +37,11 @@ class SBType(object):
     self.header=interop.anchor['songheader'].default
 
   def copyfrom(self,src):
+    #oldname=self.name
     xml=xmlnode.XmlNode()
     src.xmlsavedata(xml)
     self.xmlloaddata(xml)
+    #self.name=oldname
 
   def xmlsavediff(self,xml,implicitbtype=False):
     xml.clear()
@@ -55,14 +57,14 @@ class SBType(object):
       xml.assign(full)
  
   def changebase(self,newbase):
-    oldname=self.name
+    #oldname=self.name
     xml=xmlnode.XmlNode()
     self.xmlsavediff(xml,True)
     bxml=xmlnode.XmlNode()
     newbase.xmlsavedata(bxml)
     xmltools.xmlmerge(bxml,xml)
     self.xmlloaddata(bxml)
-    self.name=oldname
+    #self.name=oldname
     self.basetype=newbase.name
  
   def _xml_load_iattrs(self,xml):
@@ -70,14 +72,19 @@ class SBType(object):
 
   def xmlloaddata(self,xml):
     self._xml_load_iattrs(xml)
-    self.name=xml.attrs.get('name',u'')
-    self.saveonlydiff=bool(xml.attrs.get('saveonlydiff',0))
-    self.basetype=xml.attrs.get('basetype','')
+    if self.hcnt<1: self.hcnt=1
+    if self.vcnt<1: self.vcnt=1
+    #self.name=xml.attrs.get('name',u'')
+    #self.saveonlydiff=bool(xml.attrs.get('saveonlydiff',0))
+    #self.basetype=xml.attrs.get('basetype','')
     for f in self.fontnames: utils.fontxmltodict(xml/'fonts'/f,self.fonts[f])
  
   def xmlload(self,xml):
     myxml=xml
-    if xml['saveonlydiff'] and xml['basetype']:
+    self.name=xml.attrs.get('name',u'')
+    self.saveonlydiff=xml['saveonlydiff']=='1'
+    self.basetype=xml['basetype']
+    if self.saveonlydiff and self.basetype:
       btype=searchsbtype(xml['basetype'])
       if btype:
         myxml=xmlnode.XmlNode()
@@ -91,6 +98,9 @@ class SBType(object):
       self.xmlsavediff(xml)
     else:
       self.xmlsavedata(xml)
+    xml['name']=self.name
+    xml['saveonlydiff']=self.saveonlydiff
+    xml['basetype']=self.basetype
 
   def _xml_save_iattrs(self,xml):
     for a in self.iattrs: xml[a]=getattr(self,a)
@@ -98,9 +108,6 @@ class SBType(object):
   def xmlsavedata(self,xml):
     xml.clear()
     self._xml_save_iattrs(xml)
-    xml['name']=self.name
-    xml['saveonlydiff']=self.saveonlydiff
-    xml['basetype']=self.basetype
     for f in self.fontnames: utils.fontdicttoxml(self.fonts[f],xml/'fonts'/f)
     
   @staticmethod
@@ -141,7 +148,15 @@ def savesbtypes():
   (config.xml/'sbtypes').childs[:]=[]
   utils.xmlsavearray(sbtypes,config.xml/'sbtypes','sbtype')
    
+   
 def edit_sb_type(sbtype):
+  def _copy_from_type(ev):
+    src=brw['basesbtype'].getitem()
+    if src:
+      sbtype.basetype=src.name
+      sbtype.copyfrom(src)
+      brw.loadall()    
+
   if not sbtype: return
   brw=browse.DialogBrowse(desktop.main_window,u'Typ zpěvníku')
   brw.vbox(proportion=1)
@@ -158,7 +173,7 @@ def edit_sb_type(sbtype):
   
   brw.label(text=u'Bázový typ zpěvníku',size=(100,-1))
   brw.combo(model=sbtypes,id='basesbtype',valuemodel=browse.attr(sbtype,'basetype_obj'))
-  brw.button(text=u'Zkopírovat',event=lambda ev:sbtype.copyfrom(brw['basesbtype'].getitem()))
+  brw.button(text=u'Zkopírovat',event=_copy_from_type)
   
   brw.endsizer()
   brw.label(proportion=1)

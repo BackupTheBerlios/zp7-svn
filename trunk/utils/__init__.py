@@ -130,12 +130,12 @@ def xmlloaddict(xml,dic,args=None):
   for arg in args: dic[arg]=xml.attrs[arg]
 
 def fontxmltodict(xml,d):
-  d['bold']=int(xml.attrs['bold'])
-  d['italic']=int(xml.attrs['italic'])
-  d['size']=int(xml.attrs['size'])
-  d['face']=xml.attrs['face']
-  d['underline']=int(xml.attrs['underline'])
-  d['color']=xml.attrs['color']
+  d['bold']=int(xml.attrs.get('bold',0))
+  d['italic']=int(xml.attrs.get('italic',0))
+  d['size']=int(xml.attrs.get('size',10))
+  d['face']=xml.attrs.get('face','Arial')
+  d['underline']=int(xml.attrs.get('underline',0))
+  d['color']=xml.attrs.get('color','black')
 
 def fontdicttoxml(d,xml):
   xml['bold']=int(d['bold'])

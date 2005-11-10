@@ -225,6 +225,7 @@ class SBPanel(anchors.content.IContent):
     
   def edit_sb_type(self,ev=None):
     sbtype.edit_sb_type(self.actsb.sbtype)
+    self.reformat()
     self.brw['sbtype'].load()
     
   def on_destroy_menu(self):
@@ -275,6 +276,7 @@ class SBPanel(anchors.content.IContent):
       sb.load(open(file,'r'))
       self._addsb(sb)
     self.reformat()
+    self.brw['sbtype'].load()
 
   def savesbas(self,event=None):
     if not self.actsb: return

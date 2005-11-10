@@ -198,7 +198,7 @@ class _CommonEditCtrlItem(_CtrlItem):
   def load(self):
     if not self.ctrl: return
     if not self.model: return
-    self.ctrlSetValue(self.model.get())
+    self.ctrl.SetValue(self.model.get())
 
 class _EditCtrlItem(_CommonEditCtrlItem):
   pass
