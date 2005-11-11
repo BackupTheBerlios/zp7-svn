@@ -50,19 +50,31 @@ class SimpleDistribAlg(songformat.IDistribAlg):
 interop.anchor['distribalg'].add_default(StdDistribAlg())
 interop.anchor['distribalg'].add_feature(SimpleDistribAlg())
 
-
-class StdDelimiter(songformat.ISongDelimiter):
-  name='std'
-  
-  def get_title(self): return u'Jednoduchá čára'
+class SongDelimiterBase(songformat.ISongDelimiter):
 
   def printdelimiter(self,panegrp,realsb):
     pane=panegrp.addpane()
     realsb.dc.SetFont(realsb.getfont('text').getwxfont())
     w,h=realsb.dc.GetTextExtent('M')
     pane.hi=h*2
-    pane.canvas.line(0,h,realsb.pgwi,h)
+    self.drawdelimiter(pane,realsb)
+    pane.delim=True
+
+  def drawdelimiter(self,pane,realsb): 
+    pass
+
+class StdDelimiter(SongDelimiterBase):
+  name='std'
+  def get_title(self): return u'Jednoduchá čára'
+
+  def drawdelimiter(self,pane,realsb):
+    pane.canvas.line(0,pane.hi/2,realsb.pgwi,pane.hi/2)
+
+
+class EmptyDelimiter(SongDelimiterBase):
+  name='space'
+  def get_title(self): return u'Mezera'
 
 
 interop.anchor['songdelimiter'].add_default(StdDelimiter())
-
+interop.anchor['songdelimiter'].add_feature(EmptyDelimiter())

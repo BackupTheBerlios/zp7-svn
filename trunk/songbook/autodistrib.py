@@ -168,4 +168,3 @@ class SimpleDistribAlg(DistribAlg):
     for panegrp in self.panegrps:
       self.addpanegrp(panegrp)
 
-  

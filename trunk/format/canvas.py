@@ -4,9 +4,9 @@ import wx
 import re
 
 class SongCanvas:
-  def text(self,x,y,text) : pass
-  def font(self,font) : pass
-  def line(self,x1,y1,x2,y2): pass
+  def text(self,x,y,text) : raise NotImplemented
+  def font(self,font) : raise NotImplemented
+  def line(self,x1,y1,x2,y2): raise NotImplemented
 
 
 class DCCanvas(SongCanvas):
@@ -14,7 +14,7 @@ class DCCanvas(SongCanvas):
   def __init__(self,dc) : self.dc=dc
   def text(self,x,y,text) : self.dc.DrawText(text,x,y)
   def font(self,font) : self.dc.SetFont(font.getwxfont());self.dc.SetTextForeground(font.color)
-  def line(self,x1,y1,x2,y2): print (x1,y1,x2,y2);self.dc.DrawLine(x1,y1,x2,y2)
+  def line(self,x1,y1,x2,y2): self.dc.DrawLine(x1,y1,x2,y2)
 
 
 class MemoryCanvas(SongCanvas):
@@ -35,6 +35,15 @@ class MemoryCanvas(SongCanvas):
   def draw(self,canvas):
     for fn,args in self.items : getattr(canvas,fn)(*args)
 
+# class _SubCanvasProc:
+#   name=''
+#   subcanvas=None
+#   def __init__(self,subcanvas,name):
+#     self.name=name
+#     self.subcanvas=subcanvas
+# 
+#   def __call__(self,*args):
+#     getattr(subcanvas.canvas,self.name)(*args)
 
 class SubCanvas(SongCanvas):
   canvas=None
@@ -47,4 +56,7 @@ class SubCanvas(SongCanvas):
 
   def text(self,x,y,text) : self.canvas.text(x+self.x,y+self.y,text)
   def font(self,font) : self.canvas.font(font)
-  #def __getattr__(self,name) : return getattr(self.canvas,name)
+  def line(self,x1,y1,x2,y2): self.canvas.line(x1+self.x,y1+self.y,x2+self.x,y2+self.y)
+  
+  #def __getattr__(self,name) : return _SubCanvasProc(self,name)
+  
