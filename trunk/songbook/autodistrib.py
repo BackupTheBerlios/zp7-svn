@@ -108,6 +108,7 @@ class DistribAlg:
       canvas=self.printer.beginpage()
       acty=0
       for pane in page:
+        self.printer.addpane_hint(pane)
         denydraw=False
         if pane.delim:
           if page.isfirst(pane) or page.islast(pane):

@@ -7,6 +7,7 @@ class SongCanvas:
   def text(self,x,y,text) : raise NotImplemented
   def font(self,font) : raise NotImplemented
   def line(self,x1,y1,x2,y2): raise NotImplemented
+  def dynamic_text(self,x,y,fn): pass
 
 
 class DCCanvas(SongCanvas):
@@ -15,7 +16,11 @@ class DCCanvas(SongCanvas):
   def text(self,x,y,text) : self.dc.DrawText(text,x,y)
   def font(self,font) : self.dc.SetFont(font.getwxfont());self.dc.SetTextForeground(font.color)
   def line(self,x1,y1,x2,y2): self.dc.DrawLine(x1,y1,x2,y2)
-
+  def dynamic_text(self,x,y,fn): 
+    try:
+      self.dc.DrawText(unicode(fn()),x,y)
+    except:
+      pass
 
 class MemoryCanvas(SongCanvas):
   items=[]
@@ -32,8 +37,12 @@ class MemoryCanvas(SongCanvas):
   def line(self,x1,y1,x2,y2):
     self.items.append(('line',(x1,y1,x2,y2)))
 
+  def dynamic_text(self,x,y,fn):
+    self.items.append(('dynamic_text',(x,y,fn)))
+
   def draw(self,canvas):
     for fn,args in self.items : getattr(canvas,fn)(*args)
+
 
 # class _SubCanvasProc:
 #   name=''
@@ -57,6 +66,7 @@ class SubCanvas(SongCanvas):
   def text(self,x,y,text) : self.canvas.text(x+self.x,y+self.y,text)
   def font(self,font) : self.canvas.font(font)
   def line(self,x1,y1,x2,y2): self.canvas.line(x1+self.x,y1+self.y,x2+self.x,y2+self.y)
+  def dynamic_text(self,x,y,fn) : self.canvas.dynamic_text(x+self.x,y+self.y,fn)
   
   #def __getattr__(self,name) : return _SubCanvasProc(self,name)
   

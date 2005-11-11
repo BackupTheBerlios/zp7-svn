@@ -12,19 +12,20 @@ import realsb
 import interop
 
 class SBType(object):
-  iattrs=('hcnt','vcnt','leftsp','topsp','rightsp','bottomsp')
+  iattrs=('hcnt','vcnt','leftsp','topsp','rightsp','bottomsp','content_cols')
   features=( ('header','songheader'),('distribalg','distribalg'),('songdelimiter','songdelimiter') )
   hcnt=1
   vcnt=1
   leftsp=0
   rightsp=0
+  content_cols=1
   topsp=0
   bottomsp=0
   name=u''
   basetype=u''
   saveonlydiff=False
-  fontnames=('title','author','chord','text','label')
-  fonttitles={'title':u'Název','author':u'Autor','chord':u'Akord','text':u'Text','label':u'Návěští'}
+  fontnames=('title','author','chord','text','label','content')
+  fonttitles={'title':u'Název','author':u'Autor','chord':u'Akord','text':u'Text','label':u'Návěští','content':u'Obsah'}
   #fontnames=('default','chord','text','label')
   #fonttitles={'default':u'Implicitní','chord':u'Akord','text':u'Text','label':u'Návěští'}
   #fontnames=['chord','text','label']
@@ -84,6 +85,7 @@ class SBType(object):
     for attr,anchor in self.features: setattr(self,attr,interop.anchor[anchor].find(xml[attr]))
     if self.hcnt<1: self.hcnt=1
     if self.vcnt<1: self.vcnt=1
+    if self.content_cols<1: self.content_cols=1
     #self.name=xml.attrs.get('name',u'')
     #self.saveonlydiff=bool(xml.attrs.get('saveonlydiff',0))
     #self.basetype=xml.attrs.get('basetype','')
@@ -228,6 +230,8 @@ def edit_sb_type(sbtype):
   brw.spin(model=browse.attr(sbtype,'topsp'))
   brw.label(text=u'Osazení zdola (mm)')
   brw.spin(model=browse.attr(sbtype,'bottomsp'))
+  brw.label(text=u'Počet sloupců v obsahu')
+  brw.spin(model=browse.attr(sbtype,'content_cols'))
   brw.endsizer()
   brw.label(proportion=1)
   brw.endsizer()

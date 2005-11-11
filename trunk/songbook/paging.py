@@ -17,6 +17,7 @@ class PagePrinter:
   def getpagesize(self): return 0,0
   def beginpage(self): pass
   def endpage(self): pass
+  def addpane_hint(self,pane): pass
   #def nextpage(self):
     #if self.canvas: self.endpage()
     #self.beginpage()
@@ -24,6 +25,8 @@ class PagePrinter:
 class LogPage:
   panes=[]
   canvas=format.MemoryCanvas()
+  pagenum=0
+  
   def __init__(self):
     self.panes=[]
     self.canvas=format.MemoryCanvas()
@@ -48,7 +51,11 @@ class LogPages(PagePrinter):
   def beginpage(self):
     self.actpage=LogPage()
     self.pages.append(self.actpage)
+    self.actpage.pagenum=len(self.pages)
     return self.actpage.canvas
+
+  def addpane_hint(self,pane):
+    self.actpage.panes.append(pane)
     
   def endpage(self): 
     self.actpage=None

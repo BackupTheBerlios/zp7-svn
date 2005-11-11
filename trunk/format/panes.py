@@ -37,6 +37,9 @@ class PaneGrp:
     for pane in self.panes:
       pane.canvas.draw(canvasmod.SubCanvas(canvas,0,y))
       y+=pane.hi
+
+  def __contain__(self,pane): return pane in self.panes
+  def __getitem__(self,index): return self.panes[index]
   
 #   def prndraw(self,state):
 #     for pane in self.panes: state.printpane(pane.h,pane.canvas.draw)

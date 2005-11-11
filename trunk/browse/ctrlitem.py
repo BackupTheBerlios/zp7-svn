@@ -88,6 +88,13 @@ class _CommonListCtrlItem(_CtrlItem,hooks.Hookable):
   def onappend(self,item):
     self.ctrl.Append(unicode(item))
 
+  def insert(self,index,value):
+    if not self._hooked: self.oninsert(index,value)
+    self.model.insert(index,value)
+
+  def oninsert(self,index,value):
+    self.ctrl.Insert(unicode(value),index)
+
   def onremove(self,item):
     index=self.model.index(item)
     self.ctrl.Delete(index)

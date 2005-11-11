@@ -297,7 +297,10 @@ class SBPanel(anchors.content.IContent):
     if self.content_visible and self.actsb:
       obj.create_submenu('songbook',u'Zpěvník')
       obj.create_menu_command('songbook/sbtype',u'Upravit typ zpěvníku',self.edit_sb_type,config.hotkey.edit_sb_type)
+      obj.create_menu_command('songbook/insert_content',u'Vložit obsah',self.insert_content,config.hotkey.sb_insert_content)
 
+  def insert_content(self,ev):
+    if self.actsb: self.actsb.insert_content()
 
   def on_destroy_control(self):
     pass

@@ -13,6 +13,7 @@ import browse.hooks as hooks
 import interop
 import autodistrib
 import logpagepreview
+import locale
 
 class _FmtSong:
   panegrp=None
@@ -21,7 +22,12 @@ class _FmtSong:
     self.song=song
     self.panegrp=panegrp
 
-class SBSong(object):
+class SBSongLikeItem(object):
+  def dbidtuple(self): pass
+  def format(self,dc,pars,sb): return format.PaneGrp()
+  def content_title(self): return u''
+
+class SBSong(SBSongLikeItem):
   src=None #(str(database),int(songid))
   attrnames=('title','author','group','text')
   vals={}
@@ -44,9 +50,10 @@ class SBSong(object):
   def dbidtuple(self):
     return self.src
 
-  def __unicode__(self): return self.title
+  def __unicode__(self): return unicode(self.title)
   
   def xmlsave(self,xml):
+    xml.name='song'
     utils.xmlsavedict(xml,self.vals,('title','author','group'))
     xml.add('text').text=self.vals['text']
     if self.src: xml.attrs['source']=";".join(map(str,self.src))
@@ -57,6 +64,65 @@ class SBSong(object):
     if 'source' in xml.attrs: 
       db,id=xml.attrs['source'].split(';')
       self.src=(db,int(id))
+
+  def format(self,dc,pars,sb):
+    fmt=format.SongFormatter(dc,pars,self.text,sb.rbt.pgwi)
+    sb.sbtype.header.printheader(self,fmt.panegrp,sb.rbt)
+    fmt.run()
+    sb.sbtype.songdelimiter.printdelimiter(fmt.panegrp,sb.rbt)
+    return fmt.panegrp
+
+  def content_title(self): return self.title
+
+
+class _FindSongPage:
+  def __init__(self,sb,song):
+    self.sb=sb
+    self.song=song
+  def __call__(self): return self.sb.findpage(self.song).pagenum
+
+class Content(SBSongLikeItem):
+  def __unicode__(self): return u'Obsah'
+
+  def xmlsave(self,xml):
+    xml.name='content'
+
+  def xmlload(self,xml):
+    pass
+
+  def format(self,dc,pars,sb):
+    songs=[s for s in sb.songs if s.content_title()]
+    songs.sort(locale.strcoll,lambda s:s.content_title().upper())
+    actcol=sb.sbtype.content_cols
+    acty=0
+    colwi=sb.rbt.pgwi/sb.sbtype.content_cols
+    panegrp=format.PaneGrp()
+    dc.SetFont(sb.rbt.getfont('content').getwxfont())
+    lw,lh=dc.GetTextExtent('M')
+    for s in songs:
+      if acty>sb.rbt.pghi:
+        actcol+=1
+        acty=0
+        
+      if actcol>=sb.sbtype.content_cols:
+        pane=panegrp.addpane()
+        pane.hi=sb.rbt.pghi
+        canvas=pane.canvas
+        canvas.font(sb.rbt.getfont('content'))
+        actcol=0
+        acty0=0
+      
+      canvas.text(actcol*colwi,acty,s.content_title())
+      canvas.dynamic_text(actcol*colwi+colwi-3*lw,acty,_FindSongPage(sb,s))
+      acty+=lh
+    return panegrp
+      
+
+
+sb_song_line_classes={
+  'song':SBSong,
+  'content':Content
+}
 
 class SongBook(object,hooks.Hookable):
   songs=[]
@@ -82,7 +148,7 @@ class SongBook(object,hooks.Hookable):
   def load(self,fr):
     xml=xmlnode.XmlNode.load(fr)
     for x in xml/'songs':
-      song=SBSong()
+      song=sb_song_line_classes[x.name]()
       song.xmlload(x)
       self.songs.append(song)
       id=song.dbidtuple()
@@ -127,11 +193,10 @@ class SongBook(object,hooks.Hookable):
     self.logpages=None
     
   def _formatsong(self,song,dc,pars):
-    fmt=format.SongFormatter(dc,pars,song.text,self.rbt.pgwi)
-    self.sbtype.header.printheader(song,fmt.panegrp,self.rbt)
-    fmt.run()
-    self.sbtype.songdelimiter.printdelimiter(fmt.panegrp,self.rbt)
-    self.formatted[id(song)]=_FmtSong(song,fmt.panegrp)
+    panegrp=song.format(dc,pars,self)
+    if not panegrp: panegrp=format.PaneGrp()
+    self.formatted[id(song)]=_FmtSong(song,panegrp)
+    #self.formatted[id(song)]=_FmtSong(song,fmt.panegrp)
     
   def wantrbt(self):
     if self.rbt: return
@@ -195,4 +260,17 @@ class SongBook(object,hooks.Hookable):
   def logpagepreview(self):
     if self.sbtype.hcnt % 2: return logpagepreview.SimpleLogPagePreview(self)
     return logpagepreview.BookLogPagePreview(self)
-    
+
+  def insert_content(self):
+    self.songs.insert(0,Content())
+
+  def findpage(self,song):
+    """
+    @type: L{format.LogPage}
+    """
+    try:
+      for page in self.logpages:
+        if self.formatted[id(song)].panegrp[0] in page.panes:
+          return page
+    except:
+      pass

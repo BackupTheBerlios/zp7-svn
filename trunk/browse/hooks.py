@@ -38,6 +38,8 @@ class Hookable:
     pass
   def onremove(self,value):
     pass
+  def oninsert(self,index,value):
+    pass
 
 class HookableList(list):
   __slots__=('_hooks')
@@ -68,4 +70,8 @@ class HookableList(list):
   def __delitem__(self,key):
     list.__delitem__(self,key)
     for obj in self._hooks: obj.ondelitem(key)
+
+  def insert(self,index,value):
+    for obj in self._hooks: obj.oninsert(index,value)
+    list.insert(self,index,value)
  

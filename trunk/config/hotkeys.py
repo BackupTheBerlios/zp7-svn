@@ -12,4 +12,5 @@ edit_cfg_scripts = ''
 shell='F5'
 quit='Alt+X'
 
-edit_sb_types=''
+edit_sb_types='Ctrl+Y'
+sb_insert_content=''
