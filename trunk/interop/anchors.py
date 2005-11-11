@@ -22,6 +22,10 @@ class Anchor:
   def set_default(self,default):
     self.default=default
 
+  def add_default(self,obj):
+    self.add_feature(obj)
+    self.set_default(obj)
+
   def __iter__(self):
     return iter(self.features)
 

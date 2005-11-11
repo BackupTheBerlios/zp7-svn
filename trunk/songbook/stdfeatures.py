@@ -29,10 +29,7 @@ class OnlyTitleHeader(songformat.IHeader):
     printtext(song.title,'title',panegrp,realsb)
 
 
-stdhdr=StdHeader()
-interop.anchor['songheader'].add_feature(stdhdr)
-interop.anchor['songheader'].set_default(stdhdr)
-
+interop.anchor['songheader'].add_default(StdHeader())
 interop.anchor['songheader'].add_feature(OnlyTitleHeader())
 
 
@@ -50,10 +47,7 @@ class SimpleDistribAlg(songformat.IDistribAlg):
     import autodistrib
     return autodistrib.SimpleDistribAlg(logpages,panegrps)
 
-stddistribalg=StdDistribAlg()
-interop.anchor['distribalg'].add_feature(stddistribalg)
-interop.anchor['distribalg'].set_default(stddistribalg)
-
+interop.anchor['distribalg'].add_default(StdDistribAlg())
 interop.anchor['distribalg'].add_feature(SimpleDistribAlg())
 
 
@@ -70,7 +64,5 @@ class StdDelimiter(songformat.ISongDelimiter):
     pane.canvas.line(0,h,realsb.pgwi,h)
 
 
-stddelim=StdDelimiter()
-interop.anchor['songdelimiter'].add_feature(stddelim)
-interop.anchor['songdelimiter'].set_default(stddelim)
+interop.anchor['songdelimiter'].add_default(StdDelimiter())
 
