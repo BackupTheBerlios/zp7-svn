@@ -16,6 +16,7 @@ import distribalg
 import logpagepreview
 import locale
 import zipfile
+import copy
 from cStringIO import StringIO
 
 class _FmtSong:
@@ -35,6 +36,11 @@ class SBSongLikeItem(object):
   def reformat(self):
     import sbpanel
     sbpanel.reformat_songlike_item(self)
+  def edgeitem(self):
+    """@return: whether it should be on egde (first,last), eg content"""
+    return False
+  def docktoprev(self): return False
+  def docktonext(self): return False
 
 class SBSong(SBSongLikeItem):
   src=None #(str(database),int(songid))
@@ -125,6 +131,8 @@ class Content(SBSongLikeItem):
       canvas.dynamic_text(actcol*colwi+colwi-3*lw,acty,lambda sb=sb,s=s:sb.findpage(s).pagenum)
       acty+=lh
     return panegrp
+
+  def edgeitem(self): return True
 
 class Image(SBSongLikeItem):
   data=''
@@ -298,6 +306,44 @@ class SongBook(object,hooks.Hookable):
         w,h=self.rbt.dc.GetTextExtent(foot)
         page.canvas.text(self.rbt.pgwi/2-w/2,self.rbt.pghi,foot)
     
+  def _create_da_panegrps(self):
+    def getarray(song):
+      return self.formatted[id(song)].panegrp.panes
+      
+    panegrps=[]
+    begin=distribalg.PaneGrp()
+    end=distribalg.PaneGrp()
+    songs=self.songs[:]
+    for song in self.songs:
+      if not song.edgeitem(): break
+      begin.panes.extend(getarray(song))
+      songs.remove(song)
+    for song in reversed(self.songs):
+      if not song.edgeitem(): break
+      if song not in songs: break
+      end.panes[0:0]=getarray(song)
+      songs.remove(song)
+
+    i=0
+    while i<len(songs):
+      actgrp=distribalg.PaneGrp()
+      emptygrp=True
+      j=i
+      while j<len(songs):
+        song=songs[j]
+        dock=False
+        if song.docktonext(): dock=True
+        if j<len(songs)-1 and songs[j+1].docktoprev(): dock=True
+        if emptygrp: dock=True
+        if not dock: break
+        emptygrp=False
+        actgrp.panes.extend(getarray(song))
+        j+=1
+      i=j
+      panegrps.append(actgrp)
+      
+    return begin,panegrps,end
+    
   def format(self):
     self.cleardistrib()
     
@@ -306,11 +352,8 @@ class SongBook(object,hooks.Hookable):
       if not self.formatted.has_key(id(song)):
         self._formatsong(song,self.rbt.dc,self.rbt.pars)
     self.logpages=paging.LogPages((self.rbt.pgwi,self.rbt.pghi))
-    panegrps=[
-      distribalg.PaneGrp(self.formatted[id(song)].panegrp.panes) 
-      for song in self.songs
-    ]
-    alg=self.sbtype.distribalg.creator(self.logpages,panegrps,self.sbtype)
+    alg=self.sbtype.distribalg.creator(self.logpages,self.sbtype)
+    alg.beginpanegrp,alg.panegrps,alg.endpanegrp=self._create_da_panegrps()
     alg.run()
     alg.printpages()
     
@@ -318,6 +361,7 @@ class SongBook(object,hooks.Hookable):
       
     if len(self.logpages.pages)==0: return
     self.a4d=a4distrib.A4Distribution(self.sbtype.hcnt,self.sbtype.vcnt,self.logpages.pages,self.sbtype.a4distribtype)
+    print 'formatting...'
 
   def drawpage(self,canvas,pgnum):
     if not self.a4d: return

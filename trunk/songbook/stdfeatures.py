@@ -36,25 +36,25 @@ interop.anchor['songheader'].add_feature(OnlyTitleHeader())
 class StdDistribAlg(songformat.IDistribAlg):
   name='normal'  
   def get_title(self): return u'Normální rozdělení'
-  def creator(self,logpages,panegrps,sbtype):
+  def creator(self,logpages,sbtype):
     import distribalg,a4distrib
 
     if sbtype.a4distribtype==a4distrib.DistribType.BOOK:
-      return distribalg.BookDistribAlg(logpages,panegrps)
+      return distribalg.BookDistribAlg(logpages)
       
     if sbtype.a4distribtype==a4distrib.DistribType.LINES:
-      res=distribalg.LinesDistribAlg(logpages,panegrps)
+      res=distribalg.LinesDistribAlg(logpages)
       res.hcnt=sbtype.hcnt
       return res
       
-    return distribalg.SimpleDistribAlg(logpages,panegrps)
+    return distribalg.SimpleDistribAlg(logpages)
 
 class SimpleDistribAlg(songformat.IDistribAlg):
   name='simple'
   def get_title(self): return u'Jednoduché rozdělení'
-  def creator(self,logpages,panegrps,sbtype):
+  def creator(self,logpages,sbtype):
     import distribalg
-    return distribalg.SimpleDistribAlg(logpages,panegrps)
+    return distribalg.SimpleDistribAlg(logpages)
 
 interop.anchor['distribalg'].add_default(StdDistribAlg())
 interop.anchor['distribalg'].add_feature(SimpleDistribAlg())

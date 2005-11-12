@@ -17,7 +17,7 @@ class IHeader(object):
 class IDistribAlg(object):
   name=''
   def get_title(self): raise NotImplemented
-  def creator(self,logpages,panegrps,sbtype): raise NotImplemented
+  def creator(self,logpages,sbtype): raise NotImplemented
   def __unicode__(self): return self.get_title()
 
 class ISongDelimiter(object):

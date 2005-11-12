@@ -34,7 +34,8 @@ def countextrasheets(hi,hi0,maxhi,panegrp):
 class PaneGrp:
   panes=[]
   
-  def __init__(self,panes=[]):
+  def __init__(self,panes=None):
+    if not panes: panes=[]
     self.panes=panes
     
   def __iter__(self):
@@ -74,12 +75,13 @@ class LogPage:
 
 class DistribAlg:
   panegrps=[]
+  beginpanegrp=PaneGrp()
+  endpanegrp=PaneGrp()
   pages=[]
   maxhi=0
   printer=None
 
-  def __init__(self,printer,panegrps):
-    self.panegrps=panegrps
+  def __init__(self,printer):
     self.pages=[]
     self.printer=printer
     self.maxhi=printer.getpagesize()[1]
@@ -111,6 +113,11 @@ class DistribAlg:
           pane.draw(format.SubCanvas(canvas,0,acty))
           acty+=pane.hi
       self.printer.endpage()
+
+  def run(self):
+    self.addpanegrp(self.beginpanegrp)
+    self.dorun()
+    self.addpanegrp(self.endpanegrp)
     
 class BookDistribAlg(DistribAlg):
   firstleft=False
@@ -120,7 +127,7 @@ class BookDistribAlg(DistribAlg):
     if not self.firstleft: index+=1
     return (index&1)==0
   
-  def run(self):
+  def dorun(self):
     def addpanegrp(index):
       self.addpanegrp(panegrpstack[index])
       del panegrpstack[index]
@@ -131,7 +138,7 @@ class BookDistribAlg(DistribAlg):
       return None
   
     panegrpstack=copy.copy(self.panegrps)
-    self.addpage() # first page
+    if not self.pages: self.addpage() # first page
     wasaddedonleftpage=False
     
     while panegrpstack:
@@ -168,13 +175,13 @@ class BookDistribAlg(DistribAlg):
 class LinesDistribAlg(DistribAlg):
   hcnt=1
 
-  def run(self):
+  def dorun(self):
     def addpanegrp(index):
       self.addpanegrp(panegrpstack[index])
       del panegrpstack[index]
       
     panegrpstack=copy.copy(self.panegrps)
-    self.addpage() # first page
+    if not self.pages: self.addpage() # first page
     
     #nejdrive dame ty, ktere se nevejdou do jedne rady
     for i in xrange(len(panegrpstack)):
@@ -200,7 +207,7 @@ class LinesDistribAlg(DistribAlg):
     
 
 class SimpleDistribAlg(DistribAlg):
-  def run(self): 
+  def dorun(self): 
     for panegrp in self.panegrps:
       self.addpanegrp(panegrp)
       
