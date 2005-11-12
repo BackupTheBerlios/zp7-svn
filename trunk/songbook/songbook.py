@@ -11,7 +11,7 @@ import wx
 import paging
 import browse.hooks as hooks
 import interop
-import autodistrib
+import distribalg
 import logpagepreview
 import locale
 
@@ -228,7 +228,7 @@ class SongBook(object,hooks.Hookable):
         self._formatsong(song,self.rbt.dc,self.rbt.pars)
     self.logpages=paging.LogPages((self.rbt.pgwi,self.rbt.pghi))
     panegrps=[
-      autodistrib.PaneGrp(self.formatted[id(song)].panegrp.panes) 
+      distribalg.PaneGrp(self.formatted[id(song)].panegrp.panes) 
       for song in self.songs
     ]
     alg=self.sbtype.distribalg.creator(self.logpages,panegrps,self.sbtype)

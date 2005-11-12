@@ -37,15 +37,24 @@ class StdDistribAlg(songformat.IDistribAlg):
   name='normal'  
   def get_title(self): return u'Normální rozdělení'
   def creator(self,logpages,panegrps,sbtype):
-    import autodistrib
-    return autodistrib.AutoDistribAlg(logpages,panegrps)
+    import distribalg,a4distrib
+
+    if sbtype.a4distribtype==a4distrib.DistribType.BOOK:
+      return distribalg.BookDistribAlg(logpages,panegrps)
+      
+    if sbtype.a4distribtype==a4distrib.DistribType.LINES:
+      res=distribalg.LinesDistribAlg(logpages,panegrps)
+      res.hcnt=sbtype.hcnt
+      return res
+      
+    return distribalg.SimpleDistribAlg(logpages,panegrps)
 
 class SimpleDistribAlg(songformat.IDistribAlg):
   name='simple'
   def get_title(self): return u'Jednoduché rozdělení'
-  def creator(self,logpages,panegrps):
-    import autodistrib
-    return autodistrib.SimpleDistribAlg(logpages,panegrps)
+  def creator(self,logpages,panegrps,sbtype):
+    import distribalg
+    return distribalg.SimpleDistribAlg(logpages,panegrps)
 
 interop.anchor['distribalg'].add_default(StdDistribAlg())
 interop.anchor['distribalg'].add_feature(SimpleDistribAlg())

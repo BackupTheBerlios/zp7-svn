@@ -77,7 +77,6 @@ class DistribAlg:
   pages=[]
   maxhi=0
   printer=None
-  firstleft=False
 
   def __init__(self,printer,panegrps):
     self.panegrps=panegrps
@@ -88,11 +87,6 @@ class DistribAlg:
   def addpage(self):
     self.pages.append(LogPage(self.maxhi))
 
-  def isleftpage(self):
-    index=len(self.pages)-1
-    if not self.firstleft: index+=1
-    return (index&1)==0
-  
   def addpage(self):
     self.pages.append(LogPage(self.maxhi))
     
@@ -118,7 +112,14 @@ class DistribAlg:
           acty+=pane.hi
       self.printer.endpage()
     
-class AutoDistribAlg(DistribAlg):
+class BookDistribAlg(DistribAlg):
+  firstleft=False
+  
+  def isleftpage(self):
+    index=len(self.pages)-1
+    if not self.firstleft: index+=1
+    return (index&1)==0
+  
   def run(self):
     def addpanegrp(index):
       self.addpanegrp(panegrpstack[index])
@@ -164,8 +165,42 @@ class AutoDistribAlg(DistribAlg):
           self.addpage()
           addpanegrp(0)
 
+class LinesDistribAlg(DistribAlg):
+  hcnt=1
+
+  def run(self):
+    def addpanegrp(index):
+      self.addpanegrp(panegrpstack[index])
+      del panegrpstack[index]
+      
+    panegrpstack=copy.copy(self.panegrps)
+    self.addpage() # first page
+    
+    #nejdrive dame ty, ktere se nevejdou do jedne rady
+    for i in xrange(len(panegrpstack)):
+      if panegrpstack[i].sheetcnt(self.maxhi)>self.hcnt:
+        addpanegrp(i)
+      else:
+        i+=1
+        
+    while panegrpstack:
+      #zkusime najit prvni, ktera se vejde
+      worked=False
+      acthpage=len(self.pages)%self.hcnt
+      if acthpage==0: acthpage=self.hcnt
+      for panegrp in panegrpstack:
+        if self.pages[-1].extrapagecount(panegrp)<=self.hcnt-acthpage:
+          addpanegrp(panegrpstack.index(panegrp))
+          worked=True
+          break
+        #zadna pisen nebyla pridana
+      if not worked:
+        if len(self.pages)%self.hcnt==1: self.addpage();
+        while len(self.pages)%self.hcnt!=1: self.addpage();
+    
+
 class SimpleDistribAlg(DistribAlg):
   def run(self): 
     for panegrp in self.panegrps:
       self.addpanegrp(panegrp)
-
+      
