@@ -112,6 +112,7 @@ class DBVPanel(anchors.content.IContent):
           db=database.dbmanager.create_inet_db(dlg.GetValue())
           self.selected_db=db
           self.filldbs()
+          self.grid.set_data(db)
           #wx.MessageDialog(self,u"Nová databáze %s" % dlg.GetValue(),u"Zpěvníkátor").ShowModal()
           #desktop.recreate_menu()
           

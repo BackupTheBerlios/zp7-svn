@@ -18,7 +18,7 @@ class SongDB:
   name=""
   con=None
   cur=None
-  song_nametofld={'id':'s.id','title':'s.title','author':'s.author','group':'g.name','text':'s.songtext'}
+  song_nametofld={'id':'s.id','title':'s.title','author':'s.author','group':'g.name','text':'t.songtext'}
   searchtexts=None
   groupnames=None
   
@@ -62,19 +62,33 @@ class SongDB:
         "group_id" INT,
         "author" VARCHAR(100),
         "remark" VARCHAR(100),
-        "songtext" TEXT,
         "transp" INT,
         "marked" INT,
         "netmodified" INT,
         "nonet" INT,
-        "special" VARCHAR(100),
-        "c_searchtext" TEXT
+        "special" VARCHAR(100)
       );""")
     self.cur.execute("""
       CREATE INDEX "songs_id" ON "songs" ("id");
       """)
     self.cur.execute("""
       CREATE INDEX "songs_netid" ON "songs" ("netid","id");
+      """)
+    self.cur.execute("""
+      CREATE TABLE "songtexts" (
+        "songid" INTEGER,
+        "songtext" TEXT
+      );""")
+    self.cur.execute("""
+      CREATE INDEX "songtexts_id" ON "songtexts" ("songid");
+      """)
+    self.cur.execute("""
+      CREATE TABLE "songsearchtexts" (
+        "songid" INTEGER,
+        "searchtext" TEXT
+      );""")
+    self.cur.execute("""
+      CREATE INDEX "songsearchtexts_id" ON "songsearchtexts" ("songid");
       """)
     self.cur.execute("""
       CREATE TABLE "groups" (
@@ -117,7 +131,7 @@ class SongDB:
     """
     self.wantcur()
     flds=[self.song_nametofld[fld] for fld in fields]
-    self.cur.execute("SELECT "+",".join(flds)+" FROM songs s LEFT JOIN groups g ON (s.group_id=g.id) WHERE s.id=?",(songid,))
+    self.cur.execute("SELECT "+",".join(flds)+" FROM songs s LEFT JOIN groups g ON (s.group_id=g.id) LEFT JOIN songtexts t ON (s.id=t.songid) WHERE s.id=?",(songid,))
     return self.cur.fetchone()
 
   def addsong(self,title,group_id,author,songtext,netid=0):
@@ -127,8 +141,11 @@ class SongDB:
     searchtext=utils.make_search_text(title)+'|'+utils.make_search_text(author)+'|'+utils.make_search_text(self.groupnames[int(group_id)])+'|'+\
                utils.make_search_text(transpmod.deletechords(songtext))
     
-    self.cur.execute("INSERT INTO songs (id,title,group_id,author,songtext,netid,c_searchtext) VALUES (NULL,?,?,?,?,?,?)",
-                     (title.encode("utf-8"),int(group_id),author.encode("utf-8"),songtext.encode("utf-8"),int(netid),searchtext.encode("utf-8")))
+    self.cur.execute("INSERT INTO songs (id,title,group_id,author,netid) VALUES (NULL,?,?,?,?)",
+                     (title.encode("utf-8"),int(group_id),author.encode("utf-8"),int(netid)))
+    songid=self.cur.lastrowid
+    self.cur.execute("INSERT INTO songtexts (songid,songtext) VALUES (?,?)",(songid,songtext.encode("utf-8")))
+    self.cur.execute("INSERT INTO songsearchtexts (songid,searchtext) VALUES (?,?)",(songid,searchtext.encode("utf-8").encode("utf-8")))
 
   def __unicode__(self) : return unicode(self.name+"."+self.getext())
   
@@ -147,7 +164,7 @@ class SongDB:
         dlg=wx.ProgressDialog(u"Zpěvníkátor",u"Indexuju písničky pro vyhledávání...",maximum=0,parent=utils.main_window)
         self.searchtexts={}
         self.wantcur()
-        self.cur.execute("SELECT id,c_searchtext FROM songs")
+        self.cur.execute("SELECT songid,searchtext FROM songsearchtexts")
         for row in self.cur : self.searchtexts[int(row[0])]=row[1]
         #self.cur.execute("SELECT s.id,s.title,s.author,g.name,s.songtext FROM songs s LEFT JOIN groups g ON (s.group_id=g.id)")
         #for row in self.cur:
@@ -185,6 +202,9 @@ class InetSongDB(SongDB):
       attr=node.attrib
       self.addsong(attr['title'],netidtoid[int(attr['group_id'])],attr['author'],node.getchildren()[0].text,attr['id'])
 
+    dlg.Update(90, u"Vkládám písně do databáze")
+    self.cur.execute('VACUUM')
+    
     self.commit()          
 
 class LocalSongDB(SongDB):
@@ -208,4 +228,3 @@ class DBSong:
 
   def dbidtuple(self):
     return (str(self.db.name),int(self.songid))
-    
