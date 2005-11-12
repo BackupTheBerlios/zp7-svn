@@ -13,6 +13,7 @@ import interop
 
 class SBType(object):
   iattrs=('hcnt','vcnt','leftsp','topsp','rightsp','bottomsp','content_cols')
+  sattrs=('header_text','footer_text')
   features=( ('header','songheader'),('distribalg','distribalg'),('songdelimiter','songdelimiter') )
   hcnt=1
   vcnt=1
@@ -24,8 +25,17 @@ class SBType(object):
   name=u''
   basetype=u''
   saveonlydiff=False
-  fontnames=('title','author','chord','text','label','content')
-  fonttitles={'title':u'Název','author':u'Autor','chord':u'Akord','text':u'Text','label':u'Návěští','content':u'Obsah'}
+  fontnames=('title','author','chord','text','label','content','header','footer')
+  fonttitles={
+    'title':u'Název',
+    'author':u'Autor',
+    'chord':u'Akord',
+    'text':u'Text',
+    'label':u'Návěští',
+    'content':u'Obsah',
+    'header':u'Záhlaví',
+    'footer':u'Zápatí'
+  }
   #fontnames=('default','chord','text','label')
   #fonttitles={'default':u'Implicitní','chord':u'Akord','text':u'Text','label':u'Návěští'}
   #fontnames=['chord','text','label']
@@ -34,6 +44,8 @@ class SBType(object):
   header=None
   distribalg=None
   songdelimiter=None
+  header_text=u''
+  footer_text=u''
 
   
   def __init__(self):
@@ -75,11 +87,12 @@ class SBType(object):
     #self.name=oldname
     self.basetype=newbase.name
  
-  def _xml_load_iattrs(self,xml):
+  def _xml_load_generic_attrs(self,xml):
     for a in self.iattrs: setattr(self,a,int(xml.attrs.get(a,0)))
+    for a in self.sattrs: setattr(self,a,xml[a])
 
   def xmlloaddata(self,xml):
-    self._xml_load_iattrs(xml)
+    self._xml_load_generic_attrs(xml)
     #self.header=interop.anchor['songheader'].find(xml['header'])
     #self.distribalg=interop.anchor['distribalg'].find(xml['distribalg'])
     for attr,anchor in self.features: setattr(self,attr,interop.anchor[anchor].find(xml[attr]))
@@ -114,12 +127,13 @@ class SBType(object):
     xml['saveonlydiff']=self.saveonlydiff
     xml['basetype']=self.basetype
 
-  def _xml_save_iattrs(self,xml):
+  def _xml_save_generic_attrs(self,xml):
     for a in self.iattrs: xml[a]=getattr(self,a)
+    for a in self.sattrs: xml[a]=getattr(self,a)
     
   def xmlsavedata(self,xml):
     xml.clear()
-    self._xml_save_iattrs(xml)
+    self._xml_save_generic_attrs(xml)
     for f in self.fontnames: utils.fontdicttoxml(self.fonts[f],xml/'fonts'/f)
     for attr,anchor in self.features: xml[attr]=getattr(self,attr)
     #xml['header']=self.header.name
@@ -232,6 +246,10 @@ def edit_sb_type(sbtype):
   brw.spin(model=browse.attr(sbtype,'bottomsp'))
   brw.label(text=u'Počet sloupců v obsahu')
   brw.spin(model=browse.attr(sbtype,'content_cols'))
+  brw.label(text=u'Záhlaví (%c-číslo stránky)')
+  brw.edit(model=browse.attr(sbtype,'header_text'))
+  brw.label(text=u'Zápatí (%c-číslo stránky)')
+  brw.edit(model=browse.attr(sbtype,'footer_text'))
   brw.endsizer()
   brw.label(proportion=1)
   brw.endsizer()

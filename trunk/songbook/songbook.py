@@ -113,7 +113,7 @@ class Content(SBSongLikeItem):
         acty0=0
       
       canvas.text(actcol*colwi,acty,s.content_title())
-      canvas.dynamic_text(actcol*colwi+colwi-3*lw,acty,_FindSongPage(sb,s))
+      canvas.dynamic_text(actcol*colwi+colwi-3*lw,acty,lambda sb=sb,s=s:sb.findpage(s).pagenum)
       acty+=lh
     return panegrp
       
@@ -202,6 +202,23 @@ class SongBook(object,hooks.Hookable):
     if self.rbt: return
     self.rbt=self.sbtype.getreal(wx.PrinterDC(printing.printData))
     
+  def _print_header_footer(self):
+    hdrfont=self.rbt.getfont('header')
+    footfont=self.rbt.getfont('footer')
+    for page in self.logpages:
+      hdr=self.sbtype.header_text.replace(u'%c',unicode(page.pagenum))
+      foot=self.sbtype.footer_text.replace(u'%c',unicode(page.pagenum))
+      if hdr:
+        self.rbt.dc.SetFont(hdrfont.getwxfont())
+        page.canvas.font(hdrfont)
+        w,h=self.rbt.dc.GetTextExtent(hdr)
+        page.canvas.text(self.rbt.pgwi/2-w/2,-h,hdr)
+      if foot:
+        self.rbt.dc.SetFont(footfont.getwxfont())
+        page.canvas.font(footfont)
+        w,h=self.rbt.dc.GetTextExtent(foot)
+        page.canvas.text(self.rbt.pgwi/2-w/2,self.rbt.pghi,foot)
+    
   def format(self):
     self.cleardistrib()
     
@@ -216,12 +233,9 @@ class SongBook(object,hooks.Hookable):
     ]
     alg=self.sbtype.distribalg.creator(self.logpages,panegrps)
     alg.run()
-    alg.printpages()            
-#     else:
-#       state=paging.DistribState(self.logpages)
-#       for song in self.songs:
-#         self.formatted[id(song)].panegrp.prndraw(state)
-#       state.close()
+    alg.printpages()
+    
+    self._print_header_footer()
       
     if len(self.logpages.pages)==0: return
     self.a4d=a4distrib.A4Distribution(self.sbtype.hcnt,self.sbtype.vcnt,self.logpages.pages,a4distrib.DistribType.BOOK)
