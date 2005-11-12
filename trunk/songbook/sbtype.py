@@ -12,8 +12,8 @@ import realsb
 import interop
 
 class SBType(object):
-  iattrs=('hcnt','vcnt','leftsp','topsp','rightsp','bottomsp','content_cols','a4distribtype')
-  sattrs=('header_text','footer_text')
+  __xml_int__=('hcnt','vcnt','leftsp','topsp','rightsp','bottomsp','content_cols','a4distribtype')
+  __xml_str__=('header_text','footer_text')
   features=( ('header','songheader'),('distribalg','distribalg'),('songdelimiter','songdelimiter') )
   hcnt=1
   vcnt=1
@@ -88,12 +88,13 @@ class SBType(object):
     #self.name=oldname
     self.basetype=newbase.name
  
-  def _xml_load_generic_attrs(self,xml):
-    for a in self.iattrs: setattr(self,a,int(xml.attrs.get(a,0)))
-    for a in self.sattrs: setattr(self,a,xml[a])
+#   def _xml_load_generic_attrs(self,xml):
+#     for a in self.iattrs: setattr(self,a,int(xml.attrs.get(a,0)))
+#     for a in self.sattrs: setattr(self,a,xml[a])
 
   def xmlloaddata(self,xml):
-    self._xml_load_generic_attrs(xml)
+    #self._xml_load_generic_attrs(xml)
+    utils.xml_generic_load_attrs(self,xml)
     #self.header=interop.anchor['songheader'].find(xml['header'])
     #self.distribalg=interop.anchor['distribalg'].find(xml['distribalg'])
     for attr,anchor in self.features: setattr(self,attr,interop.anchor[anchor].find(xml[attr]))
@@ -134,7 +135,7 @@ class SBType(object):
     
   def xmlsavedata(self,xml):
     xml.clear()
-    self._xml_save_generic_attrs(xml)
+    utils.xml_generic_save_attrs(self,xml)
     for f in self.fontnames: utils.fontdicttoxml(self.fonts[f],xml/'fonts'/f)
     for attr,anchor in self.features: xml[attr]=getattr(self,attr).name
     #xml['header']=self.header.name

@@ -183,4 +183,27 @@ def editfont(font):
   
   return False
    
+def xml_generic_load_attrs(self,xml):
+  if hasattr(self,'__xml_int__'):
+    for a in self.__xml_int__: 
+      setattr(self,a,int(xml.attrs.get(a,0)))
+  if hasattr(self,'__xml_str__'):
+    for a in self.__xml_str__:
+      setattr(self,a,xml[a])
+  if hasattr(self,'__xml_bool__'):
+    for a in self.__xml_bool__: 
+      setattr(self,a,bool(int(xml.attrs.get(a,0))))
+
+def xml_generic_save_attrs(self,xml):
+  if hasattr(self,'__xml_int__'):
+    for a in self.__xml_int__: 
+      xml[a]=getattr(self,a)
+  if hasattr(self,'__xml_str__'):
+    for a in self.__xml_str__:
+      xml[a]=getattr(self,a)
+  if hasattr(self,'__xml_bool__'):
+    for a in self.__xml_bool__: 
+      xml[a]=int(getattr(self,a))
+
+   
 psyco.bind(make_search_text)

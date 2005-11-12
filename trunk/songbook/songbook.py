@@ -27,6 +27,9 @@ class _FmtSong:
     self.panegrp=panegrp
 
 class SBSongLikeItem(object):
+  docknext=False
+  dockprev=False
+  
   def dbidtuple(self): pass
   def format(self,dc,pars,sb): return format.PaneGrp()
   def content_title(self): return u''
@@ -39,8 +42,8 @@ class SBSongLikeItem(object):
   def edgeitem(self):
     """@return: whether it should be on egde (first,last), eg content"""
     return False
-  def docktoprev(self): return False
-  def docktonext(self): return False
+  def docktoprev(self): return self.dockprev
+  def docktonext(self): return self.docknext
 
 class SBSong(SBSongLikeItem):
   src=None #(str(database),int(songid))
@@ -135,23 +138,29 @@ class Content(SBSongLikeItem):
   def edgeitem(self): return True
 
 class Image(SBSongLikeItem):
+  __xml_int__=['imghi','imgwi']
+  __xml_str__=['ext']
+  __xml_bool__=['preserveratio','docknext','dockprev']
+  
   data=''
   img=None
   ext=''
   imgwi=100
   imghi=100
   preserveratio=True
+  
   def __unicode__(self): return u'[Obrázek]'
   
   def xmlsave(self,xml,zipfw):
     xml.name='image'
     xml['id']=id(self)
-    xml['ext']=self.ext
+    #xml['ext']=self.ext
     filename='images/%d.%s'%(id(self),self.ext)
     zipfw.writestr(str(filename),self.data)
-    xml['imgwi']=self.imgwi
-    xml['imghi']=self.imghi
-    xml['preserveratio']=int(self.preserveratio)
+    #xml['imgwi']=self.imgwi
+    #xml['imghi']=self.imghi
+    #xml['preserveratio']=int(self.preserveratio)
+    utils.xml_generic_save_attrs(self,xml)
 
   def xmlload(self,xml,zipfr):
     imgid=xml['id']
@@ -159,9 +168,12 @@ class Image(SBSongLikeItem):
     filename='images/%s.%s'%(imgid,ext)
     data=zipfr.read(str(filename))
     self.setdata(data,ext)
-    self.imgwi=int(xml.attrs.get('imgwi',100))
-    self.imghi=int(xml.attrs.get('imghi',100))
-    self.preserveratio=bool(int(xml.attrs.get('preserveratio',1)))
+    utils.xml_generic_load_attrs(self,xml)
+    #self.imgwi=int(xml.attrs.get('imgwi',100))
+    #self.imghi=int(xml.attrs.get('imghi',100))
+    #self.preserveratio=bool(int(xml.attrs.get('preserveratio',1)))
+    #self.docknext=bool(int(xml.attrs.get('docknext',1)))
+    #self.dockprev=bool(int(xml.attrs.get('dockprev',1)))
 
   def setdata(self,data,ext):
     self.ext=ext
@@ -189,6 +201,8 @@ class Image(SBSongLikeItem):
     brw.spin(model=browse.attr(self,'imgwi'),autosave=True,event=self.reformat)
     brw.label(text=u'Výška (% z výšky stránky)')
     brw.spin(model=browse.attr(self,'imghi'),autosave=True,event=self.reformat)
+    brw.check(text=u'Přichytit k předchozí písni',model=browse.attr(self,'dockprev'),autosave=True,event=self.reformat)
+    brw.check(text=u'Přichytit k další písni',model=browse.attr(self,'docknext'),autosave=True,event=self.reformat)
   
   def reformat(self,ev):
     SBSongLikeItem.reformat(self)
