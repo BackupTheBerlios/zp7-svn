@@ -55,8 +55,9 @@ class BrowseBase:
   
     @param model: list-like object, which is model (data source) for visual control
     """
-    kw,mypars=self._split_args(kw,_ctrlpars({'model':[],'curmodel':None,'valuemodel':None}))
+    kw,mypars=self._split_args(kw,_ctrlpars({'event':lambda ev:ev.Skip(),'model':[],'curmodel':None,'valuemodel':None}))
     ctrl=wx.ListBox(self._getparent(),-1,**kw)
+    self.parent.Bind(wx.EVT_LISTBOX,mypars['event'],ctrl)
     self._after_create(ctrlitem._ListCtrlItem(ctrl,mypars),**mypars)
 
   def _getparent(self):
@@ -108,9 +109,11 @@ class BrowseBase:
     return res
 
   def check(self,**kw):
-    kw,mypars=self._split_args(kw,_ctrlpars({'text':''}))
+    kw,mypars=self._split_args(kw,_ctrlpars({'text':'','model':None,'autosave':False,'event':None,'value':False}))
     ctrl=wx.CheckBox(self._getparent(),-1,mypars['text'],**kw)
-    self._after_create(ctrlitem._CheckCtrlItem(ctrl,mypars),**mypars)
+    if mypars['model']: ctrl.SetValue(mypars['model'].get())
+    else: ctrl.SetValue(mypars['value'])
+    self._after_create(ctrlitem._CheckCtrlItem(ctrl,mypars,self.parent),**mypars)
 
   def pager(self,**kw):
     kw,mypars=self._split_args(kw,_ctrlpars({}))
@@ -140,11 +143,11 @@ class BrowseBase:
     self._after_create(ctrlitem._EditCtrlItem(ctrl,mypars),**mypars)
 
   def spin(self,**kw):
-    kw,mypars=self._split_args(kw,_ctrlpars({'value':0,'model':None}))
+    kw,mypars=self._split_args(kw,_ctrlpars({'value':0,'model':None,'autosave':False,'event':None}))
     ctrl=wx.SpinCtrl(self._getparent(),-1,**kw)
     if mypars['model']: ctrl.SetValue(mypars['model'].get())
     else: ctrl.SetValue(mypars['value'])
-    self._after_create(ctrlitem._SpinCtrlItem(ctrl,mypars),**mypars)
+    self._after_create(ctrlitem._SpinCtrlItem(ctrl,mypars,self.parent),**mypars)
 
   def scrollwin(self,**kw):
     kw,mypars=self._split_args(kw,_ctrlpars({'onpaint':lambda ev:ev.Skip(),'color':None}))
@@ -229,5 +232,6 @@ class BrowseBase:
     self.stack[:]=[]
     self.ctrls[:]=[]
     self.named_ctrls.clear()
+    self.parent.SetSizer(None)
  
  

@@ -184,7 +184,28 @@ class _DynamicLabelCtrlItem(_CtrlItem):
         self.setvalue(self.default)
 
 class _CheckCtrlItem(_CtrlItem):
-  pass
+  def __init__(self,ctrl,kw,parent):
+    _CtrlItem.__init__(self,ctrl,kw)
+    if self.autosave or self.event:
+      parent.Bind(wx.EVT_CHECKBOX,self.onevent,self.ctrl)
+      
+  def onevent(self,ev):
+    if self.autosave: self.save()
+    if self.event: self.event(ev)
+
+  def load(self):
+    if self.model:
+      try:
+        self.ctrl.SetValue(self.model.get())
+      except:
+        pass
+
+  def save(self):
+    if self.model:
+      try:
+        self.model.set(self.ctrl.GetValue())
+      except:
+        pass
 
 class _ButtonCtrlItem(_CtrlItem):
   def __init__(self,ctrl,kw):
@@ -211,7 +232,13 @@ class _EditCtrlItem(_CommonEditCtrlItem):
   pass
 
 class _SpinCtrlItem(_CommonEditCtrlItem):
-  pass
+  def __init__(self,ctrl,kw,parent):
+    _CommonEditCtrlItem.__init__(self,ctrl,kw)
+    parent.Bind(wx.EVT_SPINCTRL,self.onevent,self.ctrl)
+
+  def onevent(self,ev):
+    if self.autosave: self.save()
+    if self.event: self.event(ev)
 
 class _PagerCtrlItem(_CtrlItem):
   pass

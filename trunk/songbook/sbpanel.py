@@ -13,6 +13,7 @@ import dbview
 import wx.lib.buttons as buttons
 import browse
 import os
+import os.path
 import config
 import format
 import interop
@@ -109,6 +110,8 @@ class SBPanel(anchors.content.IContent):
   preview=None
   logpreview=None
   lpp=None # type=LogPagePreview
+  advanced=None # wx.Window
+  parent=None
   
   #pagecount=0
   #curpage=-1
@@ -118,6 +121,7 @@ class SBPanel(anchors.content.IContent):
   #ptoolbar=None
 
   def __init__(self):
+    SBPanel.instance=self
     desktop.register_menu(self.create_toolbar)
     desktop.register_menu(self.create_menu)
     self.opensbs=[]
@@ -128,6 +132,7 @@ class SBPanel(anchors.content.IContent):
     #self.panel=wx.Window(parent,-1)
     #self.notebook=wx.Notebook(parent,-1)
 
+    self.parent=parent
     self.brw=browse.Browse(parent)
     #self.brw=browse.Browse(self.panel)
 
@@ -144,9 +149,9 @@ class SBPanel(anchors.content.IContent):
     self.brw.label(text=u'Typ zpěvníku:')
     self.brw.combo(model=sbtype.sbtypes,id='sbtype',size=(100,-1),event=self.onchangebasesbtype,valuemodel=browse.attr(self,'sb_basetype_obj'))
     self.brw.endsizer()
-    self.brw.listbox(proportion=1,id='songlist',model=[])
-    self.brw.button(text=u'Pokročilé nastavení')
-    self.brw.check(text=u'Začít na nové stránce')
+    self.brw.listbox(proportion=1,id='songlist',model=[],event=self.changesong)
+    self.brw.button(text=u'Pokročilé nastavení',event=self.toggleadvanced)
+    #self.brw.check(text=u'Začít na nové stránce')
     self.brw.grid(rows=2,cols=2,vgap=5,hgap=5)
     self.brw.button(text=u'Dopředu',event=lambda ev:self.brw['songlist'].moveup())
     self.brw.button(text=u'Dozadu',event=lambda ev:self.brw['songlist'].movedown())
@@ -154,6 +159,10 @@ class SBPanel(anchors.content.IContent):
     self.brw.endsizer()
     self.infobrw=self.brw.panelbrw()
     self.brw.endsizer()
+    
+    self.advanced_brw=self.brw.panelbrw()
+    self.advanced=self.advanced_brw.parent
+    self.advanced.Hide()
     
     self.brw.pager(proportion=1)
     self.brw.page(text=u"Text písně")
@@ -228,6 +237,11 @@ class SBPanel(anchors.content.IContent):
     self.reformat()
     self.brw['sbtype'].load()
     
+  def toggleadvanced(self,ev):
+    self.advanced.Show(not self.advanced.IsShown())
+    self.create_advanced_edit()
+    self.parent.Layout()
+    
   def on_destroy_menu(self):
     pass
     
@@ -298,9 +312,20 @@ class SBPanel(anchors.content.IContent):
       obj.create_submenu('songbook',u'Zpěvník')
       obj.create_menu_command('songbook/sbtype',u'Upravit typ zpěvníku',self.edit_sb_type,config.hotkey.edit_sb_type)
       obj.create_menu_command('songbook/insert_content',u'Vložit obsah',self.insert_content,config.hotkey.sb_insert_content)
+      obj.create_menu_command('songbook/insert_image',u'Vložit obrázek',self.insert_image,config.hotkey.sb_insert_image)
 
   def insert_content(self,ev):
     if self.actsb: self.actsb.insert_content()
+
+  def insert_image(self,ev):
+    if not self.actsb: return
+    filename=utils.open_dialog(desktop.main_window,'Images|*.png;*.bmp;*.gif;*.jpg')
+    if filename:
+#       if not wx.Image.CanRead(filename):
+#         utils.showerror(u'Nelze načíst obrázek')
+#         return
+      self.actsb.insert_image(open(filename).read(),os.path.splitext(filename)[1][1:].lower())
+      
 
   def on_destroy_control(self):
     pass
@@ -398,6 +423,13 @@ class SBPanel(anchors.content.IContent):
     self.changepage()
     self.infobrw.loadall()
   
+  def reformat_item(self,item):
+    try:
+      del self.actsb.formatted[id(item)]
+    except:
+      return
+    self.format()
+  
   def reformat(self):
     if not self.actsb: return
     self.actsb.clearformat()
@@ -420,6 +452,24 @@ class SBPanel(anchors.content.IContent):
   def format_songbook(self):
     self.format()
     
+  def create_advanced_edit(self):
+    self.advanced_brw.destroy()
+    if self.advanced.IsShown():
+      self.advanced_brw.vbox(border=5)
+      self.advanced_brw.label(text=u'Pokročilé nastavení')
+      item=self.brw['songlist'].getitem()
+      if item:
+        item.define_advanced_brw(self.advanced_brw)
+      self.advanced_brw.endsizer()
+      self.parent.Layout()
+
+  def changesong(self,ev):
+    self.create_advanced_edit()
+    
+  
   def get_sb_basetype_obj(self): return self.actsb.sbtype.basetype_obj
   def set_sb_basetype_obj(self,value): self.actsb.sbtype.basetype_obj=value
   sb_basetype_obj=property(get_sb_basetype_obj,set_sb_basetype_obj)
+  
+def reformat_songlike_item(item):
+  SBPanel.instance.reformat_item(item)

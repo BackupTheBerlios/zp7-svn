@@ -9,6 +9,7 @@ import printing
 import a4distrib
 import wx
 import paging
+import browse
 import browse.hooks as hooks
 import interop
 import distribalg
@@ -28,6 +29,12 @@ class SBSongLikeItem(object):
   def dbidtuple(self): pass
   def format(self,dc,pars,sb): return format.PaneGrp()
   def content_title(self): return u''
+  def xmlsave(self,xml,zipfw): raise NotImplemented
+  def xmlload(self,xml,zipfr): raise NotImplemented
+  def define_advanced_brw(self,brw): pass
+  def reformat(self):
+    import sbpanel
+    sbpanel.reformat_songlike_item(self)
 
 class SBSong(SBSongLikeItem):
   src=None #(str(database),int(songid))
@@ -54,13 +61,13 @@ class SBSong(SBSongLikeItem):
 
   def __unicode__(self): return unicode(self.title)
   
-  def xmlsave(self,xml):
+  def xmlsave(self,xml,zipfw):
     xml.name='song'
     utils.xmlsavedict(xml,self.vals,('title','author','group'))
     xml.add('text').text=self.vals['text']
     if self.src: xml.attrs['source']=";".join(map(str,self.src))
 
-  def xmlload(self,xml):
+  def xmlload(self,xml,zipfr):
     utils.xmlloaddict(xml,self.vals,('title','author','group'))
     self.vals['text']=(xml/'text').text
     if 'source' in xml.attrs: 
@@ -84,12 +91,12 @@ class _FindSongPage:
   def __call__(self): return self.sb.findpage(self.song).pagenum
 
 class Content(SBSongLikeItem):
-  def __unicode__(self): return u'Obsah'
+  def __unicode__(self): return u'[Obsah]'
 
-  def xmlsave(self,xml):
+  def xmlsave(self,xml,zipfw):
     xml.name='content'
 
-  def xmlload(self,xml):
+  def xmlload(self,xml,zipfr):
     pass
 
   def format(self,dc,pars,sb):
@@ -118,12 +125,70 @@ class Content(SBSongLikeItem):
       canvas.dynamic_text(actcol*colwi+colwi-3*lw,acty,lambda sb=sb,s=s:sb.findpage(s).pagenum)
       acty+=lh
     return panegrp
-      
 
+class Image(SBSongLikeItem):
+  data=''
+  img=None
+  ext=''
+  imgwi=100
+  imghi=100
+  preserveratio=True
+  def __unicode__(self): return u'[Obrázek]'
+  
+  def xmlsave(self,xml,zipfw):
+    xml.name='image'
+    xml['id']=id(self)
+    xml['ext']=self.ext
+    filename='images/%d.%s'%(id(self),self.ext)
+    zipfw.writestr(str(filename),self.data)
+    xml['imgwi']=self.imgwi
+    xml['imghi']=self.imghi
+    xml['preserveratio']=int(self.preserveratio)
+
+  def xmlload(self,xml,zipfr):
+    imgid=xml['id']
+    ext=xml['ext']
+    filename='images/%s.%s'%(imgid,ext)
+    data=zipfr.read(str(filename))
+    self.setdata(data,ext)
+    self.imgwi=int(xml.attrs.get('imgwi',100))
+    self.imghi=int(xml.attrs.get('imghi',100))
+    self.preserveratio=bool(int(xml.attrs.get('preserveratio',1)))
+
+  def setdata(self,data,ext):
+    self.ext=ext
+    self.data=data
+    self.image=wx.ImageFromStream(StringIO(data))
+
+  def format(self,dc,pars,sb):
+    panegrp=format.PaneGrp()
+    wi=self.imgwi*sb.rbt.pgwi/100
+    hi=self.imghi*sb.rbt.pghi/100
+    if self.preserveratio:
+      k=float(self.image.GetHeight())/float(self.image.GetWidth())
+      w1=hi/k;h1=hi
+      w2=wi;h2=wi*k
+      wi=int(min(w1,w2))
+      hi=int(min(h1,h2))
+    pane=panegrp.addpane()
+    pane.hi=hi
+    pane.canvas.stretchimage(self.image,sb.rbt.pgwi/2-wi/2,0,wi,hi)
+    return panegrp
+
+  def define_advanced_brw(self,brw):
+    brw.check(text=u'Zachovat poměr šířka/výška',model=browse.attr(self,'preserveratio'),autosave=True,event=self.reformat)
+    brw.label(text=u'Šířka (% z šířky stránky)')
+    brw.spin(model=browse.attr(self,'imgwi'),autosave=True,event=self.reformat)
+    brw.label(text=u'Výška (% z výšky stránky)')
+    brw.spin(model=browse.attr(self,'imghi'),autosave=True,event=self.reformat)
+  
+  def reformat(self,ev):
+    SBSongLikeItem.reformat(self)
 
 sb_song_line_classes={
   'song':SBSong,
-  'content':Content
+  'content':Content,
+  'image':Image
 }
 
 class SongBook(object,hooks.Hookable):
@@ -153,7 +218,7 @@ class SongBook(object,hooks.Hookable):
     xml=xmlnode.XmlNode.fromstr(fr.read('songs.xml'))
     for x in xml:
       song=sb_song_line_classes[x.name]()
-      song.xmlload(x)
+      song.xmlload(x,fr)
       self.songs.append(song)
       id=song.dbidtuple()
       if id: self.dbsongs[id]=song
@@ -163,10 +228,10 @@ class SongBook(object,hooks.Hookable):
     fr.close()
   
   def save(self,filename):
-    fw=zipfile.ZipFile(filename,'w')
+    fw=zipfile.ZipFile(filename,'w',zipfile.ZIP_DEFLATED)
     
     xml=xmlnode.XmlNode('songs')
-    utils.xmlsavearray(self.songs,xml,'song')
+    for song in self.songs: song.xmlsave(xml.add('song'),fw)
     fw.writestr('songs.xml',xml.tostr())
     
     xml=xmlnode.XmlNode('sbtype')
@@ -291,6 +356,11 @@ class SongBook(object,hooks.Hookable):
 
   def insert_content(self):
     self.songs.insert(0,Content())
+
+  def insert_image(self,data,ext):
+    img=Image()
+    img.setdata(data,ext)
+    self.songs.insert(0,img)
 
   def findpage(self,song):
     """

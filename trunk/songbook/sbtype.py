@@ -136,7 +136,7 @@ class SBType(object):
     xml.clear()
     self._xml_save_generic_attrs(xml)
     for f in self.fontnames: utils.fontdicttoxml(self.fonts[f],xml/'fonts'/f)
-    for attr,anchor in self.features: xml[attr]=getattr(self,attr)
+    for attr,anchor in self.features: xml[attr]=getattr(self,attr).name
     #xml['header']=self.header.name
     #xml['distribalg']=self.distribalg.name
     
