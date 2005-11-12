@@ -1,6 +1,7 @@
 import xml.sax.saxutils as saxutils
 import xml.sax
 import copy
+from cStringIO import StringIO
 
 class XmlNode:
   name=u""
@@ -60,6 +61,15 @@ class XmlNode:
     parser.parse(fr)
     return handler.xml
 
+  @staticmethod
+  def fromstr(s):
+    return XmlNode.load(StringIO(s))
+
+  def tostr(self):
+    fw=StringIO()
+    self.save(fw)
+    return fw.getvalue()
+  
   def clear(self):
     self.childs[:]=[]
     self.attrs.clear()

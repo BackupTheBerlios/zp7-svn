@@ -14,6 +14,8 @@ import interop
 import distribalg
 import logpagepreview
 import locale
+import zipfile
+from cStringIO import StringIO
 
 class _FmtSong:
   panegrp=None
@@ -145,21 +147,33 @@ class SongBook(object,hooks.Hookable):
     """@type song: (db,songid)"""
     return self.dbsongs.has_key(song)
 
-  def load(self,fr):
-    xml=xmlnode.XmlNode.load(fr)
-    for x in xml/'songs':
+  def load(self,filename):
+    fr=zipfile.ZipFile(filename,'r')
+    
+    xml=xmlnode.XmlNode.fromstr(fr.read('songs.xml'))
+    for x in xml:
       song=sb_song_line_classes[x.name]()
       song.xmlload(x)
       self.songs.append(song)
       id=song.dbidtuple()
       if id: self.dbsongs[id]=song
-    self.sbtype.xmlload(xml/'sbtype')
+      
+    xml=xmlnode.XmlNode.fromstr(fr.read('sbtype.xml'))
+    self.sbtype.xmlload(xml)
+    fr.close()
+  
+  def save(self,filename):
+    fw=zipfile.ZipFile(filename,'w')
     
-  def save(self,fw):
-    xml=xmlnode.XmlNode('songbook')
-    utils.xmlsavearray(self.songs,xml.add('songs'),'song')
-    self.sbtype.xmlsave(xml/'sbtype')
-    xml.save(fw)
+    xml=xmlnode.XmlNode('songs')
+    utils.xmlsavearray(self.songs,xml,'song')
+    fw.writestr('songs.xml',xml.tostr())
+    
+    xml=xmlnode.XmlNode('sbtype')
+    self.sbtype.xmlsave(xml)
+    fw.writestr('sbtype.xml',xml.tostr())
+    
+    fw.close()
     
   def add_dbsong(self,db,songid):
     res=SBSong.from_db(db,songid)

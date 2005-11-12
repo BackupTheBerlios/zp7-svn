@@ -273,7 +273,7 @@ class SBPanel(anchors.content.IContent):
       desktop.show_content('songbook')
       sb=songbook.SongBook()
       sb.filename=file
-      sb.load(open(file,'r'))
+      sb.load(file)
       self._addsb(sb)
     self.reformat()
     self.brw['sbtype'].load()
@@ -283,12 +283,12 @@ class SBPanel(anchors.content.IContent):
     file=utils.save_dialog(desktop.main_window,u"Zpěvníky (*.zp)|*.zp",self.actsb.filename,u"Uložit zpěvník")
     if file:
       self.actsb.filename=file
-      self.actsb.save(open(file,'w'))
+      self.actsb.save(file)
 
   def savesb(self,event=None):
     if not self.actsb: return
     if not self.actsb.filename: return self.savesbas()
-    self.actsb.save(open(self.actsb.filename,'w'))
+    self.actsb.save(self.actsb.filename)
 
   def OnPageToggleButton(self,event):
     if event.GetIsDown(): desktop.show_content('songbook')

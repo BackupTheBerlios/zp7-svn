@@ -4,7 +4,7 @@ import wx
 import re
 import canvas as canvasmod
 
-class Pane: #(autodistrib.Pane)
+class Pane: #(distribalg.Pane)
   """One no-splittable pane in output
   
   @ivar ops: list( tuple(op_func,op_args,op_str) )
