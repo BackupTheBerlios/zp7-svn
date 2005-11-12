@@ -13,8 +13,8 @@ import format
 import sbtype
 
 class DistribType:
-  BOOK=1
-  LINES=2
+  BOOK=0
+  LINES=1
 
 class A4Distribution:
   hcnt=0

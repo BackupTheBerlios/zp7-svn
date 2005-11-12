@@ -231,14 +231,14 @@ class SongBook(object,hooks.Hookable):
       autodistrib.PaneGrp(self.formatted[id(song)].panegrp.panes) 
       for song in self.songs
     ]
-    alg=self.sbtype.distribalg.creator(self.logpages,panegrps)
+    alg=self.sbtype.distribalg.creator(self.logpages,panegrps,self.sbtype)
     alg.run()
     alg.printpages()
     
     self._print_header_footer()
       
     if len(self.logpages.pages)==0: return
-    self.a4d=a4distrib.A4Distribution(self.sbtype.hcnt,self.sbtype.vcnt,self.logpages.pages,a4distrib.DistribType.BOOK)
+    self.a4d=a4distrib.A4Distribution(self.sbtype.hcnt,self.sbtype.vcnt,self.logpages.pages,self.sbtype.a4distribtype)
 
   def drawpage(self,canvas,pgnum):
     if not self.a4d: return

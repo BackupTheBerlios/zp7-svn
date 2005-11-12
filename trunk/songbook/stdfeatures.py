@@ -36,7 +36,7 @@ interop.anchor['songheader'].add_feature(OnlyTitleHeader())
 class StdDistribAlg(songformat.IDistribAlg):
   name='normal'  
   def get_title(self): return u'Normální rozdělení'
-  def creator(self,logpages,panegrps):
+  def creator(self,logpages,panegrps,sbtype):
     import autodistrib
     return autodistrib.AutoDistribAlg(logpages,panegrps)
 

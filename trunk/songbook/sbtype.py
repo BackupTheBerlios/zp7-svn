@@ -12,7 +12,7 @@ import realsb
 import interop
 
 class SBType(object):
-  iattrs=('hcnt','vcnt','leftsp','topsp','rightsp','bottomsp','content_cols')
+  iattrs=('hcnt','vcnt','leftsp','topsp','rightsp','bottomsp','content_cols','a4distribtype')
   sattrs=('header_text','footer_text')
   features=( ('header','songheader'),('distribalg','distribalg'),('songdelimiter','songdelimiter') )
   hcnt=1
@@ -22,6 +22,7 @@ class SBType(object):
   content_cols=1
   topsp=0
   bottomsp=0
+  a4distribtype=0
   name=u''
   basetype=u''
   saveonlydiff=False
@@ -214,6 +215,10 @@ def edit_sb_type(sbtype):
 
   brw.label(text=u'Oddělovač písní')
   brw.combo(model=list(interop.anchor['songdelimiter']),valuemodel=browse.attr(sbtype,'songdelimiter'))
+  brw.label()
+
+  brw.label(text=u'Rozdělení malých stránek na A4')
+  brw.combo(model=[u'Sešit',u'Do řádků'],curmodel=browse.attr(sbtype,'a4distribtype'))
   brw.label()
   
   brw.endsizer()
