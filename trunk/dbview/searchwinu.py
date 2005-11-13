@@ -10,12 +10,12 @@ class SearchWindow(wx.MiniFrame):
   def __init__(self,ev_to_emulate,ctrl,pos=wx.DefaultPosition):
     self.ctrl=ctrl
     
-    style=wx.DEFAULT_FRAME_STYLE & (~wx.RESIZE_BORDER)
+    style=wx.DEFAULT_FRAME_STYLE & (~wx.RESIZE_BORDER) | wx.STAY_ON_TOP
     wx.MiniFrame.__init__(self,utils.main_window,-1,u"Hledání",pos,wx.DefaultSize,style)
     self.text=wx.TextCtrl(self,-1,'',size=(125, -1)) 
     self.text.EmulateKeyPress(ev_to_emulate)
     self.Bind(wx.EVT_TEXT,self.OnText,self.text)
-    self.Bind(wx.EVT_KEY_DOWN,self.OnKeyDown,self.text)
+    self.text.Bind(wx.EVT_KEY_DOWN,self.OnKeyDown)
 
     prev=wx.Button(self,-1,"<<",size=(50, -1))
     self.Bind(wx.EVT_BUTTON,self.OnPrev,prev)
@@ -46,12 +46,12 @@ class SearchWindow(wx.MiniFrame):
 
   def OnKeyDown(self,ev):
     keycode=ev.GetKeyCode()
-    print ev.keycode
     if keycode==wx.WXK_UP:
       self.OnPrev(ev)
-    elif keycode==wx.WXK_DOWN or keycode==WXK_RETURN:
+    elif keycode==wx.WXK_DOWN or keycode==wx.WXK_RETURN:
       self.OnNext(ev)
     elif keycode==wx.WXK_ESCAPE:
       self.Close(True)
     else:
       ev.Skip()
+  

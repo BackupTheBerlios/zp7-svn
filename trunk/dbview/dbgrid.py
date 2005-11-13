@@ -226,6 +226,9 @@ class DBTable(gridlib.PyGridTableBase):
     self.data.sort(locale.strcoll,lambda x:unicode(x[1][col]).upper(),self.sortdesc)
     dlg.Destroy()
 
+  def wantsearchdata(self):
+    self.db.getsearchtexts()
+
   def qsearchindex(self,text,index,dir):
     text=utils.make_search_text(text)
     searchtexts=self.db.getsearchtexts()
@@ -314,7 +317,14 @@ class DBGrid(gridlib.Grid):
     
   def OnKeyDown(self,ev):
     if ev.GetKeyCode() not in speckeycodes:
-      if not self.searchwin : self.searchwin=searchwinu.SearchWindow(ev,self)
+      self.table.wantsearchdata()
+      if not self.searchwin : 
+        self.searchwin=searchwinu.SearchWindow(ev,self)
+        x,y=self.ClientToScreenXY(*self.GetSizeTuple())
+        w,h=self.searchwin.GetSizeTuple()
+        x-=w
+        y-=h
+        self.searchwin.SetPosition((x,y))
       self.searchwin.Show()
     else:
       ev.Skip()
