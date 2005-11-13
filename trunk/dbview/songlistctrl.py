@@ -62,4 +62,7 @@ class SongListCtrlAndSongView(wx.SplitterWindow):
   def set_cur_song(self,songid):
     """type songid: int"""
     self.grid.setcurid(songid)
+ 
+  def setcond(self,cond):
+    self.grid.setcond(cond)   
     

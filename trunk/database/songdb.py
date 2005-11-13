@@ -160,12 +160,21 @@ class SongDB:
 
   def __unicode__(self) : return unicode(self.name+"."+self.getext())
   
-  def getsongsby(self,order,fields,groupfilter=None):
+  def getsongsby(self,order='id',columns=['id'],groupfilter=None,condition='',jointexts=False,sqlarguments={}):
     self.wantcur()
-    flds=[self.song_nametofld[fld] for fld in fields]
-    wheregroup=''
-    if groupfilter is not None: wheregroup=' WHERE s.group_id=%d' % groupfilter
-    self.cur.execute("SELECT %s FROM songs s LEFT JOIN groups g ON (s.group_id=g.id) %s ORDER BY %s" % (",".join(flds),wheregroup,self.song_nametofld[order]))
+    flds=[self.song_nametofld[fld] for fld in columns]
+    where=''
+    if groupfilter is not None: where=' WHERE (s.group_id=%d)' % groupfilter
+    if condition:
+      if where: where=where+' AND '+condition
+      else: where=' WHERE '+condition
+    if jointexts: jointexts='LEFT JOIN songtexts t ON (t.songid=s.id)'
+    else: jointexts=''
+    self.cur.execute(
+        "SELECT %s FROM songs s LEFT JOIN groups g ON (s.group_id=g.id) %s %s ORDER BY %s" 
+      % 
+        (",".join(flds),jointexts,where,self.song_nametofld[order]),
+      sqlarguments)
     return iter(self.cur)
 
   def getgroupsby(self,order,fields):

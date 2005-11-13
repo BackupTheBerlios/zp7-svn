@@ -16,12 +16,20 @@ import dbgrid
 
 class SongTable(dbgrid.DBTable):
   groupfilter=None
+  cond=None
   
   def getbasecolumns(self):
     return [dbgrid.DbColumn('title',u"Název"),dbgrid.DbColumn('author',u"Autor"),dbgrid.DbColumn('group',u"Skupina")]
      
   def retrieve_data(self,columns):
-    return self.db.getsongsby('id',columns,self.groupfilter)
+    if self.cond:
+      sql,sqlpars,args=self.cond
+      print sql
+      print sqlpars
+      print args
+      return self.db.getsongsby(columns=columns,groupfilter=self.groupfilter,condition=sql,sqlarguments=sqlpars,**args)
+    else:
+      return self.db.getsongsby(columns=columns,groupfilter=self.groupfilter)
     
   def setgroupfilter(self,groupid,immediately=False):
     self.groupfilter=groupid
@@ -36,3 +44,8 @@ class SongGrid(dbgrid.DBGrid):
 
   def setgroupfilter(self,groupid,immediately=False):
     self.table.setgroupfilter(groupid,immediately)
+    
+  def setcond(self,cond):
+    """@type cond: (sql, {sqlpars}, {getsongsby-keyword-params}"""
+    self.table.cond=cond
+    self.table.fill_data()

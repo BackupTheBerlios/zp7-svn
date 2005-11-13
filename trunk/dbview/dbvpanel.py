@@ -14,6 +14,7 @@ import wx.lib.buttons as buttons
 import songlistctrl
 import groupview
 import code
+import config
 
 # submodules
 import songgrid
@@ -128,9 +129,22 @@ class DBVPanel(anchors.content.IContent):
   def OnPageToggleButton(self,event):
     if event.GetIsDown(): desktop.show_content('dbview')
 
+  def dbfind(self,ev):
+    from database.filterdialog import FilterDialog
+    dlg=FilterDialog()
+    if dlg.run():
+      self.gridctrl.setcond(dlg.gensql())
+
+  def cancelfind(self,ev):
+    self.gridctrl.setcond(None)
+  
   def create_menu(self,obj):
     #obj.create_menu_command('song/trprev5',title,event,hotkey=u'',hint=u''):
     if self.visible():
+      obj.create_submenu('database',u'Databáze')
+      if self.notebook.GetSelection()==0: # hledani jen u tabulky
+        obj.create_menu_command('database/find',u'Hledat',self.dbfind,config.hotkey.db_find)
+        obj.create_menu_command('database/cancelfind',u'Zrušit filtr',self.cancelfind,config.hotkey.db_cancelfind)
       obj.create_submenu('song',u'Píseň')
       try:
         self.cursonglist().create_menu(obj)
