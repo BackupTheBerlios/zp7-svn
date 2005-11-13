@@ -25,7 +25,7 @@ class SongListCtrlAndSongView(wx.SplitterWindow):
     self.SetMinimumPaneSize(200)
     self.SplitVertically(self.grid, self.songv)
     
-    self.grid.onsongclick=self.onsongclick
+    self.grid.onrowclick=self.onsongclick
     
   def onsongclick(self,db,songid):
     song=db[songid]
@@ -48,3 +48,9 @@ class SongListCtrlAndSongView(wx.SplitterWindow):
 
   def printsong(self,event=None):
     if self.cursong: printing.printsong(self.cursong)
+
+  def add_song_column(self,col):
+    self.grid.add_column(col)
+  
+  def remove_song_column(self,col):
+    self.grid.remove_column(col)

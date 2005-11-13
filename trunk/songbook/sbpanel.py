@@ -367,7 +367,8 @@ class SBPanel(anchors.content.IContent):
   def on_select_new_sb(self):
     if not self.actsb: return
     #self.actsb.sbpanel=self
-    self.alloccol=dbview.add_song_column('insongbook',u'Tisk?',self.actsb.hassong,self.actsb.setsongcontain,gridlib.GridCellBoolRenderer,gridlib.GridCellBoolEditor);
+    self.alloccol=dbview.DBColumnDef(name='insongbook',title=u'Tisk?',fget=self.actsb.hassong,fset=self.actsb.setsongcontain,renderer=gridlib.GridCellBoolRenderer,editor=gridlib.GridCellBoolEditor);
+    dbview.add_song_column(self.alloccol);
     self.brw['songlist'].setmodel(self.actsb.songs)
     #self.actsb.onappend=self.brw['songlist'].append
     #self.actsb.onremove=self.brw['songlist'].remove
@@ -466,6 +467,11 @@ class SBPanel(anchors.content.IContent):
   def changesong(self,ev):
     self.create_advanced_edit()
     
+  def add_song_column(self,col):
+    self.gridctrl.grid.add_song_column(col)
+
+  def remove_song_column(self,col):
+    self.gridctrl.grid.add_remove_column(col)
   
   def get_sb_basetype_obj(self): return self.actsb.sbtype.basetype_obj
   def set_sb_basetype_obj(self,value): self.actsb.sbtype.basetype_obj=value

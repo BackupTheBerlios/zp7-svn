@@ -19,6 +19,7 @@ class SongDB:
   con=None
   cur=None
   song_nametofld={'id':'s.id','title':'s.title','author':'s.author','group':'g.name','text':'t.songtext'}
+  group_nametofld={'id':'g.id','name':'g.name'}
   searchtexts=None
   groupnames=None
   
@@ -134,6 +135,16 @@ class SongDB:
     self.cur.execute("SELECT "+",".join(flds)+" FROM songs s LEFT JOIN groups g ON (s.group_id=g.id) LEFT JOIN songtexts t ON (s.id=t.songid) WHERE s.id=?",(songid,))
     return self.cur.fetchone()
 
+  def getgroupbyid(self,groupid,fields):
+    """return sequence of group values
+    
+    @type fields: sequence(str)
+    """
+    self.wantcur()
+    flds=[self.group_nametofld[fld] for fld in fields]
+    self.cur.execute("SELECT "+",".join(flds)+" FROM groups g WHERE g.id=?",(groupid,))
+    return self.cur.fetchone()
+
   def addsong(self,title,group_id,author,songtext,netid=0):
     self.wantgroupnames()
     self.wantcur()
@@ -149,14 +160,25 @@ class SongDB:
 
   def __unicode__(self) : return unicode(self.name+"."+self.getext())
   
-  def getsongsby(self,order,fields):
+  def getsongsby(self,order,fields,groupfilter=None):
     self.wantcur()
     flds=[self.song_nametofld[fld] for fld in fields]
-    self.cur.execute("SELECT %s FROM songs s LEFT JOIN groups g ON (s.group_id=g.id) ORDER BY %s" % (",".join(flds),self.song_nametofld[order]))
+    wheregroup=''
+    if groupfilter is not None: wheregroup=' WHERE s.group_id=%d' % groupfilter
+    self.cur.execute("SELECT %s FROM songs s LEFT JOIN groups g ON (s.group_id=g.id) %s ORDER BY %s" % (",".join(flds),wheregroup,self.song_nametofld[order]))
+    return iter(self.cur)
+
+  def getgroupsby(self,order,fields):
+    self.wantcur()
+    flds=[self.group_nametofld[fld] for fld in fields]
+    self.cur.execute("SELECT %s FROM groups g ORDER BY %s" % (",".join(flds),self.group_nametofld[order]))
     return iter(self.cur)
 
   def __getitem__(self,songid):
     return DBSong(self,songid)    
+
+  def group(self,groupid):
+    return DBGroup(self,groupid)
 
   def getsearchtexts(self):
     if not self.searchtexts:
@@ -209,6 +231,22 @@ class InetSongDB(SongDB):
 
 class LocalSongDB(SongDB):
   def getext(self) : return "ldb"
+
+class DBGroup:
+  db=None
+  groupid=0
+  vals={}
+  attrnames=('name',)
+  
+  def __init__(self,db,groupid):
+    self.db=db
+    self.groupid=groupid
+    self.vals=dict(zip(self.attrnames,db.getgroupbyid(groupid,self.attrnames)))
+
+  def __getattr__(self,name): 
+    if (not name.startswith('__')) and (not name.endswith('__')) and self.vals.has_key(name):
+      return self.vals[name]
+    return object.__getattr__(self,name)
 
 class DBSong:
   db=None

@@ -12,6 +12,7 @@ import interop
 import anchors.content
 import wx.lib.buttons as buttons
 import songlistctrl
+import groupview
 
 # submodules
 import songgrid
@@ -29,6 +30,8 @@ class DBVPanel(anchors.content.IContent):
   cursong=None
   notebook=None
   gridctrl=None
+  groupctrl=None
+  groupsongctrl=None
 
   def __init__(self):
     desktop.register_menu(self.create_toolbar)
@@ -40,8 +43,12 @@ class DBVPanel(anchors.content.IContent):
     self.notebook.SetConstraints(layoutf.Layoutf('t=t#1;l=l#1;r=r#1;b=b#1',(parent,)))
 
     self.gridctrl=songlistctrl.SongListCtrlAndSongView(self.notebook,songgrid.SongGrid)
+    self.groupsongctrl=songlistctrl.SongListCtrlAndSongView(self.notebook,groupview.GroupSongGrid)
+    self.groupctrl=groupview.GroupGrid(self.notebook)
     #self.splitter=wx.SplitterWindow(self.notebook,-1)
     self.notebook.AddPage(self.gridctrl,u'Písně - tabulka')
+    self.notebook.AddPage(self.groupsongctrl,u'Písně po skupinách')
+    self.notebook.AddPage(self.groupctrl,u'Skupiny')
     #self.splitter.SetConstraints(layoutf.Layoutf('t=t#1;l=l#1;r=r#1;b=b#1',(parent,)))
     self.notebook.Hide()
     
@@ -111,6 +118,11 @@ class DBVPanel(anchors.content.IContent):
     self.content_visible=False
     self.showifneeded()
     
+  def set_data(self,db):
+    self.gridctrl.set_data(db)
+    self.groupsongctrl.set_data(db)
+    self.groupctrl.set_data(db)
+    
   def OnChangeDb(self,event):
     try:
       interop.disable_messaging()
@@ -123,7 +135,7 @@ class DBVPanel(anchors.content.IContent):
           db=database.dbmanager.create_inet_db(dlg.GetValue())
           self.selected_db=db
           self.filldbs()
-          self.gridctrl.set_data(db)
+          self.set_data(db)
           #wx.MessageDialog(self,u"Nová databáze %s" % dlg.GetValue(),u"Zpěvníkátor").ShowModal()
           #desktop.recreate_menu()
           
@@ -131,7 +143,7 @@ class DBVPanel(anchors.content.IContent):
         db=database.dbmanager[sel-len(self.predefined_db_list)]
         if db!=self.selected_db:
           self.selected_db=db
-          self.gridctrl.set_data(db)
+          self.set_data(db)
           #desktop.recreate_menu()
   
       self.showifneeded()
@@ -171,6 +183,15 @@ class DBVPanel(anchors.content.IContent):
     
   def get_name(self):
     return 'dbview'    
+    
+  def add_song_column(self,col):
+    self.gridctrl.add_song_column(col)
+    self.groupsongctrl.add_song_column(col)
+  
+  def remove_song_column(self,col):
+    self.gridctrl.remove_song_column(col)
+    self.groupsongctrl.remove_song_column(col)
+    
     
 #   def printsong(self,event=None):
 #     if self.cursong: printing.printsong(self.cursong)
