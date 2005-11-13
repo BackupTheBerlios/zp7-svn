@@ -18,7 +18,7 @@ class SongDB:
   name=""
   con=None
   cur=None
-  song_nametofld={'id':'s.id','title':'s.title','author':'s.author','group':'g.name','text':'t.songtext'}
+  song_nametofld={'id':'s.id','title':'s.title','author':'s.author','group':'g.name','text':'t.songtext','groupid':'g.id'}
   group_nametofld={'id':'g.id','name':'g.name'}
   searchtexts=None
   groupnames=None
@@ -252,7 +252,7 @@ class DBSong:
   db=None
   songid=0
   vals={}
-  attrnames=('title','author','group','text')
+  attrnames=('title','author','group','text','groupid')
   
   def __init__(self,db,songid):
     self.db=db

@@ -35,6 +35,7 @@ class GroupSongGrid(wx.SplitterWindow): #navenek se chova jako songgrid
   cursong=None
   curgroup=None
   onrowclick=None
+  db=None
   
   def __init__(self,parent):
     wx.SplitterWindow.__init__(self,parent,-1)
@@ -53,6 +54,7 @@ class GroupSongGrid(wx.SplitterWindow): #navenek se chova jako songgrid
   def set_data(self,db):
     self.groups.set_data(db)
     self.songs.set_data(db)
+    self.db=db
 
   def ongroupclick(self,db,groupid):
     group=db.group(groupid)
@@ -68,3 +70,14 @@ class GroupSongGrid(wx.SplitterWindow): #navenek se chova jako songgrid
   
   def remove_column(self,col):
     self.songs.remove_column(col)
+
+  def getcurdbtuple(self):
+    return self.songs.getcurdbtuple()
+
+  def setcurid(self,songid):
+    song=self.db[songid]
+    self.curgroup=self.db.group(song.groupid)
+    self.groups.setcurid(song.groupid)
+    self.songs.setgroupfilter(song.groupid,immediately=True)
+    self.songs.setcurid(songid)
+    self.cursong=song

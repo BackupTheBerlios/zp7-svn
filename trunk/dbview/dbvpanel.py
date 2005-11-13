@@ -13,6 +13,7 @@ import anchors.content
 import wx.lib.buttons as buttons
 import songlistctrl
 import groupview
+import code
 
 # submodules
 import songgrid
@@ -30,8 +31,8 @@ class DBVPanel(anchors.content.IContent):
   cursong=None
   notebook=None
   gridctrl=None
-  groupctrl=None
   groupsongctrl=None
+  groupctrl=None
 
   def __init__(self):
     desktop.register_menu(self.create_toolbar)
@@ -49,6 +50,8 @@ class DBVPanel(anchors.content.IContent):
     self.notebook.AddPage(self.gridctrl,u'Písně - tabulka')
     self.notebook.AddPage(self.groupsongctrl,u'Písně po skupinách')
     self.notebook.AddPage(self.groupctrl,u'Skupiny')
+    self.notebook.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGING,self.OnNotebookChanging)
+    self.notebook.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED,self.OnNotebookChanged)
     #self.splitter.SetConstraints(layoutf.Layoutf('t=t#1;l=l#1;r=r#1;b=b#1',(parent,)))
     self.notebook.Hide()
     
@@ -63,7 +66,27 @@ class DBVPanel(anchors.content.IContent):
 
     #self.transptoolbar=utils.SongToolBarWrap(self.songv)
     #self.transptoolbar.makebuttons(self,tb)    
-    
+
+  def cursonglist(self,index=None):
+    if index is None: index=self.notebook.GetSelection()
+    if index==0: return self.gridctrl
+    if index==1: return self.groupsongctrl
+    return None
+
+  def OnNotebookChanging(self,ev):
+    sl=self.cursonglist()
+    if sl:
+      xxx,self.tmp_cursong=sl.get_cur_song()
+    ev.Skip()
+
+  def OnNotebookChanged(self,ev):
+    ev.Skip()
+    if hasattr(self,'tmp_cursong'):
+      sl=self.cursonglist(ev.GetSelection())
+      if sl:
+        sl.set_cur_song(self.tmp_cursong)
+      del self.tmp_cursong
+
   def on_destroy_menu(self):
     self.dbs=None
     #if self.dbs: self.dbs.Destroy()

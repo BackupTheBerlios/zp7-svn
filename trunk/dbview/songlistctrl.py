@@ -54,3 +54,12 @@ class SongListCtrlAndSongView(wx.SplitterWindow):
   
   def remove_song_column(self,col):
     self.grid.remove_column(col)
+
+  def get_cur_song(self):
+    """@rtype: (database,songid)"""
+    return self.grid.getcurdbtuple()
+
+  def set_cur_song(self,songid):
+    """type songid: int"""
+    self.grid.setcurid(songid)
+    

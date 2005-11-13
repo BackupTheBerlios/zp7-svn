@@ -191,8 +191,9 @@ class DBTable(gridlib.PyGridTableBase):
         if c in self.columns: self.columns.remove(c)
         return
 
-  def fill_data(self):
-    interop.send_objectflag(self,'fill_data') # do it LAZY !!!
+  def fill_data(self,immediately=False):
+    if immediately: self.do_fill_data(self)
+    else: interop.send_objectflag(self,'fill_data') # do it LAZY !!!
 
   @staticmethod #!!!because of lazy fill_data
   def do_fill_data(self):
@@ -248,6 +249,12 @@ class DBTable(gridlib.PyGridTableBase):
         if searchtexts[data[cur][0]].find(text)>=0 : return cur
         cur-=1
         
+  def searchid(self,id):
+    index=0
+    for sid,xx in self.data:
+      if id==sid: return index
+      index+=1
+    return -1
 
 class DBGrid(gridlib.Grid):
   configxml=None #must be set by ancestor
@@ -326,6 +333,13 @@ class DBGrid(gridlib.Grid):
       self.SetGridCursor(*cell)
       self.MakeCellVisible(*cell)
 
+  def setcurid(self,id):
+    index=self.table.searchid(id)
+    if index>=0:
+      cell=(index,self.GetGridCursorCol())
+      self.SetGridCursor(*cell)
+      self.MakeCellVisible(*cell)
+  
   def destroysearchwin(self):
     self.searchwin=None
     

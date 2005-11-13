@@ -23,9 +23,9 @@ class SongTable(dbgrid.DBTable):
   def retrieve_data(self,columns):
     return self.db.getsongsby('id',columns,self.groupfilter)
     
-  def setgroupfilter(self,groupid):
+  def setgroupfilter(self,groupid,immediately=False):
     self.groupfilter=groupid
-    self.fill_data()
+    self.fill_data(immediately)
 
 
 class SongGrid(dbgrid.DBGrid):
@@ -34,5 +34,5 @@ class SongGrid(dbgrid.DBGrid):
   def __init__(self,parent):
     dbgrid.DBGrid.__init__(self,parent,SongTable)
 
-  def setgroupfilter(self,groupid):
-    self.table.setgroupfilter(groupid)
+  def setgroupfilter(self,groupid,immediately=False):
+    self.table.setgroupfilter(groupid,immediately)
