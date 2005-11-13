@@ -11,6 +11,7 @@ import printing
 import interop
 import anchors.content
 import wx.lib.buttons as buttons
+import songlistctrl
 
 # submodules
 import songgrid
@@ -18,14 +19,16 @@ import songview
 
 class DBVPanel(anchors.content.IContent):
   splitter=None
-  grid=None
+  #grid=None
   dbs=None
-  songv=None
+  #songv=None
   predefined_db_list=[u"- Vyberte databázi",u"- Nová databáze",u"- Stáhnout z internetu"]
   content_visible=False
   selected_db=None
   ignore_change_db=False
   cursong=None
+  notebook=None
+  gridctrl=None
 
   def __init__(self):
     desktop.register_menu(self.create_toolbar)
@@ -33,16 +36,22 @@ class DBVPanel(anchors.content.IContent):
     desktop.show_content(self.get_name())
   
   def on_create_control(self,parent,evtbinder):
-    self.splitter=wx.SplitterWindow(parent,-1)
-    self.splitter.SetConstraints(layoutf.Layoutf('t=t#1;l=l#1;r=r#1;b=b#1',(parent,)))
-    self.grid=songgrid.SongGrid(self.splitter)
+    self.notebook=wx.Notebook(parent,-1)
+    self.notebook.SetConstraints(layoutf.Layoutf('t=t#1;l=l#1;r=r#1;b=b#1',(parent,)))
+
+    self.gridctrl=songlistctrl.SongListCtrlAndSongView(self.notebook,songgrid.SongGrid)
+    #self.splitter=wx.SplitterWindow(self.notebook,-1)
+    self.notebook.AddPage(self.gridctrl,u'Písně - tabulka')
+    #self.splitter.SetConstraints(layoutf.Layoutf('t=t#1;l=l#1;r=r#1;b=b#1',(parent,)))
+    self.notebook.Hide()
     
-    self.songv=songview.SongCtrl(self.splitter)
+    #self.grid=songgrid.SongGrid(self.splitter)
+    #self.songv=songview.SongCtrl(self.splitter)
     
-    self.splitter.SetMinimumPaneSize(200)
-    self.splitter.SplitVertically(self.grid, self.songv)
+    #self.splitter.SetMinimumPaneSize(200)
+    #self.splitter.SplitVertically(self.grid, self.songv)
     
-    self.grid.onsongclick=self.onsongclick
+    #self.grid.onsongclick=self.onsongclick
     #self.splitter.Hide()
 
     #self.transptoolbar=utils.SongToolBarWrap(self.songv)
@@ -75,10 +84,11 @@ class DBVPanel(anchors.content.IContent):
     
     #print 'create tyoolbar'
     if self.visible(): 
+      self.gridctrl.create_toolbar(obj)
       #print 'visible'
-      songtool.toolbars.make_transp_toolbar(self.songv,evtbinder,toolbar)
-      toolbar.AddSeparator()
-      utils.wx_add_art_tool(toolbar,self.printsong,wx.ART_PRINT,evtbinder,u'Tisk písně',u'Vytiskne aktuální píseň')
+#       songtool.toolbars.make_transp_toolbar(self.songv,evtbinder,toolbar)
+#       toolbar.AddSeparator()
+#       utils.wx_add_art_tool(toolbar,self.printsong,wx.ART_PRINT,evtbinder,u'Tisk písně',u'Vytiskne aktuální píseň')
 
   def OnPageToggleButton(self,event):
     if event.GetIsDown(): desktop.show_content('dbview')
@@ -87,7 +97,8 @@ class DBVPanel(anchors.content.IContent):
     #obj.create_menu_command('song/trprev5',title,event,hotkey=u'',hint=u''):
     if self.visible():
       obj.create_submenu('song',u'Píseň')
-      songtool.toolbars.make_transp_menu(self.songv,obj)
+      self.gridctrl.create_menu(obj)
+      #songtool.toolbars.make_transp_menu(self.songv,obj)
 
   def on_destroy_control(self):
     self.dbs=None
@@ -112,7 +123,7 @@ class DBVPanel(anchors.content.IContent):
           db=database.dbmanager.create_inet_db(dlg.GetValue())
           self.selected_db=db
           self.filldbs()
-          self.grid.set_data(db)
+          self.gridctrl.set_data(db)
           #wx.MessageDialog(self,u"Nová databáze %s" % dlg.GetValue(),u"Zpěvníkátor").ShowModal()
           #desktop.recreate_menu()
           
@@ -120,7 +131,7 @@ class DBVPanel(anchors.content.IContent):
         db=database.dbmanager[sel-len(self.predefined_db_list)]
         if db!=self.selected_db:
           self.selected_db=db
-          self.grid.set_data(db)
+          self.gridctrl.set_data(db)
           #desktop.recreate_menu()
   
       self.showifneeded()
@@ -140,12 +151,12 @@ class DBVPanel(anchors.content.IContent):
     self.ignore_change_db=False
 
   def showifneeded(self):
-    if self.splitter: self.splitter.Show(self.visible())
+    if self.notebook: self.notebook.Show(self.visible())
       
-  def onsongclick(self,db,songid):
-    song=db[songid]
-    self.songv.setsong(song)
-    self.cursong=song
+#   def onsongclick(self,db,songid):
+#     song=db[songid]
+#     self.songv.setsong(song)
+#     self.cursong=song
 
   def getcurdb(self):
     sel=self.dbs.GetSelection()
@@ -161,8 +172,8 @@ class DBVPanel(anchors.content.IContent):
   def get_name(self):
     return 'dbview'    
     
-  def printsong(self,event=None):
-    if self.cursong: printing.printsong(self.cursong)
+#   def printsong(self,event=None):
+#     if self.cursong: printing.printsong(self.cursong)
     
   #def OnFocusDb(self,event):
     #desktop.show_content('dbview')
