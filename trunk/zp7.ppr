@@ -30,12 +30,12 @@ zp6
 			anchors\songformat.py
 		+browse
 			browse\__init__.py
+			browse\base.py
 			browse\ctrlitem.py
 			browse\dialog.py
-			browse\base.py
 			browse\ext.py
-			browse\toolbar.py
 			browse\hooks.py
+			browse\toolbar.py
 		+config 
 			config\__init__.py
 			config\cfgpanel.py
@@ -47,10 +47,14 @@ zp6
 			database\manager.py
 			database\songdb.py
 			database\songdef.py
+			database\filterdialog.py
 		+dbview
 			dbview\__init__.py
 			dbview\dbvpanel.py
+			dbview\groupview.py
+			dbview\searchwinu.py
 			dbview\songgrid.py
+			dbview\songlistctrl.py
 			dbview\songview.py
 		+desktop
 			desktop\__init__.py
@@ -71,14 +75,14 @@ zp6
 			printing\__init__.py
 		+songbook
 			songbook\__init__.py
+			songbook\a4distrib.py
+			songbook\distribalg.py
+			songbook\paging.py
+			songbook\realsb.py
 			songbook\sbpanel.py
 			songbook\sbtype.py
 			songbook\songbook.py
-			songbook\a4distrib.py
-			songbook\realsb.py
-			songbook\paging.py
 			songbook\stdfeatures.py
-			songbook\distribalg.py
 		+songtool
 			songtool\__init__.py
 			songtool\toolbars.py
@@ -92,22 +96,42 @@ zp6
 		makedoc.cmd
 		startup.py
 [Open project files]
-0=database\songdb.py
-1=Novy1.c
-2=dbview\dbvpanel.py
-3=dbview\songgrid.py
+0=dbview\dbvpanel.py
+1=database\__init__.py
+2=database\filterdialog.py
+3=database\songdb.py
+4=database\intf.py
+5=dbview\songgrid.py
+6=browse\ext.py
+7=browse\dialog.py
+8=dbview\songlistctrl.py
 [Selected Project Files]
 Main=
-Selected=Novy1.c
-[database\songdb.py]
-TopLine=192
-Caret=1,231
-[Novy1.c]
-TopLine=16
-Caret=46,45
+Selected=dbview\dbvpanel.py
 [dbview\dbvpanel.py]
-TopLine=27
-Caret=1,98
+TopLine=110
+Caret=1,139
+[database\__init__.py]
+TopLine=1
+Caret=1,1
+[database\filterdialog.py]
+TopLine=19
+Caret=42,45
+[database\songdb.py]
+TopLine=147
+Caret=3,162
+[database\intf.py]
+TopLine=22
+Caret=1,43
 [dbview\songgrid.py]
-TopLine=334
-Caret=20,355
+TopLine=10
+Caret=1,30
+[browse\ext.py]
+TopLine=1
+Caret=1,1
+[browse\dialog.py]
+TopLine=1
+Caret=1,14
+[dbview\songlistctrl.py]
+TopLine=29
+Caret=1,67
