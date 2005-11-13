@@ -86,6 +86,7 @@ class DBVPanel(anchors.content.IContent):
       if sl:
         sl.set_cur_song(self.tmp_cursong)
       del self.tmp_cursong
+    desktop.recreate_menu()
 
   def on_destroy_menu(self):
     self.dbs=None
@@ -114,7 +115,11 @@ class DBVPanel(anchors.content.IContent):
     
     #print 'create tyoolbar'
     if self.visible(): 
-      self.gridctrl.create_toolbar(obj)
+      try:
+        self.cursonglist().create_toolbar(obj)
+      except:
+        pass
+      #self.gridctrl.create_toolbar(obj)
       #print 'visible'
 #       songtool.toolbars.make_transp_toolbar(self.songv,evtbinder,toolbar)
 #       toolbar.AddSeparator()
@@ -127,7 +132,10 @@ class DBVPanel(anchors.content.IContent):
     #obj.create_menu_command('song/trprev5',title,event,hotkey=u'',hint=u''):
     if self.visible():
       obj.create_submenu('song',u'Píseň')
-      self.gridctrl.create_menu(obj)
+      try:
+        self.cursonglist().create_menu(obj)
+      except:
+        pass
       #songtool.toolbars.make_transp_menu(self.songv,obj)
 
   def on_destroy_control(self):

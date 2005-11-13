@@ -25,7 +25,7 @@ class _CommonListCtrlItem(_CtrlItem,hooks.Hookable):
   _hooked=False
   
   def hook(self):
-    if self.model and isinstance(self.model,hooks.HookableList):
+    if self.model is not None and isinstance(self.model,hooks.HookableList):
       self.model.hook(self)
       self._hooked=True
   
