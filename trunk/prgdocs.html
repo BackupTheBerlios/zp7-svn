@@ -6,9 +6,42 @@
 </head>
 <body>
 <h1>Zpěvníkátor - programátorská dokumentace</h1>
+<h2>Balíčky</h2>
+<ul>
+<li>anchors - kotvy pro features - definice rozhraní
+<li>browse - jednoduchá definice dialogů a oken (rozmístění, eventy)
+<li>config - konfigurace - konfigurační soubory hotkeys.py, fonts.py, editor konfigurace
+<li>database - přístup k databázi písní, filtrování
+<li>dbview - zobrazovač databáze
+  <ul>
+    <li>dbvpanel - panel "Databáze" v hlavním okně
+    <li>dbgrid - obecná databázová tabulka - užívá se pro skupiny a písně
+    <li>songview - zobrazovač textu písně (wxControl)
+  </ul>
+<li>desktop - definice hlavního okna, většina jeho obsahu je ovšem v pluginech
+<li>format - formátování písní
+<li>images - obrázky - převedáděny automaticky do pythonovských zdrojáků
+<li>internet - přístup na server zpěvníkátoru
+<li>interop - práce se zprávami, definice pluginovacího principu anchor-feature (v anchor.py)
+<li>printing - práce s tiskárnou
+<li>songbook - práce se zpěvníkem
+  <ul>
+    <li>sbpanel - panel "Zpěvník" v hlavním okně
+    <li>songbook - objekt zpěvníku
+    <li>realsb - reálný typ zpěvníku - v závislosti na konkrétní tiskárně
+    <li>stdfeatures - definice základních features zpěvníku (definice rozhraní v anchors/songformat.py),
+      např. pro tisk záhlaví pisně, tisk čar mezi písněmi
+    <li>paging - definice LogPages
+    <li>distribalg - definice distribučních algoritmů (list of panegrp=>LogPages), správný distribalg 
+      je vybrán pomocí stdfeatures.py/StdDistribAlg (např.)
+    <li>sbtype - definice typu zpěvníku
+  </ul>
+
+<li>songtool - transpozice
+<li>utils - různé utility
+</ul>
 <h2>TODO</h2>
 Dodělat filtrování (hlavně v database/filterdialog.py)<br>
 </body>
 </html>
-
 
