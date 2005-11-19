@@ -15,6 +15,18 @@ class attr:
   def set(self,value):
     setattr(self.obj,self.name,value)
 
+class var:
+  obj=None
+  
+  def __init__(self,obj=None):
+    self.obj=obj
+
+  def get(self):
+    return self.obj
+    
+  def set(self,value):
+    self.obj=value
+
 from ext import Browse
 from dialog import DialogBrowse
 from toolbar import ToolbarBrowse

@@ -36,7 +36,7 @@ class ISongDB:
     """
     pass
 
-  def addsong(self,title,group_id,author,songtext,netid=0):
+  def addsong(self,title,groupid,author,songtext,netid=0):
     """adds new song to database"""
     pass
   

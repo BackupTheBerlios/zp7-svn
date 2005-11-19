@@ -15,6 +15,7 @@ import songlistctrl
 import groupview
 import code
 import config
+from internet import serverconfig
 
 # submodules
 import songgrid
@@ -177,10 +178,12 @@ class DBVPanel(anchors.content.IContent):
       if sel==1 or sel==2:
         dlg=wx.TextEntryDialog(desktop.main_window,u"Zadej jméno nové databáze",u"Zpěvníkátor")
         if dlg.ShowModal()==wx.ID_OK:
-          db=database.dbmanager.create_inet_db(dlg.GetValue())
-          self.selected_db=db
-          self.filldbs()
-          self.set_data(db)
+          servers=serverconfig.ask_servers()
+          if servers:
+            db=database.dbmanager.create_inet_db(dlg.GetValue(),servers)
+            self.selected_db=db
+            self.filldbs()
+            self.set_data(db)
           #wx.MessageDialog(self,u"Nová databáze %s" % dlg.GetValue(),u"Zpěvníkátor").ShowModal()
           #desktop.recreate_menu()
           
@@ -244,5 +247,3 @@ class DBVPanel(anchors.content.IContent):
   #def OnFocusDb(self,event):
     #desktop.show_content('dbview')
     #event.Skip()
-
-    

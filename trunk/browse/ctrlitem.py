@@ -19,11 +19,20 @@ class _CtrlItem:
     if self.ctrl:
       self.ctrl.Destroy()
       self.ctrl=None
-    
+
 class _CommonListCtrlItem(_CtrlItem,hooks.Hookable):
   #onremove=None
   _hooked=False
-  
+  event_type=wx.EVT_LISTBOX
+
+  def __init__(self,ctrl,kw,parent):
+    _CtrlItem.__init__(self,ctrl,kw)
+    if self.autosave or self.event:
+      parent.Bind(self.event_type,self.onevent,self.ctrl)
+    self.refresh()
+    self.hook()
+    self.load()
+    
   def hook(self):
     if self.model is not None and isinstance(self.model,hooks.HookableList):
       self.model.hook(self)
@@ -33,13 +42,7 @@ class _CommonListCtrlItem(_CtrlItem,hooks.Hookable):
     if self._hooked:
       self.model.unhook(self)
       self._hooked=False
-  
-  def __init__(self,ctrl,kw):
-    _CtrlItem.__init__(self,ctrl,kw)
-    self.refresh()
-    self.hook()
-    self.load()
-    
+
   def load(self):
     if self.curmodel:
       try:
@@ -107,6 +110,10 @@ class _CommonListCtrlItem(_CtrlItem,hooks.Hookable):
     sel=self.ctrl.GetSelection()
     if sel>=0: return self.model[sel]
 
+  def reloadact(self):
+    idx=self.ctrl.GetSelection()
+    if idx>=0: self.ctrl.SetString(idx,unicode(self.model[idx]))
+
   def onexchange(self,idx1,idx2):
     s1=self.ctrl.GetString(idx1)
     s2=self.ctrl.GetString(idx2)
@@ -162,11 +169,23 @@ class _CommonListCtrlItem(_CtrlItem,hooks.Hookable):
     self.model[:]=items
     self.refresh()  
 
+  def onevent(self,ev):
+    if self.autosave: self.save()
+    if self.event: self.event(ev)
+
+
+
 class _ListCtrlItem(_CommonListCtrlItem):
-  pass
+  event_type=wx.EVT_LISTBOX
+
+  def __init__(self,ctrl,kw,parent):
+    _CommonListCtrlItem.__init__(self,ctrl,kw,parent)
 
 class _ComboCtrlItem(_CommonListCtrlItem):
-  pass
+  event_type=wx.EVT_COMBOBOX
+
+  def __init__(self,ctrl,kw,parent):
+    _CommonListCtrlItem.__init__(self,ctrl,kw,parent)
 
 class _LabelCtrlItem(_CtrlItem):
   pass

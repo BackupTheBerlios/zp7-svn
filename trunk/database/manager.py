@@ -31,14 +31,16 @@ class SongDBManager(intf.IDBManager):
       if ext_to_db.has_key(ext):
         self.dbs[name]=ext_to_db[ext](name)
   
-  def create_inet_db(self,name):
+  def create_inet_db(self,name,servers):
     try:
       dlg=wx.ProgressDialog(u"Stahování databáze",u"Vytvářím databází",maximum=100,parent=desktop.main_window)
       if self.dbs.has_key(name) : raise Exception("Duplicate database name")
       db=songdb.InetSongDB(name)
       self.dbs[name]=db
       db._create()
-      db._download_from_inet(dlg)
+      for server in servers:
+        serverid=db._insert_server(server)
+        db._download_from_inet(dlg,server,serverid)
       return db
     finally:
       dlg.Destroy()

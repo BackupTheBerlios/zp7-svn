@@ -1,25 +1,28 @@
 # -*- coding: UTF-8 -*-
 
-import urllib
-import gzip
-import StringIO
+import xmlserver
+import apiserver
 
-def createurl(command,params={}):
-  return "http://test2.zpevnik.net/xmlapi/index.php?command=%s" % command
-
-def download_inet_db():
-  #fr=open("c:/pokus.xml","r")
-  #s=fr.read()
-  #fr.close()
-  #return s
-
-  fr=urllib.urlopen(createurl('getdatabase'))
-  s=fr.read()
-  fr.close()
-        
-  fr=gzip.GzipFile(None,"rb",0,StringIO.StringIO(s))
-  s=fr.read()
-  fr.close()
-  
-  return s
+# import urllib
+# import gzip
+# import StringIO
+# 
+# def createurl(command,params={}):
+#   return "http://test2.zpevnik.net/xmlapi/index.php?command=%s" % command
+# 
+# def download_inet_db():
+#   #fr=open("c:/pokus.xml","r")
+#   #s=fr.read()
+#   #fr.close()
+#   #return s
+# 
+#   fr=urllib.urlopen(createurl('getdatabase'))
+#   s=fr.read()
+#   fr.close()
+#         
+#   fr=gzip.GzipFile(None,"rb",0,StringIO.StringIO(s))
+#   s=fr.read()
+#   fr.close()
+#   
+#   return s
    

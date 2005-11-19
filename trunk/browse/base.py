@@ -55,10 +55,10 @@ class BrowseBase:
   
     @param model: list-like object, which is model (data source) for visual control
     """
-    kw,mypars=self._split_args(kw,_ctrlpars({'event':lambda ev:ev.Skip(),'model':[],'curmodel':None,'valuemodel':None}))
+    kw,mypars=self._split_args(kw,_ctrlpars({'event':lambda ev:ev.Skip(),'autosave':False,'model':[],'curmodel':None,'valuemodel':None}))
     ctrl=wx.ListBox(self._getparent(),-1,**kw)
-    self.parent.Bind(wx.EVT_LISTBOX,mypars['event'],ctrl)
-    self._after_create(ctrlitem._ListCtrlItem(ctrl,mypars),**mypars)
+    #self.parent.Bind(wx.EVT_LISTBOX,mypars['event'],ctrl)
+    self._after_create(ctrlitem._ListCtrlItem(ctrl,mypars,self.parent),**mypars)
 
   def _getparent(self):
     for x in reversed(self.stack):
@@ -83,10 +83,10 @@ class BrowseBase:
   
     @param model: list-like object, which is model (data source) for visual control
     """
-    kw,mypars=self._split_args(kw,_ctrlpars({'event':lambda ev:ev.Skip(),'model':[],'curmodel':None,'valuemodel':None}))
+    kw,mypars=self._split_args(kw,_ctrlpars({'event':lambda ev:ev.Skip(),'autosave':False,'model':[],'curmodel':None,'valuemodel':None}))
     ctrl=wx.ComboBox(self._getparent(),-1,style=wx.CB_DROPDOWN|wx.CB_READONLY,**kw)
-    self.parent.Bind(wx.EVT_COMBOBOX,mypars['event'],ctrl)
-    self._after_create(ctrlitem._ComboCtrlItem(ctrl,mypars),**mypars)
+    #self.parent.Bind(wx.EVT_COMBOBOX,mypars['event'],ctrl)
+    self._after_create(ctrlitem._ComboCtrlItem(ctrl,mypars,self.parent),**mypars)
 
   def button(self,**kw):
     kw,mypars=self._split_args(kw,_ctrlpars({'event':lambda ev:ev.Skip(),'text':''}))

@@ -60,14 +60,10 @@ class SongDB:
         "id" INTEGER PRIMARY KEY,
         "netid" INT,
         "title" VARCHAR(100),
-        "group_id" INT,
+        "groupid" INT,
         "author" VARCHAR(100),
         "remark" VARCHAR(100),
-        "transp" INT,
-        "marked" INT,
-        "netmodified" INT,
-        "nonet" INT,
-        "special" VARCHAR(100)
+        "netmodified" INT
       );""")
     self.cur.execute("""
       CREATE INDEX "songs_id" ON "songs" ("id");
@@ -98,9 +94,16 @@ class SongDB:
         "name" VARCHAR(100),
         "url" VARCHAR(100),
         "lang" CHAR(2),
-        "netmodified" INT,
-        "nonet" INT,
-        "special" VARCHAR(100)
+        "serverid" INTEGER
+      );
+      """)
+    self.cur.execute("""
+      CREATE TABLE "servers" (
+        "id" INTEGER PRIMARY KEY,
+        "type" VARCHAR(10),
+        "url" VARCHAR(100),
+        "login" VARCHAR(50),
+        "password" VARCHAR(50)
       );
       """)
     self.cur.execute("""
@@ -121,9 +124,9 @@ class SongDB:
         """)
     self.commit()
   
-  def addgroup(self,name,url="",netid=0):
+  def addgroup(self,name,url="",netid=0,server=0):
     self.wantcur()
-    self.cur.execute("INSERT INTO groups (id,name,netid,url) VALUES (NULL,?,?,?)",(name.encode("utf-8"),int(netid),url.encode("utf-8")))
+    self.cur.execute("INSERT INTO groups (id,name,netid,url,serverid) VALUES (NULL,?,?,?,?)",(name.encode("utf-8"),int(netid),url.encode("utf-8"),int(server)))
 
   def getsongbyid(self,songid,fields):
     """return sequence of song values
@@ -132,7 +135,7 @@ class SongDB:
     """
     self.wantcur()
     flds=[self.song_nametofld[fld] for fld in fields]
-    self.cur.execute("SELECT "+",".join(flds)+" FROM songs s LEFT JOIN groups g ON (s.group_id=g.id) LEFT JOIN songtexts t ON (s.id=t.songid) WHERE s.id=?",(songid,))
+    self.cur.execute("SELECT "+",".join(flds)+" FROM songs s LEFT JOIN groups g ON (s.groupid=g.id) LEFT JOIN songtexts t ON (s.id=t.songid) WHERE s.id=?",(songid,))
     return self.cur.fetchone()
 
   def getgroupbyid(self,groupid,fields):
@@ -145,15 +148,15 @@ class SongDB:
     self.cur.execute("SELECT "+",".join(flds)+" FROM groups g WHERE g.id=?",(groupid,))
     return self.cur.fetchone()
 
-  def addsong(self,title,group_id,author,songtext,netid=0):
+  def addsong(self,title,groupid,author,songtext,netid=0):
     self.wantgroupnames()
     self.wantcur()
     if songtext==None : songtext=u''
-    searchtext=utils.make_search_text(title)+'|'+utils.make_search_text(author)+'|'+utils.make_search_text(self.groupnames[int(group_id)])+'|'+\
+    searchtext=utils.make_search_text(title)+'|'+utils.make_search_text(author)+'|'+utils.make_search_text(self.groupnames[int(groupid)])+'|'+\
                utils.make_search_text(transpmod.deletechords(songtext))
     
-    self.cur.execute("INSERT INTO songs (id,title,group_id,author,netid) VALUES (NULL,?,?,?,?)",
-                     (title.encode("utf-8"),int(group_id),author.encode("utf-8"),int(netid)))
+    self.cur.execute("INSERT INTO songs (id,title,groupid,author,netid) VALUES (NULL,?,?,?,?)",
+                     (title.encode("utf-8"),int(groupid),author.encode("utf-8"),int(netid)))
     songid=self.cur.lastrowid
     self.cur.execute("INSERT INTO songtexts (songid,songtext) VALUES (?,?)",(songid,songtext.encode("utf-8")))
     self.cur.execute("INSERT INTO songsearchtexts (songid,searchtext) VALUES (?,?)",(songid,searchtext.encode("utf-8").encode("utf-8")))
@@ -164,14 +167,14 @@ class SongDB:
     self.wantcur()
     flds=[self.song_nametofld[fld] for fld in columns]
     where=''
-    if groupfilter is not None: where=' WHERE (s.group_id=%d)' % groupfilter
+    if groupfilter is not None: where=' WHERE (s.groupid=%d)' % groupfilter
     if condition:
       if where: where=where+' AND '+condition
       else: where=' WHERE '+condition
     if jointexts: jointexts='LEFT JOIN songtexts t ON (t.songid=s.id)'
     else: jointexts=''
     self.cur.execute(
-        "SELECT %s FROM songs s LEFT JOIN groups g ON (s.group_id=g.id) %s %s ORDER BY %s" 
+        "SELECT %s FROM songs s LEFT JOIN groups g ON (s.groupid=g.id) %s %s ORDER BY %s" 
       % 
         (",".join(flds),jointexts,where,self.song_nametofld[order]),
       sqlarguments)
@@ -197,7 +200,7 @@ class SongDB:
         self.wantcur()
         self.cur.execute("SELECT songid,searchtext FROM songsearchtexts")
         for row in self.cur : self.searchtexts[int(row[0])]=row[1]
-        #self.cur.execute("SELECT s.id,s.title,s.author,g.name,s.songtext FROM songs s LEFT JOIN groups g ON (s.group_id=g.id)")
+        #self.cur.execute("SELECT s.id,s.title,s.author,g.name,s.songtext FROM songs s LEFT JOIN groups g ON (s.groupid=g.id)")
         #for row in self.cur:
         #  text=utils.make_search_text(row[1])+'|'+utils.make_search_text(row[2])+'|'+utils.make_search_text(row[3])+'|'+\
         #       utils.make_search_text(transpmod.deletechords(row[4]))
@@ -211,17 +214,17 @@ class SongDB:
 class InetSongDB(SongDB):
   def getext(self) : return "idb"
 
-  def _download_from_inet(self,dlg):
-    dlg.Update(10, u"Stahuji databázi")
-    s=internet.download_inet_db()
+  def _download_from_inet(self,dlg,server,serverid):
+    dlg.Update(10, u"Stahuji databázi ze serveru %s" % server)
+    s=server.download_db()
           
-    dlg.Update(30, u"Analyzuji databázi")
+    dlg.Update(30, u"Analyzuji databázi ze serveru %s" % server)
     doc=etree.parse(StringIO.StringIO(s))
     
     dlg.Update(40, u"Vkládám skupiny do databáze")
     for node in doc.xpath('//database/groups/group'):
       attr=node.attrib
-      self.addgroup(attr['name'],attr['href'],attr['id'])
+      self.addgroup(attr['name'],attr['href'],attr['id'],serverid)
     
     self.cur.execute("SELECT id,netid FROM groups")
     netidtoid={}
@@ -237,6 +240,13 @@ class InetSongDB(SongDB):
     self.cur.execute('VACUUM')
     
     self.commit()          
+
+  def _insert_server(self,server):
+    self.wantcur()
+    self.cur.execute('INSERT INTO servers (type,url,login,password) VALUES (?,?,?,?)',
+      (server.server_type.name,server.url,server.login,server.password)
+    )
+    return self.cur.lastrowid
 
 class LocalSongDB(SongDB):
   def getext(self) : return "ldb"
