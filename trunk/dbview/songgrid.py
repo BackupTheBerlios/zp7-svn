@@ -49,3 +49,8 @@ class SongGrid(dbgrid.DBGrid):
     """@type cond: (sql, {sqlpars}, {getsongsby-keyword-params}"""
     self.table.cond=cond
     self.table.fill_data()
+
+  def reload(self):
+    xxx,cursong=self.getcurdbtuple()
+    dbgrid.DBGrid.reload(self)
+    if cursong>=0: self.setcurid(cursong)

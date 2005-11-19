@@ -12,8 +12,12 @@ main_window=None # can be referenced from all modules
 
 def wx_fill_list(list,generator,fn=lambda x:x):
   list.Clear()
-  for item in generator:
-    list.Append(unicode(fn(item)))
+  items=[unicode(fn(item)) for item in generator]
+  list.Freeze()
+  list.AppendItems(items)
+  list.Thaw()
+#   for item in generator:
+#     list.Append(unicode(fn(item)))
 
 def wx_add_art_tool(toolbar,event,icon_id,evtbinder,short_hint=u'',long_hint=u''):
   """adds toolbar button with icon from wx art provider"""

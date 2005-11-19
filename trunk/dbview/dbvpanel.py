@@ -15,6 +15,7 @@ import songlistctrl
 import groupview
 import code
 import config
+from songtool import songedit
 from internet import serverconfig
 
 # submodules
@@ -40,6 +41,7 @@ class DBVPanel(anchors.content.IContent):
     desktop.register_menu(self.create_toolbar)
     desktop.register_menu(self.create_menu)
     desktop.show_content(self.get_name())
+    interop.define_flag('reloaddb',self.reloaddb)
   
   def on_create_control(self,parent,evtbinder):
     self.notebook=wx.Notebook(parent,-1)
@@ -74,6 +76,13 @@ class DBVPanel(anchors.content.IContent):
     if index==0: return self.gridctrl
     if index==1: return self.groupsongctrl
     return None
+    
+  def selectedsong(self):
+    try:
+      db,id=self.cursonglist().get_cur_song()
+      return db[id]
+    except:
+      return None
 
   def OnNotebookChanging(self,ev):
     sl=self.cursonglist()
@@ -138,6 +147,15 @@ class DBVPanel(anchors.content.IContent):
 
   def cancelfind(self,ev):
     self.gridctrl.setcond(None)
+
+  def editsong(self,ev):
+    song=self.selectedsong()
+    if song: songedit.editsong(song)
+  
+  def reloaddb(self):
+    self.gridctrl.reload()
+    self.groupsongctrl.reload()
+    self.groupctrl.reload()
   
   def create_menu(self,obj):
     #obj.create_menu_command('song/trprev5',title,event,hotkey=u'',hint=u''):
@@ -147,6 +165,7 @@ class DBVPanel(anchors.content.IContent):
         obj.create_menu_command('database/find',u'Hledat',self.dbfind,config.hotkey.db_find)
         obj.create_menu_command('database/cancelfind',u'Zrušit filtr',self.cancelfind,config.hotkey.db_cancelfind)
       obj.create_submenu('song',u'Píseň')
+      obj.create_menu_command('song/edit',u'Upravit',self.editsong,config.hotkey.editsong)
       try:
         self.cursonglist().create_menu(obj)
       except:

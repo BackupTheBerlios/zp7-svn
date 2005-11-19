@@ -8,40 +8,6 @@ import desktop
 import anchors.internet
 import interop
 
-# server_types={
-#   'api':APIServerType(),
-#   'xml':XMLServerType()
-# }
-
-# class ServerCfg:
-#   url=''
-#   login=''
-#   password=''
-#   server_type=server_types['api']
-#   
-#   def __init__(self,url=''):
-#     self.url=url
-#   
-#   def __unicode__(self):
-#     if self.url: return unicode(self.url)
-#     return u'Nezadán'
-# 
-#   def edit(self):
-#     brw=browse.DialogBrowse(desktop.main_window,u'Server')
-#     brw.grid(rows=2,cols=2,border=5)
-#     brw.label(text='URL:')
-#     brw.edit(model=browse.attr(self,'url'),size=(200,-1))
-#     brw.label(text='Login:')
-#     brw.edit(model=browse.attr(self,'login'))
-#     brw.label(text='Heslo:')
-#     brw.edit(model=browse.attr(self,'password'))
-#     brw.label(text='Typ:')
-#     brw.combo(model=sorted(server_types.values()),valuemodel=browse.attr(self,'server_type'))
-#     brw.button(text='OK',event=lambda ev:brw.ok())
-#     brw.button(text='Storno',event=lambda ev:brw.cancel())
-#     brw.endsizer()
-#     brw.run()
-
 def ask_servers():
   servers=[]
   server_type=browse.var(interop.anchor['servertype'].default)

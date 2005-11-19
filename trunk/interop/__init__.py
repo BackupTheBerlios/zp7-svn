@@ -55,7 +55,6 @@ def process_messages():
   global _message_queue
   if _message_disable_level>0: return
   for msg in _message_queue: msg()
-  for flag in _flags: _flag_defs[flag]()
+  for flag in list(_flags): _flag_defs[flag]()
   _message_queue=[]
   _flags=set()
-

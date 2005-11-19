@@ -13,13 +13,14 @@ import songtool.transp as transpmod
 import database
 import traceback
 import desktop
+import copy
 
 class SongDB:
   name=""
   con=None
   cur=None
-  song_nametofld={'id':'s.id','title':'s.title','author':'s.author','group':'g.name','text':'t.songtext','groupid':'g.id'}
-  group_nametofld={'id':'g.id','name':'g.name'}
+  song_nametofld={'id':'s.id','title':'s.title','author':'s.author','group':'g.name','text':'t.songtext','groupid':'s.groupid'}
+  group_nametofld={'id':'g.id','name':'g.name','serverid':'g.serverid'}
   searchtexts=None
   groupnames=None
   
@@ -66,10 +67,10 @@ class SongDB:
         "netmodified" INT
       );""")
     self.cur.execute("""
-      CREATE INDEX "songs_id" ON "songs" ("id");
+      CREATE UNIQUE INDEX "songs_id" ON "songs" ("id");
       """)
     self.cur.execute("""
-      CREATE INDEX "songs_netid" ON "songs" ("netid","id");
+      CREATE INDEX "songs_netid" ON "songs" ("netid");
       """)
     self.cur.execute("""
       CREATE TABLE "songtexts" (
@@ -77,7 +78,7 @@ class SongDB:
         "songtext" TEXT
       );""")
     self.cur.execute("""
-      CREATE INDEX "songtexts_id" ON "songtexts" ("songid");
+      CREATE UNIQUE INDEX "songtexts_id" ON "songtexts" ("songid");
       """)
     self.cur.execute("""
       CREATE TABLE "songsearchtexts" (
@@ -85,7 +86,7 @@ class SongDB:
         "searchtext" TEXT
       );""")
     self.cur.execute("""
-      CREATE INDEX "songsearchtexts_id" ON "songsearchtexts" ("songid");
+      CREATE UNIQUE INDEX "songsearchtexts_id" ON "songsearchtexts" ("songid");
       """)
     self.cur.execute("""
       CREATE TABLE "groups" (
@@ -107,10 +108,10 @@ class SongDB:
       );
       """)
     self.cur.execute("""
-      CREATE INDEX "groups_id" ON "groups" ("id");
+      CREATE UNIQUE INDEX "groups_id" ON "groups" ("id");
       """)
     self.cur.execute("""
-      CREATE INDEX "groups_netid" ON "groups" ("netid","id");
+      CREATE INDEX "groups_netid" ON "groups" ("netid");
       """)
     self.cur.execute("""
       CREATE TABLE "info" (
@@ -148,18 +149,21 @@ class SongDB:
     self.cur.execute("SELECT "+",".join(flds)+" FROM groups g WHERE g.id=?",(groupid,))
     return self.cur.fetchone()
 
-  def addsong(self,title,groupid,author,songtext,netid=0):
+  def update_search_text(self,songid,title,author,groupid,songtext):
     self.wantgroupnames()
-    self.wantcur()
-    if songtext==None : songtext=u''
     searchtext=utils.make_search_text(title)+'|'+utils.make_search_text(author)+'|'+utils.make_search_text(self.groupnames[int(groupid)])+'|'+\
                utils.make_search_text(transpmod.deletechords(songtext))
+    self.cur.execute("REPLACE INTO songsearchtexts (songid,searchtext) VALUES (?,?)",(songid,searchtext.encode("utf-8").encode("utf-8")))
+
+  def addsong(self,title,groupid,author,songtext,netid=0):
+    self.wantcur()
+    if songtext==None : songtext=u''
     
     self.cur.execute("INSERT INTO songs (id,title,groupid,author,netid) VALUES (NULL,?,?,?,?)",
                      (title.encode("utf-8"),int(groupid),author.encode("utf-8"),int(netid)))
     songid=self.cur.lastrowid
     self.cur.execute("INSERT INTO songtexts (songid,songtext) VALUES (?,?)",(songid,songtext.encode("utf-8")))
-    self.cur.execute("INSERT INTO songsearchtexts (songid,searchtext) VALUES (?,?)",(songid,searchtext.encode("utf-8").encode("utf-8")))
+    self.update_search_text(songid,title,author,int(groupid),songtext)
 
   def __unicode__(self) : return unicode(self.name+"."+self.getext())
   
@@ -210,6 +214,20 @@ class SongDB:
             
     return self.searchtexts
 
+  def updatesong(self,songid,changed):
+    self.wantcur()
+    if 'text' in changed:
+      self.cur.execute('REPLACE INTO songtexts (songid,songtext) VALUES (?,?)',(songid,changed['text']))      
+    changedattrs=[fld for fld in changed if self.song_nametofld[fld].startswith('s.')]
+    fields=[self.song_nametofld[fld][2:] for fld in changedattrs]
+    values=[changed[fld] for fld in changedattrs]
+    lst=['"%s"=?' % fld for fld in fields]+['netmodified=1']
+    query='UPDATE songs SET %s WHERE id=?' % ','.join(lst)
+    self.cur.execute(query,values+[songid])
+
+  def enumgroups(self):
+    groups=list(self.getgroupsby('id',('id','name','serverid')))
+    return [DBGroup(self,g[0],{'name':g[1],'serverid':g[2]}) for g in groups]
 
 class InetSongDB(SongDB):
   def getext(self) : return "idb"
@@ -255,33 +273,64 @@ class DBGroup:
   db=None
   groupid=0
   vals={}
-  attrnames=('name',)
+  attrnames=('name','serverid')
   
-  def __init__(self,db,groupid):
+  def __init__(self,db,groupid,vals=None):
     self.db=db
     self.groupid=groupid
-    self.vals=dict(zip(self.attrnames,db.getgroupbyid(groupid,self.attrnames)))
+    if vals:
+      self.vals=vals
+    else:
+      self.vals=dict(zip(self.attrnames,db.getgroupbyid(groupid,self.attrnames)))
 
   def __getattr__(self,name): 
     if (not name.startswith('__')) and (not name.endswith('__')) and self.vals.has_key(name):
       return self.vals[name]
     return object.__getattr__(self,name)
 
-class DBSong:
+  def __unicode__(self): return self.name
+  def __cmp__(self,other): return cmp(self.groupid,other.groupid)
+  def __hash__(self): return hash(self.groupid)
+
+class DBSong(object):
   db=None
   songid=0
   vals={}
+  dbvals={} # original values stored in database
   attrnames=('title','author','group','text','groupid')
   
   def __init__(self,db,songid):
     self.db=db
     self.songid=songid
     self.vals=dict(zip(self.attrnames,db.getsongbyid(songid,self.attrnames)))
+    self.dbvals=copy.copy(self.vals)
 
   def __getattr__(self,name): 
     if (not name.startswith('__')) and (not name.endswith('__')) and self.vals.has_key(name):
       return self.vals[name]
     return object.__getattr__(self,name)
 
+  def __setattr__(self,name,value): 
+    if name in self.attrnames:
+      self.vals[name]=value
+    else:
+      object.__setattr__(self,name,value)
+
   def dbidtuple(self):
     return (str(self.db.name),int(self.songid))
+
+  def commit(self,commitdb=True):
+    """writes changes to database"""
+    changed={}
+    for v in self.vals:
+      if self.vals[v]!=self.dbvals[v]:
+        changed[v]=self.vals[v]
+    if changed:
+      self.db.updatesong(self.songid,changed)
+      self.db.update_search_text(self.songid,self.title,self.author,int(self.groupid),self.text)
+      self.dbvals=copy.copy(self.vals)
+      if commitdb: self.db.commit()
+
+  def setgroupobj(self,value): self.groupid=value.groupid
+  groupobj=property(lambda self:DBGroup(self.db,self.groupid),setgroupobj)
+  

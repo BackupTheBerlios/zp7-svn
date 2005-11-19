@@ -142,6 +142,10 @@ class BrowseBase:
     else: ctrl.SetValue(mypars['text'])
     self._after_create(ctrlitem._EditCtrlItem(ctrl,mypars),**mypars)
 
+  def memo(self,**kw):
+    kw['style']=wx.TE_MULTILINE
+    self.edit(**kw)
+
   def spin(self,**kw):
     kw,mypars=self._split_args(kw,_ctrlpars({'value':0,'model':None,'autosave':False,'event':None}))
     ctrl=wx.SpinCtrl(self._getparent(),-1,**kw)

@@ -64,5 +64,8 @@ class SongListCtrlAndSongView(wx.SplitterWindow):
     self.grid.setcurid(songid)
  
   def setcond(self,cond):
-    self.grid.setcond(cond)   
+    self.grid.setcond(cond) 
+    
+  def reload(self):
+    self.grid.reload()
     

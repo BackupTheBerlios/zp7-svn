@@ -81,3 +81,10 @@ class GroupSongGrid(wx.SplitterWindow): #navenek se chova jako songgrid
     self.songs.setgroupfilter(song.groupid,immediately=True)
     self.songs.setcurid(songid)
     self.cursong=song
+  
+  def reload(self):
+    xxx,cursong=self.getcurdbtuple()
+    self.songs.reload()
+    self.groups.reload()
+    if cursong>=0: self.setcurid(cursong)
+    

@@ -354,7 +354,10 @@ class DBGrid(gridlib.Grid):
     self.searchwin=None
     
   def getcurdbtuple(self):
-    return (self.table.db,self.table.data[self.GetGridCursorRow()][0])
+    try:
+      return (self.table.db,self.table.data[self.GetGridCursorRow()][0])
+    except:
+      return None,-1
     
   def add_column(self,col):
     self.table.add_column(col)
@@ -404,4 +407,7 @@ class DBGrid(gridlib.Grid):
         self.table.columns.append(col)
         
     self.table.columns.sort(lambda x,y:cmp(x.preffered_index,y.preffered_index))
+
+  def reload(self):
+    self.table.fill_data(immediately=True)
     
