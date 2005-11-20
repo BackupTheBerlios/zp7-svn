@@ -164,6 +164,7 @@ class DBVPanel(anchors.content.IContent):
       if self.notebook.GetSelection()==0: # hledani jen u tabulky
         obj.create_menu_command('database/find',u'Hledat',self.dbfind,config.hotkey.db_find)
         obj.create_menu_command('database/cancelfind',u'Zrušit filtr',self.cancelfind,config.hotkey.db_cancelfind)
+        obj.create_menu_command('database/sendupdate',u'Aktualizovat internetovou databázi',self.sendupdate,config.hotkey.sendupdate)
       obj.create_submenu('song',u'Píseň')
       obj.create_menu_command('song/edit',u'Upravit',self.editsong,config.hotkey.editsong)
       try:
@@ -171,6 +172,13 @@ class DBVPanel(anchors.content.IContent):
       except:
         pass
       #songtool.toolbars.make_transp_menu(self.songv,obj)
+
+  def sendupdate(self,ev):
+    db=self.getcurdb()
+    for server in db.enumservers():
+      xml=db.compile_update_xml(server.id)
+      print xml.tostr()
+    raise NotImplemented()
 
   def on_destroy_control(self):
     self.dbs=None

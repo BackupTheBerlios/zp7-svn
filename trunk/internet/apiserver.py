@@ -36,11 +36,17 @@ class APIServer(anchors.internet.IServer):
     s=fr.read()
     fr.close()
           
-    fr=gzip.GzipFile(None,"rb",0,StringIO.StringIO(s))
-    s=fr.read()
-    fr.close()
+    try:
+      fr=gzip.GzipFile(None,"rb",0,StringIO.StringIO(s))
+      s=fr.read()
+      fr.close()
+    except IOError:
+      pass
     
     return s
+
+  def send_update(self,xml):
+    raise NotImplemented()
   
   def __unicode__(self):
     if self.url: return unicode(self.url)

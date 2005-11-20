@@ -14,13 +14,16 @@ import database
 import traceback
 import desktop
 import copy
+import interop
+from utils.xmlnode import XmlNode
 
 class SongDB:
   name=""
   con=None
   cur=None
   song_nametofld={'id':'s.id','title':'s.title','author':'s.author','group':'g.name','text':'t.songtext','groupid':'s.groupid'}
-  group_nametofld={'id':'g.id','name':'g.name','serverid':'g.serverid'}
+  group_nametofld={'id':'g.id','name':'g.name','serverid':'g.serverid','url':'g.url'}
+  server_nametofld={'id':'r.id','url':'r.url','login':'r.login','password':'r.password','type':'r.type'}
   searchtexts=None
   groupnames=None
   
@@ -139,6 +142,16 @@ class SongDB:
     self.cur.execute("SELECT "+",".join(flds)+" FROM songs s LEFT JOIN groups g ON (s.groupid=g.id) LEFT JOIN songtexts t ON (s.id=t.songid) WHERE s.id=?",(songid,))
     return self.cur.fetchone()
 
+  def getserverbyid(self,serverid,fields):
+    """return sequence of server values
+    
+    @type fields: sequence(str)
+    """
+    self.wantcur()
+    flds=[self.server_nametofld[fld] for fld in fields]
+    self.cur.execute("SELECT "+",".join(flds)+" FROM servers r WHERE r.id=?",(serverid,))
+    return self.cur.fetchone()
+
   def getgroupbyid(self,groupid,fields):
     """return sequence of group values
     
@@ -190,6 +203,12 @@ class SongDB:
     self.cur.execute("SELECT %s FROM groups g ORDER BY %s" % (",".join(flds),self.group_nametofld[order]))
     return iter(self.cur)
 
+  def getserversby(self,order,fields):
+    self.wantcur()
+    flds=[self.server_nametofld[fld] for fld in fields]
+    self.cur.execute("SELECT %s FROM servers r ORDER BY %s" % (",".join(flds),self.server_nametofld[order]))
+    return iter(self.cur)
+
   def __getitem__(self,songid):
     return DBSong(self,songid)    
 
@@ -229,6 +248,30 @@ class SongDB:
     groups=list(self.getgroupsby('id',('id','name','serverid')))
     return [DBGroup(self,g[0],{'name':g[1],'serverid':g[2]}) for g in groups]
 
+  def enumservers(self):
+    groups=list(self.getserversby('id',('id','url','login','password','type')))
+    return [DBServer(self,g[0],{'url':g[1],'login':g[2],'password':g[3],'type':g[4]}) for g in groups]
+
+  def compile_update_xml(self,serverid):
+    xml=XmlNode('update')
+    self.wantcur()
+    self.cur.execute("""SELECT s.id,s.netid,s.title,s.author,s.groupid,t.songtext FROM songs s
+                        LEFT JOIN songtexts t ON (s.id=t.songid) LEFT JOIN groups g ON (s.groupid=g.id)
+                        WHERE s.netmodified=1 AND g.serverid=%s""" % serverid)
+    for id,netid,title,author,groupid,text in self.cur:
+      if netid: 
+        x=xml.add('updatesong')
+        x['id']=netid
+      else: 
+        x=xml.add('addsong')
+      x['localid']=id      
+      x['title']=title
+      x['author']=author
+      x['group_id']=groupid
+      x.text=text
+    return xml
+                     
+
 class InetSongDB(SongDB):
   def getext(self) : return "idb"
 
@@ -242,7 +285,7 @@ class InetSongDB(SongDB):
     dlg.Update(40, u"Vkládám skupiny do databáze")
     for node in doc.xpath('//database/groups/group'):
       attr=node.attrib
-      self.addgroup(attr['name'],attr['href'],attr['id'],serverid)
+      self.addgroup(attr['name'],attr['url'],attr['id'],serverid)
     
     self.cur.execute("SELECT id,netid FROM groups")
     netidtoid={}
@@ -252,7 +295,7 @@ class InetSongDB(SongDB):
     dlg.Update(50, u"Vkládám písně do databáze")
     for node in doc.xpath('//database/songs/song'):
       attr=node.attrib
-      self.addsong(attr['title'],netidtoid[int(attr['group_id'])],attr['author'],node.getchildren()[0].text,attr['id'])
+      self.addsong(attr['title'],netidtoid[int(attr['group_id'])],attr['author'],node.text,attr['id'])
 
     dlg.Update(90, u"Vkládám písně do databáze")
     self.cur.execute('VACUUM')
@@ -334,3 +377,45 @@ class DBSong(object):
   def setgroupobj(self,value): self.groupid=value.groupid
   groupobj=property(lambda self:DBGroup(self.db,self.groupid),setgroupobj)
   
+class DBObject(object):
+  db=None
+  id=0
+  vals={}
+  attrnames=() # to be overwrite
+  getfuncname=''
+
+  def __init__(self,db,id,vals=None):
+    self.db=db
+    self.id=id
+    if vals:
+      self.vals=vals
+    else:
+      self.vals=dict(zip(self.attrnames,getattr(db,self.getserverbyid)(id,self.attrnames)))
+
+  def __cmp__(self,other): return cmp(self.groupid,other.groupid)
+  def __hash__(self): return hash(self.groupid)
+  
+  def __getattr__(self,name): 
+    if name in self.attrnames:
+      return self.vals[name]
+    else:
+      return object.__getattr__(self,name)
+
+  def __setattr__(self,name,value): 
+    if name in self.attrnames:
+      self.vals[name]=value
+    else:
+      object.__setattr__(self,name,value)
+  
+  
+class DBServer(DBObject):
+  attrnames=('url','login','password','type')
+  getfuncname='getserverbyid'
+
+  def __unicode__(self): return self.name
+  def iserver(self):
+    res=interop.anchor['servertype'].find(self.type).create()
+    res.url=self.url
+    res.login=self.login
+    res.password=self.password
+    return res
