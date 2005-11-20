@@ -14,10 +14,12 @@ import config
 import interop
 import dbgrid
 import songgrid
+import browse
+from database import songdb
 
 class GroupTable(dbgrid.DBTable):
   def getbasecolumns(self):
-    return [dbgrid.DbColumn('name',u"Jméno")]
+    return [dbgrid.DbColumn('name',u"Jméno"),dbgrid.DbColumn('serverid',u"Server"),dbgrid.DbColumn('url',u"URL")]
      
   def retrieve_data(self,columns):
     return self.db.getgroupsby('id',columns)
@@ -87,4 +89,41 @@ class GroupSongGrid(wx.SplitterWindow): #navenek se chova jako songgrid
     self.songs.reload()
     self.groups.reload()
     if cursong>=0: self.setcurid(cursong)
-    
+   
+
+def addgroupdialog(db):   
+  server=browse.var(songdb.EmptyDBObject())
+  name=browse.var('??')
+  url=browse.var('')
+  brw=browse.DialogBrowse(desktop.main_window,u'Přidat skupinu')
+  brw.vbox()
+  brw.grid(rows=2,cols=2,border=5)
+  brw.label(text=u'Server (už nepůjde měnit)')
+  brw.combo(model=([songdb.EmptyDBObject()]+db.enumservers()),valuemodel=server)
+  brw.label(text=u'Jméno')
+  brw.edit(model=name)
+  brw.label(text=u'Web')
+  brw.edit(model=url)
+  brw.endsizer()
+  brw.defokcancel()
+  brw.endsizer()
+  if brw.run()==wx.ID_OK:
+    db.addgroup(name.get(),url=url.get(),server=server.get().id)
+    db.commit()
+    interop.send_flag('reloaddb')
+
+def editgroupdialog(group):
+  brw=browse.DialogBrowse(desktop.main_window,u'Upravit skupinu')
+  brw.vbox()
+  brw.grid(rows=2,cols=2,border=5)
+  brw.label(text=u'Jméno')
+  brw.edit(model=browse.attr(group,'name'))
+  brw.label(text=u'Web')
+  brw.edit(model=browse.attr(group,'url'))
+  brw.endsizer()
+  brw.defokcancel()
+  brw.endsizer()
+  if brw.run()==wx.ID_OK:
+    group.commit()
+    interop.send_flag('reloaddb')
+ 

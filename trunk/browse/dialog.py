@@ -24,6 +24,12 @@ class DialogBrowse(Browse):
   def onendfinalsizer(self,sizer):
     sizer.Fit(self._getparent())
 
+  def defokcancel(self):
+    self.hbox(border=5,layoutflags=wx.CENTER)
+    self.button(text='OK',event=lambda ev:self.ok())
+    self.button(text='Storno',event=lambda ev:self.cancel())
+    self.endsizer()
+
   #def buttons(self,flags,border=0):
     #self._sizer(self.dlg.CreateStdDialogButtonSizer(flags),border)
     #self.endsizer()

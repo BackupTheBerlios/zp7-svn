@@ -244,6 +244,26 @@ class SongDB:
     query='UPDATE songs SET %s WHERE id=?' % ','.join(lst)
     self.cur.execute(query,values+[songid])
 
+  def updateserver(self,serverid,changed):
+    self.wantcur()
+    changedattrs=[fld for fld in changed if self.server_nametofld[fld].startswith('r.')]
+    fields=[self.server_nametofld[fld][2:] for fld in changedattrs]
+    values=[changed[fld] for fld in changedattrs]
+    lst=['"%s"=?' % fld for fld in fields]
+    if not lst: return
+    query='UPDATE servers SET %s WHERE id=?' % ','.join(lst)
+    self.cur.execute(query,values+[serverid])
+
+  def updategroup(self,groupid,changed):
+    self.wantcur()
+    changedattrs=[fld for fld in changed if self.group_nametofld[fld].startswith('g.')]
+    fields=[self.group_nametofld[fld][2:] for fld in changedattrs]
+    values=[changed[fld] for fld in changedattrs]
+    lst=['"%s"=?' % fld for fld in fields]
+    if not lst: return
+    query='UPDATE groups SET %s WHERE id=?' % ','.join(lst)
+    self.cur.execute(query,values+[groupid])
+
   def enumgroups(self):
     groups=list(self.getgroupsby('id',('id','name','serverid')))
     return [DBGroup(self,g[0],{'name':g[1],'serverid':g[2]}) for g in groups]
@@ -312,28 +332,28 @@ class InetSongDB(SongDB):
 class LocalSongDB(SongDB):
   def getext(self) : return "ldb"
 
-class DBGroup:
-  db=None
-  groupid=0
-  vals={}
-  attrnames=('name','serverid')
-  
-  def __init__(self,db,groupid,vals=None):
-    self.db=db
-    self.groupid=groupid
-    if vals:
-      self.vals=vals
-    else:
-      self.vals=dict(zip(self.attrnames,db.getgroupbyid(groupid,self.attrnames)))
-
-  def __getattr__(self,name): 
-    if (not name.startswith('__')) and (not name.endswith('__')) and self.vals.has_key(name):
-      return self.vals[name]
-    return object.__getattr__(self,name)
-
-  def __unicode__(self): return self.name
-  def __cmp__(self,other): return cmp(self.groupid,other.groupid)
-  def __hash__(self): return hash(self.groupid)
+# class DBGroup:
+#   db=None
+#   groupid=0
+#   vals={}
+#   attrnames=('name','serverid','url')
+#   
+#   def __init__(self,db,groupid,vals=None):
+#     self.db=db
+#     self.groupid=groupid
+#     if vals:
+#       self.vals=vals
+#     else:
+#       self.vals=dict(zip(self.attrnames,db.getgroupbyid(groupid,self.attrnames)))
+# 
+#   def __getattr__(self,name): 
+#     if (not name.startswith('__')) and (not name.endswith('__')) and self.vals.has_key(name):
+#       return self.vals[name]
+#     return object.__getattribute__(self,name)
+# 
+#   def __unicode__(self): return self.name
+#   def __cmp__(self,other): return cmp(self.groupid,other.groupid)
+#   def __hash__(self): return hash(self.groupid)
 
 class DBSong(object):
   db=None
@@ -351,7 +371,7 @@ class DBSong(object):
   def __getattr__(self,name): 
     if (not name.startswith('__')) and (not name.endswith('__')) and self.vals.has_key(name):
       return self.vals[name]
-    return object.__getattr__(self,name)
+    return object.__getattribute__(self,name)
 
   def __setattr__(self,name,value): 
     if name in self.attrnames:
@@ -381,8 +401,10 @@ class DBObject(object):
   db=None
   id=0
   vals={}
+  dbvals={} # original values stored in database
   attrnames=() # to be overwrite
   getfuncname=''
+  updatefuncname=''
 
   def __init__(self,db,id,vals=None):
     self.db=db
@@ -390,29 +412,57 @@ class DBObject(object):
     if vals:
       self.vals=vals
     else:
-      self.vals=dict(zip(self.attrnames,getattr(db,self.getserverbyid)(id,self.attrnames)))
+      self.vals=dict(zip(self.attrnames,getattr(db,self.getfuncname)(id,self.attrnames)))
+    self.dbvals=copy.copy(self.vals)
 
-  def __cmp__(self,other): return cmp(self.groupid,other.groupid)
-  def __hash__(self): return hash(self.groupid)
+  def __cmp__(self,other): return cmp(self.id,other.id)
+  def __hash__(self): return hash(self.id)
   
   def __getattr__(self,name): 
     if name in self.attrnames:
       return self.vals[name]
     else:
-      return object.__getattr__(self,name)
+      return object.__getattribute__(self,name)
 
   def __setattr__(self,name,value): 
     if name in self.attrnames:
       self.vals[name]=value
     else:
       object.__setattr__(self,name,value)
-  
+
+  def commit(self,commitdb=True):
+    """writes changes to database"""
+    changed={}
+    for v in self.vals:
+      if self.vals[v]!=self.dbvals[v]:
+        changed[v]=self.vals[v]
+    if changed:
+      getattr(self.db,self.updatefuncname)(self.id,changed)
+      self.dbvals=copy.copy(self.vals)
+      if commitdb: self.db.commit()
+
+
+class EmptyDBObject(DBObject):
+  def __unicode__(self): return u'Nic'
+
+  def __init__(self):
+    self.vals={}
+
+class DBGroup(DBObject):
+  attrnames=('name','serverid','url')
+  getfuncname='getgroupbyid'
+  updatefuncname='updategroup'
   
 class DBServer(DBObject):
   attrnames=('url','login','password','type')
   getfuncname='getserverbyid'
+  updatefuncname='updateserver'
 
-  def __unicode__(self): return self.name
+  def __unicode__(self): 
+    if self.url:
+      return self.url
+    return self.type
+    
   def iserver(self):
     res=interop.anchor['servertype'].find(self.type).create()
     res.url=self.url

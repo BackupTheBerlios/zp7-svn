@@ -17,6 +17,9 @@ import code
 import config
 from songtool import songedit
 from internet import serverconfig
+import serverview
+import browse
+from database import songdb
 
 # submodules
 import songgrid
@@ -36,6 +39,7 @@ class DBVPanel(anchors.content.IContent):
   gridctrl=None
   groupsongctrl=None
   groupctrl=None
+  serverctrl=None
 
   def __init__(self):
     desktop.register_menu(self.create_toolbar)
@@ -50,10 +54,12 @@ class DBVPanel(anchors.content.IContent):
     self.gridctrl=songlistctrl.SongListCtrlAndSongView(self.notebook,songgrid.SongGrid)
     self.groupsongctrl=songlistctrl.SongListCtrlAndSongView(self.notebook,groupview.GroupSongGrid)
     self.groupctrl=groupview.GroupGrid(self.notebook)
+    self.serverctrl=serverview.ServerGrid(self.notebook)
     #self.splitter=wx.SplitterWindow(self.notebook,-1)
     self.notebook.AddPage(self.gridctrl,u'Písně - tabulka')
     self.notebook.AddPage(self.groupsongctrl,u'Písně po skupinách')
     self.notebook.AddPage(self.groupctrl,u'Skupiny')
+    self.notebook.AddPage(self.serverctrl,u'Servery')
     self.notebook.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGING,self.OnNotebookChanging)
     self.notebook.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED,self.OnNotebookChanged)
     #self.splitter.SetConstraints(layoutf.Layoutf('t=t#1;l=l#1;r=r#1;b=b#1',(parent,)))
@@ -156,15 +162,23 @@ class DBVPanel(anchors.content.IContent):
     self.gridctrl.reload()
     self.groupsongctrl.reload()
     self.groupctrl.reload()
+    self.serverctrl.reload()
   
   def create_menu(self,obj):
     #obj.create_menu_command('song/trprev5',title,event,hotkey=u'',hint=u''):
     if self.visible():
       obj.create_submenu('database',u'Databáze')
-      if self.notebook.GetSelection()==0: # hledani jen u tabulky
+      if self.notebook.GetSelection()==0: # tabulka pisni
         obj.create_menu_command('database/find',u'Hledat',self.dbfind,config.hotkey.db_find)
         obj.create_menu_command('database/cancelfind',u'Zrušit filtr',self.cancelfind,config.hotkey.db_cancelfind)
-        obj.create_menu_command('database/sendupdate',u'Aktualizovat internetovou databázi',self.sendupdate,config.hotkey.sendupdate)
+        #obj.create_menu_command('database/sendupdate',u'Aktualizovat internetovou databázi',self.sendupdate,config.hotkey.sendupdate)
+        obj.create_menu_command('database/addsong',u'Přidat píseň',self.addsong,config.hotkey.addsong)
+      if self.notebook.GetSelection()==2: # tabulka skupin
+        obj.create_menu_command('database/addgroup',u'Přidat skupinu',self.addgroup,config.hotkey.addgroup)
+        obj.create_menu_command('database/editgroup',u'Upravit skupinu',self.editgroup,config.hotkey.editgroup)
+      if self.notebook.GetSelection()==3: # tabulka serveru
+        obj.create_menu_command('database/addserver',u'Přidat server',self.addserver,config.hotkey.addserver)
+        
       obj.create_submenu('song',u'Píseň')
       obj.create_menu_command('song/edit',u'Upravit',self.editsong,config.hotkey.editsong)
       try:
@@ -172,6 +186,19 @@ class DBVPanel(anchors.content.IContent):
       except:
         pass
       #songtool.toolbars.make_transp_menu(self.songv,obj)
+
+  def addsong(self,ev):
+    pass
+
+  def addgroup(self,ev):
+    groupview.addgroupdialog(self.getcurdb())
+
+  def editgroup(self,ev):
+    db,id=self.groupctrl.getcurdbtuple()
+    groupview.editgroupdialog(db.group(id))
+  
+  def addserver(self,ev):
+    pass
 
   def sendupdate(self,ev):
     db=self.getcurdb()
@@ -195,6 +222,7 @@ class DBVPanel(anchors.content.IContent):
     self.gridctrl.set_data(db)
     self.groupsongctrl.set_data(db)
     self.groupctrl.set_data(db)
+    self.serverctrl.set_data(db)
     
   def OnChangeDb(self,event):
     try:

@@ -76,6 +76,11 @@ class ZPNETAPIServer(APIServer):
   def __unicode__(self): return u'zpevnik.net'
   def edit(self):
     utils.showinfo(u'Tento typ serveru nemá žádné konfigurovatelné položky')
+    
+  def __init__(self):
+    APIServer.__init__(self);
+    self.server_type=interop.anchor['servertype'].find('zpnet')
+
 
 
 class ZPNETAPIServerType(anchors.internet.IServerType):

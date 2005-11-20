@@ -263,11 +263,8 @@ def edit_sb_type(sbtype):
   
   brw.endparent()
 
-  brw.hbox(border=5,layoutflags=wx.CENTER)
-  brw.button(text='OK',event=lambda ev:brw.ok())
-  brw.button(text='Storno',event=lambda ev:brw.cancel())
-  brw.endsizer()
-  
+  brw.defokcancel()
+    
   brw.endsizer()
   brw.run()
    
