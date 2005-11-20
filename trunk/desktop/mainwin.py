@@ -77,33 +77,35 @@ class MainWindow(wx.Frame,intf.IMenuCreator):
   #def do_recreate_menu(self): 
   def recreate_menu(self): 
     import config
-    
-    self.Freeze()
+  
+    try:  
+      self.Freeze()
 
-    #print "recreating"
-    #self.want_recreate_menu=False
-    oldmenubar=None
-    if self.menutree:
-      for item in interop.anchor['content']: item.on_destroy_menu()
-      oldmenubar=self.menutree.wxmenu
-    if self.toolbar: self.toolbar.Destroy()
-    
-    self.toolbar=self.CreateToolBar(wx.TB_HORIZONTAL|wx.NO_BORDER|wx.TB_FLAT|wx.TB_TEXT)
+      #print "recreating"
+      #self.want_recreate_menu=False
+      oldmenubar=None
+      if self.menutree:
+        for item in interop.anchor['content']: item.on_destroy_menu()
+        oldmenubar=self.menutree.wxmenu
+      if self.toolbar: self.toolbar.Destroy()
       
-    #self.toolbar.ClearTools()
-    self.menutree=MenuTree()
-    self.menutree.wxmenu=wx.MenuBar()
-    
-    self.create_submenu('file','&Soubor')
-    for item in desktop._registered_items: item(self)
-    self.create_menu_command('file/shell','&Shell',self.OnShell,config.hotkey.shell,u"Spustí shell Pythonu")
-    self.create_menu_command('file/exit','&Konec',self.OnExit,config.hotkey.quit,u"Ukončí program Zpěvníkátor")
-    
-
-    self.SetMenuBar(self.menutree.wxmenu)
-    if oldmenubar: oldmenubar.Destroy()
-    self.toolbar.Realize()
-    self.Thaw()
+      self.toolbar=self.CreateToolBar(wx.TB_HORIZONTAL|wx.NO_BORDER|wx.TB_FLAT|wx.TB_TEXT)
+        
+      #self.toolbar.ClearTools()
+      self.menutree=MenuTree()
+      self.menutree.wxmenu=wx.MenuBar()
+      
+      self.create_submenu('file','&Soubor')
+      for item in desktop._registered_items: item(self)
+      self.create_menu_command('file/shell','&Shell',self.OnShell,config.hotkey.shell,u"Spustí shell Pythonu")
+      self.create_menu_command('file/exit','&Konec',self.OnExit,config.hotkey.quit,u"Ukončí program Zpěvníkátor")
+      
+  
+      self.SetMenuBar(self.menutree.wxmenu)
+      if oldmenubar: oldmenubar.Destroy()
+      self.toolbar.Realize()
+    finally:
+      self.Thaw()
 
   def get_toolbar(self): return self.toolbar
   def get_event_binder(self): return self
