@@ -77,6 +77,8 @@ class MainWindow(wx.Frame,intf.IMenuCreator):
   #def do_recreate_menu(self): 
   def recreate_menu(self): 
     import config
+    
+    self.Freeze()
 
     #print "recreating"
     #self.want_recreate_menu=False
@@ -101,6 +103,7 @@ class MainWindow(wx.Frame,intf.IMenuCreator):
     self.SetMenuBar(self.menutree.wxmenu)
     if oldmenubar: oldmenubar.Destroy()
     self.toolbar.Realize()
+    self.Thaw()
 
   def get_toolbar(self): return self.toolbar
   def get_event_binder(self): return self
