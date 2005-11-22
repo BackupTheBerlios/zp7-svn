@@ -7,6 +7,7 @@ import config
 import desktop
 import browse
 import interop
+from database import songdb
 
 
 def editsong(song):
@@ -18,7 +19,7 @@ def editsong(song):
   brw.label(text=u'Autor:')
   brw.edit(model=browse.attr(song,'author'))
   brw.label(text=u'Skupina:')
-  brw.combo(model=song.db.enumgroups(),valuemodel=browse.attr(song,'groupobj'))
+  brw.combo(model=songdb.DBGroup.enum(song.db),valuemodel=browse.attr(song,'groupobj'))
   brw.endsizer()
   brw.memo(proportion=1,size=(-1,300),model=browse.attr(song,'text'))
   brw.hbox(border=5,layoutflags=wx.CENTER)

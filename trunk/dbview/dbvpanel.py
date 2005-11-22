@@ -202,7 +202,7 @@ class DBVPanel(anchors.content.IContent):
 
   def sendupdate(self,ev):
     db=self.getcurdb()
-    for server in db.enumservers():
+    for server in songdb.DBServer.enum(db):
       xml=db.compile_update_xml(server.id)
       print xml.tostr()
     raise NotImplemented()

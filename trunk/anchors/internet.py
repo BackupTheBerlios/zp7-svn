@@ -2,11 +2,12 @@
 
 import interop
 
-class IServer:
+class IServer(object):
   url=''
   login=''
   password=''
   server_type=None
+  type=property(lambda self:self.server_type.name)
   def edit(self): raise NotImplemented()
   def download_db(self): 
     """downloads database
