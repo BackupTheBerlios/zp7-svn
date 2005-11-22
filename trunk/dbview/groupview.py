@@ -22,7 +22,7 @@ class GroupTable(dbgrid.DBTable):
     return [dbgrid.DbColumn('name',u"Jméno"),dbgrid.DbColumn('serverid',u"Server"),dbgrid.DbColumn('url',u"URL")]
      
   def retrieve_data(self,columns):
-    return self.db.getgroupsby('id',columns)
+    return songdb.DBGroup.getlist(self.db,columns)
 
 
 class GroupGrid(dbgrid.DBGrid):

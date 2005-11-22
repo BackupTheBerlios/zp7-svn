@@ -9,10 +9,10 @@ import wx
 import intf
 import songdb
 
-ext_to_db={
-  ".idb":songdb.InetSongDB,
-  ".ldb":songdb.LocalSongDB
-}
+# ext_to_db={
+#   ".idb":songdb.InetSongDB,
+#   ".ldb":songdb.LocalSongDB
+# }
 
 class SongDBManager(intf.IDBManager):
   dbs={}
@@ -28,18 +28,23 @@ class SongDBManager(intf.IDBManager):
       name=name.lower()
       ext=ext.lower()
       if self.dbs.has_key(name) : continue
-      if ext_to_db.has_key(ext):
-        self.dbs[name]=ext_to_db[ext](name)
+      if ext=='.db':
+        self.dbs[name]=songdb.SongDB(name)
+#       if ext_to_db.has_key(ext):
+#         self.dbs[name]=ext_to_db[ext](name)
   
   def create_inet_db(self,name,servers):
     try:
       dlg=wx.ProgressDialog(u"Stahování databáze",u"Vytvářím databází",maximum=100,parent=desktop.main_window)
       if self.dbs.has_key(name) : raise Exception("Duplicate database name")
-      db=songdb.InetSongDB(name)
+      db=songdb.SongDB(name)
       self.dbs[name]=db
       db._create()
       for server in servers:
-        serverid=db._insert_server(server)
+        srv=songdb.DBServer(db)
+        srv.assign(server)
+        serverid=srv.insert()        
+        #serverid=db._insert_server(server)
         db._download_from_inet(dlg,server,serverid)
       return db
     finally:

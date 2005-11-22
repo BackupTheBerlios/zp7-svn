@@ -27,22 +27,22 @@ class StrCond(Cond):
     brw.endsizer()
 
   def gensql(self):
-    jointexts=False
+    #jointexts=False
     txt=self.text
     op='LIKE'
     if self.test in (0,2): txt=u'%'+txt+u'%'
     if self.test in (2,3): op='NOT LIKE'
     if self.field>0:
       sql='%s %s :txt%d' % (self.fieldnames[self.field-1],op,id(self))
-      jointexts=self.field==4
+      #jointexts=self.field==4
     else:
-      jointexts=True
+      #jointexts=True
       sqls=[]
       for fld in self.fieldnames:
         sqls.append('%s %s :txt%d' % (fld,op,id(self)))
       if self.test in (2,3): sql=' AND '.join(sqls)
       else: sql=' OR '.join(sqls)
-    return '('+sql+')',{'txt%d'%id(self):txt.encode('utf-8')},{'jointexts':jointexts}
+    return '('+sql+')',{'txt%d'%id(self):txt.encode('utf-8')} #,{'jointexts':jointexts}
 
   def filled(self): return self.text!=u''
 
@@ -82,13 +82,13 @@ class FilterDialog:
 
   def gensql(self):
     pars={}
-    callpars={'jointexts':False}
+    #callpars={'jointexts':False}
     sqls=[]
     for cond in self.conds:
       if cond.filled():
-        sql,actpars,actcallpars=cond.gensql()
+        sql,actpars=cond.gensql()
         sqls.append(sql)
-        if actcallpars['jointexts']:  callpars['jointexts']=True
+        #if actcallpars['jointexts']:  callpars['jointexts']=True
         pars.update(actpars)
-    return '('+' AND '.join(sqls)+')',pars,callpars
+    return '('+' AND '.join(sqls)+')',pars
     

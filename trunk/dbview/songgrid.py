@@ -13,6 +13,7 @@ import desktop
 import config
 import interop
 import dbgrid
+from database import songdb
 
 class SongTable(dbgrid.DBTable):
   groupfilter=None
@@ -22,14 +23,25 @@ class SongTable(dbgrid.DBTable):
     return [dbgrid.DbColumn('title',u"Název"),dbgrid.DbColumn('author',u"Autor"),dbgrid.DbColumn('group',u"Skupina")]
      
   def retrieve_data(self,columns):
+    conds=[]
+    sqlpars={}
     if self.cond:
-      sql,sqlpars,args=self.cond
-      print sql
-      print sqlpars
-      print args
-      return self.db.getsongsby(columns=columns,groupfilter=self.groupfilter,condition=sql,sqlarguments=sqlpars,**args)
+      sql,pars=self.cond
+      sqlpars.update(pars)
+      conds.append(' ('+sql+') ')
+    if self.groupfilter:
+      conds.append(' (groupid=:group) ')
+      sqlpars['group']=self.groupfilter
+#       print sql
+#       print sqlpars
+#       print args
+      #return songdb.DBSong.getlist(self.db,columns,'s.groupid=?', groupfilter=self.groupfilter,condition=sql,sqlarguments=sqlpars,**args)
+      #return songdb.DBSong.getlist(self.db,columns)
+    if conds:
+      return songdb.DBSong.getlist(self.db,columns,' AND '.join(conds),sqlpars)
     else:
-      return self.db.getsongsby(columns=columns,groupfilter=self.groupfilter)
+      return songdb.DBSong.getlist(self.db,columns)
+      #return songdb.DBSong.getlist(self.db,columns,groupfilter=self.groupfilter)
     
   def setgroupfilter(self,groupid,immediately=False):
     self.groupfilter=groupid

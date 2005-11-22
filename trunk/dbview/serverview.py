@@ -13,6 +13,8 @@ import desktop
 import config
 import interop
 import dbgrid
+from database import songdb
+
 
 class ServerTable(dbgrid.DBTable):
   groupfilter=None
@@ -22,7 +24,7 @@ class ServerTable(dbgrid.DBTable):
     return [dbgrid.DbColumn('url',u"URL"),dbgrid.DbColumn('login',u"Login"),dbgrid.DbColumn('type',u"Typ")]
      
   def retrieve_data(self,columns):
-    return self.db.getserversby('id',columns)
+    return songdb.DBServer.getlist(self.db,columns)
 
 
 class ServerGrid(dbgrid.DBGrid):
