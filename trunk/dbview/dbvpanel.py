@@ -178,6 +178,8 @@ class DBVPanel(anchors.content.IContent):
         obj.create_menu_command('database/editgroup',u'Upravit skupinu',self.editgroup,config.hotkey.editgroup)
       if self.notebook.GetSelection()==3: # tabulka serveru
         obj.create_menu_command('database/addserver',u'Přidat server',self.addserver,config.hotkey.addserver)
+
+      obj.create_menu_command('database/exporttoshare',u'Exportovat pro sdílení',self.exporttoshare,config.hotkey.dbexporttoshare)
         
       obj.create_submenu('song',u'Píseň')
       obj.create_menu_command('song/edit',u'Upravit',self.editsong,config.hotkey.editsong)
@@ -200,6 +202,11 @@ class DBVPanel(anchors.content.IContent):
   def addserver(self,ev):
     pass
 
+  def exporttoshare(self,ev):
+    file_name=utils.save_dialog(desktop.main_window,'XML soubory|*.xml')
+    if file_name:
+      self.getcurdb().exporttoshare(file_name)
+    
   def sendupdate(self,ev):
     db=self.getcurdb()
     for server in songdb.DBServer.enum(db):

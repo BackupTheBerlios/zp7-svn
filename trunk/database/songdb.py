@@ -152,6 +152,26 @@ class SongDB:
     
     self.commit()          
 
+  def exporttoshare(self,file_name):
+    self.wantcur()
+    xml=XmlNode('database')
+    grpxml=xml.add('groups')
+    for id,name,url in DBGroup.getlist(self,('id','name','url')):
+      g=grpxml.add('group')
+      g['id']=id
+      g['name']=name
+      g['url']=url
+    sngxml=xml.add('groups')
+    for id,title,author,groupid,text in DBSong.getlist(self,('id','title','author','groupid','text')):
+      s=sngxml.add('song')
+      s['id']=id
+      s['title']=title
+      s['author']=author
+      s['groupid']=groupid
+      s.add('text').text=text
+    xml.save(open(file_name,'w'))
+    
+
 class DBObject(object):
   db=None
   id=None # int
