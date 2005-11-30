@@ -33,7 +33,7 @@ class SongDBManager(intf.IDBManager):
 #       if ext_to_db.has_key(ext):
 #         self.dbs[name]=ext_to_db[ext](name)
   
-  def create_inet_db(self,name,servers):
+  def create_database(self,name,servers):
     try:
       dlg=wx.ProgressDialog(u"Stahování databáze",u"Vytvářím databází",maximum=100,parent=desktop.main_window)
       if self.dbs.has_key(name) : raise Exception("Duplicate database name")
@@ -45,7 +45,7 @@ class SongDBManager(intf.IDBManager):
         srv.assign(server)
         serverid=srv.insert()        
         #serverid=db._insert_server(server)
-        db._download_from_inet(dlg,server,serverid)
+        db.download_from_server(dlg,server,serverid)
       return db
     finally:
       dlg.Destroy()

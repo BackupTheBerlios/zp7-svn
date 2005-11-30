@@ -178,6 +178,7 @@ class DBVPanel(anchors.content.IContent):
         obj.create_menu_command('database/editgroup',u'Upravit skupinu',self.editgroup,config.hotkey.editgroup)
       if self.notebook.GetSelection()==3: # tabulka serveru
         obj.create_menu_command('database/addserver',u'Přidat server',self.addserver,config.hotkey.addserver)
+        obj.create_menu_command('database/clearserver',u'Vyčistit záznamy serveru',self.clearserver,config.hotkey.clearserver)
 
       obj.create_menu_command('database/exporttoshare',u'Exportovat pro sdílení',self.exporttoshare,config.hotkey.dbexporttoshare)
         
@@ -200,7 +201,11 @@ class DBVPanel(anchors.content.IContent):
     groupview.editgroupdialog(db.group(id))
   
   def addserver(self,ev):
-    pass
+    serverview.addserverdialog(self.getcurdb())
+
+  def clearserver(self,ev):
+    self.getcurdb().clearserver(self.serverctrl.getcurdbtuple()[1])
+    interop.send_flag('reloaddb')
 
   def exporttoshare(self,ev):
     file_name=utils.save_dialog(desktop.main_window,'XML soubory|*.xml')
@@ -240,9 +245,10 @@ class DBVPanel(anchors.content.IContent):
       if sel==1 or sel==2:
         dlg=wx.TextEntryDialog(desktop.main_window,u"Zadej jméno nové databáze",u"Zpěvníkátor")
         if dlg.ShowModal()==wx.ID_OK:
-          servers=serverconfig.ask_servers()
-          if servers:
-            db=database.dbmanager.create_inet_db(dlg.GetValue(),servers)
+          if sel==2: servers=serverconfig.ask_servers()
+          else: servers=[]
+          if servers or sel==1:
+            db=database.dbmanager.create_database(dlg.GetValue(),servers)
             self.selected_db=db
             self.filldbs()
             self.set_data(db)

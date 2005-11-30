@@ -7,7 +7,7 @@ class IDBManager:
     """Reloads contents of db directory"""
     pass
   
-  def create_inet_db(self,name):
+  def create_database(self,name,servers):
     """creates database downloaded from internet"""
     pass
   

@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 import pysqlite2.dbapi2 as sqlite 
-import StringIO
+from StringIO import StringIO
 import os
 import os.path
 import sys
@@ -16,6 +16,7 @@ import desktop
 import copy
 import interop
 from utils.xmlnode import XmlNode
+import dbobject
 
 class SongDB:
   name=""
@@ -114,15 +115,9 @@ class SongDB:
   def group(self,groupid):
     return DBGroup(self,groupid)
 
-  def _download_from_inet(self,dlg,server,serverid):
-    dlg.Update(10, u"Stahuji databázi ze serveru %s" % server)
-    s=server.download_db()
-          
-    dlg.Update(30, u"Analyzuji databázi ze serveru %s" % server)
-    doc=etree.parse(StringIO.StringIO(s))
-    
-    dlg.Update(40, u"Vkládám skupiny do databáze")
-    for node in doc.xpath('//database/groups/group'):
+  def importxml(self,xmldoc,serverid):
+    """type xmldoc: etree.ElementTree"""
+    for node in xmldoc.xpath('//database/groups/group'):
       attr=node.attrib
       DBGroup.insertobject(self,{
         'name':attr['name'],
@@ -136,8 +131,7 @@ class SongDB:
     for (id,netid) in self.cur : netidtoid[int(netid)]=int(id)
     netidtoid[0]=0
       
-    dlg.Update(50, u"Vkládám písně do databáze")
-    for node in doc.xpath('//database/songs/song'):
+    for node in xmldoc.xpath('//database/songs/song'):
       attr=node.attrib
       DBSong.insertobject(self,{
         'title':attr['title'],
@@ -146,11 +140,28 @@ class SongDB:
         'text':node.text,
         'netid':attr['id']
       })
-
-    dlg.Update(90, u"Vkládám písně do databáze")
-    self.cur.execute('VACUUM')
+      self.cur.execute('VACUUM')
     
-    self.commit()          
+      self.commit()
+
+  def clearserver(self,serverid):
+    self.wantcur()
+    self.cur.execute("""delete from songs where 
+      (?==(select r.id from groups g left join servers r on (g.serverid=r.id) 
+        where g.id=songs.groupid))""",[serverid])
+    self.cur.execute('delete from groups where serverid=?',[serverid])
+    self.commit()
+
+  def download_from_server(self,dlg,server,serverid):
+    dlg.Update(10, u"Stahuji databázi ze serveru %s" % server)
+    s=server.download_db()
+          
+    dlg.Update(30, u"Analyzuji databázi ze serveru %s" % server)
+    doc=etree.parse(StringIO(s))
+    
+    dlg.Update(40, u"Vkládám skupiny a písně do databáze")
+    self.importxml(doc,serverid)
+    dlg.Update(90, u"Vkládám písně do databáze")
 
   def exporttoshare(self,file_name):
     self.wantcur()
@@ -172,144 +183,13 @@ class SongDB:
     xml.save(open(file_name,'w'))
     
 
-class DBObject(object):
-  db=None
-  id=None # int
-  vals={}
-  dbvals={} # original values stored in database
-  attrnames=() # to be overwrite
-  tablename='' # to be overwrite
-  tablechar='' # to be overwrite
-  name_to_fld={} # to be overwrite, dict(field_name:field with selector)
-  joins=[]
-  querycache={}
-
-  def __init__(self,db,id=None,vals=None):
-    self.db=db
-    self.id=id
-    if vals:
-      self.vals=vals
-    elif id is not None:
-      self.vals=dict(zip(self.attrnames,self.getdatabyid(db,id,self.attrnames)))
-    else: # new inserted object
-      self.vals=dict(zip(self.attrnames,[None]*len(self.attrnames)))
-    self.dbvals=copy.copy(self.vals)
-
-  def __cmp__(self,other): return cmp(self.id,other.id)
-  def __hash__(self): return hash(self.id)
-  
-  def __getattr__(self,name): 
-    if name in self.attrnames:
-      return self.vals[name]
-    else:
-      return object.__getattribute__(self,name)
-
-  def __setattr__(self,name,value): 
-    if name in self.attrnames:
-      self.vals[name]=value
-    else:
-      object.__setattr__(self,name,value)
-
-  def dbidtuple(self):
-    return (str(self.db.name),int(self.id))
-
-  def commit(self,commitdb=True):
-    """writes changes to database"""
-    changed={}
-    for v in self.vals:
-      if self.vals[v]!=self.dbvals[v]:
-        changed[v]=self.vals[v]
-    if changed:
-      self.updateobject(self.db,self.id,changed)
-      self.dbvals=copy.copy(self.vals)
-      if commitdb: self.db.commit()
-
-  def insert(self):
-    assert self.id is None
-    changed=[v for v in self.vals if self.vals[v] is not None]
-    self.id=self.insertobject(self.db,dict(zip(changed,[self.vals[v] for v in changed])))
-    return self.id
-  
-  def assign(self,src):
-    for a in self.attrnames:
-      if hasattr(src,a):
-        self.vals[a]=getattr(src,a)
-  
-  @classmethod
-  def buildquery(self,fields,cond=None):
-    querykey=(self,)+tuple(fields)
-    try:
-      return self.querycache[querykey]
-    except:
-      flds=[self.name_to_fld[fld] for fld in fields]
-      query="SELECT "+",".join(flds)+" FROM %s %s " % (self.tablename,self.tablechar)
-      for table,char,cond in self.joins: # add joins
-        if len(filter(lambda f:f[0]==char,flds))>0 or (cond and char+'.' in cond): # only joins from which fields are required
-          query+=(" LEFT JOIN %s %s ON (%s) " % (table,char,cond))
-      self.querycache[querykey]=query # next time it would be quicker
-      return query
-
-  @classmethod
-  def getdatabyid(self,db,id,fields):
-    """return sequence of object values
-    
-    @type fields: sequence(str)
-    """
-    db.wantcur()
-    query=self.buildquery(fields)
-    query+="WHERE %s.id=?" % self.tablechar
-    db.cur.execute(query,(id,))
-    return db.cur.fetchone()
-
-  @classmethod
-  def updateobject(self,db,id,changed):
-    """@param changed: dict of changed values"""
-    db.wantcur()
-    changedattrs=[fld for fld in changed if self.name_to_fld[fld].startswith(self.tablechar)]
-    fields=[self.name_to_fld[fld][2:] for fld in changedattrs]
-    values=[changed[fld] for fld in changedattrs]
-    lst=['"%s"=?' % fld for fld in fields]
-    if not lst: return
-    query='UPDATE %s SET %s WHERE id=?' % (self.tablename,','.join(lst))
-    db.cur.execute(query,values+[id])
-
-  @classmethod
-  def insertobject(self,db,values):
-    """inserts new object into database
-    
-    @type value: dict(str:str)
-    @return: id of new object
-    """
-    db.wantcur()
-    attrs=[fld for fld in values if self.name_to_fld[fld].startswith(self.tablechar)]
-    fields=[self.name_to_fld[fld][2:] for fld in attrs]
-    values=[values[fld] for fld in attrs]
-    
-    query='INSERT INTO %s (id,%s) VALUES (NULL,%s)' % (self.tablename,','.join(fields),','.join(['?']*len(fields)))
-    db.cur.execute(query,values)
-    return db.cur.lastrowid
-
-  @classmethod
-  def getlist(self,db,fields,cond='',queryparams=[]):
-    db.wantcur()
-    query=self.buildquery(fields,cond)
-    if cond.strip(): query+='WHERE '+cond
-    db.cur.execute(query,queryparams)
-    return iter(db.cur)
-    
-  @classmethod
-  def enum(self,db,cond='',queryparams=[]):
-    """@rtype: list of db objects"""
-    lst=self.getlist(db,('id',)+self.attrnames,cond,queryparams)
-    return [self(db,rec[0],dict(zip(self.attrnames,rec[1:]))) for rec in lst]
-    
-class EmptyDBObject(DBObject):
+class EmptyDBObject(dbobject.DBObject):
   def __unicode__(self): return u'Nic'
 
   def __init__(self):
     self.vals={}
 
-class DBGroup(DBObject):
+class DBGroup(dbobject.DBObject):
   attrnames=('name','serverid','url','netid')
   tablename='groups'
   tablechar='g'
@@ -318,7 +198,7 @@ class DBGroup(DBObject):
 
   def __unicode__(self): return self.name
 
-class DBSong(DBObject):
+class DBSong(dbobject.DBObject):
   attrnames=('title','author','group','text','groupid','netid')
   tablename='songs'
   tablechar='s'
@@ -344,7 +224,7 @@ class DBSong(DBObject):
   groupobj=property(lambda self:DBGroup(self.db,self.groupid),setgroupobj)
 
 
-class DBServer(DBObject):
+class DBServer(dbobject.DBObject):
   attrnames=('url','login','password','type')
   tablename='servers'
   tablechar='r'
@@ -363,4 +243,3 @@ class DBServer(DBObject):
     res.login=self.login
     res.password=self.password
     return res
-
