@@ -109,7 +109,7 @@ def addgroupdialog(db):
   brw.defokcancel()
   brw.endsizer()
   if brw.run()==wx.ID_OK:
-    db.addgroup(name.get(),url=url.get(),server=server.get().id)
+    songdb.DBGroup.insertobject(db,{'name':name.get(),'url':url.get(),'serverid':server.get().id})
     db.commit()
     interop.send_flag('reloaddb')
 

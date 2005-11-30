@@ -179,6 +179,7 @@ class DBVPanel(anchors.content.IContent):
       if self.notebook.GetSelection()==3: # tabulka serveru
         obj.create_menu_command('database/addserver',u'Přidat server',self.addserver,config.hotkey.addserver)
         obj.create_menu_command('database/clearserver',u'Vyčistit záznamy serveru',self.clearserver,config.hotkey.clearserver)
+        obj.create_menu_command('database/editserver',u'Upravit server',self.editserver,config.hotkey.editserver)
 
       obj.create_menu_command('database/exporttoshare',u'Exportovat pro sdílení',self.exporttoshare,config.hotkey.dbexporttoshare)
         
@@ -202,6 +203,10 @@ class DBVPanel(anchors.content.IContent):
   
   def addserver(self,ev):
     serverview.addserverdialog(self.getcurdb())
+
+  def editserver(self,ev):
+    db,id=self.serverctrl.getcurdbtuple()
+    serverview.editserverdialog(db.server(id))
 
   def clearserver(self,ev):
     self.getcurdb().clearserver(self.serverctrl.getcurdbtuple()[1])

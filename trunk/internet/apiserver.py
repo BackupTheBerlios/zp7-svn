@@ -66,7 +66,7 @@ class APIServer(anchors.internet.IServer):
     brw.button(text='OK',event=lambda ev:brw.ok())
     brw.button(text='Storno',event=lambda ev:brw.cancel())
     brw.endsizer()
-    brw.run()
+    return brw.run()==wx.ID_OK
 
 
 interop.anchor['servertype'].add_feature(APIServerType())

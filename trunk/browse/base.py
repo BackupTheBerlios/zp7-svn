@@ -138,7 +138,7 @@ class BrowseBase:
   def edit(self,**kw):
     kw,mypars=self._split_args(kw,_ctrlpars({'text':'','model':None}))
     ctrl=wx.TextCtrl(self._getparent(),-1,**kw)
-    if mypars['model']: ctrl.SetValue(mypars['model'].get())
+    if mypars['model']: ctrl.SetValue(unicode(mypars['model'].get()))
     else: ctrl.SetValue(mypars['text'])
     self._after_create(ctrlitem._EditCtrlItem(ctrl,mypars),**mypars)
 

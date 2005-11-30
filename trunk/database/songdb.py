@@ -115,6 +115,9 @@ class SongDB:
   def group(self,groupid):
     return DBGroup(self,groupid)
 
+  def server(self,serverid):
+    return DBServer(self,serverid)
+
   def importxml(self,xmldoc,serverid):
     """type xmldoc: etree.ElementTree"""
     for node in xmldoc.xpath('//database/groups/group'):
