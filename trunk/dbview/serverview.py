@@ -53,14 +53,13 @@ def addserverdialog(db):
     db.commit()
     interop.send_flag('reloaddb')
 
-
 def editserverdialog(server):
   server_object=server.iserver()
   if server_object.edit():
     server.assign(server_object)
     server.commit()
     interop.send_flag('reloaddb')
-    
+
 #   brw.grid(rows=2,cols=2,border=5)
 #   brw.label(text=u'Jméno')
 #   brw.edit(model=browse.attr(group,'name'))

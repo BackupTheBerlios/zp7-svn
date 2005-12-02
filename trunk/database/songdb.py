@@ -138,14 +138,14 @@ class SongDB:
       attr=node.attrib
       DBSong.insertobject(self,{
         'title':attr['title'],
-        'groupid':netidtoid[int(attr['group_id'])],
+        'groupid':netidtoid[int(attr['groupid'])],
         'author':attr['author'],
-        'text':node.text,
+        'text':node.find('text').text,
         'netid':attr['id']
       })
-      self.cur.execute('VACUUM')
-    
-      self.commit()
+      
+    self.cur.execute('VACUUM')
+    self.commit()
 
   def clearserver(self,serverid):
     self.wantcur()
@@ -153,7 +153,12 @@ class SongDB:
       (?==(select r.id from groups g left join servers r on (g.serverid=r.id) 
         where g.id=songs.groupid))""",[serverid])
     self.cur.execute('delete from groups where serverid=?',[serverid])
+    self.delete_noused_texts()
     self.commit()
+
+  def delete_noused_texts(self):
+    self.wantcur()
+    self.cur.execute('DELETE FROM songtexts WHERE 0=(SELECT COUNT(id) FROM songs WHERE songtexts.songid=songs.id)')
 
   def download_from_server(self,dlg,server,serverid):
     dlg.Update(10, u"Stahuji databázi ze serveru %s" % server)
@@ -175,7 +180,7 @@ class SongDB:
       g['id']=id
       g['name']=name
       g['url']=url
-    sngxml=xml.add('groups')
+    sngxml=xml.add('songs')
     for id,title,author,groupid,text in DBSong.getlist(self,('id','title','author','groupid','text')):
       s=sngxml.add('song')
       s['id']=id
@@ -212,7 +217,7 @@ class DBSong(dbobject.DBObject):
 
   @classmethod
   def insertobject(self,db,values):
-    res=DBObject.insertobject.im_func(self,db,values)
+    res=dbobject.DBObject.insertobject.im_func(self,db,values)
     if values.has_key('text'):
       db.cur.execute('INSERT INTO songtexts (songid,songtext) VALUES (?,?)',(res,values['text']))
     return res

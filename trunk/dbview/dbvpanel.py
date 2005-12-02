@@ -20,6 +20,8 @@ from internet import serverconfig
 import serverview
 import browse
 from database import songdb
+from lxml import etree
+from StringIO import StringIO
 
 # submodules
 import songgrid
@@ -180,8 +182,10 @@ class DBVPanel(anchors.content.IContent):
         obj.create_menu_command('database/addserver',u'Přidat server',self.addserver,config.hotkey.addserver)
         obj.create_menu_command('database/clearserver',u'Vyčistit záznamy serveru',self.clearserver,config.hotkey.clearserver)
         obj.create_menu_command('database/editserver',u'Upravit server',self.editserver,config.hotkey.editserver)
+        obj.create_menu_command('database/updateserver',u'Aktualizovat ze serveru',self.updateserver,config.hotkey.updateserver)
 
       obj.create_menu_command('database/exporttoshare',u'Exportovat pro sdílení',self.exporttoshare,config.hotkey.dbexporttoshare)
+      obj.create_menu_command('database/updateall',u'Aktualizovat databázi',self.updateall,config.hotkey.updateall)
         
       obj.create_submenu('song',u'Píseň')
       obj.create_menu_command('song/edit',u'Upravit',self.editsong,config.hotkey.editsong)
@@ -212,6 +216,22 @@ class DBVPanel(anchors.content.IContent):
     self.getcurdb().clearserver(self.serverctrl.getcurdbtuple()[1])
     interop.send_flag('reloaddb')
 
+  def updateserver(self,ev):
+    try:
+      dlg=wx.ProgressDialog(u"Aktualizace ze serveru",u"Aktualizace ze serveru",parent=desktop.main_window)
+      db, serverid = self.serverctrl.getcurdbtuple()
+      server = db.server(serverid).iserver()
+      self.getcurdb().clearserver(serverid)
+      s = server.download_db()
+      xml = etree.parse(StringIO(s))
+      self.getcurdb().importxml(xml, serverid)
+      interop.send_flag('reloaddb')
+    finally:
+      dlg.Destroy()
+
+  def updateall(self,ev):
+    pass
+  
   def exporttoshare(self,ev):
     file_name=utils.save_dialog(desktop.main_window,'XML soubory|*.xml')
     if file_name:
