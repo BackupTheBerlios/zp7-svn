@@ -27,10 +27,11 @@ class ZpApp(wx.App):
     desktop.main_window.Show(True)
     return True
 
-if __name__=='__main__':
-  #interop.library_directory=os.path.dirname(sys.argv[0])
-  #interop.initialize()
+def main():
   locale.setlocale(locale.LC_ALL,'cz')
   app=ZpApp()
   app.MainLoop()
+
+if __name__=='__main__':
+  main()
   

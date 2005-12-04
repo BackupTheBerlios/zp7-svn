@@ -15,7 +15,7 @@ import interop
 import dbgrid
 import songgrid
 import browse
-from database import songdb
+from database import songdb,dbobject
 
 class GroupTable(dbgrid.DBTable):
   def getbasecolumns(self):
@@ -92,7 +92,7 @@ class GroupSongGrid(wx.SplitterWindow): #navenek se chova jako songgrid
    
 
 def addgroupdialog(db):   
-  server=browse.var(songdb.EmptyDBObject())
+  server=browse.var(dbobject.EmptyDBObject())
   name=browse.var('??')
   url=browse.var('')
   brw=browse.DialogBrowse(desktop.main_window,u'Přidat skupinu')
@@ -100,7 +100,7 @@ def addgroupdialog(db):
   brw.grid(rows=2,cols=2,border=5)
   brw.label(text=u'Server (už nepůjde měnit)')
   #print [songdb.EmptyDBObject()]+songdb.DBServer.enum(db)
-  brw.combo(model=([songdb.EmptyDBObject()]+songdb.DBServer.enum(db)),valuemodel=server)
+  brw.combo(model=([dbobject.EmptyDBObject()]+songdb.DBServer.enum(db)),valuemodel=server)
   brw.label(text=u'Jméno')
   brw.edit(model=name)
   brw.label(text=u'Web')

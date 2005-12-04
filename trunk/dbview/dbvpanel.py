@@ -22,6 +22,7 @@ import browse
 from database import songdb
 from lxml import etree
 from StringIO import StringIO
+from database import imports
 
 # submodules
 import songgrid
@@ -186,6 +187,7 @@ class DBVPanel(anchors.content.IContent):
 
       obj.create_menu_command('database/exporttoshare',u'Exportovat pro sdílení',self.exporttoshare,config.hotkey.dbexporttoshare)
       obj.create_menu_command('database/updateall',u'Aktualizovat databázi',self.updateall,config.hotkey.updateall)
+      obj.create_menu_command('database/dbimport',u'Importovat',self.dbimport,config.hotkey.dbimport)
         
       obj.create_submenu('song',u'Píseň')
       obj.create_menu_command('song/edit',u'Upravit',self.editsong,config.hotkey.editsong)
@@ -215,6 +217,9 @@ class DBVPanel(anchors.content.IContent):
   def clearserver(self,ev):
     self.getcurdb().clearserver(self.serverctrl.getcurdbtuple()[1])
     interop.send_flag('reloaddb')
+
+  def dbimport(self,ev=None):
+    imports.dbimportdialog(self.getcurdb())
 
   def updateserver(self,ev):
     try:

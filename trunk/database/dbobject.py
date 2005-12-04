@@ -149,3 +149,9 @@ class DBObject(object):
     lst=self.getlist(db,('id',)+self.attrnames,cond,queryparams)
     return [self(db,rec[0],dict(zip(self.attrnames,rec[1:]))) for rec in lst]
     
+class EmptyDBObject(DBObject):
+  def __unicode__(self): return u'Nic'
+
+  def __init__(self):
+    self.vals={}
+

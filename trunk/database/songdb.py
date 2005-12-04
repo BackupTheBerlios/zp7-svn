@@ -141,7 +141,7 @@ class SongDB:
         'groupid':netidtoid[int(attr['groupid'])],
         'author':attr['author'],
         'text':node.find('text').text,
-        'netid':attr['id']
+        'netid':attr.get('id','0')
       })
       
     self.cur.execute('VACUUM')
@@ -190,12 +190,6 @@ class SongDB:
       s.add('text').text=text
     xml.save(open(file_name,'w'))
     
-
-class EmptyDBObject(dbobject.DBObject):
-  def __unicode__(self): return u'Nic'
-
-  def __init__(self):
-    self.vals={}
 
 class DBGroup(dbobject.DBObject):
   attrnames=('name','serverid','url','netid')

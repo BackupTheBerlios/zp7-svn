@@ -2,6 +2,7 @@
 
 import xmlserver
 import apiserver
+import localserver
 
 # import urllib
 # import gzip
