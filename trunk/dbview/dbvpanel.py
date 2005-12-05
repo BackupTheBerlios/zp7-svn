@@ -13,7 +13,6 @@ import anchors.content
 import wx.lib.buttons as buttons
 import songlistctrl
 import groupview
-import code
 import config
 from songtool import songedit
 from internet import serverconfig

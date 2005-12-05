@@ -52,7 +52,9 @@ def _create_menu(obj):
 desktop.register_menu(_create_menu)
 desktop.add_content(cfgpanel.CfgPanel())
 
-cfgfilename=os.path.join(os.path.dirname(os.path.dirname(sys.argv[0])),"options.xml")
+#cfgfilename=os.path.join(os.path.dirname(os.path.dirname(sys.argv[0])),"options.xml")
+cfgfilename=os.path.normpath('%s/../../../options.xml' % __file__)
+
 
 try:
   xml=utils.xmlnode.XmlNode.load(open(cfgfilename,"r"))

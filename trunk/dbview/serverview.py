@@ -2,11 +2,9 @@
 
 import wx
 import wx.grid as gridlib
-import code
 import locale
 import utils
 import searchwinu
-import code
 import utils.dialogs
 import copy
 import desktop

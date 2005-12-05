@@ -8,6 +8,9 @@ import desktop.mainwin
 import interop
 import os.path
 import sys
+import utils
+import traceback
+import internet.downloader
 
 class ZpApp(wx.App):
   """ Application object, responsible for the Splash screen, applying command
@@ -27,9 +30,16 @@ class ZpApp(wx.App):
     desktop.main_window.Show(True)
     return True
 
+def excepthook(type,value,tb):
+  #print type
+  s=''.join(traceback.format_exception(type,value,tb))
+  utils.showerror(s)
+
 def main():
   locale.setlocale(locale.LC_ALL,'cz')
+  sys.excepthook=excepthook
   app=ZpApp()
+  internet.downloader.checknewversion()
   app.MainLoop()
 
 if __name__=='__main__':

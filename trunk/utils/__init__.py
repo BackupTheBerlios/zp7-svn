@@ -4,7 +4,7 @@ import images
 import wx
 import songtool.transp as transpmod
 import unicodedata
-import psyco
+#import psyco
 import os
 import os.path
 
@@ -210,4 +210,4 @@ def xml_generic_save_attrs(self,xml):
       xml[a]=int(getattr(self,a))
 
    
-psyco.bind(make_search_text)
+#psyco.bind(make_search_text)
