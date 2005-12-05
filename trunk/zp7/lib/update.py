@@ -7,11 +7,11 @@ import zipfile
 def update():
   basedir=os.path.normpath('%s/..' % sys.argv[0])
   zipname=os.path.join(basedir,'auto-install','lib.zip')
-  vername=os.path.join(basedir,'auto-install','version.txt')
-  if os.path.isfile(zipname) and os.path.isfile(vername):
+  #vername=os.path.join(basedir,'auto-install','version.txt')
+  if os.path.isfile(zipname): #and os.path.isfile(vername):
     zip=zipfile.ZipFile(zipname)
-    version=open(vername,'r').read()
-    open(os.path.join(basedir,'lib','version.txt'),'w').write(version)
+    #version=open(vername,'r').read()
+    #open(os.path.join(basedir,'lib','version.txt'),'w').write(version)
     for f in zip.namelist():
       if f.endswith('/'):
         try: os.mkdir(os.path.join(basedir,f))
@@ -22,4 +22,4 @@ def update():
     zip.close()
     zip=None
     os.remove(zipname)
-    os.remove(vername)
+    #os.remove(vername)

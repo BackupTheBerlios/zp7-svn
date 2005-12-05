@@ -11,7 +11,7 @@ class VersionChecker(threading.Thread):
   
   def dorun(self):
     newversion=map(int,urllib.urlopen('http://zpevnik.net/auto-install/version.txt').read().split('.'))
-    oldversion=map(int(open(os.path.normpath('%s/../lib/version.txt'%sys.argv[0]),'r')))
+    oldversion=map(int,open(os.path.normpath('%s/../lib/version.txt'%sys.argv[0]),'r').read().split('.'))
     if newversion>oldversion:
       version=urllib.urlopen('http://zpevnik.net/auto-install/version.txt').read()
       content=urllib.urlopen('http://zpevnik.net/auto-install/lib.zip').read()
