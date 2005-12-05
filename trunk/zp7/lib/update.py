@@ -10,7 +10,7 @@ def wantnewversion(libvername,version):
   except: return True
   msg=u'Nainstalovat novou verzi zpěvnikátoru %s (aktuální je %s)' % (version,libversion)
   dlg=wx.MessageDialog(None,msg,u'Zpěvníkátor',wx.YES|wx.NO|wx.CENTRE|wx.ICON_QUESTION)
-  return dlg.ShowModal()==wx.ID_YES:
+  return dlg.ShowModal()==wx.ID_YES
 
 def update():
   basedir=os.path.normpath('%s/..' % sys.argv[0])
