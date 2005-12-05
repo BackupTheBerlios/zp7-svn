@@ -1,0 +1,61 @@
+<options>
+<dbview>
+<songgrid>
+<title visible="1" index="0" size="158"/>
+<author visible="1" index="2" size="200"/>
+<group visible="1" index="1" size="127"/>
+<insongbook visible="1" index="0" size="37"/>
+</songgrid>
+<groupgrid>
+<name visible="1" index="0" size="182"/>
+</groupgrid>
+<gv_groupgrid>
+<name visible="1" index="0" size="170"/>
+</gv_groupgrid>
+<gv_songgrid>
+<title visible="1" index="0" size="164"/>
+<author visible="0" size="200"/>
+<group visible="0" size="200"/>
+<insongbook visible="1" index="1" size="50"/>
+</gv_songgrid>
+<servergrid/>
+</dbview>
+<sbtypes>
+<sbtype saveonlydiff="False" content_cols="1" distribalg="normal" basetype="" bottomsp="0" a4distribtype="0" hcnt="1" topsp="0" leftsp="0" header="std" rightsp="0" vcnt="1" header_text="" footer_text="" songdelimiter="std" name="a4">
+<fonts>
+<title bold="0" color="#000000" face="Arial" italic="0" underline="0" size="10"/>
+<author bold="0" color="black" face="Arial" italic="0" underline="0" size="10"/>
+<chord bold="1" color="#000080" face="Arial" italic="0" underline="0" size="10"/>
+<text bold="0" color="black" face="Arial" italic="0" underline="0" size="10"/>
+<label bold="0" color="#000000" face="Arial" italic="0" underline="1" size="10"/>
+<content bold="0" color="black" face="Arial" italic="0" underline="0" size="10"/>
+<header bold="0" color="black" face="Arial" italic="0" underline="0" size="10"/>
+<footer bold="0" color="black" face="Arial" italic="0" underline="0" size="10"/>
+</fonts>
+</sbtype>
+<sbtype saveonlydiff="False" content_cols="1" distribalg="normal" basetype="" bottomsp="10" a4distribtype="0" hcnt="2" topsp="10" leftsp="10" header="std" rightsp="10" vcnt="2" header_text="" footer_text="Strana %c" songdelimiter="std" name="a6">
+<fonts>
+<title bold="0" color="#000000" face="Arial" italic="0" underline="0" size="14"/>
+<author bold="0" color="#000000" face="Arial" italic="1" underline="0" size="10"/>
+<chord bold="1" color="#000080" face="Arial" italic="0" underline="0" size="10"/>
+<text bold="0" color="black" face="Arial" italic="0" underline="0" size="10"/>
+<label bold="0" color="#000000" face="Arial" italic="0" underline="1" size="10"/>
+<content bold="0" color="black" face="Arial" italic="0" underline="0" size="10"/>
+<header bold="0" color="black" face="Arial" italic="0" underline="0" size="10"/>
+<footer bold="0" color="black" face="Arial" italic="0" underline="0" size="10"/>
+</fonts>
+</sbtype>
+<sbtype saveonlydiff="False" content_cols="1" distribalg="normal" basetype="" bottomsp="0" a4distribtype="1" hcnt="2" topsp="0" leftsp="5" header="std" rightsp="5" vcnt="1" header_text="" footer_text="" songdelimiter="std" name="kapela">
+<fonts>
+<title bold="1" color="#000000" face="Arial" italic="0" underline="0" size="14"/>
+<author bold="1" color="#000000" face="Arial" italic="1" underline="0" size="10"/>
+<chord bold="1" color="#000080" face="Arial" italic="0" underline="0" size="10"/>
+<text bold="0" color="black" face="Arial" italic="0" underline="0" size="10"/>
+<label bold="0" color="#000000" face="Arial" italic="0" underline="1" size="10"/>
+<content bold="0" color="black" face="Arial" italic="0" underline="0" size="10"/>
+<header bold="0" color="black" face="Arial" italic="0" underline="0" size="10"/>
+<footer bold="0" color="black" face="Arial" italic="0" underline="0" size="10"/>
+</fonts>
+</sbtype>
+</sbtypes>
+</options>
