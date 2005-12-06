@@ -14,6 +14,7 @@ import gzip
 import xml.sax.saxutils
 import shutil
 import zipfile
+import threading
 
 sys.path.append(os.path.normpath('%s/../lib' % sys.argv[0]))
 

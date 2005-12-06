@@ -30,11 +30,13 @@ zip=zipfile.ZipFile('lib.zip',"w",zipfile.ZIP_DEFLATED)
 for root, dirs, files in os.walk("zp7\\lib"):
   if '.svn' in dirs:
     dirs.remove('.svn')
+  for name in dirs:
+    zip.writestr(os.path.join(root,name).replace("zp7\\","")+'/','')
   for name in files:
     if os.path.splitext(name)[1].lower()=='.py' or name.lower()=='version.txt':
       zip.write(os.path.join(root,name),os.path.join(root,name).replace("zp7\\",""))
 zip.close()
-
+raise 0
 
 print 'logging into FTP'
 ftp=ftplib.FTP("ftp.zpevnik.net")

@@ -9,6 +9,7 @@ def wantnewversion(libvername,version):
   try: libversion=open(libvername,'r').read()
   except: return True
   msg=u'Nainstalovat novou verzi zpěvnikátoru %s (aktuální je %s)' % (version,libversion)
+  app=wx.App()
   dlg=wx.MessageDialog(None,msg,u'Zpěvníkátor',wx.YES|wx.NO|wx.CENTRE|wx.ICON_QUESTION)
   return dlg.ShowModal()==wx.ID_YES
 
@@ -27,6 +28,10 @@ def update():
           try: os.mkdir(os.path.join(basedir,f))
           except: pass
         else:
+          #if not os.path.isdir(os.path.join(basedir,os.path.dirname(f))):
+          #  os.makedirs(os.path.join(basedir,os.path.dirname(f)))
+          #try: os.makedirs(os.path.join(basedir,os.path.dirname(f)))
+          #except: pass
           content=zip.read(f)
           open(os.path.join(basedir,f),'wb').write(content)
       zip.close()
