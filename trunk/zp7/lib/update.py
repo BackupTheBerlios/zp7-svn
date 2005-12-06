@@ -16,25 +16,21 @@ def wantnewversion(libvername,version):
 def update():
   basedir=os.path.normpath('%s/..' % sys.argv[0])
   zipname=os.path.join(basedir,'auto-install','lib.zip')
-  vername=os.path.join(basedir,'auto-install','version.txt')
   libvername=os.path.join(basedir,'lib','version.txt')
-  if os.path.isfile(zipname) and os.path.isfile(vername):
-    version=open(vername,'r').read()
+  
+  if os.path.isfile(zipname):
+    zip=zipfile.ZipFile(zipname)
+    version=zip.read('lib/version.txt')
+    
     if wantnewversion(libvername,version):
-      zip=zipfile.ZipFile(zipname)
       open(libvername,'w').write(version)
       for f in zip.namelist():
         if f.endswith('/'):
           try: os.mkdir(os.path.join(basedir,f))
           except: pass
         else:
-          #if not os.path.isdir(os.path.join(basedir,os.path.dirname(f))):
-          #  os.makedirs(os.path.join(basedir,os.path.dirname(f)))
-          #try: os.makedirs(os.path.join(basedir,os.path.dirname(f)))
-          #except: pass
           content=zip.read(f)
           open(os.path.join(basedir,f),'wb').write(content)
       zip.close()
       zip=None
       os.remove(zipname)
-      os.remove(vername)

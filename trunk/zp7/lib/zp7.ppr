@@ -77,6 +77,7 @@ zp6
 			internet\xmlserver.py
 			internet\apiserver.py
 			internet\localserver.py
+			internet\downloader.py
 		+interop
 			interop\__init__.py
 			interop\anchors.py
@@ -110,9 +111,12 @@ zp6
 2=desktop\mainwin.py
 3=config\__init__.py
 4=database\manager.py
+5=update.py
+6=internet\localserver.py
+7=internet\downloader.py
 [Selected Project Files]
 Main=
-Selected=database\manager.py
+Selected=internet\downloader.py
 [..\zpevnikator.py]
 TopLine=1
 Caret=1,7
@@ -120,11 +124,20 @@ Caret=1,7
 TopLine=1
 Caret=15,6
 [desktop\mainwin.py]
-TopLine=140
-Caret=1,179
+TopLine=130
+Caret=1,178
 [config\__init__.py]
-TopLine=28
+TopLine=19
 Caret=67,56
 [database\manager.py]
 TopLine=1
 Caret=40,19
+[update.py]
+TopLine=1
+Caret=5,26
+[internet\localserver.py]
+TopLine=1
+Caret=1,1
+[internet\downloader.py]
+TopLine=1
+Caret=1,1

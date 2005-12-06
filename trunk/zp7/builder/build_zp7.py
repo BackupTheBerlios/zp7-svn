@@ -64,7 +64,6 @@ zip.writestr('zp7/zpevnikator.exe',open('zp7/dist/zpevnikator.exe','rb').read())
 zip.writestr('zp7/unicows.dll',open('winlib/unicows.dll','rb').read())
 zip.writestr('zp7/options.xml',open('zp7/options.xml').read())
 zip.writestr('zp7/auto-install/lib.zip',open('lib.zip','rb').read())
-zip.writestr('zp7/auto-install/version.txt',version)
 zip.close()
 
 print 'logging into FTP autoinstall'
