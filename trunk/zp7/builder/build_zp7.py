@@ -36,7 +36,6 @@ for root, dirs, files in os.walk("zp7\\lib"):
     if os.path.splitext(name)[1].lower()=='.py' or name.lower()=='version.txt':
       zip.write(os.path.join(root,name),os.path.join(root,name).replace("zp7\\",""))
 zip.close()
-raise 0
 
 print 'logging into FTP'
 ftp=ftplib.FTP("ftp.zpevnik.net")
