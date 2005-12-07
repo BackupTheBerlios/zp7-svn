@@ -168,7 +168,8 @@ class MainWindow(wx.Frame,intf.IMenuCreator):
                     'desktop' : desktop,
                     'dbmanager' : database.dbmanager
                     }
-      self.shell = py.shell.ShellFrame(None, locals=namespace)
+      #self.shell = py.shell.ShellFrame(None, locals=namespace)
+      self.shell = py.crust.CrustFrame(None, locals=namespace)
       self.shell.SetSize((640,480))
       self.shell.Show()
 

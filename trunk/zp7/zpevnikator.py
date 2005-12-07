@@ -15,6 +15,7 @@ import xml.sax.saxutils
 import shutil
 import zipfile
 import threading
+import wx.py
 
 sys.path.append(os.path.normpath('%s/../lib' % sys.argv[0]))
 
