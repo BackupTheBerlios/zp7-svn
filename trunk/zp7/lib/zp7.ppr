@@ -114,9 +114,11 @@ zp6
 5=update.py
 6=internet\localserver.py
 7=internet\downloader.py
+8=..\builder\build_zp7.py
+9=..\..\..\www\new.zpevnik.net\templates\zpevnikator.phtml
 [Selected Project Files]
 Main=
-Selected=internet\downloader.py
+Selected=..\..\..\www\new.zpevnik.net\templates\zpevnikator.phtml
 [..\zpevnikator.py]
 TopLine=1
 Caret=1,7
@@ -134,10 +136,16 @@ TopLine=1
 Caret=40,19
 [update.py]
 TopLine=1
-Caret=5,26
+Caret=1,1
 [internet\localserver.py]
 TopLine=1
 Caret=1,1
 [internet\downloader.py]
 TopLine=1
 Caret=1,1
+[..\builder\build_zp7.py]
+TopLine=43
+Caret=1,67
+[..\..\..\www\new.zpevnik.net\templates\zpevnikator.phtml]
+TopLine=1
+Caret=3,43

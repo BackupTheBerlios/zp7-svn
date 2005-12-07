@@ -269,7 +269,9 @@ class DBVPanel(anchors.content.IContent):
     try:
       interop.disable_messaging()
       if self.ignore_change_db: return
+      self.ignore_change_db=True
       sel=self.dbs.GetSelection()
+      (config.xml/'dbview')['selected_db']=sel
       if sel==0: self.selected_db=None
       if sel==1 or sel==2:
         dlg=wx.TextEntryDialog(desktop.main_window,u"Zadej jméno nové databáze",u"Zpěvníkátor")
@@ -295,17 +297,23 @@ class DBVPanel(anchors.content.IContent):
       desktop.recreate_menu()
     finally:
       interop.enable_messaging()
+      self.ignore_change_db=False
 
   def filldbs(self):
-    self.ignore_change_db=True
     dblist=list(iter(database.dbmanager))
     utils.wx_fill_list(self.dbs,self.predefined_db_list+dblist)
     try:
-      self.dbs.SetSelection(len(self.predefined_db_list)+dblist.index(self.selected_db))
+      if not hasattr(self,'wascalled_filldbs'):
+        self.wascalled_filldbs=True
+        self.dbs.SetSelection(int((config.xml/'dbview')['selected_db']))
+        #print self.dbs.GetSelection()
+      else:
+        self.dbs.SetSelection(len(self.predefined_db_list)+dblist.index(self.selected_db))
       self.OnChangeDb(None)
+      #print self.selected_db is None
     except Exception,e:
+      #print e
       self.dbs.SetSelection(0)
-    self.ignore_change_db=False
 
   def showifneeded(self):
     if self.notebook: self.notebook.Show(self.visible())
