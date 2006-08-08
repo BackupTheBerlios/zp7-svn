@@ -2,21 +2,21 @@ import os,stat,zipfile,shutil,ftplib,string,time,sys,os.path
 from StringIO import StringIO
 
 def emptydir(dirname):
-  if os.path.isdir(dirname):
-    print "Removing directory "+dirname
-    for root, dirs, files in os.walk(dirname,topdown=False):
-      for name in files:
-        os.chmod(os.path.join(root, name),stat.S_IWRITE);
-        os.remove(os.path.join(root, name))
-      for name in dirs:
-        os.rmdir(os.path.join(root, name))
-    os.rmdir(dirname);
+    if os.path.isdir(dirname):
+        print "Removing directory "+dirname
+        for root, dirs, files in os.walk(dirname,topdown=False):
+            for name in files:
+                os.chmod(os.path.join(root, name),stat.S_IWRITE);
+                os.remove(os.path.join(root, name))
+            for name in dirs:
+                os.rmdir(os.path.join(root, name))
+        os.rmdir(dirname);
 
 noinc=False
 
 for arg in sys.argv[1:]:
-  if arg=='--noinc': noinc=True
-  else: raise Exception('Unknown argument: %s' % arg)
+    if arg=='--noinc': noinc=True
+    else: raise Exception('Unknown argument: %s' % arg)
 
 emptydir('build')
 os.mkdir('build')
@@ -37,13 +37,13 @@ open('zp7/lib/version.txt','w').write(version)
 print 'creating lib.zip'
 zip=zipfile.ZipFile('lib.zip',"w",zipfile.ZIP_DEFLATED)
 for root, dirs, files in os.walk("zp7\\lib"):
-  if '.svn' in dirs:
-    dirs.remove('.svn')
-  for name in dirs:
-    zip.writestr(os.path.join(root,name).replace("zp7\\","")+'/','')
-  for name in files:
-    if os.path.splitext(name)[1].lower()=='.py' or name.lower()=='version.txt':
-      zip.write(os.path.join(root,name),os.path.join(root,name).replace("zp7\\",""))
+    if '.svn' in dirs:
+        dirs.remove('.svn')
+    for name in dirs:
+        zip.writestr(os.path.join(root,name).replace("zp7\\","")+'/','')
+    for name in files:
+        if os.path.splitext(name)[1].lower()=='.py' or name.lower()=='version.txt':
+            zip.write(os.path.join(root,name),os.path.join(root,name).replace("zp7\\",""))
 zip.close()
 
 print 'creating zpevnikator.exe'
@@ -83,7 +83,7 @@ ftp.storbinary("STOR /zp7.zip",open('zp7.zip','rb'));
 ftp.quit()
 
 if not noinc:
-  os.system('svn ci zp7/lib/version.txt -m "automatic version increase"')
+    os.system('svn ci zp7/lib/version.txt -m "automatic version increase"')
 
 print 'finished OK, new version: %s' % version
 

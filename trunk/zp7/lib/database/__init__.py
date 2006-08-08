@@ -4,6 +4,6 @@ import intf
 import manager
 
 try:
-  dbmanager=manager.SongDBManager()  
+    dbmanager=manager.SongDBManager()  
 except:
-  dbmanager=None
+    dbmanager=None

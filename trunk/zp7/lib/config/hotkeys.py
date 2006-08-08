@@ -14,5 +14,5 @@ quit='Alt+X'
 
 edit_sb_types='Ctrl+Y'
 sb_insert_content=''
-
+
 editsong='F4'

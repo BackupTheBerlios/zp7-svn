@@ -20,9 +20,9 @@ import wx.py
 sys.path.append(os.path.normpath('%s/../lib' % sys.argv[0]))
 
 if __name__=='__main__':
-  import update
-  update.update()
-  
-  import main
-  main.main()
- 
+    import update
+    update.update()
+
+    import main
+    main.main()
+

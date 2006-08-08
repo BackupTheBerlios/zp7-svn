@@ -13,63 +13,63 @@ import format
 import sbtype
 
 class PagePrinter:
-  #canvas=None
-  def getpagesize(self): return 0,0
-  def beginpage(self): pass
-  def endpage(self): pass
-  def addpane_hint(self,pane): pass
-  #def nextpage(self):
+#canvas=None
+    def getpagesize(self): return 0,0
+    def beginpage(self): pass
+    def endpage(self): pass
+    def addpane_hint(self,pane): pass
+    #def nextpage(self):
     #if self.canvas: self.endpage()
     #self.beginpage()
 
 class LogPage:
-  panes=[]
-  canvas=format.MemoryCanvas()
-  pagenum=0
-  
-  def __init__(self):
-    self.panes=[]
-    self.canvas=format.MemoryCanvas()
+    panes=[]
+    canvas=format.MemoryCanvas()
+    pagenum=0
 
-  def draw(self,canvas):
+    def __init__(self):
+        self.panes=[]
+        self.canvas=format.MemoryCanvas()
+
+    def draw(self,canvas):
     #acty=0
     #for pane in self.pane: 
-      #pane.canvas.draw(format.SubCanvas(canvas,0,acty))
-      #acty+=pane.hi
-    self.canvas.draw(canvas)
+    #pane.canvas.draw(format.SubCanvas(canvas,0,acty))
+    #acty+=pane.hi
+        self.canvas.draw(canvas)
 
 class LogPages(PagePrinter):
-  pages=[]
-  actpage=None
-  pagesize=(0,0)  
-  
-  def __init__(self,pagesize):
-    self.pages=[]
-    self.actpage=None
-    self.pagesize=pagesize
-    
-  def beginpage(self):
-    self.actpage=LogPage()
-    self.pages.append(self.actpage)
-    self.actpage.pagenum=len(self.pages)
-    return self.actpage.canvas
+    pages=[]
+    actpage=None
+    pagesize=(0,0)  
 
-  def addpane_hint(self,pane):
-    self.actpage.panes.append(pane)
-    
-  def endpage(self): 
-    self.actpage=None
+    def __init__(self,pagesize):
+        self.pages=[]
+        self.actpage=None
+        self.pagesize=pagesize
 
-  def getpagesize(self): return self.pagesize
-    
-  def __len__(self): return len(self.pages)
-  def __iter__(self): return iter(self.pages)
-  def __getitem__(self,item): return self.pages[item]
-    
+    def beginpage(self):
+        self.actpage=LogPage()
+        self.pages.append(self.actpage)
+        self.actpage.pagenum=len(self.pages)
+        return self.actpage.canvas
+
+    def addpane_hint(self,pane):
+        self.actpage.panes.append(pane)
+
+    def endpage(self): 
+        self.actpage=None
+
+    def getpagesize(self): return self.pagesize
+
+    def __len__(self): return len(self.pages)
+    def __iter__(self): return iter(self.pages)
+    def __getitem__(self,item): return self.pages[item]
+
 # class DistribAlg:
 #   """abstract class, which have to transform """
 #   pass
-    
+
 # class DistribState:
 #   acty=0
 #   printer=None
