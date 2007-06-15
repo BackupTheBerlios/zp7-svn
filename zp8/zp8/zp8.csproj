@@ -61,6 +61,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>SongTable.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="xsls.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>

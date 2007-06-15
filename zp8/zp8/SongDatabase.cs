@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Xml;
+using System.Xml.Xsl;
 
 using Finisar.SQLite;
 
@@ -28,6 +30,19 @@ namespace zp8
                 cmd.ExecuteNonQuery();
             }
             m_adapter = new SQLiteDataAdapter("SELECT * FROM song", m_conn);
+            m_dataset = new SongDb();
+            m_adapter.Fill(m_dataset.song);
+        }
+        public void ImportZp6File(string filename)
+        {
+            XslCompiledTransform xslt = new XslCompiledTransform();
+            xslt.Load(XmlReader.Create(new StringReader(reqtype.Template)));
+            XmlDocument result = new XmlDocument();
+            StringBuilder sb = new StringBuilder();
+            xslt.Transform(request, XmlWriter.Create(sb));
+            XmlDocument newreq = new XmlDocument();
+            newreq.LoadXml(sb.ToString());
+            DbRequest.ProcessRequest(newreq, out response, out data, logger, sql);
         }
     }
 }
