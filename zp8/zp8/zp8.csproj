@@ -94,7 +94,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SongDb.xsd</DependentUpon>
     </Compile>
-    <Compile Include="SongDbConnection.cs" />
+    <Compile Include="SongDatabase.cs" />
     <Compile Include="SongTable.cs">
       <SubType>UserControl</SubType>
     </Compile>

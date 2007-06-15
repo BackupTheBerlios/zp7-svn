@@ -7,10 +7,13 @@ using Finisar.SQLite;
 
 namespace zp8
 {
-    public class SongDbConnection
+    public class SongDatabase
     {
         internal SQLiteConnection m_conn;
-        public SongDbConnection(string filename)
+        internal SongDb m_dataset;
+        internal SQLiteDataAdapter m_adapter;
+
+        public SongDatabase(string filename)
         {
             if (File.Exists(filename))
             {
@@ -24,6 +27,7 @@ namespace zp8
                 SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE song (ID INTEGER PRIMARY KEY, title VARCHAR, groupname VARCHAR, author VARCHAR, songtext TEXT, lang VARCHAR)", m_conn);
                 cmd.ExecuteNonQuery();
             }
+            m_adapter = new SQLiteDataAdapter("SELECT * FROM song", m_conn);
         }
     }
 }

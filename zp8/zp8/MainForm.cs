@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 using Finisar.SQLite;
 
 namespace zp8
@@ -19,7 +20,8 @@ namespace zp8
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            SongDbConnection sc = new SongDbConnection(@"e:\dev\zp8\songs.db");
+            LoadDbList();
+            SongDatabase sc = new SongDatabase(@"e:\dev\zp8\songs.db");
             //songDb1.song.AddsongRow("ahoj peggy", "Kamelot", "je mlynu", "1");
             //songDb1.WriteXml(@"e:\dev\zp8\songs2.xml");
             SQLiteDataAdapter ada = new SQLiteDataAdapter("SELECT * FROM song", sc.m_conn);
@@ -50,6 +52,29 @@ namespace zp8
         private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             if (e.ColumnIndex == 0) e.Cancel = true;
+        }
+
+        private void LoadDbList()
+        {
+            dblist.Items.Clear();
+            foreach(string path in Directory.GetFiles(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "db")))
+            {
+                string file = Path.GetFileName(path);
+                if (Path.GetExtension(file).ToLower() == ".db")
+                {
+                    dblist.Items.Add(file);
+                }
+            }
+        }
+
+        private void novýToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mnuNewDb_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
