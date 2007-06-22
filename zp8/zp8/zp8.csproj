@@ -40,17 +40,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbManager.cs" />
+    <Compile Include="DialogBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogBase.Designer.cs">
+      <DependentUpon>DialogBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="NewDbForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewDbForm.Designer.cs">
+      <DependentUpon>NewDbForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="DialogBase.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DialogBase.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewDbForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NewDbForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
