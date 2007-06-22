@@ -14,6 +14,8 @@ namespace zp8
     public partial class MainForm : Form
     {
         Dictionary<int, SongDatabase> m_loaded_dbs = new Dictionary<int, SongDatabase>();
+        Dictionary<string, int> m_loaded_dbs_name_to_index = new Dictionary<string, int>();
+        bool m_updating_state = false;
         public MainForm()
         {
             InitializeComponent();
@@ -55,15 +57,25 @@ namespace zp8
             if (e.ColumnIndex == 0) e.Cancel = true;
         }
 
+        private static string GetDbTitle(SongDatabase db)
+        {
+            return (db.Modified ? "*" : "") + db.Name;
+        }
+
         private void LoadDbList()
         {
+            SongDatabase lastdb = SelectedDb;
+            DbManager.Manager.Refresh();
             dblist.Items.Clear();
             m_loaded_dbs.Clear();
+            m_loaded_dbs_name_to_index.Clear();
             foreach (SongDatabase db in DbManager.Manager.GetDatabases())
             {
                 m_loaded_dbs[dblist.Items.Count] = db;
-                dblist.Items.Add(db.Name);
+                m_loaded_dbs_name_to_index[db.Name] = dblist.Items.Count;
+                dblist.Items.Add(GetDbTitle(db));
             }
+            if (lastdb != null) dblist.SelectedIndex = m_loaded_dbs_name_to_index[lastdb.Name];
         }
 
         private void mnuNewDb_Click(object sender, EventArgs e)
@@ -75,11 +87,85 @@ namespace zp8
                 LoadDbList();
             }
         }
+        public SongDatabase SelectedDb
+        {
+            get
+            {
+                try { return m_loaded_dbs[dblist.SelectedIndex]; }
+                catch (Exception) { return null; }
+            }
+        }
 
         private void dblist_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SongDatabase db = m_loaded_dbs[dblist.SelectedIndex];
+            if (m_updating_state) return;
+            songTable1.Bind(SelectedDb);
+            UpdateDbState();
+        }
+
+        private void zeStaréhoZpìvníkátoruToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                SongDatabase db = SelectedDb;
+                foreach (string file in openFileDialog1.FileNames)
+                {
+                    db.ImportZp6File(file);
+                }
+                LoadDbList();
+            }
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            string dbs = "";
+            foreach (SongDatabase db in DbManager.Manager.GetDatabases())
+            {
+                if (db.Modified)
+                {
+                    if (dbs != "") dbs += ",";
+                    dbs += db.Name;
+                }
+            }
+            if (dbs != "")
+            {
+                DialogResult res= MessageBox.Show("Databáze " + dbs + " zmìnìny, uložit?", "Zpìvníkátor", MessageBoxButtons.YesNoCancel);
+                if (res == DialogResult.Cancel)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+                if (res == DialogResult.No) return;
+                if (res == DialogResult.Yes)
+                {
+                    foreach (SongDatabase db in DbManager.Manager.GetDatabases())
+                        if (db.Modified)
+                            db.Commit();
+                }
+            }
+            
+        }
+
+        private void mnuSaveDb_Click(object sender, EventArgs e)
+        {
+            SelectedDb.Commit();
+            UpdateDbState();
+        }
+
+        private void UpdateDbState()
+        {
+            try
+            {
+                m_updating_state = true;
+                dblist.Items[dblist.SelectedIndex] = GetDbTitle(SelectedDb);
+                dbstatus.Text = SelectedDb.Modified ? "Zmìnìno" : "";
+                dbsize.Text = String.Format("{0} písní", SelectedDb.DataSet.song.Rows.Count);
+                dbname.Text = SelectedDb.Name;
+            }
+            finally
+            {
+                m_updating_state = false;
+            }
         }
     }
-
 }

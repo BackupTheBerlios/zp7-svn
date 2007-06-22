@@ -5,22 +5,36 @@ using System.IO;
 using System.Xml;
 using System.Xml.Xsl;
 using System.Resources;
+using System.Windows.Forms;
 
 using Finisar.SQLite;
 
 namespace zp8
 {
+    public interface ISongSource
+    {
+        BindingSource GetBindingSource();
+        SongDatabase GetDataSet();
+    }
     public class SongDatabase
     {
-        internal SQLiteConnection m_conn;
-        internal SongDb m_dataset;
-        internal SQLiteDataAdapter m_adapter;
+        SQLiteConnection m_conn;
+        SongDb m_dataset;
+        SQLiteDataAdapter m_adapter;
         string m_filename;
         bool m_opened = false;
 
         public SongDatabase(string filename)
         {
             m_filename = filename;
+        }
+        public SongDb DataSet
+        {
+            get
+            {
+                WantOpen();
+                return m_dataset;
+            }
         }
         private void WantOpen()
         {
@@ -40,14 +54,14 @@ namespace zp8
             m_adapter = new SQLiteDataAdapter("SELECT * FROM song", m_conn);
             m_dataset = new SongDb();
             m_adapter.Fill(m_dataset.song);
+            SQLiteCommandBuilder cb = new SQLiteCommandBuilder(m_adapter);
+            m_adapter.InsertCommand = (SQLiteCommand)cb.GetInsertCommand();
             m_opened = true;
         }
         public void ImportZp6File(string filename)
         {
             XslCompiledTransform xslt = new XslCompiledTransform();
-            ResourceManager mgr = new ResourceManager(typeof(SongDatabase));
-            string zp6_to_zp8 = mgr.GetString("zp6_tp_zp8");
-            xslt.Load(XmlReader.Create(new StringReader(zp6_to_zp8)));
+            xslt.Load(XmlReader.Create(new StringReader(xsls.zp6_to_zp8)));
             XmlDocument result = new XmlDocument();
             StringBuilder sb = new StringBuilder();
             XmlDocument zp6doc = new XmlDocument();
@@ -61,12 +75,24 @@ namespace zp8
 
         public void ImportZp8Xml(StringReader fr)
         {
-            SQLiteTransaction t = m_conn.BeginTransaction();
             m_dataset.song.ReadXml(fr);
-            m_adapter.Update(m_dataset.song);
-            t.Commit();
         }
         public static string ExtractDbName(string filename) {return Path.GetFileName(filename).ToLower(); }
         public string Name { get { return ExtractDbName(m_filename); } }
+        public void Commit()
+        {
+            WantOpen();
+            SQLiteTransaction t = m_conn.BeginTransaction();
+            m_adapter.Update(m_dataset.song);
+            t.Commit();
+        }
+        public bool Modified
+        {
+            get
+            {
+                if (!m_opened) return false;
+                return m_dataset.HasChanges();
+            }
+        }
     }
 }

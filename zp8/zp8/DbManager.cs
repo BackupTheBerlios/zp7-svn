@@ -39,7 +39,9 @@ namespace zp8
             dbname = dbname.ToLower();
             if (!dbname.EndsWith(".db")) dbname += ".db";
             if (m_dbs.ContainsKey(dbname)) throw new Exception("Duplicate db name");
-            m_dbs[dbname] = new SongDatabase(Path.Combine(DbPath, dbname));
+            SongDatabase db = new SongDatabase(Path.Combine(DbPath, dbname));
+            m_dbs[dbname] = db;
+            db.Commit();
         }
     }
 }

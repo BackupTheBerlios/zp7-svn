@@ -29,54 +29,60 @@ namespace zp8
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.songBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.songDb = new zp8.SongDb();
-            this.songDbBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.iDDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.authorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.songtextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.langDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.songBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.songDb)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.songDbBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // songBindingSource
             // 
-            this.dataGridView1.AutoGenerateColumns = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.iDDataGridViewTextBoxColumn,
-            this.titleDataGridViewTextBoxColumn,
-            this.groupnameDataGridViewTextBoxColumn,
-            this.authorDataGridViewTextBoxColumn,
-            this.songtextDataGridViewTextBoxColumn,
-            this.langDataGridViewTextBoxColumn});
-            this.dataGridView1.DataMember = "song";
-            this.dataGridView1.DataSource = this.songDbBindingSource;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(603, 507);
-            this.dataGridView1.TabIndex = 1;
+            this.songBindingSource.DataMember = "song";
+            this.songBindingSource.DataSource = this.songDb;
             // 
             // songDb
             // 
             this.songDb.DataSetName = "SongDb";
             this.songDb.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
-            // songDbBindingSource
-            // 
-            this.songDbBindingSource.DataSource = this.songDb;
-            this.songDbBindingSource.Position = 0;
-            // 
             // iDDataGridViewTextBoxColumn
             // 
             this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
             this.iDDataGridViewTextBoxColumn.HeaderText = "ID";
             this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AutoGenerateColumns = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.iDDataGridViewTextBoxColumn1,
+            this.titleDataGridViewTextBoxColumn,
+            this.groupnameDataGridViewTextBoxColumn,
+            this.authorDataGridViewTextBoxColumn,
+            this.songtextDataGridViewTextBoxColumn,
+            this.langDataGridViewTextBoxColumn});
+            this.dataGridView1.DataSource = this.songBindingSource;
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(603, 507);
+            this.dataGridView1.TabIndex = 5;
+            // 
+            // iDDataGridViewTextBoxColumn1
+            // 
+            this.iDDataGridViewTextBoxColumn1.DataPropertyName = "ID";
+            this.iDDataGridViewTextBoxColumn1.HeaderText = "ID";
+            this.iDDataGridViewTextBoxColumn1.Name = "iDDataGridViewTextBoxColumn1";
             // 
             // titleDataGridViewTextBoxColumn
             // 
@@ -116,23 +122,24 @@ namespace zp8
             this.Controls.Add(this.dataGridView1);
             this.Name = "SongTable";
             this.Size = new System.Drawing.Size(603, 507);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.songBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.songDb)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.songDbBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource songBindingSource;
+        private SongDb songDb;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn titleDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn groupnameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn authorDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn songtextDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn langDataGridViewTextBoxColumn;
-        private System.Windows.Forms.BindingSource songDbBindingSource;
-        private SongDb songDb;
     }
 }

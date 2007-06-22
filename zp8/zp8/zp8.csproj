@@ -82,8 +82,14 @@
       <SubType>Designer</SubType>
       <DependentUpon>SongTable.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SongView.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SongView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="xsls.resx">
       <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>xsls.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -124,6 +130,17 @@
     </Compile>
     <Compile Include="SongTable.Designer.cs">
       <DependentUpon>SongTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SongView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SongView.Designer.cs">
+      <DependentUpon>SongView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="xsls.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>xsls.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
