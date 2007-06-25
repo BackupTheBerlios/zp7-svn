@@ -34,8 +34,8 @@ namespace zp8
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.songView1 = new zp8.SongView();
-            this.splitter1 = new System.Windows.Forms.Splitter();
             this.songTable1 = new zp8.SongTable();
+            this.splitter1 = new System.Windows.Forms.Splitter();
             this.StatusStrip1 = new System.Windows.Forms.StatusStrip();
             this.dbname = new System.Windows.Forms.ToolStripStatusLabel();
             this.dbsize = new System.Windows.Forms.ToolStripStatusLabel();
@@ -53,11 +53,14 @@ namespace zp8
             this.zeStaréhoZpìvníkátoruToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSaveDb = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.serversFrame1 = new zp8.ServersFrame();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.StatusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -93,6 +96,7 @@ namespace zp8
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 48);
             this.tabControl1.Name = "tabControl1";
@@ -123,14 +127,6 @@ namespace zp8
             this.songView1.SongSource = this.songTable1;
             this.songView1.TabIndex = 7;
             // 
-            // splitter1
-            // 
-            this.splitter1.Location = new System.Drawing.Point(439, 3);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(10, 377);
-            this.splitter1.TabIndex = 6;
-            this.splitter1.TabStop = false;
-            // 
             // songTable1
             // 
             this.songTable1.Dock = System.Windows.Forms.DockStyle.Left;
@@ -138,6 +134,14 @@ namespace zp8
             this.songTable1.Name = "songTable1";
             this.songTable1.Size = new System.Drawing.Size(436, 377);
             this.songTable1.TabIndex = 5;
+            // 
+            // splitter1
+            // 
+            this.splitter1.Location = new System.Drawing.Point(439, 3);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(10, 377);
+            this.splitter1.TabIndex = 6;
+            this.splitter1.TabStop = false;
             // 
             // StatusStrip1
             // 
@@ -282,6 +286,25 @@ namespace zp8
             this.openFileDialog1.Filter = "XML soubory|*.xml";
             this.openFileDialog1.Multiselect = true;
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.serversFrame1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(664, 405);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Servery";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // serversFrame1
+            // 
+            this.serversFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.serversFrame1.Location = new System.Drawing.Point(3, 3);
+            this.serversFrame1.Name = "serversFrame1";
+            this.serversFrame1.Size = new System.Drawing.Size(658, 399);
+            this.serversFrame1.TabIndex = 0;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -303,6 +326,7 @@ namespace zp8
             this.StatusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -337,6 +361,8 @@ namespace zp8
         private SongView songView1;
         private System.Windows.Forms.Splitter splitter1;
         private SongTable songTable1;
+        private System.Windows.Forms.TabPage tabPage3;
+        private ServersFrame serversFrame1;
     }
 }
 

@@ -27,6 +27,8 @@ namespace zp8 {
         
         private songDataTable tablesong;
         
+        private serverDataTable tableserver;
+        
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -56,6 +58,9 @@ namespace zp8 {
                 if ((ds.Tables["song"] != null)) {
                     base.Tables.Add(new songDataTable(ds.Tables["song"]));
                 }
+                if ((ds.Tables["server"] != null)) {
+                    base.Tables.Add(new serverDataTable(ds.Tables["server"]));
+                }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
                 this.Namespace = ds.Namespace;
@@ -80,6 +85,15 @@ namespace zp8 {
         public songDataTable song {
             get {
                 return this.tablesong;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public serverDataTable server {
+            get {
+                return this.tableserver;
             }
         }
         
@@ -145,6 +159,9 @@ namespace zp8 {
                 if ((ds.Tables["song"] != null)) {
                     base.Tables.Add(new songDataTable(ds.Tables["song"]));
                 }
+                if ((ds.Tables["server"] != null)) {
+                    base.Tables.Add(new serverDataTable(ds.Tables["server"]));
+                }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
                 this.Namespace = ds.Namespace;
@@ -181,6 +198,12 @@ namespace zp8 {
                     this.tablesong.InitVars();
                 }
             }
+            this.tableserver = ((serverDataTable)(base.Tables["server"]));
+            if ((initTable == true)) {
+                if ((this.tableserver != null)) {
+                    this.tableserver.InitVars();
+                }
+            }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -192,10 +215,17 @@ namespace zp8 {
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
             this.tablesong = new songDataTable();
             base.Tables.Add(this.tablesong);
+            this.tableserver = new serverDataTable();
+            base.Tables.Add(this.tableserver);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private bool ShouldSerializesong() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeserver() {
             return false;
         }
         
@@ -221,6 +251,8 @@ namespace zp8 {
         
         public delegate void songRowChangeEventHandler(object sender, songRowChangeEvent e);
         
+        public delegate void serverRowChangeEventHandler(object sender, serverRowChangeEvent e);
+        
         /// <summary>
         ///Represents the strongly named DataTable class.
         ///</summary>
@@ -240,6 +272,8 @@ namespace zp8 {
             private global::System.Data.DataColumn columnsongtext;
             
             private global::System.Data.DataColumn columnlang;
+            
+            private global::System.Data.DataColumn columnserver_id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public songDataTable() {
@@ -314,6 +348,13 @@ namespace zp8 {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn server_idColumn {
+                get {
+                    return this.columnserver_id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -342,7 +383,7 @@ namespace zp8 {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public songRow AddsongRow(int ID, string title, string groupname, string author, string songtext, string lang) {
+            public songRow AddsongRow(int ID, string title, string groupname, string author, string songtext, string lang, int server_id) {
                 songRow rowsongRow = ((songRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID,
@@ -350,7 +391,8 @@ namespace zp8 {
                         groupname,
                         author,
                         songtext,
-                        lang};
+                        lang,
+                        server_id};
                 rowsongRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowsongRow);
                 return rowsongRow;
@@ -387,6 +429,7 @@ namespace zp8 {
                 this.columnauthor = base.Columns["author"];
                 this.columnsongtext = base.Columns["songtext"];
                 this.columnlang = base.Columns["lang"];
+                this.columnserver_id = base.Columns["server_id"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -403,6 +446,8 @@ namespace zp8 {
                 base.Columns.Add(this.columnsongtext);
                 this.columnlang = new global::System.Data.DataColumn("lang", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnlang);
+                this.columnserver_id = new global::System.Data.DataColumn("server_id", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnserver_id);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("songKey1", new global::System.Data.DataColumn[] {
                                 this.columnID}, true));
                 this.columnID.AllowDBNull = false;
@@ -485,6 +530,240 @@ namespace zp8 {
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "songDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class serverDataTable : global::System.Data.DataTable, global::System.Collections.IEnumerable {
+            
+            private global::System.Data.DataColumn columnID;
+            
+            private global::System.Data.DataColumn columnurl;
+            
+            private global::System.Data.DataColumn columnservertype;
+            
+            private global::System.Data.DataColumn columnconfig;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public serverDataTable() {
+                this.TableName = "server";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal serverDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected serverDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn IDColumn {
+                get {
+                    return this.columnID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn urlColumn {
+                get {
+                    return this.columnurl;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn servertypeColumn {
+                get {
+                    return this.columnservertype;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn configColumn {
+                get {
+                    return this.columnconfig;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public serverRow this[int index] {
+                get {
+                    return ((serverRow)(this.Rows[index]));
+                }
+            }
+            
+            public event serverRowChangeEventHandler serverRowChanging;
+            
+            public event serverRowChangeEventHandler serverRowChanged;
+            
+            public event serverRowChangeEventHandler serverRowDeleting;
+            
+            public event serverRowChangeEventHandler serverRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddserverRow(serverRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public serverRow AddserverRow(int ID, string url, string servertype, string config) {
+                serverRow rowserverRow = ((serverRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        ID,
+                        url,
+                        servertype,
+                        config};
+                rowserverRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowserverRow);
+                return rowserverRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual global::System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override global::System.Data.DataTable Clone() {
+                serverDataTable cln = ((serverDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new serverDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnID = base.Columns["ID"];
+                this.columnurl = base.Columns["url"];
+                this.columnservertype = base.Columns["servertype"];
+                this.columnconfig = base.Columns["config"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnID = new global::System.Data.DataColumn("ID", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID);
+                this.columnurl = new global::System.Data.DataColumn("url", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnurl);
+                this.columnservertype = new global::System.Data.DataColumn("servertype", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnservertype);
+                this.columnconfig = new global::System.Data.DataColumn("config", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnconfig);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public serverRow NewserverRow() {
+                return ((serverRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new serverRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Type GetRowType() {
+                return typeof(serverRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.serverRowChanged != null)) {
+                    this.serverRowChanged(this, new serverRowChangeEvent(((serverRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.serverRowChanging != null)) {
+                    this.serverRowChanging(this, new serverRowChangeEvent(((serverRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.serverRowDeleted != null)) {
+                    this.serverRowDeleted(this, new serverRowChangeEvent(((serverRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.serverRowDeleting != null)) {
+                    this.serverRowDeleting(this, new serverRowChangeEvent(((serverRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveserverRow(serverRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                SongDb ds = new SongDb();
+                xs.Add(ds.GetSchemaSerializable());
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "serverDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 return type;
@@ -591,6 +870,21 @@ namespace zp8 {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int server_id {
+                get {
+                    try {
+                        return ((int)(this[this.tablesong.server_idColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'server_id\' in table \'song\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablesong.server_idColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IstitleNull() {
                 return this.IsNull(this.tablesong.titleColumn);
             }
@@ -639,6 +933,131 @@ namespace zp8 {
             public void SetlangNull() {
                 this[this.tablesong.langColumn] = global::System.Convert.DBNull;
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool Isserver_idNull() {
+                return this.IsNull(this.tablesong.server_idColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void Setserver_idNull() {
+                this[this.tablesong.server_idColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class serverRow : global::System.Data.DataRow {
+            
+            private serverDataTable tableserver;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal serverRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableserver = ((serverDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int ID {
+                get {
+                    try {
+                        return ((int)(this[this.tableserver.IDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ID\' in table \'server\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableserver.IDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string url {
+                get {
+                    try {
+                        return ((string)(this[this.tableserver.urlColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'url\' in table \'server\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableserver.urlColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string servertype {
+                get {
+                    try {
+                        return ((string)(this[this.tableserver.servertypeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'servertype\' in table \'server\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableserver.servertypeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string config {
+                get {
+                    try {
+                        return ((string)(this[this.tableserver.configColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'config\' in table \'server\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableserver.configColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsIDNull() {
+                return this.IsNull(this.tableserver.IDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetIDNull() {
+                this[this.tableserver.IDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsurlNull() {
+                return this.IsNull(this.tableserver.urlColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SeturlNull() {
+                this[this.tableserver.urlColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsservertypeNull() {
+                return this.IsNull(this.tableserver.servertypeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetservertypeNull() {
+                this[this.tableserver.servertypeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsconfigNull() {
+                return this.IsNull(this.tableserver.configColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetconfigNull() {
+                this[this.tableserver.configColumn] = global::System.Convert.DBNull;
+            }
         }
         
         /// <summary>
@@ -659,6 +1078,37 @@ namespace zp8 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public songRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class serverRowChangeEvent : global::System.EventArgs {
+            
+            private serverRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public serverRowChangeEvent(serverRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public serverRow Row {
                 get {
                     return this.eventRow;
                 }

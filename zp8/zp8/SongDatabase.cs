@@ -6,6 +6,7 @@ using System.Xml;
 using System.Xml.Xsl;
 using System.Resources;
 using System.Windows.Forms;
+using System.Data;
 
 using Finisar.SQLite;
 
@@ -36,6 +37,11 @@ namespace zp8
                 return m_dataset;
             }
         }
+        private void ExecuteSql(string sql)
+        {
+            SQLiteCommand cmd = new SQLiteCommand(sql, m_conn);
+            cmd.ExecuteNonQuery();
+        }
         private void WantOpen()
         {
             if (m_opened) return;
@@ -48,8 +54,8 @@ namespace zp8
             {
                 m_conn = new SQLiteConnection(String.Format("Data Source={0};New=True;Version=3", m_filename));
                 m_conn.Open();
-                SQLiteCommand cmd = new SQLiteCommand("CREATE TABLE song (ID INTEGER PRIMARY KEY, title VARCHAR, groupname VARCHAR, author VARCHAR, songtext TEXT, lang VARCHAR)", m_conn);
-                cmd.ExecuteNonQuery();
+                ExecuteSql("CREATE TABLE song (ID INTEGER PRIMARY KEY, title VARCHAR, groupname VARCHAR, author VARCHAR, songtext TEXT, lang VARCHAR, server_id INT NULL)");
+                ExecuteSql("CREATE TABLE server (ID INTEGER PRIMARY KEY, url VARCHAR, servertype VARCHAR, config TEXT)");
             }
             m_adapter = new SQLiteDataAdapter("SELECT * FROM song", m_conn);
             m_dataset = new SongDb();
@@ -92,6 +98,13 @@ namespace zp8
             {
                 if (!m_opened) return false;
                 return m_dataset.HasChanges();
+            }
+        }
+        public void DeleteSongsFromServer(int server)
+        {
+            foreach (SongDb.songRow row in m_dataset.song.Rows)
+            {
+                if (row.server_id == server) row.Delete();
             }
         }
     }

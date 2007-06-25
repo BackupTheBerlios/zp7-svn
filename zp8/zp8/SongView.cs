@@ -32,7 +32,8 @@ namespace zp8
         private void src_PositionChanged(object sender, EventArgs e)
         {
             int index = m_bsrc.Position;
-            textBox1.Text = m_source.GetDataSet().DataSet.song[index].songtext;
+            SongDatabase sdb = m_source.GetDataSet();
+            if (sdb != null) textBox1.Text = sdb.DataSet.song[index].songtext;
         }
     }
 }
