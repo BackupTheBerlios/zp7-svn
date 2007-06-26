@@ -11,13 +11,14 @@ namespace zp8
     public partial class AddServerWizard : Form
     {
         List<ISongServer> m_servers = new List<ISongServer>();
-        List<ISongServerType> m_types = new List<ISongServerType>();
+        List<ISongServerFactoryType> m_ftypes = new List<ISongServerFactoryType>();
+        ISongServerFactory m_factory;
         public AddServerWizard()
         {
             InitializeComponent();
-            foreach (ISongServerType type in SongServer.GetTypes())
+            foreach (ISongServerFactoryType type in SongServer.GetFactoryTypes())
             {
-                m_types.Add(type);
+                m_ftypes.Add(type);
                 servertype.Items.Add(type.Name);
             }
         }
@@ -31,9 +32,15 @@ namespace zp8
 
         private void servertype_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ISongServerType type = m_types[servertype.SelectedIndex];
-            cbreadonly.Checked = type.Readonly;
+            ISongServerFactoryType type = m_ftypes[servertype.SelectedIndex];
             description.Text = type.Description;
+        }
+
+        private void wizardPage2_ShowFromNext(object sender, EventArgs e)
+        {
+            ISongServerFactoryType type = m_ftypes[servertype.SelectedIndex];
+            m_factory = type.CreateFactory();
+            propertyGrid1.SelectedObject = m_factory;
         }
     }
 }

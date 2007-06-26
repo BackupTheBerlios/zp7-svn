@@ -10,7 +10,6 @@ namespace zp8
     {
         ISongServer Load(string url, string config);
         string Name { get;}
-        string Description { get;}
         bool Readonly { get;}
     }
 
@@ -19,9 +18,23 @@ namespace zp8
         void DownloadNew(SongDatabase db, int serverid);
     }
 
+    public interface ISongServerFactoryType
+    {
+        ISongServerFactory CreateFactory();
+        string Name { get;}
+        string Description { get;}
+    }
+
+    public interface ISongServerFactory
+    {
+        bool Work(List<ISongServer> servers, out string message);
+    }
+
+
     public static class SongServer
     {
         static Dictionary<string, ISongServerType> m_types = new Dictionary<string, ISongServerType>();
+        static Dictionary<string, ISongServerFactoryType> m_ftypes = new Dictionary<string, ISongServerFactoryType>();
 
         public static ISongServer LoadSongServer(string type, string url, string config)
         {
@@ -31,15 +44,24 @@ namespace zp8
         {
             m_types[type.Name] = type;
         }
+        public static void RegisterFactory(ISongServerFactoryType type)
+        {
+            m_ftypes[type.Name] = type;
+        }
 
         public static IEnumerable<ISongServerType> GetTypes()
         {
             return m_types.Values;
         }
+        public static IEnumerable<ISongServerFactoryType> GetFactoryTypes()
+        {
+            return m_ftypes.Values;
+        }
 
         static SongServer()
         {
             RegisterSongServer(new XmlSongServerType());
+            RegisterFactory(new XmlSongServerFactoryType());
         }
     }
 
@@ -55,11 +77,6 @@ namespace zp8
         public string Name
         {
             get { return "xml"; }
-        }
-
-        public string Description
-        {
-            get { return "XML soubor nìkde na internetu"; }
         }
 
         public bool Readonly
@@ -93,5 +110,44 @@ namespace zp8
             }
             resp.Close();
         }
+    }
+
+    public class XmlSongServerFactory : ISongServerFactory
+    {
+        string m_url;
+
+        public string URL { get { return m_url; } set { m_url = value; } }
+        #region ISongServerFactory Members
+
+        public bool Work(List<ISongServer> servers, out string message)
+        {
+            servers.Add(new XmlSongServer(URL));
+            message = "Pøidáno:" + URL;
+            return true;
+        }
+
+        #endregion
+    }
+
+    public class XmlSongServerFactoryType : ISongServerFactoryType
+    {
+        #region ISongServerFactoryType Members
+
+        public ISongServerFactory CreateFactory()
+        {
+            return new XmlSongServerFactory();
+        }
+
+        public string Name
+        {
+            get { return "xml"; }
+        }
+
+        public string Description
+        {
+            get { return "XML soubor nìkde na internetu"; }
+        }
+
+        #endregion
     }
 }
