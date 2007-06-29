@@ -23,7 +23,17 @@ namespace zp8
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ISongServer[] types = AddServerWizard.Run();
+            ISongServer[] servers = AddServerWizard.Run();
+            if (servers == null) return;
+            foreach(ISongServer srv in servers)
+            {
+                SongDb.serverRow row = m_dataset.DataSet.server.NewserverRow();
+                //m_dataset.DataSet.server.IDColumn.
+                row.url = srv.URL;
+                row.servertype = srv.Type;
+                row.config = srv.Config;
+                m_dataset.DataSet.server.AddserverRow(row);
+            }
         }
     }
 }

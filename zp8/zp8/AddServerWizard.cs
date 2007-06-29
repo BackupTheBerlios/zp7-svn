@@ -13,6 +13,7 @@ namespace zp8
         List<ISongServer> m_servers = new List<ISongServer>();
         List<ISongServerFactoryType> m_ftypes = new List<ISongServerFactoryType>();
         ISongServerFactory m_factory;
+
         public AddServerWizard()
         {
             InitializeComponent();
@@ -41,6 +42,22 @@ namespace zp8
             ISongServerFactoryType type = m_ftypes[servertype.SelectedIndex];
             m_factory = type.CreateFactory();
             propertyGrid1.SelectedObject = m_factory;
+        }
+
+        private void wizardPage3_ShowFromNext(object sender, EventArgs e)
+        {
+            m_servers.Clear();
+            string msg;
+            if (m_factory != null && m_factory.Work(m_servers, out msg))
+            {
+                wizardPage3.IsFinishPage = true;
+                endpage.PageText = msg;
+            }
+            else
+            {
+                wizardPage3.IsFinishPage = false;
+            }
+           
         }
     }
 }

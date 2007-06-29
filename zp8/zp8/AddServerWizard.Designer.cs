@@ -40,16 +40,18 @@ namespace zp8
             this.servertype = new System.Windows.Forms.ListBox();
             this.header1 = new Gui.Wizard.Header();
             this.wizardPage3 = new Gui.Wizard.WizardPage();
+            this.endpage = new Gui.Wizard.InfoPage();
             this.wizard1.SuspendLayout();
             this.wizardPage2.SuspendLayout();
             this.wizardPage1.SuspendLayout();
+            this.wizardPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // wizard1
             // 
+            this.wizard1.Controls.Add(this.wizardPage3);
             this.wizard1.Controls.Add(this.wizardPage2);
             this.wizard1.Controls.Add(this.wizardPage1);
-            this.wizard1.Controls.Add(this.wizardPage3);
             this.wizard1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.wizard1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.wizard1.Location = new System.Drawing.Point(0, 0);
@@ -159,12 +161,26 @@ namespace zp8
             // 
             // wizardPage3
             // 
+            this.wizardPage3.Controls.Add(this.endpage);
             this.wizardPage3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.wizardPage3.IsFinishPage = false;
             this.wizardPage3.Location = new System.Drawing.Point(0, 0);
             this.wizardPage3.Name = "wizardPage3";
             this.wizardPage3.Size = new System.Drawing.Size(476, 318);
             this.wizardPage3.TabIndex = 3;
+            this.wizardPage3.ShowFromNext += new System.EventHandler(this.wizardPage3_ShowFromNext);
+            // 
+            // endpage
+            // 
+            this.endpage.BackColor = System.Drawing.Color.White;
+            this.endpage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.endpage.Image = ((System.Drawing.Image)(resources.GetObject("endpage.Image")));
+            this.endpage.Location = new System.Drawing.Point(0, 0);
+            this.endpage.Name = "endpage";
+            this.endpage.PageText = "This wizard enables you to...";
+            this.endpage.PageTitle = "Dokonèení pøidání serveru";
+            this.endpage.Size = new System.Drawing.Size(476, 318);
+            this.endpage.TabIndex = 0;
             // 
             // AddServerWizard
             // 
@@ -178,6 +194,7 @@ namespace zp8
             this.wizardPage2.ResumeLayout(false);
             this.wizardPage1.ResumeLayout(false);
             this.wizardPage1.PerformLayout();
+            this.wizardPage3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -195,6 +212,7 @@ namespace zp8
         private System.Windows.Forms.ListBox servertype;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
         private Gui.Wizard.Header header2;
+        private Gui.Wizard.InfoPage endpage;
 
     }
 }

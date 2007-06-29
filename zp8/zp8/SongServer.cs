@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Net;
 using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace zp8
 {
@@ -15,6 +17,9 @@ namespace zp8
 
     public interface ISongServer
     {
+        string URL { get;}
+        string Type { get;}
+        string Config { get;}
         void DownloadNew(SongDatabase db, int serverid);
     }
 
@@ -29,7 +34,6 @@ namespace zp8
     {
         bool Work(List<ISongServer> servers, out string message);
     }
-
 
     public static class SongServer
     {
@@ -65,6 +69,41 @@ namespace zp8
         }
     }
 
+    public abstract class BaseSongServer : ISongServer
+    {
+        protected string m_url;
+        protected string m_type;
+        protected string m_config;
+
+        public BaseSongServer(string type, string url, string config)
+        {
+            m_url = url;
+            m_type = type;
+            m_config = config;
+        }
+
+        #region ISongServer Members
+
+        public string URL
+        {
+            get { return m_url; }
+        }
+
+        public string Type
+        {
+            get { return m_type; }
+        }
+
+        public string Config
+        {
+            get { return m_config; }
+        }
+
+        public abstract void DownloadNew(SongDatabase db, int serverid);
+
+        #endregion
+    }
+
     public class XmlSongServerType : ISongServerType
     {
         #region ISongServerType Members
@@ -87,26 +126,32 @@ namespace zp8
         #endregion
     }
 
-    public class XmlSongServer : ISongServer
+    public class XmlSongServer : BaseSongServer
     {
-        string m_url;
+        public XmlSongServer(string url) : base("xml", url, null) { m_url = url; }
 
-        public XmlSongServer(string url) { m_url = url; }
-
-        public void DownloadNew(SongDatabase db, int serverid)
+        public override void DownloadNew(SongDatabase db, int serverid)
         {
             WebRequest req = WebRequest.Create(m_url);
             WebResponse resp = req.GetResponse();
             db.DeleteSongsFromServer(serverid);
             using (Stream fr = resp.GetResponseStream())
             {
-                SongDb xmldb = new SongDb();
+                InetSongDb xmldb = new InetSongDb();
                 xmldb.ReadXml(fr);
-                foreach (SongDb.songRow row in xmldb.song.Rows)
+                foreach (InetSongDb.songRow row in xmldb.song.Rows)
                 {
-                    row.server_id = serverid;
+                    SongDb.songRow newrow = db.DataSet.song.NewsongRow();
+                    newrow.title = row.title;
+                    newrow.groupname = row.groupname;
+                    newrow.author = row.author;
+                    newrow.songtext = row.songtext;
+                    newrow.server_id = serverid;
+                    newrow.lang = row.lang;
+                    newrow.netID = row.ID;
+                    db.DataSet.song.AddsongRow(newrow);
                 }
-                db.DataSet.song.Merge(xmldb.song);
+                //db.DataSet.song.Merge(xmldb.song);
             }
             resp.Close();
         }
@@ -150,4 +195,134 @@ namespace zp8
 
         #endregion
     }
+
+    public class FtpSongServerType : ISongServerType
+    {
+        #region ISongServerType Members
+
+        public ISongServer Load(string url, string config)
+        {
+            return new FtpSongServer(url, config);
+        }
+
+        public string Name
+        {
+            get { return "ftp"; }
+        }
+
+        public bool Readonly
+        {
+            get { return false; }
+        }
+
+        #endregion
+    }
+
+    public class FtpAccess
+    {
+        public string Host;
+        public string Login;
+        public string Password;
+        public string Path;
+
+        public static FtpAccess Load(string xml)
+        {
+            StringReader sr = new StringReader(xml);
+            XmlSerializer xs = new XmlSerializer(typeof(FtpAccess));
+            return (FtpAccess)xs.Deserialize(sr);
+        }
+        public override string ToString()
+        {
+            XmlSerializer xs = new XmlSerializer(typeof(FtpAccess));
+            StringWriter sw = new StringWriter();
+            xs.Serialize(sw, this);
+            return sw.ToString();
+        }
+        public string MakeUrl()
+        {
+            return String.Format("ftp://{0}@{1}{2}", Login, Host, Path);
+        }
+
+    }
+
+    public class FtpSongServer : BaseSongServer
+    {
+        FtpAccess m_access;
+
+        public FtpSongServer(string url, string config)
+            : base("ftp", url, config)
+        {
+            m_access = FtpAccess.Load(config);
+        }
+
+        public override void DownloadNew(SongDatabase db, int serverid)
+        {
+            WebRequest req = WebRequest.Create(m_url);
+            WebResponse resp = req.GetResponse();
+            db.DeleteSongsFromServer(serverid);
+            using (Stream fr = resp.GetResponseStream())
+            {
+                InetSongDb xmldb = new InetSongDb();
+                xmldb.ReadXml(fr);
+                foreach (InetSongDb.songRow row in xmldb.song.Rows)
+                {
+                    SongDb.songRow newrow = db.DataSet.song.NewsongRow();
+                    newrow.title = row.title;
+                    newrow.groupname = row.groupname;
+                    newrow.author = row.author;
+                    newrow.songtext = row.songtext;
+                    newrow.server_id = serverid;
+                    newrow.lang = row.lang;
+                    newrow.netID = row.ID;
+                    db.DataSet.song.AddsongRow(newrow);
+                }
+                //db.DataSet.song.Merge(xmldb.song);
+            }
+            resp.Close();
+        }
+    }
+
+    public class FtpSongServerFactory : ISongServerFactory
+    {
+        FtpAccess m_access = new FtpAccess();
+
+        public string Host { get { return m_access.Host; } set { m_access.Host = value; } }
+        public string Login { get { return m_access.Login; } set { m_access.Login = value; } }
+        public string Password { get { return m_access.Password; } set { m_access.Password = value; } }
+        public string Path { get { return m_access.Path; } set { m_access.Path = value; } }
+
+        #region ISongServerFactory Members
+
+        public bool Work(List<ISongServer> servers, out string message)
+        {
+            servers.Add(new FtpSongServer(m_access.MakeUrl(), m_access.ToString()));
+            message = "Pøidáno:" + m_access.ToString();
+            return true;
+        }
+
+        #endregion
+    }
+
+    public class FtpSongServerFactoryType : ISongServerFactoryType
+    {
+        #region ISongServerFactoryType Members
+
+        public ISongServerFactory CreateFactory()
+        {
+            return new FtpSongServerFactory();
+        }
+
+        public string Name
+        {
+            get { return "ftp"; }
+        }
+
+        public string Description
+        {
+            get { return "XML soubor uložený na FTP (ètení/zápis)"; }
+        }
+
+        #endregion
+    }
+
 }

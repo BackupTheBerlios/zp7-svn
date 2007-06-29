@@ -21,7 +21,8 @@ namespace zp8
     {
         SQLiteConnection m_conn;
         SongDb m_dataset;
-        SQLiteDataAdapter m_adapter;
+        SQLiteDataAdapter m_song_adapter;
+        SQLiteDataAdapter m_server_adapter;
         string m_filename;
         bool m_opened = false;
 
@@ -57,11 +58,18 @@ namespace zp8
                 ExecuteSql("CREATE TABLE song (ID INTEGER PRIMARY KEY, title VARCHAR, groupname VARCHAR, author VARCHAR, songtext TEXT, lang VARCHAR, server_id INT NULL)");
                 ExecuteSql("CREATE TABLE server (ID INTEGER PRIMARY KEY, url VARCHAR, servertype VARCHAR, config TEXT)");
             }
-            m_adapter = new SQLiteDataAdapter("SELECT * FROM song", m_conn);
+            m_song_adapter = new SQLiteDataAdapter("SELECT * FROM song", m_conn);
+            m_server_adapter = new SQLiteDataAdapter("SELECT * FROM server", m_conn);
             m_dataset = new SongDb();
-            m_adapter.Fill(m_dataset.song);
-            SQLiteCommandBuilder cb = new SQLiteCommandBuilder(m_adapter);
-            m_adapter.InsertCommand = (SQLiteCommand)cb.GetInsertCommand();
+            m_song_adapter.Fill(m_dataset.song);
+            m_server_adapter.Fill(m_dataset.server);
+
+            SQLiteCommandBuilder song_cb = new SQLiteCommandBuilder(m_song_adapter);
+            m_song_adapter.InsertCommand = (SQLiteCommand)song_cb.GetInsertCommand();
+
+            SQLiteCommandBuilder server_cb = new SQLiteCommandBuilder(m_server_adapter);
+            m_server_adapter.InsertCommand = (SQLiteCommand)server_cb.GetInsertCommand();
+
             m_opened = true;
         }
         public void ImportZp6File(string filename)
@@ -89,7 +97,8 @@ namespace zp8
         {
             WantOpen();
             SQLiteTransaction t = m_conn.BeginTransaction();
-            m_adapter.Update(m_dataset.song);
+            m_song_adapter.Update(m_dataset.song);
+            m_server_adapter.Update(m_dataset.server);
             t.Commit();
         }
         public bool Modified

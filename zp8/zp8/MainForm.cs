@@ -100,6 +100,7 @@ namespace zp8
         {
             if (m_updating_state) return;
             songTable1.Bind(SelectedDb);
+            serversFrame1.Bind(SelectedDb);
             UpdateDbState();
         }
 

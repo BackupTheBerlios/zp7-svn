@@ -53,6 +53,11 @@
     <Compile Include="DialogBase.Designer.cs">
       <DependentUpon>DialogBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="InetSongDb.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InetSongDb.xsd</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +115,17 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="InetSongDb.xsc">
+      <DependentUpon>InetSongDb.xsd</DependentUpon>
+    </None>
+    <None Include="InetSongDb.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>InetSongDb.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="InetSongDb.xss">
+      <DependentUpon>InetSongDb.xsd</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
