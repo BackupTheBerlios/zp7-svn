@@ -65,7 +65,9 @@ namespace zp8
         static SongServer()
         {
             RegisterSongServer(new XmlSongServerType());
+            RegisterSongServer(new FtpSongServerType());
             RegisterFactory(new XmlSongServerFactoryType());
+            RegisterFactory(new FtpSongServerFactoryType());
         }
     }
 
