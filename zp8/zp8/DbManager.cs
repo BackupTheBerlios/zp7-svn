@@ -43,5 +43,10 @@ namespace zp8
             m_dbs[dbname] = db;
             db.Commit();
         }
+
+        static DbManager()
+        {
+            if (!Directory.Exists(DbPath)) Directory.CreateDirectory(DbPath);
+        }
     }
 }

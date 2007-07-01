@@ -8,7 +8,7 @@ using System.Resources;
 using System.Windows.Forms;
 using System.Data;
 
-using Finisar.SQLite;
+using System.Data.SQLite;
 
 namespace zp8
 {

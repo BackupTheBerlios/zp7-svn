@@ -28,12 +28,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SQLite.NET, Version=0.21.1869.3794, Culture=neutral, PublicKeyToken=c273bd375e695f9c">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\prg\sqlite.net\SQLite.NET.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.43.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\System.Data.SQLite.DLL</HintPath>
+    </Reference>
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -154,7 +154,6 @@
     </Compile>
     <Compile Include="SongDb.cs">
       <DependentUpon>SongDb.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="SongDb.Designer.cs">
       <AutoGen>True</AutoGen>
