@@ -2,7 +2,7 @@
 <xsl:stylesheet 
     version="1.0" 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:sdb="http://tempuri.org/SongDb.xsd" >
+    xmlns:sdb="http://zpevnik.net/SongDb.xsd" >
   <xsl:template match="/">
     <sdb:SongDb>
       <xsl:apply-templates select='/zpevnik_data/database/song' mode='song'/>
@@ -12,7 +12,7 @@
   <xsl:template match="song" mode='song'>
     <sdb:song>
       <sdb:ID>
-        <xsl:value-of select='@netid'/>
+        <xsl:value-of select='@locid'/>
       </sdb:ID>
       <sdb:title>
         <xsl:value-of select='@title'/>
@@ -33,4 +33,3 @@
   </xsl:template>
 
 </xsl:stylesheet>
-
