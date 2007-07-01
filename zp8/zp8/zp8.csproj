@@ -46,12 +46,19 @@
     <Compile Include="AddServerWizard.Designer.cs">
       <DependentUpon>AddServerWizard.cs</DependentUpon>
     </Compile>
+    <Compile Include="DbImport.cs" />
     <Compile Include="DbManager.cs" />
     <Compile Include="DialogBase.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DialogBase.Designer.cs">
       <DependentUpon>DialogBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportForm.Designer.cs">
+      <DependentUpon>ImportForm.cs</DependentUpon>
     </Compile>
     <Compile Include="InetSongDb.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -79,6 +86,10 @@
     <EmbeddedResource Include="DialogBase.resx">
       <SubType>Designer</SubType>
       <DependentUpon>DialogBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ImportForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <SubType>Designer</SubType>

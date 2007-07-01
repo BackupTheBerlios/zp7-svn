@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Xml;
-using System.Xml.Xsl;
 using System.Resources;
 using System.Windows.Forms;
 using System.Data;
@@ -73,20 +72,6 @@ namespace zp8
             m_server_adapter.InsertCommand = (SQLiteCommand)server_cb.GetInsertCommand();
 
             m_opened = true;
-        }
-        public void ImportZp6File(string filename)
-        {
-            XslCompiledTransform xslt = new XslCompiledTransform();
-            xslt.Load(XmlReader.Create(new StringReader(xsls.zp6_to_zp8)));
-            XmlDocument result = new XmlDocument();
-            StringBuilder sb = new StringBuilder();
-            XmlDocument zp6doc = new XmlDocument();
-            zp6doc.Load(filename);
-            xslt.Transform(zp6doc, XmlWriter.Create(sb));
-            using (StringReader sr = new StringReader(sb.ToString()))
-            {
-                ImportZp8Xml(sr);
-            }
         }
 
         public void ImportZp8Xml(StringReader fr)

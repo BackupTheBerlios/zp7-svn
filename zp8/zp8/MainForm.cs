@@ -107,6 +107,7 @@ namespace zp8
 
         private void zeStaréhoZpìvníkátoruToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            /*
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 songDatabaseWrapper1.Database = null;
@@ -118,6 +119,7 @@ namespace zp8
                 UpdateDbState();
                 songDatabaseWrapper1.Database = SelectedDb;
             }
+            */
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -169,6 +171,20 @@ namespace zp8
             finally
             {
                 m_updating_state = false;
+            }
+        }
+
+        private void importToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                songDatabaseWrapper1.Database = null;
+                ImportForm.Run(SelectedDb);
+                UpdateDbState();
+            }
+            finally
+            {
+                songDatabaseWrapper1.Database = SelectedDb;
             }
         }
     }
