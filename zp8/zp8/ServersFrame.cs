@@ -10,16 +10,20 @@ namespace zp8
 {
     public partial class ServersFrame : UserControl
     {
-        SongDatabase m_dataset;
+        //SongDatabase m_dataset;
+        SongDatabaseWrapper m_dbwrap;
         public ServersFrame()
         {
             InitializeComponent();
         }
+
+        /*
         public void Bind(SongDatabase db)
         {
             m_dataset = db;
             serverBindingSource.DataSource = db.DataSet.server;
         }
+        */
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -27,12 +31,25 @@ namespace zp8
             if (servers == null) return;
             foreach(ISongServer srv in servers)
             {
-                SongDb.serverRow row = m_dataset.DataSet.server.NewserverRow();
+                SongDb.serverRow row = m_dbwrap.SongDb.server.NewserverRow();
                 //m_dataset.DataSet.server.IDColumn.
                 row.url = srv.URL;
                 row.servertype = srv.Type;
                 row.config = srv.Config;
-                m_dataset.DataSet.server.AddserverRow(row);
+                m_dbwrap.SongDb.server.AddserverRow(row);
+            }
+        }
+
+        public SongDatabaseWrapper SongDb
+        {
+            get { return m_dbwrap; }
+            set
+            {
+                m_dbwrap = value;
+                if (m_dbwrap != null)
+                {
+                    dataGridView1.DataSource = m_dbwrap.ServerBindingSource;
+                }
             }
         }
     }

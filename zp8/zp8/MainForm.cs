@@ -99,8 +99,9 @@ namespace zp8
         private void dblist_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (m_updating_state) return;
-            songTable1.Bind(SelectedDb);
-            serversFrame1.Bind(SelectedDb);
+            //songTable1.Bind(SelectedDb);
+            //serversFrame1.Bind(SelectedDb);
+            songDatabaseWrapper1.Database = SelectedDb;
             UpdateDbState();
         }
 
@@ -108,12 +109,14 @@ namespace zp8
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                songDatabaseWrapper1.Database = null;
                 SongDatabase db = SelectedDb;
                 foreach (string file in openFileDialog1.FileNames)
                 {
                     db.ImportZp6File(file);
                 }
-                LoadDbList();
+                UpdateDbState();
+                songDatabaseWrapper1.Database = SelectedDb;
             }
         }
 

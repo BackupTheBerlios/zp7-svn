@@ -12,11 +12,13 @@ using System.Data.SQLite;
 
 namespace zp8
 {
+    /*
     public interface ISongSource
     {
         BindingSource GetBindingSource();
         SongDatabase GetDataSet();
     }
+    */
     public class SongDatabase
     {
         SQLiteConnection m_conn;

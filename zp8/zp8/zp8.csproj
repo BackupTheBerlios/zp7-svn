@@ -97,6 +97,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>ServersFrame.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SongDatabaseWrapper.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SongDatabaseWrapper.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SongTable.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SongTable.cs</DependentUpon>
@@ -151,6 +155,12 @@
     </Compile>
     <Compile Include="ServersFrame.Designer.cs">
       <DependentUpon>ServersFrame.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SongDatabaseWrapper.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SongDatabaseWrapper.Designer.cs">
+      <DependentUpon>SongDatabaseWrapper.cs</DependentUpon>
     </Compile>
     <Compile Include="SongDb.cs">
       <DependentUpon>SongDb.xsd</DependentUpon>
