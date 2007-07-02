@@ -54,6 +54,7 @@
     <Compile Include="DialogBase.Designer.cs">
       <DependentUpon>DialogBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Format.cs" />
     <Compile Include="ImportForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -205,6 +206,10 @@
     <ProjectReference Include="..\DAWizard\DAWizard.csproj">
       <Project>{94955608-38E0-43BE-AE73-0C16012E7445}</Project>
       <Name>DAWizard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PdfSharp\PdfSharp.csproj">
+      <Project>{5384CE57-1F94-4D22-860D-2E9C1AC12DDF}</Project>
+      <Name>PdfSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

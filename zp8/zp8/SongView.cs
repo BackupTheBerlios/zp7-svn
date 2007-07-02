@@ -15,6 +15,7 @@ namespace zp8
         BindingSource m_bsrc;
         SongDatabaseWrapper m_dbwrap;
         SongDatabase m_db;
+        PaneGrp m_panegrp;
 
         public SongView()
         {
@@ -41,7 +42,9 @@ namespace zp8
         void m_dbwrap_ChangedSongDatabase(SongDatabase db)
         {
             m_db = db;
-            textBox1.Text = "";
+            m_panegrp = null;
+            panel1.Update();
+            //textBox1.Text = "";
         }
 
         /*
@@ -59,16 +62,25 @@ namespace zp8
 
         private void src_PositionChanged(object sender, EventArgs e)
         {
-            if (m_db == null) return;
             try
             {
                 int index = m_bsrc.Position;
-                if (m_db != null) textBox1.Text = m_db.DataSet.song[index].songtext;
+                SongFormatter fmt = new SongFormatter(m_db.DataSet.song[index].songtext);
+                fmt.Run();
+                m_panegrp = fmt.Result;
+                //textBox1.Text = m_db.DataSet.song[index].songtext;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                textBox1.Text = "";
+                m_panegrp = null;
+                //textBox1.Text = "";
             }
+            panel1.Update();
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            if (m_panegrp != null) m_panegrp.Draw(e.Graphics);
         }
     }
 }

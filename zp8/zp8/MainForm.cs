@@ -16,9 +16,21 @@ namespace zp8
         Dictionary<int, SongDatabase> m_loaded_dbs = new Dictionary<int, SongDatabase>();
         Dictionary<string, int> m_loaded_dbs_name_to_index = new Dictionary<string, int>();
         bool m_updating_state = false;
+        static MainForm m_form;
+
         public MainForm()
         {
+            m_form = this;
             InitializeComponent();
+        }
+
+        public static IntPtr HDC
+        {
+            get
+            {
+                using (Graphics g = Graphics.FromHwnd(m_form.Handle))
+                    return g.GetHdc();
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
