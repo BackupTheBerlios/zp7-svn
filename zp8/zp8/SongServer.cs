@@ -21,6 +21,7 @@ namespace zp8
         string Type { get;}
         string Config { get;}
         void DownloadNew(SongDatabase db, int serverid);
+        void UploadChanges(SongDatabase songDatabase, int serverid);
     }
 
     public interface ISongServerFactoryType
@@ -103,6 +104,11 @@ namespace zp8
 
         public abstract void DownloadNew(SongDatabase db, int serverid);
 
+        public virtual void UploadChanges(SongDatabase songDatabase, int serverid)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
         #endregion
     }
 
@@ -139,20 +145,7 @@ namespace zp8
             db.DeleteSongsFromServer(serverid);
             using (Stream fr = resp.GetResponseStream())
             {
-                InetSongDb xmldb = new InetSongDb();
-                xmldb.ReadXml(fr);
-                foreach (InetSongDb.songRow row in xmldb.song.Rows)
-                {
-                    SongDb.songRow newrow = db.DataSet.song.NewsongRow();
-                    newrow.title = row.title;
-                    newrow.groupname = row.groupname;
-                    newrow.author = row.author;
-                    newrow.songtext = row.songtext;
-                    newrow.server_id = serverid;
-                    newrow.lang = row.lang;
-                    newrow.netID = row.ID;
-                    db.DataSet.song.AddsongRow(newrow);
-                }
+                db.ImportSongs(fr, serverid);
                 //db.DataSet.song.Merge(xmldb.song);
             }
             resp.Close();
@@ -259,28 +252,27 @@ namespace zp8
 
         public override void DownloadNew(SongDatabase db, int serverid)
         {
-            WebRequest req = WebRequest.Create(m_url);
+            FtpWebRequest req = (FtpWebRequest)WebRequest.Create(String.Format("ftp://{0}{1}", m_access.Host, m_access.Path));
+            req.Credentials = new NetworkCredential(m_access.Login, m_access.Password);
+            req.Method = WebRequestMethods.Ftp.DownloadFile;
+
             WebResponse resp = req.GetResponse();
             db.DeleteSongsFromServer(serverid);
             using (Stream fr = resp.GetResponseStream())
             {
-                InetSongDb xmldb = new InetSongDb();
-                xmldb.ReadXml(fr);
-                foreach (InetSongDb.songRow row in xmldb.song.Rows)
-                {
-                    SongDb.songRow newrow = db.DataSet.song.NewsongRow();
-                    newrow.title = row.title;
-                    newrow.groupname = row.groupname;
-                    newrow.author = row.author;
-                    newrow.songtext = row.songtext;
-                    newrow.server_id = serverid;
-                    newrow.lang = row.lang;
-                    newrow.netID = row.ID;
-                    db.DataSet.song.AddsongRow(newrow);
-                }
-                //db.DataSet.song.Merge(xmldb.song);
+                db.ImportSongs(fr, serverid);
             }
             resp.Close();
+        }
+        public override void UploadChanges(SongDatabase songDatabase, int serverid)
+        {
+            FtpWebRequest req = (FtpWebRequest)WebRequest.Create(String.Format("ftp://{0}{1}", m_access.Host, m_access.Path));
+            req.Credentials = new NetworkCredential(m_access.Login, m_access.Password);
+            req.Method = WebRequestMethods.Ftp.UploadFile;
+            using (Stream fw = req.GetRequestStream())
+            {
+                songDatabase.GetSongsAsInetXml(serverid, fw);
+            }
         }
     }
 

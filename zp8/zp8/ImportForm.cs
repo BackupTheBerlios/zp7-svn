@@ -35,7 +35,10 @@ namespace zp8
             IDbImportType type = m_types[imptype.SelectedIndex];
             foreach (string item in filelist.Items)
             {
-                type.Run(m_db, item);
+                int? serverid = null;
+                if (cbserver.Enabled) serverid = (int)lbserver.SelectedValue;
+
+                type.Run(m_db, item, serverid);
             }
         }
 
@@ -56,6 +59,11 @@ namespace zp8
             {
                 filelist.Items.AddRange(openFileDialog1.FileNames);
             }
+        }
+
+        private void cbserver_CheckedChanged(object sender, EventArgs e)
+        {
+            lbserver.Enabled = cbserver.Checked;
         }
     }
 }

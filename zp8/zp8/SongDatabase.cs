@@ -74,10 +74,13 @@ namespace zp8
             m_opened = true;
         }
 
+        /*
         public void ImportZp8Xml(StringReader fr)
         {
             m_dataset.song.ReadXml(fr);
         }
+        */
+
         public static string ExtractDbName(string filename) {return Path.GetFileName(filename).ToLower(); }
         public string Name { get { return ExtractDbName(m_filename); } }
         public void Commit()
@@ -102,6 +105,56 @@ namespace zp8
             {
                 if (row.server_id == server) row.Delete();
             }
+        }
+
+        public void ImportSongs(Stream fr, int? serverid)
+        {
+            InetSongDb xmldb = new InetSongDb();
+            xmldb.ReadXml(fr);
+            ImportSongs(serverid, xmldb);
+        }
+
+        public void ImportSongs(TextReader fr, int? serverid)
+        {
+            InetSongDb xmldb = new InetSongDb();
+            xmldb.ReadXml(fr);
+            ImportSongs(serverid, xmldb);
+        }
+
+        private void ImportSongs(int? serverid, InetSongDb xmldb)
+        {
+            foreach (InetSongDb.songRow row in xmldb.song.Rows)
+            {
+                SongDb.songRow newrow = DataSet.song.NewsongRow();
+                newrow.title = row.title;
+                newrow.groupname = row.groupname;
+                newrow.author = row.author;
+                newrow.songtext = row.songtext;
+                if (serverid.HasValue) newrow.server_id = serverid.Value;
+                newrow.lang = row.lang;
+                newrow.netID = row.ID;
+                DataSet.song.AddsongRow(newrow);
+            }
+        }
+
+        public void GetSongsAsInetXml(int serverid, Stream fw)
+        {
+            InetSongDb xmldb = new InetSongDb();
+            foreach (SongDb.songRow row in m_dataset.song.Rows)
+            {
+                if (row.server_id == serverid)
+                {
+                    InetSongDb.songRow newrow = xmldb.song.NewsongRow();
+                    newrow.title = row.title;
+                    newrow.groupname = row.groupname;
+                    newrow.author = row.author;
+                    newrow.songtext = row.songtext;
+                    newrow.lang = row.lang;
+                    newrow.ID = row.netID;
+                    xmldb.song.AddsongRow(newrow);
+                }
+            }
+            xmldb.WriteXml(fw);
         }
     }
 }

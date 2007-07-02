@@ -49,5 +49,7 @@ namespace zp8
         public SongDb SongDb { get { return m_db.DataSet; } }
         public System.Windows.Forms.BindingSource SongBindingSource { get { return songbindingSource; } }
         public System.Windows.Forms.BindingSource ServerBindingSource { get { return serverbindingSource; } }
+        public SongDb.songRow SelectedSong { get { return m_db.DataSet.song[songbindingSource.Position]; } }
+        public SongDb.serverRow SelectedServer { get { return m_db.DataSet.server[serverbindingSource.Position]; } }
     }
 }
