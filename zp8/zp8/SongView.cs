@@ -65,7 +65,7 @@ namespace zp8
                 int index = m_bsrc.Position;
                 if (m_db != null) textBox1.Text = m_db.DataSet.song[index].songtext;
             }
-            catch (IndexOutOfRangeException)
+            catch (Exception)
             {
                 textBox1.Text = "";
             }

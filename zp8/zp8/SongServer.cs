@@ -266,7 +266,7 @@ namespace zp8
         }
         public override void UploadChanges(SongDatabase songDatabase, int serverid)
         {
-            FtpWebRequest req = (FtpWebRequest)WebRequest.Create(String.Format("ftp://{0}{1}", m_access.Host, m_access.Path));
+            FtpWebRequest req = (FtpWebRequest)WebRequest.Create(String.Format("ftp://{0}/{1}", m_access.Host, m_access.Path));
             req.Credentials = new NetworkCredential(m_access.Login, m_access.Password);
             req.Method = WebRequestMethods.Ftp.UploadFile;
             using (Stream fw = req.GetRequestStream())

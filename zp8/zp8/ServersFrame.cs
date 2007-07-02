@@ -59,5 +59,12 @@ namespace zp8
             ISongServer srv = SongServer.LoadSongServer(row.servertype, row.url, row.config);
             srv.UploadChanges(m_dbwrap.Database, row.ID);
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            SongDb.serverRow row = m_dbwrap.SelectedServer;
+            ISongServer srv = SongServer.LoadSongServer(row.servertype, row.url, row.IsconfigNull() ? null : row.config);
+            srv.DownloadNew(m_dbwrap.Database, row.ID);
+        }
     }
 }

@@ -101,7 +101,9 @@ namespace zp8
         }
         public void DeleteSongsFromServer(int server)
         {
-            foreach (SongDb.songRow row in m_dataset.song.Rows)
+            List<SongDb.songRow> rows = new List<SongDb.songRow>();
+            foreach (SongDb.songRow row in m_dataset.song.Rows) rows.Add(row);
+            foreach (SongDb.songRow row in rows)
             {
                 if (row.server_id == server) row.Delete();
             }
@@ -150,7 +152,7 @@ namespace zp8
                     newrow.author = row.author;
                     newrow.songtext = row.songtext;
                     newrow.lang = row.lang;
-                    newrow.ID = row.netID;
+                    if (!row.IsnetIDNull()) newrow.ID = row.netID;
                     xmldb.song.AddsongRow(newrow);
                 }
             }
