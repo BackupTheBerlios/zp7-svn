@@ -43,7 +43,7 @@ namespace zp8
     public abstract class Pane
     {
         protected FormatOptions m_options;
-        double? m_height;
+        float? m_height;
 
         protected Pane(FormatOptions options)
         {
@@ -51,8 +51,8 @@ namespace zp8
         }
         public abstract void Draw(XGraphics gfx, PointF pt);
 
-        protected abstract double CountHeight(XGraphics gfx);
-        public double Height
+        protected abstract float CountHeight(XGraphics gfx);
+        public float Height
         {
             get
             {
@@ -96,11 +96,12 @@ namespace zp8
         }
         public override void Draw(XGraphics gfx, PointF pt)
         {
+            pt.Y = (float)gfx.PageSize.Height - pt.Y;
             gfx.DrawString(m_text, m_options.TextFont, XBrushes.Black, pt);
         }
-        protected override double CountHeight(XGraphics gfx)
+        protected override float CountHeight(XGraphics gfx)
         {
-            return gfx.MeasureString(m_text, m_options.TextFont).Height;
+            return (float)gfx.MeasureString(m_text, m_options.TextFont).Height;
         }
     }
 
@@ -108,56 +109,82 @@ namespace zp8
     {
         int m_width;
         List<Pane> m_panes = new List<Pane>();
-        public void Draw(Graphics g)
+        public void Draw(XGraphics gfx)
         {
-            int y = 0;
+            float y = 0;
             foreach (Pane pane in m_panes)
             {
-                g.DrawImage(pane.Image, 0, y);
+                pane.Draw(gfx, new PointF(0, y));
                 y += pane.Height;
             }
         }
-        public Pane AddPane()
+        //public Pane AddPane()
+        //{
+        //    Pane res = new Pane();
+        //    m_panes.Add(res);
+        //    return res;
+        //}
+
+        public void Add(Pane pane)
         {
-            Pane res = new Pane();
-            m_panes.Add(res);
-            return res;
+            m_panes.Add(pane);
         }
     }
     public class SongFormatter
     {
-        Pane m_actpane;
         PaneGrp m_panegrp;
         string m_text;
-        Font m_font = new Font(FontFamily.GenericSansSerif, 10);
+        FormatOptions m_options;
 
         public SongFormatter(string text)
         {
             m_panegrp = new PaneGrp();
             m_text = text;
-        }
-
-        private Pane WantPane(int hi)
-        {
-            if (m_actpane == null) m_actpane = m_panegrp.AddPane();
-            m_actpane.WantHi(hi);
-            return m_actpane;
-        }
-
-        private void LineFeed()
-        {
-            m_actpane = null;
+            m_options = new FormatOptions();
         }
 
         public void Run()
         {
             foreach (string line in m_text.Split('\n'))
             {
-                Pane pane = WantPane(20);
-                pane.Graphics.DrawString(line, m_font, Brushes.Black, 0, 0);
+                m_panegrp.Add(new ChordLinePane(line, m_options));
             }
         }
 
         public PaneGrp Result { get { return m_panegrp; } }
+
+        //Pane m_actpane;
+        //PaneGrp m_panegrp;
+        //string m_text;
+        //Font m_font = new Font(FontFamily.GenericSansSerif, 10);
+
+        //public SongFormatter(string text)
+        //{
+        //    m_panegrp = new PaneGrp();
+        //    m_text = text;
+        //}
+
+        //private Pane WantPane(int hi)
+        //{
+        //    if (m_actpane == null) m_actpane = m_panegrp.AddPane();
+        //    m_actpane.WantHi(hi);
+        //    return m_actpane;
+        //}
+
+        //private void LineFeed()
+        //{
+        //    m_actpane = null;
+        //}
+
+        //public void Run()
+        //{
+        //    foreach (string line in m_text.Split('\n'))
+        //    {
+        //        Pane pane = WantPane(20);
+        //        pane.Graphics.DrawString(line, m_font, Brushes.Black, 0, 0);
+        //    }
+        //}
+
+        //public PaneGrp Result { get { return m_panegrp; } }
     }
 }

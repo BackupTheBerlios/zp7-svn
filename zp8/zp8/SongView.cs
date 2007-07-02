@@ -6,6 +6,11 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
+using PdfSharp;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.IO;
+
 namespace zp8
 {
     public partial class SongView : UserControl
@@ -43,7 +48,7 @@ namespace zp8
         {
             m_db = db;
             m_panegrp = null;
-            panel1.Update();
+            panel1.Invalidate();
             //textBox1.Text = "";
         }
 
@@ -62,25 +67,33 @@ namespace zp8
 
         private void src_PositionChanged(object sender, EventArgs e)
         {
+            string text;
             try
             {
-                int index = m_bsrc.Position;
-                SongFormatter fmt = new SongFormatter(m_db.DataSet.song[index].songtext);
-                fmt.Run();
-                m_panegrp = fmt.Result;
-                //textBox1.Text = m_db.DataSet.song[index].songtext;
+                text = m_db.DataSet.song[m_bsrc.Position].songtext;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                m_panegrp = null;
+                text = null;                
                 //textBox1.Text = "";
             }
-            panel1.Update();
+            if (text != null)
+            {
+                SongFormatter fmt = new SongFormatter(text);
+                fmt.Run();
+                m_panegrp = fmt.Result;
+            }
+            else
+            {
+                m_panegrp = null;
+            }
+
+            panel1.Invalidate();
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            if (m_panegrp != null) m_panegrp.Draw(e.Graphics);
+            if (m_panegrp != null) m_panegrp.Draw(XGraphics.FromGraphics(e.Graphics, new XSize(panel1.Width, panel1.Height)));
         }
     }
 }
