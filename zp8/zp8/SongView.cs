@@ -79,13 +79,15 @@ namespace zp8
             }
             if (text != null)
             {
-                SongFormatter fmt = new SongFormatter(text);
+                SongFormatter fmt = new SongFormatter(text, new FormatOptions(panel1.Width));
                 fmt.Run();
                 m_panegrp = fmt.Result;
+                panel1.Height = (int)m_panegrp.FullHeight;
             }
             else
             {
                 m_panegrp = null;
+                panel1.Height = 0;
             }
 
             panel1.Invalidate();
@@ -94,6 +96,11 @@ namespace zp8
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
             if (m_panegrp != null) m_panegrp.Draw(XGraphics.FromGraphics(e.Graphics, new XSize(panel1.Width, panel1.Height)));
+        }
+
+        private void SongView_Resize(object sender, EventArgs e)
+        {
+            panel1.Width = Width - 16;
         }
     }
 }

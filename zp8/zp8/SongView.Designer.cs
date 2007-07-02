@@ -33,9 +33,10 @@ namespace zp8
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.BackColor = System.Drawing.SystemColors.Window;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(391, 348);
+            this.panel1.Size = new System.Drawing.Size(371, 376);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
@@ -43,9 +44,12 @@ namespace zp8
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
+            this.BackColor = System.Drawing.SystemColors.Window;
             this.Controls.Add(this.panel1);
             this.Name = "SongView";
             this.Size = new System.Drawing.Size(461, 488);
+            this.Resize += new System.EventHandler(this.SongView_Resize);
             this.ResumeLayout(false);
 
         }

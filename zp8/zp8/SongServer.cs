@@ -237,7 +237,14 @@ namespace zp8
         {
             return String.Format("ftp://{0}@{1}{2}", Login, Host, Path);
         }
-
+        public FtpWebRequest CreateRequest()
+        {
+            string p = Path;
+            if (!p.StartsWith("/")) p = "/" + p;
+            FtpWebRequest req = (FtpWebRequest)WebRequest.Create(String.Format("ftp://{0}{1}", Host, p));
+            req.Credentials = new NetworkCredential(Login, Password);
+            return req;
+        }
     }
 
     public class FtpSongServer : BaseSongServer
@@ -252,8 +259,7 @@ namespace zp8
 
         public override void DownloadNew(SongDatabase db, int serverid)
         {
-            FtpWebRequest req = (FtpWebRequest)WebRequest.Create(String.Format("ftp://{0}{1}", m_access.Host, m_access.Path));
-            req.Credentials = new NetworkCredential(m_access.Login, m_access.Password);
+            FtpWebRequest req = m_access.CreateRequest();
             req.Method = WebRequestMethods.Ftp.DownloadFile;
 
             WebResponse resp = req.GetResponse();
@@ -266,8 +272,7 @@ namespace zp8
         }
         public override void UploadChanges(SongDatabase songDatabase, int serverid)
         {
-            FtpWebRequest req = (FtpWebRequest)WebRequest.Create(String.Format("ftp://{0}/{1}", m_access.Host, m_access.Path));
-            req.Credentials = new NetworkCredential(m_access.Login, m_access.Password);
+            FtpWebRequest req = m_access.CreateRequest();
             req.Method = WebRequestMethods.Ftp.UploadFile;
             using (Stream fw = req.GetRequestStream())
             {

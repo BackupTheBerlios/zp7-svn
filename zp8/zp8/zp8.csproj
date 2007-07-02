@@ -190,6 +190,7 @@
     <Compile Include="SongTable.Designer.cs">
       <DependentUpon>SongTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="SongTool.cs" />
     <Compile Include="SongView.cs">
       <SubType>UserControl</SubType>
     </Compile>
