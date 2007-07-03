@@ -26,10 +26,12 @@ namespace zp8
         public XFont TextFont;
         public XFont ChordFont;
         public XFont TitleFont;
+        public XFont LabelFont;
         public float HTextSpace;
         public float HChordSpace;
         public float TextHeight;
         public float ChordHeight;
+        public float LabelHeight;
         public float PageWidth;
 
         public readonly XGraphics DummyGraphics;
@@ -37,9 +39,10 @@ namespace zp8
         public FormatOptions(float pgwi)
         {
             XPdfFontOptions options = new XPdfFontOptions(PdfFontEncoding.Unicode, PdfFontEmbedding.Always);
-            TextFont = new XFont("Arial", 10, XFontStyle.Regular, options);
-            ChordFont = new XFont("Arial", 10, XFontStyle.Bold, options);
-            TitleFont = new XFont("Arial", 12, XFontStyle.Regular, options);
+            TextFont = new XFont("Arial", 12, XFontStyle.Regular, options);
+            ChordFont = new XFont("Arial", 12, XFontStyle.Bold, options);
+            LabelFont = new XFont("Arial", 12, XFontStyle.Underline, options);
+            TitleFont = new XFont("Arial", 15, XFontStyle.Regular, options);
 
             PdfDocument doc = new PdfDocument();
             PdfPage page = doc.AddPage();
@@ -48,6 +51,7 @@ namespace zp8
             HChordSpace = (float)DummyGraphics.MeasureString("i", ChordFont).Width;
             TextHeight = (float)DummyGraphics.MeasureString("M", TextFont).Height;
             ChordHeight = (float)DummyGraphics.MeasureString("M", ChordFont).Height;
+            LabelHeight = (float)DummyGraphics.MeasureString("M", LabelFont).Height;
             PageWidth = pgwi;
         }
     }
@@ -97,17 +101,53 @@ namespace zp8
         //}
     }
 
-    public class TextLinePane : Pane
+    public class LabelLinePane : Pane
+    {
+        protected readonly string m_label;
+        public LabelLinePane(FormatOptions options, string label)
+            : base(options)
+        {
+            m_label = label;
+        }
+        public override float Draw(XGraphics gfx, PointF pt)
+        {
+            gfx.DrawString(m_label, m_options.LabelFont, XBrushes.Black, pt, XStringFormat.TopLeft);
+            return m_options.LabelHeight;
+        }
+    }
+
+    public abstract class LabelablePane : Pane
+    {
+        protected readonly float m_x0;
+        protected readonly string m_label;
+
+        protected LabelablePane(FormatOptions options, float x0, string label)
+            : base(options)
+        {
+            m_x0 = x0;
+            m_label = label;
+        }
+
+        protected void DrawLabel(XGraphics gfx, PointF pt, float baseline)
+        {
+            if (m_label != null)
+            {
+                gfx.DrawString(m_label, m_options.LabelFont, XBrushes.Black, new PointF(pt.X, pt.Y + baseline - m_options.LabelHeight), XStringFormat.TopLeft);
+            }
+        }
+    }
+
+    public class TextLinePane : LabelablePane
     {
         string m_text;
-        public TextLinePane(string text, FormatOptions options)
-            : base(options)
+        public TextLinePane(string text, FormatOptions options, float x0, string label)
+            : base(options, x0, label)
         {
             m_text = text;
         }
         public override float Draw(XGraphics gfx, PointF pt)
         {
-            float actx = 0;
+            float actx = m_x0;
             float acty = 0;
             SongLineParser par = new SongLineParser(m_text);
             bool wasword = false;
@@ -117,9 +157,9 @@ namespace zp8
                 {
                     if (wasword) actx += m_options.HTextSpace;
                     float wordwi = (float)gfx.MeasureString(par.Data, m_options.TextFont).Width;
-                    if (actx + wordwi > m_options.PageWidth) // slovo se nevejde na radku
+                    if (actx + wordwi > m_options.PageWidth && actx > m_x0) // slovo se nevejde na radku
                     { // odradkujeme
-                        actx = 0;
+                        actx = m_x0;
                         acty += m_options.TextHeight;
                     }
                     gfx.DrawString(par.Data, m_options.TextFont, XBrushes.Black, new PointF(pt.X + actx, pt.Y + acty), XStringFormat.TopLeft);
@@ -130,15 +170,16 @@ namespace zp8
             }
 
             if (actx > 0) acty += m_options.TextHeight;
+            DrawLabel(gfx, pt, m_options.TextHeight);
             return acty;
         }
     }
 
-    public class ChordLinePane : Pane
+    public class ChordLinePane : LabelablePane
     {
         string m_text;
-        public ChordLinePane(string text, FormatOptions options)
-            : base(options)
+        public ChordLinePane(string text, FormatOptions options, float x0, string label)
+            : base(options, x0, label)
         {
             m_text = text;
         }
@@ -147,7 +188,7 @@ namespace zp8
         private IEnumerable<string> GetLines(XGraphics gfx)
         {
             List<string> lines = new List<string>();
-            float tpos = 0, apos = 0;
+            float tpos = m_x0, apos = m_x0;
             SongLineParser par = new SongLineParser(m_text);
 
             SongLineParser.ParserState lastflushed = par.InitState;
@@ -168,7 +209,7 @@ namespace zp8
                         yield return par.Original.Substring(lastflushed.Position, lastspace.Position - lastflushed.Position);
                         lastflushed = lastspace;
                         par.State = lastspace;
-                        apos = tpos = 0;
+                        apos = tpos = m_x0;
                     }
                     else
                     {
@@ -197,7 +238,7 @@ namespace zp8
 
             foreach (string line in GetLines(gfx))
             {
-                float tpos = 0, apos = 0;
+                float tpos = m_x0, apos = m_x0;
                 SongLineParser par = new SongLineParser(line);
                 while (par.Current != SongLineParser.Token.End)
                 {
@@ -223,6 +264,7 @@ namespace zp8
                 }
                 acty += m_options.ChordHeight + m_options.TextHeight;
             }
+            DrawLabel(gfx, pt, m_options.ChordHeight + m_options.TextHeight);
 
             return acty;
         }
@@ -276,18 +318,25 @@ namespace zp8
 
         public void Run()
         {
+            string pending_label = null;
+            float x0 = 0;
             foreach (string line in m_text.Split('\n'))
             {
                 if (SongTool.IsLabelLine(line))
                 {
+                    if (pending_label != null) m_panegrp.Add(new LabelLinePane(m_options, pending_label));
+                    pending_label = line.Substring(1);
+                    x0 = (float)m_options.DummyGraphics.MeasureString(pending_label, m_options.LabelFont).Width;
                 }
                 else if (SongTool.IsChordLine(line))
                 {
-                    m_panegrp.Add(new ChordLinePane(line, m_options));
+                    m_panegrp.Add(new ChordLinePane(line, m_options, x0, pending_label));
+                    pending_label = null;
                 }
                 else
                 {
-                    m_panegrp.Add(new TextLinePane(line, m_options));
+                    m_panegrp.Add(new TextLinePane(line, m_options, x0, pending_label));
+                    pending_label = null;
                 }
             }
         }

@@ -36,7 +36,7 @@ namespace zp8
             foreach (string item in filelist.Items)
             {
                 int? serverid = null;
-                if (cbserver.Enabled) serverid = (int)lbserver.SelectedValue;
+                if (cbserver.Checked) serverid = (int)lbserver.SelectedValue;
 
                 type.Run(m_db, item, serverid);
             }
