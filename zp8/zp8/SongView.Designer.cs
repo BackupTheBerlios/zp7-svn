@@ -30,8 +30,10 @@ namespace zp8
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.tbzoom = new System.Windows.Forms.TrackBar();
+            this.cbtransp = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.tbzoom = new System.Windows.Forms.TrackBar();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbzoom)).BeginInit();
             this.SuspendLayout();
@@ -48,6 +50,8 @@ namespace zp8
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.Control;
+            this.panel2.Controls.Add(this.cbtransp);
+            this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.tbzoom);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
@@ -55,6 +59,48 @@ namespace zp8
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(461, 42);
             this.panel2.TabIndex = 1;
+            // 
+            // cbtransp
+            // 
+            this.cbtransp.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbtransp.FormattingEnabled = true;
+            this.cbtransp.Items.AddRange(new object[] {
+            "C",
+            "C#",
+            "D",
+            "D#",
+            "E",
+            "F",
+            "F#",
+            "G",
+            "G#",
+            "A",
+            "Bb",
+            "H"});
+            this.cbtransp.Location = new System.Drawing.Point(247, 12);
+            this.cbtransp.MaxDropDownItems = 12;
+            this.cbtransp.Name = "cbtransp";
+            this.cbtransp.Size = new System.Drawing.Size(70, 21);
+            this.cbtransp.TabIndex = 3;
+            this.cbtransp.SelectedIndexChanged += new System.EventHandler(this.cbtransp_SelectedIndexChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(176, 12);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(65, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Transpozice";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 12);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(50, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Zvìtšení";
             // 
             // tbzoom
             // 
@@ -65,15 +111,6 @@ namespace zp8
             this.tbzoom.Size = new System.Drawing.Size(117, 42);
             this.tbzoom.TabIndex = 0;
             this.tbzoom.Scroll += new System.EventHandler(this.tbzoom_Scroll);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 12);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(50, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Zvìtšení";
             // 
             // SongView
             // 
@@ -99,6 +136,8 @@ namespace zp8
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TrackBar tbzoom;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox cbtransp;
 
     }
 }

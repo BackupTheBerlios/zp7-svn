@@ -22,7 +22,9 @@ namespace zp8
         SongDatabaseWrapper m_dbwrap;
         SongDatabase m_db;
         PaneGrp m_panegrp;
-        string m_text;
+        string m_origtext;
+        string m_drawtext;
+        int m_basetone;
 
         public SongView()
         {
@@ -71,9 +73,9 @@ namespace zp8
 
         private void Redraw()
         {
-            if (m_text != null)
+            if (m_drawtext != null)
             {
-                SongFormatter fmt = new SongFormatter(m_text, new FormatOptions(panel1.Width / Scale));
+                SongFormatter fmt = new SongFormatter(m_drawtext, new FormatOptions(panel1.Width / Scale));
                 fmt.Run();
                 m_panegrp = fmt.Result;
                 panel1.Height = (int)(m_panegrp.FullHeight * Scale);
@@ -87,17 +89,37 @@ namespace zp8
             panel1.Invalidate();
         }
 
+        private void SetText(string text)
+        {
+            m_origtext = text;
+            if (m_origtext != null) m_basetone = Chords.GetBaseTone(m_origtext);
+            else m_basetone = -1;
+
+            m_drawtext = m_origtext;
+
+            if (m_basetone >= 0)
+            {
+                cbtransp.Enabled = true;
+                cbtransp.SelectedIndex = m_basetone;
+            }
+            else
+            {
+                cbtransp.SelectedIndex = -1;
+                cbtransp.Enabled = false;
+            }
+            Redraw();
+        }
+
         private void src_PositionChanged(object sender, EventArgs e)
         {
             try
             {
-                m_text = m_db.DataSet.song[m_bsrc.Position].songtext;
+                SetText(m_db.DataSet.song[m_bsrc.Position].songtext);
             }
             catch (Exception)
             {
-                m_text = null;                
+                SetText(null);
             }
-            Redraw();
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -118,6 +140,14 @@ namespace zp8
 
         private void tbzoom_Scroll(object sender, EventArgs e)
         {
+            Redraw();
+        }
+
+        private void cbtransp_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int d = cbtransp.SelectedIndex - m_basetone;
+            if (d < 0) d += 12;
+            m_drawtext = Chords.Transpose(m_origtext, d);
             Redraw();
         }
     }
