@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
@@ -21,6 +22,7 @@ namespace zp8
         SongDatabaseWrapper m_dbwrap;
         SongDatabase m_db;
         PaneGrp m_panegrp;
+        string m_text;
 
         public SongView()
         {
@@ -44,6 +46,8 @@ namespace zp8
             }
         }
 
+        public float Scale { get { return (float)Math.Pow(5, tbzoom.Value / 10.0); } }
+
         void m_dbwrap_ChangedSongDatabase(SongDatabase db)
         {
             m_db = db;
@@ -65,24 +69,14 @@ namespace zp8
         }
         */
 
-        private void src_PositionChanged(object sender, EventArgs e)
+        private void Redraw()
         {
-            string text;
-            try
+            if (m_text != null)
             {
-                text = m_db.DataSet.song[m_bsrc.Position].songtext;
-            }
-            catch (Exception)
-            {
-                text = null;                
-                //textBox1.Text = "";
-            }
-            if (text != null)
-            {
-                SongFormatter fmt = new SongFormatter(text, new FormatOptions(panel1.Width));
+                SongFormatter fmt = new SongFormatter(m_text, new FormatOptions(panel1.Width / Scale));
                 fmt.Run();
                 m_panegrp = fmt.Result;
-                panel1.Height = (int)m_panegrp.FullHeight;
+                panel1.Height = (int)(m_panegrp.FullHeight * Scale);
             }
             else
             {
@@ -93,14 +87,38 @@ namespace zp8
             panel1.Invalidate();
         }
 
+        private void src_PositionChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                m_text = m_db.DataSet.song[m_bsrc.Position].songtext;
+            }
+            catch (Exception)
+            {
+                m_text = null;                
+            }
+            Redraw();
+        }
+
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            if (m_panegrp != null) m_panegrp.Draw(XGraphics.FromGraphics(e.Graphics, new XSize(panel1.Width, panel1.Height)));
+            if (m_panegrp != null)
+            {
+                GraphicsState state = e.Graphics.Save();
+                e.Graphics.ScaleTransform(Scale, Scale);
+                m_panegrp.Draw(XGraphics.FromGraphics(e.Graphics, new XSize(panel1.Width, panel1.Height)));
+                e.Graphics.Restore(state);
+            }
         }
 
         private void SongView_Resize(object sender, EventArgs e)
         {
             panel1.Width = Width - 16;
+        }
+
+        private void tbzoom_Scroll(object sender, EventArgs e)
+        {
+            Redraw();
         }
     }
 }
