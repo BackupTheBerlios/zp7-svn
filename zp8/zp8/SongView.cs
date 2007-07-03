@@ -152,7 +152,19 @@ namespace zp8
             int d = cbtransp.SelectedIndex - m_basetone;
             if (d < 0) d += 12;
             m_drawtext = Chords.Transpose(m_origtext, d);
-            if (m_song != null) m_song.transp = d;
+            if (m_song != null)
+            {
+                if (d == 0)
+                {
+                    if (!m_song.IstranspNull() && m_song.transp != 0)
+                        m_song.transp = d;
+                }
+                else
+                {
+                    if (m_song.IstranspNull() || m_song.transp != d)
+                        m_song.transp = d;
+                }
+            }
             Redraw();
         }
 
