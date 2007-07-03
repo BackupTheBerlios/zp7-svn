@@ -272,6 +272,8 @@ namespace zp8 {
             
             private System.Data.DataColumn columnnetID;
             
+            private System.Data.DataColumn columntransp;
+            
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public songDataTable() {
                 this.TableName = "song";
@@ -359,6 +361,13 @@ namespace zp8 {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn transpColumn {
+                get {
+                    return this.columntransp;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -387,7 +396,7 @@ namespace zp8 {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public songRow AddsongRow(string title, string groupname, string author, string songtext, string lang, int server_id, int netID) {
+            public songRow AddsongRow(string title, string groupname, string author, string songtext, string lang, int server_id, int netID, int transp) {
                 songRow rowsongRow = ((songRow)(this.NewRow()));
                 rowsongRow.ItemArray = new object[] {
                         null,
@@ -397,7 +406,8 @@ namespace zp8 {
                         songtext,
                         lang,
                         server_id,
-                        netID};
+                        netID,
+                        transp};
                 this.Rows.Add(rowsongRow);
                 return rowsongRow;
             }
@@ -435,6 +445,7 @@ namespace zp8 {
                 this.columnlang = base.Columns["lang"];
                 this.columnserver_id = base.Columns["server_id"];
                 this.columnnetID = base.Columns["netID"];
+                this.columntransp = base.Columns["transp"];
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -455,6 +466,8 @@ namespace zp8 {
                 base.Columns.Add(this.columnserver_id);
                 this.columnnetID = new System.Data.DataColumn("netID", typeof(int), null, System.Data.MappingType.Element);
                 base.Columns.Add(this.columnnetID);
+                this.columntransp = new System.Data.DataColumn("transp", typeof(int), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columntransp);
                 this.Constraints.Add(new System.Data.UniqueConstraint("songKey1", new System.Data.DataColumn[] {
                                 this.columnID}, true));
                 this.columnID.AutoIncrement = true;
@@ -914,6 +927,21 @@ namespace zp8 {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int transp {
+                get {
+                    try {
+                        return ((int)(this[this.tablesong.transpColumn]));
+                    }
+                    catch (System.InvalidCastException e) {
+                        throw new System.Data.StrongTypingException("The value for column \'transp\' in table \'song\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablesong.transpColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IstitleNull() {
                 return this.IsNull(this.tablesong.titleColumn);
             }
@@ -981,6 +1009,16 @@ namespace zp8 {
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetnetIDNull() {
                 this[this.tablesong.netIDColumn] = System.Convert.DBNull;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IstranspNull() {
+                return this.IsNull(this.tablesong.transpColumn);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SettranspNull() {
+                this[this.tablesong.transpColumn] = System.Convert.DBNull;
             }
         }
         

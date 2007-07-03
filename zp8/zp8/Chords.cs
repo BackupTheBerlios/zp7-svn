@@ -124,6 +124,7 @@ namespace zp8
         }
         public static string Transpose(string text, int d)
         {
+            if (d == 0) return text;
             return Regex.Replace(text, @"\[[^]]*\]", delegate(Match m)
             {
                 return "[" + TransposeChord(m.Value.Substring(1, m.Value.Length - 2), d) + "]";
@@ -139,11 +140,6 @@ namespace zp8
                 return ch.Height;
             }
             return -1;
-            //int pos = text.IndexOf('[');
-            //if (pos < 0) return -1;
-            //int p2 = text.IndexOf('[', pos);
-            //if (p2 < 0) return -1;
-            //string chord=text
         }
     }
 }

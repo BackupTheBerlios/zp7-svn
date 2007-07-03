@@ -34,6 +34,7 @@ namespace zp8
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tbzoom = new System.Windows.Forms.TrackBar();
+            this.btreset = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbzoom)).BeginInit();
             this.SuspendLayout();
@@ -50,6 +51,7 @@ namespace zp8
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.Control;
+            this.panel2.Controls.Add(this.btreset);
             this.panel2.Controls.Add(this.cbtransp);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.label1);
@@ -112,6 +114,16 @@ namespace zp8
             this.tbzoom.TabIndex = 0;
             this.tbzoom.Scroll += new System.EventHandler(this.tbzoom_Scroll);
             // 
+            // btreset
+            // 
+            this.btreset.Location = new System.Drawing.Point(323, 12);
+            this.btreset.Name = "btreset";
+            this.btreset.Size = new System.Drawing.Size(56, 21);
+            this.btreset.TabIndex = 4;
+            this.btreset.Text = "Reset";
+            this.btreset.UseVisualStyleBackColor = true;
+            this.btreset.Click += new System.EventHandler(this.button1_Click);
+            // 
             // SongView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -138,6 +150,7 @@ namespace zp8
         private System.Windows.Forms.TrackBar tbzoom;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cbtransp;
+        private System.Windows.Forms.Button btreset;
 
     }
 }

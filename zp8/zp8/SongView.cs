@@ -101,14 +101,14 @@ namespace zp8
 
             if (m_basetone >= 0)
             {
-                cbtransp.Enabled = true;
+                btreset.Enabled = cbtransp.Enabled = true;
                 int d = m_song.IstranspNull() ? 0 : m_song.transp;
                 cbtransp.SelectedIndex = (m_basetone + d) % 12;
             }
             else
             {
                 cbtransp.SelectedIndex = -1;
-                cbtransp.Enabled = false;
+                btreset.Enabled = cbtransp.Enabled = false;
             }
             Redraw();
         }
@@ -152,6 +152,14 @@ namespace zp8
             if (d < 0) d += 12;
             m_drawtext = Chords.Transpose(m_origtext, d);
             if (m_song != null) m_song.transp = d;
+            Redraw();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            cbtransp.SelectedIndex = m_basetone;
+            m_drawtext = m_origtext;
+            if (m_song != null) m_song.transp = 0;
             Redraw();
         }
     }
