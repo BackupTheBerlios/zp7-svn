@@ -46,6 +46,7 @@
     <Compile Include="AddServerWizard.Designer.cs">
       <DependentUpon>AddServerWizard.cs</DependentUpon>
     </Compile>
+    <Compile Include="Chords.cs" />
     <Compile Include="DbImport.cs" />
     <Compile Include="DbManager.cs" />
     <Compile Include="DialogBase.cs">
