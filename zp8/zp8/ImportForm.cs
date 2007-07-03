@@ -11,8 +11,8 @@ namespace zp8
     public partial class ImportForm : Form
     {
         List<IDbImportType> m_types = new List<IDbImportType>();
-        SongDatabase m_db;
-        public ImportForm(SongDatabase db)
+        AbstractSongDatabase m_db;
+        public ImportForm(AbstractSongDatabase db)
         {
             InitializeComponent();
             m_db = db;
@@ -42,7 +42,7 @@ namespace zp8
             }
         }
 
-        public static bool Run(SongDatabase db)
+        public static bool Run(AbstractSongDatabase db)
         {
             ImportForm frm = new ImportForm(db);
             if (frm.ShowDialog() == DialogResult.OK)

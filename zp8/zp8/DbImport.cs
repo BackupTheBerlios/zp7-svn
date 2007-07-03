@@ -12,7 +12,7 @@ namespace zp8
         string Name { get;}
         string Title { get;}
         string Description { get;}
-        void Run(SongDatabase db, string filename, int? serverid);
+        void Run(AbstractSongDatabase db, string filename, int? serverid);
     }
 
     public class Zp6ImportType : IDbImportType
@@ -34,7 +34,7 @@ namespace zp8
             get { return "Databáze zpìvníkátoru 6.0 ve formátu XML"; }
         }
 
-        public void Run(SongDatabase db, string filename, int? serverid)
+        public void Run(AbstractSongDatabase db, string filename, int? serverid)
         {
             XslCompiledTransform xslt = new XslCompiledTransform();
             xslt.Load(XmlReader.Create(new StringReader(xsls.zp6_to_zp8)));

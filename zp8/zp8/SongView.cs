@@ -20,7 +20,7 @@ namespace zp8
 
         BindingSource m_bsrc;
         SongDatabaseWrapper m_dbwrap;
-        SongDatabase m_db;
+        AbstractSongDatabase m_db;
         PaneGrp m_panegrp;
         string m_origtext;
         string m_drawtext;
@@ -51,7 +51,7 @@ namespace zp8
 
         public float ViewScale { get { return (float)Math.Pow(5, tbzoom.Value / 10.0); } }
 
-        void m_dbwrap_ChangedSongDatabase(SongDatabase db)
+        void m_dbwrap_ChangedSongDatabase(AbstractSongDatabase db)
         {
             m_db = db;
             m_panegrp = null;
@@ -139,6 +139,7 @@ namespace zp8
         private void SongView_Resize(object sender, EventArgs e)
         {
             panel1.Width = Width - 16;
+            Redraw();
         }
 
         private void tbzoom_Scroll(object sender, EventArgs e)

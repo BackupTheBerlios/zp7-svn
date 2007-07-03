@@ -16,14 +16,16 @@ namespace zp8
         Dictionary<int, SongDatabase> m_loaded_dbs = new Dictionary<int, SongDatabase>();
         Dictionary<string, int> m_loaded_dbs_name_to_index = new Dictionary<string, int>();
         bool m_updating_state = false;
-        static MainForm m_form;
+        //static MainForm m_form;
 
         public MainForm()
         {
-            m_form = this;
+            //m_form = this;
             InitializeComponent();
+            rbdatabase.Checked = true;
         }
 
+        /*
         public static IntPtr HDC
         {
             get
@@ -32,6 +34,7 @@ namespace zp8
                     return g.GetHdc();
             }
         }
+        */
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -76,18 +79,18 @@ namespace zp8
 
         private void LoadDbList()
         {
-            SongDatabase lastdb = SelectedDb;
+            SongDatabase lastdb = SelectedDatabase;
             DbManager.Manager.Refresh();
-            dblist.Items.Clear();
+            cbdatabase.Items.Clear();
             m_loaded_dbs.Clear();
             m_loaded_dbs_name_to_index.Clear();
             foreach (SongDatabase db in DbManager.Manager.GetDatabases())
             {
-                m_loaded_dbs[dblist.Items.Count] = db;
-                m_loaded_dbs_name_to_index[db.Name] = dblist.Items.Count;
-                dblist.Items.Add(GetDbTitle(db));
+                m_loaded_dbs[cbdatabase.Items.Count] = db;
+                m_loaded_dbs_name_to_index[db.Name] = cbdatabase.Items.Count;
+                cbdatabase.Items.Add(GetDbTitle(db));
             }
-            if (lastdb != null) dblist.SelectedIndex = m_loaded_dbs_name_to_index[lastdb.Name];
+            if (lastdb != null) cbdatabase.SelectedIndex = m_loaded_dbs_name_to_index[lastdb.Name];
         }
 
         private void mnuNewDb_Click(object sender, EventArgs e)
@@ -99,12 +102,30 @@ namespace zp8
                 LoadDbList();
             }
         }
-        public SongDatabase SelectedDb
+        public SongDatabase SelectedDatabase
         {
             get
             {
-                try { return m_loaded_dbs[dblist.SelectedIndex]; }
+                try { return m_loaded_dbs[cbdatabase.SelectedIndex]; }
                 catch (Exception) { return null; }
+            }
+        }
+
+        public SongBook SelectedSongBook
+        {
+            get
+            {
+                try { return SongBook.Manager.SongBooks[cbsongbook.SelectedIndex]; }
+                catch (Exception) { return null; }
+            }
+        }
+
+        public AbstractSongDatabase SelectedDbOrSb
+        {
+            get
+            {
+                if (rbdatabase.Checked) return SelectedDatabase;
+                else return SelectedSongBook;
             }
         }
 
@@ -113,25 +134,15 @@ namespace zp8
             if (m_updating_state) return;
             //songTable1.Bind(SelectedDb);
             //serversFrame1.Bind(SelectedDb);
-            songDatabaseWrapper1.Database = SelectedDb;
-            UpdateDbState();
+            rbdatabase.Checked = true;
+            LoadCurrentDbOrSb();
+            //UpdateDbState();
         }
 
-        private void zeStaréhoZpìvníkátoruToolStripMenuItem_Click(object sender, EventArgs e)
+        private void LoadCurrentDbOrSb()
         {
-            /*
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                songDatabaseWrapper1.Database = null;
-                SongDatabase db = SelectedDb;
-                foreach (string file in openFileDialog1.FileNames)
-                {
-                    db.ImportZp6File(file);
-                }
-                UpdateDbState();
-                songDatabaseWrapper1.Database = SelectedDb;
-            }
-            */
+            songDatabaseWrapper1.Database = SelectedDbOrSb;
+            UpdateDbState();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -166,7 +177,7 @@ namespace zp8
 
         private void mnuSaveDb_Click(object sender, EventArgs e)
         {
-            SelectedDb.Commit();
+            SelectedDatabase.Commit();
             UpdateDbState();
         }
 
@@ -175,10 +186,10 @@ namespace zp8
             try
             {
                 m_updating_state = true;
-                dblist.Items[dblist.SelectedIndex] = GetDbTitle(SelectedDb);
-                dbstatus.Text = SelectedDb.Modified ? "Zmìnìno" : "";
-                dbsize.Text = String.Format("{0} písní", SelectedDb.DataSet.song.Rows.Count);
-                dbname.Text = SelectedDb.Name;
+                cbdatabase.Items[cbdatabase.SelectedIndex] = GetDbTitle(SelectedDatabase);
+                dbstatus.Text = SelectedDatabase.Modified ? "Zmìnìno" : "";
+                dbsize.Text = String.Format("{0} písní", SelectedDatabase.DataSet.song.Rows.Count);
+                dbname.Text = SelectedDatabase.Name;
             }
             finally
             {
@@ -191,13 +202,41 @@ namespace zp8
             try
             {
                 songDatabaseWrapper1.Database = null;
-                ImportForm.Run(SelectedDb);
+                ImportForm.Run(SelectedDbOrSb);
                 UpdateDbState();
             }
             finally
             {
-                songDatabaseWrapper1.Database = SelectedDb;
+                songDatabaseWrapper1.Database = SelectedDbOrSb;
             }
+        }
+
+        private void novýToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SongBook.Manager.CreateNew();
+            LoadSbList();
+        }
+
+        private void LoadSbList()
+        {
+            SongBook lastsb = SelectedSongBook;
+            cbsongbook.Items.Clear();
+            foreach (SongBook sb in SongBook.Manager.SongBooks)
+            {
+                cbsongbook.Items.Add(sb.Title);
+            }
+            if (lastsb != null) cbsongbook.SelectedIndex = cbsongbook.Items.IndexOf(lastsb);
+        }
+
+        private void cbsongbook_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            rbsongbook.Checked = true;
+            LoadCurrentDbOrSb();
+        }
+
+        private void rbsongbook_CheckedChanged(object sender, EventArgs e)
+        {
+            LoadCurrentDbOrSb();
         }
     }
 }

@@ -20,8 +20,8 @@ namespace zp8
         string URL { get;}
         string Type { get;}
         string Config { get;}
-        void DownloadNew(SongDatabase db, int serverid);
-        void UploadChanges(SongDatabase songDatabase, int serverid);
+        void DownloadNew(AbstractSongDatabase db, int serverid);
+        void UploadChanges(AbstractSongDatabase songDatabase, int serverid);
     }
 
     public interface ISongServerFactoryType
@@ -102,9 +102,9 @@ namespace zp8
             get { return m_config; }
         }
 
-        public abstract void DownloadNew(SongDatabase db, int serverid);
+        public abstract void DownloadNew(AbstractSongDatabase db, int serverid);
 
-        public virtual void UploadChanges(SongDatabase songDatabase, int serverid)
+        public virtual void UploadChanges(AbstractSongDatabase songDatabase, int serverid)
         {
             throw new Exception("The method or operation is not implemented.");
         }
@@ -138,7 +138,7 @@ namespace zp8
     {
         public XmlSongServer(string url) : base("xml", url, null) { m_url = url; }
 
-        public override void DownloadNew(SongDatabase db, int serverid)
+        public override void DownloadNew(AbstractSongDatabase db, int serverid)
         {
             WebRequest req = WebRequest.Create(m_url);
             WebResponse resp = req.GetResponse();
@@ -257,7 +257,7 @@ namespace zp8
             m_access = FtpAccess.Load(config);
         }
 
-        public override void DownloadNew(SongDatabase db, int serverid)
+        public override void DownloadNew(AbstractSongDatabase db, int serverid)
         {
             FtpWebRequest req = m_access.CreateRequest();
             req.Method = WebRequestMethods.Ftp.DownloadFile;
@@ -270,7 +270,7 @@ namespace zp8
             }
             resp.Close();
         }
-        public override void UploadChanges(SongDatabase songDatabase, int serverid)
+        public override void UploadChanges(AbstractSongDatabase songDatabase, int serverid)
         {
             FtpWebRequest req = m_access.CreateRequest();
             req.Method = WebRequestMethods.Ftp.UploadFile;

@@ -6,11 +6,11 @@ using System.Text;
 
 namespace zp8
 {
-    public delegate void SongDatabaseChanged(SongDatabase db);
+    public delegate void SongDatabaseChanged(AbstractSongDatabase db);
 
     public partial class SongDatabaseWrapper : Component
     {
-        SongDatabase m_db;
+        AbstractSongDatabase m_db;
         public SongDatabaseWrapper()
         {
             InitializeComponent();
@@ -22,11 +22,12 @@ namespace zp8
 
             InitializeComponent();
         }
-        public SongDatabase Database
+        public AbstractSongDatabase Database
         {
             get { return m_db; }
             set
             {
+                if (m_db == value) return;
                 m_db = value;
                 if (m_db != null)
                 {

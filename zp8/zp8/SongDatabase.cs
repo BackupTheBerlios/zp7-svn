@@ -11,92 +11,18 @@ using System.Data.SQLite;
 
 namespace zp8
 {
-    /*
-    public interface ISongSource
+    public abstract class AbstractSongDatabase
     {
-        BindingSource GetBindingSource();
-        SongDatabase GetDataSet();
-    }
-    */
-    public class SongDatabase
-    {
-        SQLiteConnection m_conn;
-        SongDb m_dataset;
-        SQLiteDataAdapter m_song_adapter;
-        SQLiteDataAdapter m_server_adapter;
-        string m_filename;
-        bool m_opened = false;
+        protected SongDb m_dataset;
 
-        public SongDatabase(string filename)
-        {
-            m_filename = filename;
-        }
+        protected abstract void WantOpen();
+
         public SongDb DataSet
         {
             get
             {
                 WantOpen();
                 return m_dataset;
-            }
-        }
-        private void ExecuteSql(string sql)
-        {
-            SQLiteCommand cmd = new SQLiteCommand(sql, m_conn);
-            cmd.ExecuteNonQuery();
-        }
-        private void WantOpen()
-        {
-            if (m_opened) return;
-            if (File.Exists(m_filename))
-            {
-                m_conn = new SQLiteConnection(String.Format("Data Source={0};Version=3", m_filename));
-                m_conn.Open();
-            }
-            else
-            {
-                m_conn = new SQLiteConnection(String.Format("Data Source={0};New=True;Version=3", m_filename));
-                m_conn.Open();
-                ExecuteSql("CREATE TABLE song (ID INTEGER PRIMARY KEY, title VARCHAR, groupname VARCHAR, author VARCHAR, songtext TEXT, lang VARCHAR, server_id INT NULL, transp INT)");
-                ExecuteSql("CREATE TABLE server (ID INTEGER PRIMARY KEY, url VARCHAR, servertype VARCHAR, config TEXT)");
-            }
-            m_song_adapter = new SQLiteDataAdapter("SELECT * FROM song", m_conn);
-            m_server_adapter = new SQLiteDataAdapter("SELECT * FROM server", m_conn);
-            m_dataset = new SongDb();
-            m_song_adapter.Fill(m_dataset.song);
-            m_server_adapter.Fill(m_dataset.server);
-
-            SQLiteCommandBuilder song_cb = new SQLiteCommandBuilder(m_song_adapter);
-            m_song_adapter.InsertCommand = (SQLiteCommand)song_cb.GetInsertCommand();
-
-            SQLiteCommandBuilder server_cb = new SQLiteCommandBuilder(m_server_adapter);
-            m_server_adapter.InsertCommand = (SQLiteCommand)server_cb.GetInsertCommand();
-
-            m_opened = true;
-        }
-
-        /*
-        public void ImportZp8Xml(StringReader fr)
-        {
-            m_dataset.song.ReadXml(fr);
-        }
-        */
-
-        public static string ExtractDbName(string filename) {return Path.GetFileName(filename).ToLower(); }
-        public string Name { get { return ExtractDbName(m_filename); } }
-        public void Commit()
-        {
-            WantOpen();
-            SQLiteTransaction t = m_conn.BeginTransaction();
-            m_song_adapter.Update(m_dataset.song);
-            m_server_adapter.Update(m_dataset.server);
-            t.Commit();
-        }
-        public bool Modified
-        {
-            get
-            {
-                if (!m_opened) return false;
-                return m_dataset.HasChanges();
             }
         }
         public void DeleteSongsFromServer(int server)
@@ -157,6 +83,81 @@ namespace zp8
                 }
             }
             xmldb.WriteXml(fw);
+        }
+
+    }
+
+    public class SongDatabase : AbstractSongDatabase
+    {
+        SQLiteConnection m_conn;
+        SQLiteDataAdapter m_song_adapter;
+        SQLiteDataAdapter m_server_adapter;
+        string m_filename;
+        bool m_opened = false;
+
+        public SongDatabase(string filename)
+        {
+            m_filename = filename;
+        }
+        private void ExecuteSql(string sql)
+        {
+            SQLiteCommand cmd = new SQLiteCommand(sql, m_conn);
+            cmd.ExecuteNonQuery();
+        }
+        protected override void WantOpen()
+        {
+            if (m_opened) return;
+            if (File.Exists(m_filename))
+            {
+                m_conn = new SQLiteConnection(String.Format("Data Source={0};Version=3", m_filename));
+                m_conn.Open();
+            }
+            else
+            {
+                m_conn = new SQLiteConnection(String.Format("Data Source={0};New=True;Version=3", m_filename));
+                m_conn.Open();
+                ExecuteSql("CREATE TABLE song (ID INTEGER PRIMARY KEY, title VARCHAR, groupname VARCHAR, author VARCHAR, songtext TEXT, lang VARCHAR, server_id INT NULL, transp INT)");
+                ExecuteSql("CREATE TABLE server (ID INTEGER PRIMARY KEY, url VARCHAR, servertype VARCHAR, config TEXT)");
+            }
+            m_song_adapter = new SQLiteDataAdapter("SELECT * FROM song", m_conn);
+            m_server_adapter = new SQLiteDataAdapter("SELECT * FROM server", m_conn);
+            m_dataset = new SongDb();
+            m_song_adapter.Fill(m_dataset.song);
+            m_server_adapter.Fill(m_dataset.server);
+
+            SQLiteCommandBuilder song_cb = new SQLiteCommandBuilder(m_song_adapter);
+            m_song_adapter.InsertCommand = (SQLiteCommand)song_cb.GetInsertCommand();
+
+            SQLiteCommandBuilder server_cb = new SQLiteCommandBuilder(m_server_adapter);
+            m_server_adapter.InsertCommand = (SQLiteCommand)server_cb.GetInsertCommand();
+
+            m_opened = true;
+        }
+
+        /*
+        public void ImportZp8Xml(StringReader fr)
+        {
+            m_dataset.song.ReadXml(fr);
+        }
+        */
+
+        public static string ExtractDbName(string filename) {return Path.GetFileName(filename).ToLower(); }
+        public string Name { get { return ExtractDbName(m_filename); } }
+        public void Commit()
+        {
+            WantOpen();
+            SQLiteTransaction t = m_conn.BeginTransaction();
+            m_song_adapter.Update(m_dataset.song);
+            m_server_adapter.Update(m_dataset.server);
+            t.Commit();
+        }
+        public bool Modified
+        {
+            get
+            {
+                if (!m_opened) return false;
+                return m_dataset.HasChanges();
+            }
         }
     }
 }

@@ -30,8 +30,10 @@ namespace zp8
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.dblist = new System.Windows.Forms.ComboBox();
+            this.cbsongbook = new System.Windows.Forms.ComboBox();
+            this.rbsongbook = new System.Windows.Forms.RadioButton();
+            this.rbdatabase = new System.Windows.Forms.RadioButton();
+            this.cbdatabase = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitter1 = new System.Windows.Forms.Splitter();
@@ -66,32 +68,58 @@ namespace zp8
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.dblist);
+            this.panel1.Controls.Add(this.cbsongbook);
+            this.panel1.Controls.Add(this.rbsongbook);
+            this.panel1.Controls.Add(this.rbdatabase);
+            this.panel1.Controls.Add(this.cbdatabase);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(672, 24);
             this.panel1.TabIndex = 1;
             // 
-            // label1
+            // cbsongbook
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 6);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Databáze";
+            this.cbsongbook.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbsongbook.FormattingEnabled = true;
+            this.cbsongbook.Location = new System.Drawing.Point(303, 4);
+            this.cbsongbook.Name = "cbsongbook";
+            this.cbsongbook.Size = new System.Drawing.Size(121, 21);
+            this.cbsongbook.TabIndex = 3;
+            this.cbsongbook.SelectedIndexChanged += new System.EventHandler(this.cbsongbook_SelectedIndexChanged);
             // 
-            // dblist
+            // rbsongbook
             // 
-            this.dblist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.dblist.FormattingEnabled = true;
-            this.dblist.Location = new System.Drawing.Point(71, 3);
-            this.dblist.Name = "dblist";
-            this.dblist.Size = new System.Drawing.Size(145, 21);
-            this.dblist.TabIndex = 0;
-            this.dblist.SelectedIndexChanged += new System.EventHandler(this.dblist_SelectedIndexChanged);
+            this.rbsongbook.AutoSize = true;
+            this.rbsongbook.Location = new System.Drawing.Point(231, 4);
+            this.rbsongbook.Name = "rbsongbook";
+            this.rbsongbook.Size = new System.Drawing.Size(66, 17);
+            this.rbsongbook.TabIndex = 2;
+            this.rbsongbook.TabStop = true;
+            this.rbsongbook.Text = "Zpìvník";
+            this.rbsongbook.UseVisualStyleBackColor = true;
+            this.rbsongbook.CheckedChanged += new System.EventHandler(this.rbsongbook_CheckedChanged);
+            // 
+            // rbdatabase
+            // 
+            this.rbdatabase.AutoSize = true;
+            this.rbdatabase.Location = new System.Drawing.Point(3, 3);
+            this.rbdatabase.Name = "rbdatabase";
+            this.rbdatabase.Size = new System.Drawing.Size(71, 17);
+            this.rbdatabase.TabIndex = 1;
+            this.rbdatabase.TabStop = true;
+            this.rbdatabase.Text = "Databáze";
+            this.rbdatabase.UseVisualStyleBackColor = true;
+            // 
+            // cbdatabase
+            // 
+            this.cbdatabase.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbdatabase.FormattingEnabled = true;
+            this.cbdatabase.Location = new System.Drawing.Point(80, 3);
+            this.cbdatabase.Name = "cbdatabase";
+            this.cbdatabase.Size = new System.Drawing.Size(145, 21);
+            this.cbdatabase.TabIndex = 0;
+            this.cbdatabase.SelectedIndexChanged += new System.EventHandler(this.dblist_SelectedIndexChanged);
             // 
             // tabControl1
             // 
@@ -218,6 +246,7 @@ namespace zp8
             this.novýToolStripMenuItem.Name = "novýToolStripMenuItem";
             this.novýToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.novýToolStripMenuItem.Text = "Nový";
+            this.novýToolStripMenuItem.Click += new System.EventHandler(this.novýToolStripMenuItem_Click);
             // 
             // naèístToolStripMenuItem
             // 
@@ -249,21 +278,21 @@ namespace zp8
             // mnuNewDb
             // 
             this.mnuNewDb.Name = "mnuNewDb";
-            this.mnuNewDb.Size = new System.Drawing.Size(152, 22);
+            this.mnuNewDb.Size = new System.Drawing.Size(141, 22);
             this.mnuNewDb.Text = "Nová";
             this.mnuNewDb.Click += new System.EventHandler(this.mnuNewDb_Click);
             // 
             // importToolStripMenuItem
             // 
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.importToolStripMenuItem.Text = "Import písní";
             this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
             // 
             // mnuSaveDb
             // 
             this.mnuSaveDb.Name = "mnuSaveDb";
-            this.mnuSaveDb.Size = new System.Drawing.Size(152, 22);
+            this.mnuSaveDb.Size = new System.Drawing.Size(141, 22);
             this.mnuSaveDb.Text = "Uložit";
             this.mnuSaveDb.Click += new System.EventHandler(this.mnuSaveDb_Click);
             // 
@@ -275,6 +304,8 @@ namespace zp8
             // 
             // songView1
             // 
+            this.songView1.AutoScroll = true;
+            this.songView1.BackColor = System.Drawing.SystemColors.Window;
             this.songView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.songView1.Location = new System.Drawing.Point(449, 3);
             this.songView1.Name = "songView1";
@@ -336,8 +367,7 @@ namespace zp8
         private System.Windows.Forms.DataGridViewTextBoxColumn textDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn groupDataGridViewTextBoxColumn;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox dblist;
+        private System.Windows.Forms.ComboBox cbdatabase;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage1;
@@ -362,6 +392,9 @@ namespace zp8
         private System.Windows.Forms.TabPage tabPage3;
         private ServersFrame serversFrame1;
         private SongDatabaseWrapper songDatabaseWrapper1;
+        private System.Windows.Forms.RadioButton rbdatabase;
+        private System.Windows.Forms.RadioButton rbsongbook;
+        private System.Windows.Forms.ComboBox cbsongbook;
     }
 }
 
