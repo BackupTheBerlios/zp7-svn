@@ -25,6 +25,7 @@ namespace zp8
         string m_origtext;
         string m_drawtext;
         int m_basetone;
+        SongDb.songRow m_song;
 
         public SongView()
         {
@@ -48,7 +49,7 @@ namespace zp8
             }
         }
 
-        public float Scale { get { return (float)Math.Pow(5, tbzoom.Value / 10.0); } }
+        public float ViewScale { get { return (float)Math.Pow(5, tbzoom.Value / 10.0); } }
 
         void m_dbwrap_ChangedSongDatabase(SongDatabase db)
         {
@@ -75,10 +76,10 @@ namespace zp8
         {
             if (m_drawtext != null)
             {
-                SongFormatter fmt = new SongFormatter(m_drawtext, new FormatOptions(panel1.Width / Scale));
+                SongFormatter fmt = new SongFormatter(m_drawtext, new FormatOptions(panel1.Width / ViewScale));
                 fmt.Run();
                 m_panegrp = fmt.Result;
-                panel1.Height = (int)(m_panegrp.FullHeight * Scale);
+                panel1.Height = (int)(m_panegrp.FullHeight * ViewScale);
             }
             else
             {
@@ -89,9 +90,10 @@ namespace zp8
             panel1.Invalidate();
         }
 
-        private void SetText(string text)
+        private void SetSong(SongDb.songRow song)
         {
-            m_origtext = text;
+            m_song = song;
+            m_origtext = song != null ? song.songtext : null;
             if (m_origtext != null) m_basetone = Chords.GetBaseTone(m_origtext);
             else m_basetone = -1;
 
@@ -100,7 +102,8 @@ namespace zp8
             if (m_basetone >= 0)
             {
                 cbtransp.Enabled = true;
-                cbtransp.SelectedIndex = m_basetone;
+                int d = m_song.IstranspNull() ? 0 : m_song.transp;
+                cbtransp.SelectedIndex = (m_basetone + d) % 12;
             }
             else
             {
@@ -114,11 +117,11 @@ namespace zp8
         {
             try
             {
-                SetText(m_db.DataSet.song[m_bsrc.Position].songtext);
+                SetSong(m_db.DataSet.song[m_bsrc.Position]);
             }
             catch (Exception)
             {
-                SetText(null);
+                SetSong(null);
             }
         }
 
@@ -127,7 +130,7 @@ namespace zp8
             if (m_panegrp != null)
             {
                 GraphicsState state = e.Graphics.Save();
-                e.Graphics.ScaleTransform(Scale, Scale);
+                e.Graphics.ScaleTransform(ViewScale, ViewScale);
                 m_panegrp.Draw(XGraphics.FromGraphics(e.Graphics, new XSize(panel1.Width, panel1.Height)));
                 e.Graphics.Restore(state);
             }
@@ -148,6 +151,7 @@ namespace zp8
             int d = cbtransp.SelectedIndex - m_basetone;
             if (d < 0) d += 12;
             m_drawtext = Chords.Transpose(m_origtext, d);
+            if (m_song != null) m_song.transp = d;
             Redraw();
         }
     }

@@ -56,7 +56,7 @@ namespace zp8
             {
                 m_conn = new SQLiteConnection(String.Format("Data Source={0};New=True;Version=3", m_filename));
                 m_conn.Open();
-                ExecuteSql("CREATE TABLE song (ID INTEGER PRIMARY KEY, title VARCHAR, groupname VARCHAR, author VARCHAR, songtext TEXT, lang VARCHAR, server_id INT NULL)");
+                ExecuteSql("CREATE TABLE song (ID INTEGER PRIMARY KEY, title VARCHAR, groupname VARCHAR, author VARCHAR, songtext TEXT, lang VARCHAR, server_id INT NULL, transp INT)");
                 ExecuteSql("CREATE TABLE server (ID INTEGER PRIMARY KEY, url VARCHAR, servertype VARCHAR, config TEXT)");
             }
             m_song_adapter = new SQLiteDataAdapter("SELECT * FROM song", m_conn);

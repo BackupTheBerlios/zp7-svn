@@ -105,7 +105,7 @@ namespace zp8
         {
             if (chord.IndexOf('/') >= 0)
             {
-                yield return SplitChord_Simple(chord.Substring(0, chord.IndexOf('/')));
+                yield return SplitChord_Simple(chord.Substring(0, chord.IndexOf('/') + 1));
                 yield return SplitChord_Simple(chord.Substring(chord.IndexOf('/') + 1));
             }
             else
