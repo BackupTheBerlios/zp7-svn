@@ -12,6 +12,9 @@ namespace zp8
     {
         //SongDatabase m_dataset;
         SongDatabaseWrapper m_dbwrap;
+        ContextMenuStrip m_strip;
+        int? m_selectedRow;
+        int? m_returningRow;
 
         public SongTable()
         {
@@ -39,6 +42,44 @@ namespace zp8
                 }
                 //m_dbwrap.ChangedSongDatabase += m_dbwrap_ChangedSongDatabase;
             }
+        }
+        public IEnumerable<SongDb.songRow> GetSelectedSongs()
+        {
+            foreach (DataGridViewRow row in dataGridView1.SelectedRows)
+            {
+                if (!row.IsNewRow) yield return m_dbwrap.SongDb.song[row.Index];
+            }
+            if (m_returningRow != null)
+            {
+                yield return m_dbwrap.SongDb.song[m_returningRow.Value];
+            }
+            
+        }
+
+        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && dataGridView1.SelectedRows.Count == 0)
+            {
+                dataGridView1.Rows[e.RowIndex].Selected = true;
+                m_selectedRow = e.RowIndex;
+            }
+        }
+
+        void m_strip_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+        {
+            if (m_selectedRow != null)
+            {
+                dataGridView1.Rows[(int)m_selectedRow].Selected = false;
+                m_returningRow = m_selectedRow;
+                m_selectedRow = null;
+            }
+        }
+
+        private void SongTable_ContextMenuStripChanged(object sender, EventArgs e)
+        {
+            if (m_strip != null) m_strip.Closed -= m_strip_Closed;
+            m_strip = ContextMenuStrip;
+            if (m_strip != null) m_strip.Closed += m_strip_Closed;
         }
 
         /*

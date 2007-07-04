@@ -238,5 +238,45 @@ namespace zp8
         {
             LoadCurrentDbOrSb();
         }
+
+        private void pøidatDoZpìvníkuToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SongBook sb = SelectedSongBook;
+            SongDatabase db = SelectedDatabase;
+            if (sb != null && db != null)
+            {
+                foreach (SongDb.songRow row in songTable1.GetSelectedSongs())
+                {
+                    SongDb.songRow newrow = sb.DataSet.song.NewsongRow();
+                    foreach (DataColumn col in sb.DataSet.song.Columns)
+                    {
+                        if (col.ColumnName != "ID") newrow[col.ColumnName] = row[col.ColumnName];
+                    }
+
+                    sb.DataSet.song.AddsongRow(newrow);
+                }
+            }
+        }
+
+        private void uložitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SongBook sb = SelectedSongBook;
+            if (sb == null) return;
+            if (sb.FileName == null) uložitNaToolStripMenuItem_Click(sender, e);
+            sb.Save();
+            LoadSbList();
+        }
+
+        private void uložitNaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SongBook sb = SelectedSongBook;
+            if (sb == null) return;
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                sb.FileName = saveFileDialog1.FileName;
+                sb.Save();
+                LoadSbList();
+            }
+        }
     }
 }

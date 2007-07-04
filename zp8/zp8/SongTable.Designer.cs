@@ -77,6 +77,7 @@ namespace zp8
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(603, 507);
             this.dataGridView1.TabIndex = 5;
+            this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
             // 
             // iDDataGridViewTextBoxColumn1
             // 
@@ -122,6 +123,7 @@ namespace zp8
             this.Controls.Add(this.dataGridView1);
             this.Name = "SongTable";
             this.Size = new System.Drawing.Size(603, 507);
+            this.ContextMenuStripChanged += new System.EventHandler(this.SongTable_ContextMenuStripChanged);
             ((System.ComponentModel.ISupportInitialize)(this.songBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.songDb)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
