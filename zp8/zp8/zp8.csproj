@@ -46,6 +46,9 @@
     <Compile Include="AddServerWizard.Designer.cs">
       <DependentUpon>AddServerWizard.cs</DependentUpon>
     </Compile>
+    <Compile Include="BookLayout.cs" />
+    <Compile Include="BookSequence.cs" />
+    <Compile Include="BookStyle.cs" />
     <Compile Include="Chords.cs" />
     <Compile Include="DbImport.cs" />
     <Compile Include="DbManager.cs" />
@@ -79,6 +82,14 @@
     <Compile Include="NewDbForm.Designer.cs">
       <DependentUpon>NewDbForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Options.cs">
+    </Compile>
+    <Compile Include="OptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OptionsForm.Designer.cs">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AddServerWizard.resx">
@@ -100,6 +111,10 @@
     <EmbeddedResource Include="NewDbForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>NewDbForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptionsForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>OptionsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

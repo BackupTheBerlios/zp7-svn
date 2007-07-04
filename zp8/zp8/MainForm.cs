@@ -278,5 +278,10 @@ namespace zp8
                 LoadSbList();
             }
         }
+
+        private void obecnéToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OptionsForm.Run(Options.GlobalOpts);
+        }
     }
 }

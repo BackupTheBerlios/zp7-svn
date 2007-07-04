@@ -54,7 +54,7 @@ namespace zp8
         {
             using (XmlWriter xw = XmlWriter.Create(m_filename))
             {
-                xw.WriteStartElement("songlist");
+                xw.WriteStartElement("SongBook", "http://zpevnik.net/SongBook.xsd");
                 m_dataset.WriteXml(xw);
                 xw.WriteEndElement();
             }
