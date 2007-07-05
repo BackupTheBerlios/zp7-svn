@@ -59,7 +59,7 @@
     <Compile Include="Forms\DialogBase.Designer.cs">
       <DependentUpon>DialogBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Format\Format.cs" />
+    <Compile Include="Database\Format\Format.cs" />
     <Compile Include="Book\FormattedBook.cs" />
     <Compile Include="Forms\ImportForm.cs">
       <SubType>Form</SubType>
@@ -67,7 +67,7 @@
     <Compile Include="Forms\ImportForm.Designer.cs">
       <DependentUpon>ImportForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\InetSongDb.Designer.cs">
+    <Compile Include="InetSongDb.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>InetSongDb.xsd</DependentUpon>
@@ -154,30 +154,30 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="Database\InetSongDb.xsc">
+    <None Include="InetSongDb.xsc">
       <DependentUpon>InetSongDb.xsd</DependentUpon>
     </None>
-    <None Include="Database\InetSongDb.xsd">
+    <None Include="InetSongDb.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>InetSongDb.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Database\InetSongDb.xss">
+    <None Include="InetSongDb.xss">
       <DependentUpon>InetSongDb.xsd</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Database\SongDb.xsc">
+    <None Include="SongDb.xsc">
       <DependentUpon>SongDb.xsd</DependentUpon>
     </None>
-    <None Include="Database\SongDb.xsd">
+    <None Include="SongDb.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>SongDb.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Database\SongDb.xss">
+    <None Include="SongDb.xss">
       <DependentUpon>SongDb.xsd</DependentUpon>
     </None>
     <Compile Include="Properties\Settings.Designer.cs">
@@ -204,10 +204,10 @@
     <Compile Include="Database\SongDatabaseWrapper.Designer.cs">
       <DependentUpon>SongDatabaseWrapper.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\SongDb.cs">
+    <Compile Include="SongDb.cs">
       <DependentUpon>SongDb.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Database\SongDb.Designer.cs">
+    <Compile Include="SongDb.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SongDb.xsd</DependentUpon>

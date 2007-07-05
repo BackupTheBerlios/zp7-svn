@@ -1,4 +1,4 @@
-﻿namespace zp8.Database {
+﻿namespace zp8 {
     
     
     public partial class SongDb {

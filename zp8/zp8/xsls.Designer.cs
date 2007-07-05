@@ -65,7 +65,7 @@ namespace zp8 {
         ///&lt;xsl:stylesheet 
         ///    version=&quot;1.0&quot; 
         ///    xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;
-        ///    xmlns:sdb=&quot;http://tempuri.org/SongDb.xsd&quot; &gt;
+        ///    xmlns:sdb=&quot;http://zpevnik.net/InetSongDb.xsd&quot; &gt;
         ///  &lt;xsl:template match=&quot;/&quot;&gt;
         ///    &lt;sdb:SongDb&gt;
         ///      &lt;xsl:apply-templates select=&apos;/zpevnik_data/database/song&apos; mode=&apos;song&apos;/&gt;
@@ -74,11 +74,11 @@ namespace zp8 {
         ///
         ///  &lt;xsl:template match=&quot;song&quot; mode=&apos;song&apos;&gt;
         ///    &lt;sdb:song&gt;
-        ///      &lt;sdb:ID&gt;
-        ///        &lt;xsl:value-of select=&apos;@netid&apos;/&gt;
-        ///      &lt;/sdb:ID&gt;
         ///      &lt;sdb:title&gt;
-        ///        &lt;xsl:v [rest of string was truncated]&quot;;.
+        ///        &lt;xsl:value-of select=&apos;@title&apos;/&gt;
+        ///      &lt;/sdb:title&gt;
+        ///      &lt;sdb:groupname&gt;
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string zp6_to_zp8 {
             get {
