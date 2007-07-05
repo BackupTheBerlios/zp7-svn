@@ -49,6 +49,8 @@ namespace zp8
 
         public float SmallPageWidth { get { return m_smallWidth.Value; } }
         public float SmallPageHeight { get { return m_smallHeight.Value; } }
+        public float BigPageWidth { get { return m_printTarget.Width; } }
+        public float BigPageHeight { get { return m_printTarget.Height; } }
 
         public PointF GetPagePos(int x, int y)
         {

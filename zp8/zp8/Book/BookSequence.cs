@@ -38,5 +38,6 @@ namespace zp8
             foreach (SequenceItem item in m_items) item.AddToPages(pages, book);
             return pages;
         }
+        public IList<SequenceItem> Items { get { return m_items; } }
     }
 }

@@ -12,10 +12,10 @@ namespace zp8
         float Width { get;}
         float Height { get;}
     }
-    public class PdfDocumentPrintTarget : IPrintTarget
+    public class PdfPrintTarget : IPrintTarget
     {
         PdfPage m_page;
-        public PdfDocumentPrintTarget(PdfPage page)
+        public PdfPrintTarget(PdfPage page)
         {
             m_page = page;
         }

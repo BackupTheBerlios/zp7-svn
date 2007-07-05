@@ -50,6 +50,18 @@
     <Compile Include="Book\BookLayout.cs" />
     <Compile Include="Book\BookSequence.cs" />
     <Compile Include="Book\BookStyle.cs" />
+    <Compile Include="Frames\PreviewFrame.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Frames\PreviewFrame.Designer.cs">
+      <DependentUpon>PreviewFrame.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frames\ZoomControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Frames\ZoomControl.Designer.cs">
+      <DependentUpon>ZoomControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\CfgTools.cs" />
     <Compile Include="Tools\Chords.cs" />
     <Compile Include="Database\DbImport.cs" />
@@ -119,6 +131,14 @@
     <EmbeddedResource Include="Forms\OptionsForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>OptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frames\PreviewFrame.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PreviewFrame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frames\ZoomControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ZoomControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

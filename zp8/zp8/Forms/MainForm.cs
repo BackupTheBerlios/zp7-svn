@@ -185,11 +185,18 @@ namespace zp8
         {
             try
             {
-                m_updating_state = true;
-                cbdatabase.Items[cbdatabase.SelectedIndex] = GetDbTitle(SelectedDatabase);
-                dbstatus.Text = SelectedDatabase.Modified ? "Zmìnìno" : "";
-                dbsize.Text = String.Format("{0} písní", SelectedDatabase.DataSet.song.Rows.Count);
-                dbname.Text = SelectedDatabase.Name;
+                if (SelectedDatabase != null)
+                {
+                    m_updating_state = true;
+                    cbdatabase.Items[cbdatabase.SelectedIndex] = GetDbTitle(SelectedDatabase);
+                    dbstatus.Text = SelectedDatabase.Modified ? "Zmìnìno" : "";
+                    dbsize.Text = String.Format("{0} písní", SelectedDatabase.DataSet.song.Rows.Count);
+                    dbname.Text = SelectedDatabase.Name;
+                }
+                else
+                {
+                    dbstatus.Text = dbsize.Text = dbname.Text = "";
+                }
             }
             finally
             {
@@ -232,6 +239,7 @@ namespace zp8
         {
             rbsongbook.Checked = true;
             LoadCurrentDbOrSb();
+            songBookFrame1.SongBook = SelectedSongBook;
         }
 
         private void rbsongbook_CheckedChanged(object sender, EventArgs e)

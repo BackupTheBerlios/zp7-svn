@@ -5,6 +5,9 @@ using System.IO;
 using System.Xml;
 using System.ComponentModel;
 
+using PdfSharp;
+using PdfSharp.Pdf;
+
 namespace zp8
 {
     public class SongBookManager
@@ -40,7 +43,7 @@ namespace zp8
     {
         public static readonly SongBookManager Manager = new SongBookManager();
         string m_filename;
-        BookLayout m_layout;
+        BookLayout m_layout = new BookLayout();
         BookSequence m_sequence;
         IPrintTarget m_printTarget;
         SongBookFonts m_fonts = new SongBookFonts();
@@ -51,7 +54,29 @@ namespace zp8
         public SongBook()
         {
             m_dataset = new SongDb();
+            //m_dataset.song.TableNewRow += song_TableNewRow;
+            m_dataset.song.songRowDeleted += song_songRowChanged;
+            m_dataset.song.songRowChanged += song_songRowChanged;
+
+            m_sequence = new BookSequence();
+            m_sequence.Items.Add(new AllSongsSequenceItem());
+
+            PdfDocument doc = new PdfDocument();
+            PdfPage page = doc.AddPage();
+            PrintTarget = new PdfPrintTarget(page);
         }
+
+        void song_songRowChanged(object sender, SongDb.songRowChangeEvent e)
+        {
+            if (Changed != null) Changed(sender, e);
+        }
+
+        /*
+        void song_TableNewRow(object sender, System.Data.DataTableNewRowEventArgs e)
+        {
+            if (Changed != null) Changed(sender, e);
+        }
+        */
 
         public string Title
         {
@@ -101,6 +126,21 @@ namespace zp8
             m_formatted[songid] = fmt.Result;
 
             return m_formatted[songid];
+        }
+        public void ClearCaches()
+        {
+            m_formatted.Clear();
+        }
+        public event EventHandler Changed;
+        public IPrintTarget PrintTarget
+        {
+            get { return m_printTarget; }
+            set
+            {
+                m_printTarget = value;
+                Layout.Target = value;
+                ClearCaches();                
+            }
         }
     }
 }

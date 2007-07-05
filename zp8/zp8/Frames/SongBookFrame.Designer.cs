@@ -33,8 +33,10 @@ namespace zp8
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.previewFrame1 = new zp8.PreviewFrame();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel2
@@ -71,6 +73,7 @@ namespace zp8
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.previewFrame1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -89,6 +92,15 @@ namespace zp8
             this.tabPage2.Text = "Logické stránky";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // previewFrame1
+            // 
+            this.previewFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.previewFrame1.Location = new System.Drawing.Point(3, 3);
+            this.previewFrame1.Name = "previewFrame1";
+            this.previewFrame1.Size = new System.Drawing.Size(402, 488);
+            this.previewFrame1.Source = null;
+            this.previewFrame1.TabIndex = 0;
+            // 
             // SongBookFrame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -99,6 +111,7 @@ namespace zp8
             this.Size = new System.Drawing.Size(634, 520);
             this.panel2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -110,5 +123,6 @@ namespace zp8
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
+        private PreviewFrame previewFrame1;
     }
 }

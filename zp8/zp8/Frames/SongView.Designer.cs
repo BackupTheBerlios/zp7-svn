@@ -30,13 +30,11 @@ namespace zp8
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btreset = new System.Windows.Forms.Button();
             this.cbtransp = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.tbzoom = new System.Windows.Forms.TrackBar();
-            this.btreset = new System.Windows.Forms.Button();
+            this.zczoom = new zp8.ZoomControl();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tbzoom)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -51,16 +49,25 @@ namespace zp8
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.Control;
+            this.panel2.Controls.Add(this.zczoom);
             this.panel2.Controls.Add(this.btreset);
             this.panel2.Controls.Add(this.cbtransp);
             this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Controls.Add(this.tbzoom);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(461, 42);
             this.panel2.TabIndex = 1;
+            // 
+            // btreset
+            // 
+            this.btreset.Location = new System.Drawing.Point(323, 12);
+            this.btreset.Name = "btreset";
+            this.btreset.Size = new System.Drawing.Size(56, 21);
+            this.btreset.TabIndex = 4;
+            this.btreset.Text = "Reset";
+            this.btreset.UseVisualStyleBackColor = true;
+            this.btreset.Click += new System.EventHandler(this.button1_Click);
             // 
             // cbtransp
             // 
@@ -95,34 +102,13 @@ namespace zp8
             this.label2.TabIndex = 2;
             this.label2.Text = "Transpozice";
             // 
-            // label1
+            // zczoom
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 12);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(50, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Zvìtšení";
-            // 
-            // tbzoom
-            // 
-            this.tbzoom.Location = new System.Drawing.Point(56, 0);
-            this.tbzoom.Margin = new System.Windows.Forms.Padding(0);
-            this.tbzoom.Minimum = -10;
-            this.tbzoom.Name = "tbzoom";
-            this.tbzoom.Size = new System.Drawing.Size(117, 42);
-            this.tbzoom.TabIndex = 0;
-            this.tbzoom.Scroll += new System.EventHandler(this.tbzoom_Scroll);
-            // 
-            // btreset
-            // 
-            this.btreset.Location = new System.Drawing.Point(323, 12);
-            this.btreset.Name = "btreset";
-            this.btreset.Size = new System.Drawing.Size(56, 21);
-            this.btreset.TabIndex = 4;
-            this.btreset.Text = "Reset";
-            this.btreset.UseVisualStyleBackColor = true;
-            this.btreset.Click += new System.EventHandler(this.button1_Click);
+            this.zczoom.Location = new System.Drawing.Point(3, 2);
+            this.zczoom.Name = "zczoom";
+            this.zczoom.Size = new System.Drawing.Size(175, 40);
+            this.zczoom.TabIndex = 5;
+            this.zczoom.ChangedZoom += new System.EventHandler(this.zczoom_ChangedZoom);
             // 
             // SongView
             // 
@@ -137,7 +123,6 @@ namespace zp8
             this.Resize += new System.EventHandler(this.SongView_Resize);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tbzoom)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -146,11 +131,10 @@ namespace zp8
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TrackBar tbzoom;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cbtransp;
         private System.Windows.Forms.Button btreset;
+        private zp8.ZoomControl zczoom;
 
     }
 }

@@ -6,6 +6,15 @@ using System.Drawing;
 
 namespace zp8
 {
+    public interface IPreviewSource
+    {
+        float PageWidth { get;}
+        float PageHeight { get;}
+        int PageCount { get;}
+        void DrawPage(XGraphics gfx, int index);
+        string PageTitle(int index);
+    }
+
     public class FormattedBook
     {
         BookLayout m_layout;
@@ -97,10 +106,10 @@ namespace zp8
         public int A4SheetCount { get { return m_sheetCount; } }
         public int SmallPageCount { get { return m_smallPageCount; } }
         public int FreePageCount { get { return m_sheetCount * 2 * m_hcnt * m_vcnt - m_smallPageCount; } }
+        public BookLayout Layout { get { return m_layout; } }
 
-        public void DrawBigPage(XGraphics gfx, int index)
+        public void DrawBigPage(XGraphics gfx, int sheet, int side)
         {
-            int sheet = index / 2, side = index % 2;
             for (int x = 0; x < m_hcnt; x++)
             {
                 for (int y = 0; y < m_vcnt; y++)
@@ -114,8 +123,46 @@ namespace zp8
                 }
             }
         }
+
+        public IPreviewSource GetPreview() { return new NormalPreviewSource(this); }
         //public void DrawSmallPage(XGraphics gfx, int index)
         //{
         //}
+    }
+    public class NormalPreviewSource : IPreviewSource
+    {
+        FormattedBook m_book;
+        public NormalPreviewSource(FormattedBook book)
+        {
+            m_book = book;
+        }
+        #region IPreviewSource Members
+
+        public float PageWidth
+        {
+            get { return m_book.Layout.BigPageWidth; }
+        }
+
+        public float PageHeight
+        {
+            get { return m_book.Layout.BigPageHeight; }
+        }
+
+        public int PageCount
+        {
+            get { return m_book.A4SheetCount * 2; }
+        }
+
+        public void DrawPage(XGraphics gfx, int index)
+        {
+            m_book.DrawBigPage(gfx, index / 2, index % 2);
+        }
+
+        public string PageTitle(int index)
+        {
+            return String.Format("Strana {0}/{1}", index + 1, m_book.A4SheetCount * 2);
+        }
+
+        #endregion
     }
 }

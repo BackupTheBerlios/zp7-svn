@@ -49,7 +49,7 @@ namespace zp8
             }
         }
 
-        public float ViewScale { get { return (float)Math.Pow(5, tbzoom.Value / 10.0); } }
+        public float ViewScale { get { return zczoom.Zoom; } }
 
         void m_dbwrap_ChangedSongDatabase(AbstractSongDatabase db)
         {
@@ -131,7 +131,7 @@ namespace zp8
             {
                 GraphicsState state = e.Graphics.Save();
                 e.Graphics.ScaleTransform(ViewScale, ViewScale);
-                m_panegrp.Draw(XGraphics.FromGraphics(e.Graphics, new XSize(panel1.Width, panel1.Height)));
+                m_panegrp.Draw(XGraphics.FromGraphics(e.Graphics, new XSize(panel1.Width * ViewScale, panel1.Height * ViewScale)));
                 e.Graphics.Restore(state);
             }
         }
@@ -139,11 +139,6 @@ namespace zp8
         private void SongView_Resize(object sender, EventArgs e)
         {
             panel1.Width = Width - 16;
-            Redraw();
-        }
-
-        private void tbzoom_Scroll(object sender, EventArgs e)
-        {
             Redraw();
         }
 
@@ -173,6 +168,11 @@ namespace zp8
             cbtransp.SelectedIndex = m_basetone;
             m_drawtext = m_origtext;
             if (m_song != null) m_song.transp = 0;
+            Redraw();
+        }
+
+        private void zczoom_ChangedZoom(object sender, EventArgs e)
+        {
             Redraw();
         }
     }
