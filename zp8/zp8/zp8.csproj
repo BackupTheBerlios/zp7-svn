@@ -59,7 +59,7 @@
     <Compile Include="Forms\DialogBase.Designer.cs">
       <DependentUpon>DialogBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\Format\Format.cs" />
+    <Compile Include="Format\Format.cs" />
     <Compile Include="Book\FormattedBook.cs" />
     <Compile Include="Forms\ImportForm.cs">
       <SubType>Form</SubType>

@@ -64,6 +64,7 @@ namespace zp8
             m_options = options;
         }
         public abstract float Draw(XGraphics gfx, PointF pt);
+        public abstract bool IsDelimiter { get;}
 
         public float Height
         {
@@ -73,6 +74,19 @@ namespace zp8
                 return m_height.Value;
             }
         }
+    }
+
+    public class ParagraphSeparatorPane : Pane
+    {
+        public ParagraphSeparatorPane(FormatOptions options)
+            : base(options)
+        {
+        }
+        public override float Draw(XGraphics gfx, PointF pt)
+        {
+            return m_options.TextHeight / 2;
+        }
+        public override bool IsDelimiter { get { return true; } }
     }
 
     public class LabelLinePane : Pane
@@ -88,6 +102,7 @@ namespace zp8
             gfx.DrawString(m_label, m_options.LabelFont, m_options.LabelColor, pt, XStringFormat.TopLeft);
             return m_options.LabelHeight;
         }
+        public override bool IsDelimiter { get { return false; } }
     }
 
     public abstract class LabelablePane : Pane
@@ -109,6 +124,7 @@ namespace zp8
                 gfx.DrawString(m_label, m_options.LabelFont, m_options.LabelColor, new PointF(pt.X, pt.Y + baseline - m_options.LabelHeight), XStringFormat.TopLeft);
             }
         }
+        public override bool IsDelimiter { get { return false; } }
     }
 
     public class TextLinePane : LabelablePane
@@ -303,10 +319,16 @@ namespace zp8
                     m_panegrp.Add(new ChordLinePane(line, m_options, x0, pending_label));
                     pending_label = null;
                 }
-                else
+                else if (!SongTool.IsEmptyLine(line))
                 {
                     m_panegrp.Add(new TextLinePane(line, m_options, x0, pending_label));
                     pending_label = null;
+                }
+                else
+                {
+                    // zrusit odsazeni
+                    x0 = 0;
+                    m_panegrp.Add(new ParagraphSeparatorPane(m_options));
                 }
             }
         }

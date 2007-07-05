@@ -14,6 +14,10 @@ namespace zp8
         {
             return line.StartsWith(".");
         }
+        public static bool IsEmptyLine(string line)
+        {
+            return line.Trim().Length == 0;
+        }
     }
 
     public class SongLineParser
