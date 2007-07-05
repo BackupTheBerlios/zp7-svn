@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace zp8 {
+namespace zp8.Database {
     using System;
     
     

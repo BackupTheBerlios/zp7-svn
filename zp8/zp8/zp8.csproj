@@ -47,50 +47,50 @@
       <DependentUpon>AddServerWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Book\BookLayout.cs" />
-    <Compile Include="BookSequence.cs" />
+    <Compile Include="Book\BookSequence.cs" />
     <Compile Include="Book\BookStyle.cs" />
     <Compile Include="Tools\CfgTools.cs" />
     <Compile Include="Tools\Chords.cs" />
     <Compile Include="Database\DbImport.cs" />
     <Compile Include="Database\DbManager.cs" />
-    <Compile Include="DialogBase.cs">
+    <Compile Include="Forms\DialogBase.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DialogBase.Designer.cs">
+    <Compile Include="Forms\DialogBase.Designer.cs">
       <DependentUpon>DialogBase.cs</DependentUpon>
     </Compile>
     <Compile Include="Format\Format.cs" />
-    <Compile Include="FormattedBook.cs" />
-    <Compile Include="ImportForm.cs">
+    <Compile Include="Book\FormattedBook.cs" />
+    <Compile Include="Forms\ImportForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ImportForm.Designer.cs">
+    <Compile Include="Forms\ImportForm.Designer.cs">
       <DependentUpon>ImportForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="InetSongDb.Designer.cs">
+    <Compile Include="Database\InetSongDb.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>InetSongDb.xsd</DependentUpon>
     </Compile>
-    <Compile Include="LogPage.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Book\LogPage.cs" />
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="NewDbForm.cs">
+    <Compile Include="Forms\NewDbForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NewDbForm.Designer.cs">
+    <Compile Include="Forms\NewDbForm.Designer.cs">
       <DependentUpon>NewDbForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Options.cs">
+    <Compile Include="Tools\Options.cs">
     </Compile>
-    <Compile Include="OptionsForm.cs">
+    <Compile Include="Forms\OptionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OptionsForm.Designer.cs">
+    <Compile Include="Forms\OptionsForm.Designer.cs">
       <DependentUpon>OptionsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -99,23 +99,23 @@
       <SubType>Designer</SubType>
       <DependentUpon>AddServerWizard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DialogBase.resx">
+    <EmbeddedResource Include="Forms\DialogBase.resx">
       <SubType>Designer</SubType>
       <DependentUpon>DialogBase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ImportForm.resx">
+    <EmbeddedResource Include="Forms\ImportForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ImportForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Forms\MainForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NewDbForm.resx">
+    <EmbeddedResource Include="Forms\NewDbForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>NewDbForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OptionsForm.resx">
+    <EmbeddedResource Include="Forms\OptionsForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>OptionsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -124,23 +124,23 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ServersFrame.resx">
+    <EmbeddedResource Include="Frames\ServersFrame.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ServersFrame.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SongBookFrame.resx">
+    <EmbeddedResource Include="Frames\SongBookFrame.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SongBookFrame.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SongDatabaseWrapper.resx">
+    <EmbeddedResource Include="Database\SongDatabaseWrapper.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SongDatabaseWrapper.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SongTable.resx">
+    <EmbeddedResource Include="Frames\SongTable.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SongTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SongView.resx">
+    <EmbeddedResource Include="Frames\SongView.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SongView.cs</DependentUpon>
     </EmbeddedResource>
@@ -154,30 +154,30 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="InetSongDb.xsc">
+    <None Include="Database\InetSongDb.xsc">
       <DependentUpon>InetSongDb.xsd</DependentUpon>
     </None>
-    <None Include="InetSongDb.xsd">
+    <None Include="Database\InetSongDb.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>InetSongDb.Designer.cs</LastGenOutput>
     </None>
-    <None Include="InetSongDb.xss">
+    <None Include="Database\InetSongDb.xss">
       <DependentUpon>InetSongDb.xsd</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="SongDb.xsc">
+    <None Include="Database\SongDb.xsc">
       <DependentUpon>SongDb.xsd</DependentUpon>
     </None>
-    <None Include="SongDb.xsd">
+    <None Include="Database\SongDb.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>SongDb.Designer.cs</LastGenOutput>
     </None>
-    <None Include="SongDb.xss">
+    <None Include="Database\SongDb.xss">
       <DependentUpon>SongDb.xsd</DependentUpon>
     </None>
     <Compile Include="Properties\Settings.Designer.cs">
@@ -185,46 +185,46 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ServersFrame.cs">
+    <Compile Include="Frames\ServersFrame.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ServersFrame.Designer.cs">
+    <Compile Include="Frames\ServersFrame.Designer.cs">
       <DependentUpon>ServersFrame.cs</DependentUpon>
     </Compile>
-    <Compile Include="SongBook.cs" />
-    <Compile Include="SongBookFrame.cs">
+    <Compile Include="Database\SongBook.cs" />
+    <Compile Include="Frames\SongBookFrame.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SongBookFrame.Designer.cs">
+    <Compile Include="Frames\SongBookFrame.Designer.cs">
       <DependentUpon>SongBookFrame.cs</DependentUpon>
     </Compile>
-    <Compile Include="SongDatabaseWrapper.cs">
+    <Compile Include="Database\SongDatabaseWrapper.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="SongDatabaseWrapper.Designer.cs">
+    <Compile Include="Database\SongDatabaseWrapper.Designer.cs">
       <DependentUpon>SongDatabaseWrapper.cs</DependentUpon>
     </Compile>
-    <Compile Include="SongDb.cs">
+    <Compile Include="Database\SongDb.cs">
       <DependentUpon>SongDb.xsd</DependentUpon>
     </Compile>
-    <Compile Include="SongDb.Designer.cs">
+    <Compile Include="Database\SongDb.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SongDb.xsd</DependentUpon>
     </Compile>
-    <Compile Include="SongDatabase.cs" />
-    <Compile Include="SongServer.cs" />
-    <Compile Include="SongTable.cs">
+    <Compile Include="Database\SongDatabase.cs" />
+    <Compile Include="Database\SongServer.cs" />
+    <Compile Include="Frames\SongTable.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SongTable.Designer.cs">
+    <Compile Include="Frames\SongTable.Designer.cs">
       <DependentUpon>SongTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\SongTool.cs" />
-    <Compile Include="SongView.cs">
+    <Compile Include="Frames\SongView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SongView.Designer.cs">
+    <Compile Include="Frames\SongView.Designer.cs">
       <DependentUpon>SongView.cs</DependentUpon>
     </Compile>
     <Compile Include="xsls.Designer.cs">
@@ -249,9 +249,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\zp6_to_zp8.xsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Frames\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
