@@ -49,6 +49,7 @@
     <Compile Include="BookLayout.cs" />
     <Compile Include="BookSequence.cs" />
     <Compile Include="BookStyle.cs" />
+    <Compile Include="CfgTools.cs" />
     <Compile Include="Chords.cs" />
     <Compile Include="DbImport.cs" />
     <Compile Include="DbManager.cs" />
@@ -228,6 +229,10 @@
     <ProjectReference Include="..\PdfSharp\PdfSharp.csproj">
       <Project>{5384CE57-1F94-4D22-860D-2E9C1AC12DDF}</Project>
       <Name>PdfSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PropertyGridEx\PropertyGridEx.csproj">
+      <Project>{B0BB47F2-21C4-41FC-B6E6-40757ADFC4A1}</Project>
+      <Name>PropertyGridEx</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

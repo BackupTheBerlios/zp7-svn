@@ -23,26 +23,32 @@ namespace zp8
 
     public class FormatOptions
     {
-        public XFont TextFont;
-        public XFont ChordFont;
-        public XFont TitleFont;
-        public XFont LabelFont;
-        public float HTextSpace;
-        public float HChordSpace;
-        public float TextHeight;
-        public float ChordHeight;
-        public float LabelHeight;
-        public float PageWidth;
+        public readonly XFont TextFont;
+        public readonly XFont ChordFont;
+        public readonly XFont LabelFont;
+        public readonly XBrush TextColor;
+        public readonly XBrush ChordColor;
+        public readonly XBrush LabelColor;
+
+        //public XFont TitleFont;
+        public readonly float HTextSpace;
+        public readonly float HChordSpace;
+        public readonly float TextHeight;
+        public readonly float ChordHeight;
+        public readonly float LabelHeight;
+        public readonly float PageWidth;
 
         public readonly XGraphics DummyGraphics;
 
-        public FormatOptions(float pgwi)
+        public FormatOptions(float pgwi, PersistentFont textFont, PersistentFont chordFont, PersistentFont labelFont)
         {
-            XPdfFontOptions options = new XPdfFontOptions(PdfFontEncoding.Unicode, PdfFontEmbedding.Always);
-            TextFont = new XFont("Arial", 12, XFontStyle.Regular, options);
-            ChordFont = new XFont("Arial", 12, XFontStyle.Bold, options);
-            LabelFont = new XFont("Arial", 12, XFontStyle.Underline, options);
-            TitleFont = new XFont("Arial", 15, XFontStyle.Regular, options);
+            ConvertFont(textFont, out TextFont, out TextColor);
+            ConvertFont(chordFont, out ChordFont, out ChordColor);
+            ConvertFont(labelFont, out LabelFont, out LabelColor);
+            //TextFont = new XFont("Arial", 12, XFontStyle.Regular, options);
+            //ChordFont = new XFont("Arial", 12, XFontStyle.Bold, options);
+            //LabelFont = new XFont("Arial", 12, XFontStyle.Underline, options);
+            //TitleFont = new XFont("Arial", 15, XFontStyle.Regular, options);
 
             PdfDocument doc = new PdfDocument();
             PdfPage page = doc.AddPage();
@@ -53,6 +59,19 @@ namespace zp8
             ChordHeight = (float)DummyGraphics.MeasureString("M", ChordFont).Height;
             LabelHeight = (float)DummyGraphics.MeasureString("M", LabelFont).Height;
             PageWidth = pgwi;
+        }
+
+        private static void ConvertFont(PersistentFont pfont, out XFont xfont, out XBrush xcolor)
+        {
+            xfont = pfont.ToXFont();
+            /*
+            using (Font ft = pfont.ToFont())
+            {
+                ft.Unit = GraphicsUnit.World;
+                xfont = new XFont(ft, FontOptions);
+            }
+            */
+            using (Brush br = new SolidBrush(pfont.FontColor)) xcolor = (XBrush)br;
         }
     }
 
@@ -111,7 +130,7 @@ namespace zp8
         }
         public override float Draw(XGraphics gfx, PointF pt)
         {
-            gfx.DrawString(m_label, m_options.LabelFont, XBrushes.Black, pt, XStringFormat.TopLeft);
+            gfx.DrawString(m_label, m_options.LabelFont, m_options.LabelColor, pt, XStringFormat.TopLeft);
             return m_options.LabelHeight;
         }
     }
@@ -132,7 +151,7 @@ namespace zp8
         {
             if (m_label != null)
             {
-                gfx.DrawString(m_label, m_options.LabelFont, XBrushes.Black, new PointF(pt.X, pt.Y + baseline - m_options.LabelHeight), XStringFormat.TopLeft);
+                gfx.DrawString(m_label, m_options.LabelFont, m_options.LabelColor, new PointF(pt.X, pt.Y + baseline - m_options.LabelHeight), XStringFormat.TopLeft);
             }
         }
     }
@@ -162,7 +181,7 @@ namespace zp8
                         actx = m_x0;
                         acty += m_options.TextHeight;
                     }
-                    gfx.DrawString(par.Data, m_options.TextFont, XBrushes.Black, new PointF(pt.X + actx, pt.Y + acty), XStringFormat.TopLeft);
+                    gfx.DrawString(par.Data, m_options.TextFont, m_options.TextColor, new PointF(pt.X + actx, pt.Y + acty), XStringFormat.TopLeft);
                     actx += wordwi;
                     wasword = true;
                 }
@@ -245,7 +264,7 @@ namespace zp8
                     if (par.Current == SongLineParser.Token.Word)
                     {
                         float wordwi = (float)gfx.MeasureString(par.Data, m_options.TextFont).Width;
-                        gfx.DrawString(par.Data, m_options.TextFont, XBrushes.Black, new PointF(pt.X + tpos, acty + pt.Y + m_options.ChordHeight), XStringFormat.TopLeft);
+                        gfx.DrawString(par.Data, m_options.TextFont, m_options.TextColor, new PointF(pt.X + tpos, acty + pt.Y + m_options.ChordHeight), XStringFormat.TopLeft);
                         tpos += wordwi;
                     }
                     if (par.Current == SongLineParser.Token.Space)
@@ -257,7 +276,7 @@ namespace zp8
                         if (tpos < apos) tpos = apos; // aby nebyly 2 akordy pres sebe
                         apos = tpos;
                         float chordwi = (float)gfx.MeasureString(par.Data, m_options.ChordFont).Width;
-                        gfx.DrawString(par.Data, m_options.ChordFont, XBrushes.Black, new PointF(pt.X + apos, acty + pt.Y), XStringFormat.TopLeft);
+                        gfx.DrawString(par.Data, m_options.ChordFont, m_options.ChordColor, new PointF(pt.X + apos, acty + pt.Y), XStringFormat.TopLeft);
                         apos += chordwi + m_options.HChordSpace;
                     }
                     par.Read();

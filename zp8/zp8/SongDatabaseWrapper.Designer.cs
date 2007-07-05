@@ -1,6 +1,6 @@
 namespace zp8
 {
-    partial class SongDatabaseWrapper
+    partial class SongDatabaseWrapper : System.ComponentModel.Component
     {
         /// <summary>
         /// Required designer variable.

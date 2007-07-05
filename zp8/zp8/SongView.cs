@@ -76,7 +76,7 @@ namespace zp8
         {
             if (m_drawtext != null)
             {
-                SongFormatter fmt = new SongFormatter(m_drawtext, new FormatOptions(panel1.Width / ViewScale));
+                SongFormatter fmt = new SongFormatter(m_drawtext, CfgTools.CreateSongViewFormatOptions(panel1.Width / ViewScale));
                 fmt.Run();
                 m_panegrp = fmt.Result;
                 panel1.Height = (int)(m_panegrp.FullHeight * ViewScale);

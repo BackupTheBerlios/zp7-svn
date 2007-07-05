@@ -26,10 +26,14 @@ namespace zp8
         {
             OptionsForm win = new OptionsForm(options);
             win.ShowDialog();
+            options.Save();
         }
 
         private void lbobjects_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //propertyGrid1.Item.Clear();
+
+            //foreach(
             propertyGrid1.SelectedObject = m_options.Pages[lbobjects.SelectedIndex];
         }
 
