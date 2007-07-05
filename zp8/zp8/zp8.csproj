@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Format\PrintTarget.cs" />
     <Compile Include="Forms\AddServerWizard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -220,6 +221,7 @@
     <Compile Include="Frames\SongTable.Designer.cs">
       <DependentUpon>SongTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\PersistentFont.cs" />
     <Compile Include="Tools\SongTool.cs" />
     <Compile Include="Frames\SongView.cs">
       <SubType>UserControl</SubType>

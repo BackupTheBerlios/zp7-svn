@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using PdfSharp.Drawing;
+using System.Drawing;
 
 namespace zp8
 {
@@ -11,6 +13,7 @@ namespace zp8
         float m_heightWithDelim = 0;
         float m_heightWithoutDelim = 0;
         float m_maxPageHeight;
+        int m_noDelimPageCount = 0;
 
         public LogPage(float maxPageHeight)
         {
@@ -27,7 +30,22 @@ namespace zp8
         {
             m_panes.Add(pane);
             m_heightWithDelim += pane.Height;
-            if (!pane.IsDelimiter) m_heightWithoutDelim = m_heightWithDelim;
+            if (!pane.IsDelimiter)
+            {
+                m_heightWithoutDelim = m_heightWithDelim;
+                m_noDelimPageCount = m_panes.Count;
+            }
+        }
+
+        public void DrawPage(XGraphics gfx, PointF pagepos)
+        {
+            float acty = 0;
+            for (int i = 0; i < m_noDelimPageCount; i++)
+            {
+                Pane pane = m_panes[i];
+                pane.Draw(gfx, new PointF(pagepos.X, pagepos.X + acty));
+                acty += pane.Height;
+            }
         }
     }
 
@@ -61,11 +79,31 @@ namespace zp8
                 return m_pages[m_pages.Count - 1];
             }
         }
+        public IEnumerable<LogPage> Pages { get { return m_pages; } }
+        //public IEnumerable<LogPage> ReversedPages()
+        //{
+        //    for (int i = m_pages.Count - 1; i >= 0; i--) yield return m_pages[i];
+        //}
+        public int Count { get { return m_pages.Count; } }
     }
 
     public interface IDistribAlg
     {
         void Run(LogPages pages, IEnumerable<PaneGrp> panegrps);
+        string Name { get;}
+    }
+
+    public static class DistribAlgs
+    {
+        public static readonly SimpleDistribAlg Simple = new SimpleDistribAlg();
+        public static IDistribAlg FromName(string name)
+        {
+            switch (name)
+            {
+                case "simple": return Simple;
+            }
+            throw new Exception("Unknown distrib algorithm:" + name);
+        }
     }
 
     public class SimpleDistribAlg : IDistribAlg
@@ -77,5 +115,6 @@ namespace zp8
                 pages.AddPaneGrp(grp);
             }
         }
+        public string Name { get { return "simple"; } }
     }
 }

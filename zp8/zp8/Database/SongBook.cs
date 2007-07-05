@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Xml;
+using System.ComponentModel;
 
 namespace zp8
 {
@@ -21,11 +22,30 @@ namespace zp8
         }
     }
 
+    public class SongBookFonts
+    {
+        PersistentFont m_textFont = new PersistentFont();
+        PersistentFont m_chordFont = new PersistentFont();
+        PersistentFont m_labelFont = new PersistentFont();
+
+        [Description("Font textu")]
+        public PersistentFont TextFont { get { return m_textFont; } set { m_textFont = value; } }
+        [Description("Font akordù")]
+        public PersistentFont ChordFont { get { return m_chordFont; } set { m_chordFont = value; } }
+        [Description("Font Návìští")]
+        public PersistentFont LabelFont { get { return m_labelFont; } set { m_labelFont = value; } }
+    }
+
     public class SongBook : AbstractSongDatabase
     {
         public static readonly SongBookManager Manager = new SongBookManager();
         string m_filename;
-
+        BookLayout m_layout;
+        BookSequence m_sequence;
+        IPrintTarget m_printTarget;
+        SongBookFonts m_fonts = new SongBookFonts();
+        Dictionary<int, PaneGrp> m_formatted = new Dictionary<int, PaneGrp>();
+        
         protected override void WantOpen() { }
 
         public SongBook()
@@ -58,6 +78,29 @@ namespace zp8
                 m_dataset.WriteXml(xw);
                 xw.WriteEndElement();
             }
+        }
+        public SongBookFonts Fonts { get { return m_fonts; } }
+        public BookLayout Layout { get { return m_layout; } set { m_layout = value; } }
+
+        public FormattedBook Format()
+        {
+            LogPages pages = m_sequence.CreateLogPages(this);
+            return new FormattedBook(pages, Layout);
+        }
+        public FormatOptions GetFormatOptions()
+        {
+            return new FormatOptions(m_layout.SmallPageWidth, m_fonts.TextFont, m_fonts.ChordFont, m_fonts.LabelFont);
+        }
+        public PaneGrp FormatSong(int songid)
+        {
+            if (m_formatted.ContainsKey(songid)) return m_formatted[songid];
+            SongDb.songRow row = DataSet.song.FindByID(songid);
+
+            SongFormatter fmt = new SongFormatter(row.songtext, GetFormatOptions());
+            fmt.Run();
+            m_formatted[songid] = fmt.Result;
+
+            return m_formatted[songid];
         }
     }
 }
