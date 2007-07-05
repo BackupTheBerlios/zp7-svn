@@ -4,7 +4,7 @@ using System.Text;
 
 namespace zp8
 {
-    class BookLayout
+    public class BookLayout
     {
     }
 }

@@ -22,6 +22,7 @@ namespace zp8
 
             InitializeComponent();
         }
+        [Browsable(false)]
         public AbstractSongDatabase Database
         {
             get { return m_db; }
@@ -47,10 +48,15 @@ namespace zp8
             }
         }
         public event SongDatabaseChanged ChangedSongDatabase;
+        [Browsable(false)]
         public SongDb SongDb { get { return m_db.DataSet; } }
+        [Browsable(false)]
         public System.Windows.Forms.BindingSource SongBindingSource { get { return songbindingSource; } }
+        [Browsable(false)]
         public System.Windows.Forms.BindingSource ServerBindingSource { get { return serverbindingSource; } }
+        [Browsable(false)]
         public SongDb.songRow SelectedSong { get { return m_db.DataSet.song[songbindingSource.Position]; } }
+        [Browsable(false)]
         public SongDb.serverRow SelectedServer { get { return m_db.DataSet.server[serverbindingSource.Position]; } }
     }
 }

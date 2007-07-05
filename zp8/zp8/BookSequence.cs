@@ -4,7 +4,17 @@ using System.Text;
 
 namespace zp8
 {
-    class BookSequence
+    public abstract class SequenceItem
     {
+    }
+
+    public class BookSequence
+    {
+        List<SequenceItem> m_items = new List<SequenceItem>();
+
+        public FormattedBook FormatBook(BookLayout layout)
+        {
+            return null;
+        }
     }
 }
