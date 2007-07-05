@@ -270,6 +270,8 @@ namespace zp8
         {
             m_panes.Add(pane);
         }
+
+        public IEnumerable<Pane> Panes { get { return m_panes; } }
     }
     public class SongFormatter
     {
