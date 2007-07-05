@@ -15,54 +15,11 @@ using PdfSharp.Pdf;
 
 namespace zp8
 {
-    /*
-    public struct OptionPropertyInfo
-    {
-        public readonly string Title;
-        public readonly string Description;
-        public readonly string XmlName;
-        public readonly PropertyInfo Property;
-        public OptionPropertyInfo(string title, string description, string xmlname, PropertyInfo property)
-        {
-            Title = title;
-            Description = description;
-            XmlName = xmlname;
-            Property = Property;
-        }
-    }
-    */
-
     public class PropertyPage
     {
         internal string m_name;
         internal string m_title;
-
-        /*
-        public IEnumerable<OptionPropertyInfo> GetProperties()
-        {
-            foreach (PropertyInfo prop in GetType().GetProperties())
-            {
-                foreach (OptionAttribute attr in prop.GetCustomAttributes(typeof(OptionAttribute), true))
-                {
-                    yield return new OptionPropertyInfo(attr.Title, attr.Description, attr.XmlName, prop);
-                }
-            }
-        }
-        public void Save(XmlWriter xw)
-        {
-        }
-        */
     }
-
-    /*
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false, Inherited = false)]
-    public class OptionAttribute : Attribute
-    {
-        public string Title;
-        public string Description;
-        public string XmlName;
-    }
-    */
 
     public class FontEditor : UITypeEditor
     {
@@ -119,23 +76,6 @@ namespace zp8
                     e.Graphics.FillRectangle(color, e.Bounds);
                     e.Graphics.Restore(state);
                 }
-                /*
-                PersistentFont font = (PersistentFont)e.Value;
-                Brush bg = new SolidBrush(SystemColors.Window);
-                Brush text = new SolidBrush(font.FontColor);
-                try
-                {
-                    GraphicsState state = e.Graphics.Save();
-                    e.Graphics.FillRectangle(bg, e.Bounds);
-                    e.Graphics.DrawString(font.GetTitle(), SystemFonts.DefaultFont, text, e.Bounds);
-                    e.Graphics.Restore(state);
-                }
-                finally
-                {
-                    bg.Dispose();
-                    text.Dispose();
-                }
-                */
             }
             else
             {
@@ -249,52 +189,6 @@ namespace zp8
         [Description("Font Návìští")]
         public PersistentFont LabelFont { get { return m_labelFont; } set { m_labelFont = value; } }
     }
-
-    /*
-    public class SongViewPropertyPage : PropertyPage
-    {
-        Font m_titleFont = new Font("Arial", 12);Color m_titleColor;
-        Font m_chordFont = new Font("Arial", 12); Color m_chordColor;
-        Font m_textFont = new Font("Arial", 12); Color m_textColor;
-
-        [Description("Font názvu písnì")]
-        [System.Xml.Serialization.XmlIgnore]
-        public Font TitleFont { get { return m_titleFont; } set { m_titleFont = value; } }
-        [System.Xml.Serialization.XmlElement("TitleFont")]
-        public XmlSerializableFont _titleFont
-        {
-            get { return XmlSerializableFont.FromFont(TitleFont); }
-            set { TitleFont = value.ToFont(); }
-        }
-        [Description("Barva názvu písnì")]
-        public Color TitleColor { get { return m_titleColor; } set { m_titleColor = value; } }
-
-        [Description("Font akordù")]
-        [System.Xml.Serialization.XmlIgnore]
-        public Font ChordFont { get { return m_chordFont; } set { m_chordFont = value; } }
-        [System.Xml.Serialization.XmlElement("ChordFont")]
-        public XmlSerializableFont _chordFont
-        {
-            get { return XmlSerializableFont.FromFont(ChordFont); }
-            set { ChordFont = value.ToFont(); }
-        }
-        [Description("Barva akordù")]
-        public Color ChordColor { get { return m_chordColor; } set { m_chordColor = value; } }
-
-        [Description("Font textu")]
-        [System.Xml.Serialization.XmlIgnore]
-        public Font TextFont { get { return m_textFont; } set { m_textFont = value; } }
-        [System.Xml.Serialization.XmlElement("TextFont")]
-        public XmlSerializableFont _textFont
-        {
-            get { return XmlSerializableFont.FromFont(TextFont); }
-            set { TextFont = value.ToFont(); }
-        }
-        [Description("Barva textu")]
-        public Color TextColor { get { return m_textColor; } set { m_textColor = value; } }
-
-    }
-    */
 
     public class Options
     {

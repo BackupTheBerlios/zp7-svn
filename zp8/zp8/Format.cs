@@ -12,15 +12,6 @@ using PdfSharp.Pdf.IO;
 
 namespace zp8
 {
-    /*
-    public interface ISongData
-    {
-        string Title {get;}
-        //string Author { get;}
-        string Text { get;}
-    }
-    */
-
     public class FormatOptions
     {
         public readonly XFont TextFont;
@@ -30,7 +21,6 @@ namespace zp8
         public readonly XBrush ChordColor;
         public readonly XBrush LabelColor;
 
-        //public XFont TitleFont;
         public readonly float HTextSpace;
         public readonly float HChordSpace;
         public readonly float TextHeight;
@@ -45,10 +35,6 @@ namespace zp8
             ConvertFont(textFont, out TextFont, out TextColor);
             ConvertFont(chordFont, out ChordFont, out ChordColor);
             ConvertFont(labelFont, out LabelFont, out LabelColor);
-            //TextFont = new XFont("Arial", 12, XFontStyle.Regular, options);
-            //ChordFont = new XFont("Arial", 12, XFontStyle.Bold, options);
-            //LabelFont = new XFont("Arial", 12, XFontStyle.Underline, options);
-            //TitleFont = new XFont("Arial", 15, XFontStyle.Regular, options);
 
             PdfDocument doc = new PdfDocument();
             PdfPage page = doc.AddPage();
@@ -64,13 +50,6 @@ namespace zp8
         private static void ConvertFont(PersistentFont pfont, out XFont xfont, out XBrush xcolor)
         {
             xfont = pfont.ToXFont();
-            /*
-            using (Font ft = pfont.ToFont())
-            {
-                ft.Unit = GraphicsUnit.World;
-                xfont = new XFont(ft, FontOptions);
-            }
-            */
             using (Brush br = new SolidBrush(pfont.FontColor)) xcolor = (XBrush)br;
         }
     }
@@ -94,30 +73,6 @@ namespace zp8
                 return m_height.Value;
             }
         }
-        
-
-        //MemoryStream m_data;
-        //Metafile m_image;
-        //int m_height;
-        //Graphics m_graphics;
-
-        //public Pane()
-        //{
-        //    m_data = new MemoryStream();
-        //    //Graphics.FromHwnd(
-        //    m_image = new Metafile(m_data, MainForm.HDC);
-        //    m_height = 0;
-        //    m_graphics = Graphics.FromImage(m_image);
-        //}
-
-        //public Metafile Image { get { return m_image; } }
-        //public int Height { get { return m_height; } }
-        //public Graphics Graphics { get { return m_graphics; } }
-
-        //internal void WantHi(int hi)
-        //{
-        //    if (m_height < hi) m_height = hi;
-        //}
     }
 
     public class LabelLinePane : Pane
@@ -310,12 +265,6 @@ namespace zp8
                 return res;
             }
         }
-        //public Pane AddPane()
-        //{
-        //    Pane res = new Pane();
-        //    m_panes.Add(res);
-        //    return res;
-        //}
 
         public void Add(Pane pane)
         {
@@ -361,39 +310,5 @@ namespace zp8
         }
 
         public PaneGrp Result { get { return m_panegrp; } }
-
-        //Pane m_actpane;
-        //PaneGrp m_panegrp;
-        //string m_text;
-        //Font m_font = new Font(FontFamily.GenericSansSerif, 10);
-
-        //public SongFormatter(string text)
-        //{
-        //    m_panegrp = new PaneGrp();
-        //    m_text = text;
-        //}
-
-        //private Pane WantPane(int hi)
-        //{
-        //    if (m_actpane == null) m_actpane = m_panegrp.AddPane();
-        //    m_actpane.WantHi(hi);
-        //    return m_actpane;
-        //}
-
-        //private void LineFeed()
-        //{
-        //    m_actpane = null;
-        //}
-
-        //public void Run()
-        //{
-        //    foreach (string line in m_text.Split('\n'))
-        //    {
-        //        Pane pane = WantPane(20);
-        //        pane.Graphics.DrawString(line, m_font, Brushes.Black, 0, 0);
-        //    }
-        //}
-
-        //public PaneGrp Result { get { return m_panegrp; } }
     }
 }
