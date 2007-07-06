@@ -205,20 +205,6 @@ namespace zp8
             }
         }
 
-        private void importToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                songDatabaseWrapper1.Database = null;
-                ImportForm.Run(SelectedDbOrSb);
-                UpdateDbState();
-            }
-            finally
-            {
-                songDatabaseWrapper1.Database = SelectedDbOrSb;
-            }
-        }
-
         private void novýToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SongBook.Manager.CreateNew();
@@ -290,12 +276,38 @@ namespace zp8
 
         private void obecnéToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OptionsForm.Run(Options.GlobalOpts);
+            OptionsForm.Run(GlobalOpts.Default);
+            GlobalOpts.Default.Save();
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             GlobalCfg.Default.Save();
         }
+
+        private void konecToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void importPísníToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                songDatabaseWrapper1.Database = null;
+                ImportForm.Run(SelectedDbOrSb);
+                UpdateDbState();
+            }
+            finally
+            {
+                songDatabaseWrapper1.Database = SelectedDbOrSb;
+            }
+        }
+
+        private void vlastnostiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (SelectedSongBook != null) OptionsForm.Run(SelectedSongBook);
+        }
+
     }
 }

@@ -99,12 +99,17 @@ namespace zp8
         {
             using (XmlWriter xw = XmlWriter.Create(m_filename))
             {
-                xw.WriteStartElement("SongBook", "http://zpevnik.net/SongBook.xsd");
+                xw.WriteStartElement("sb", "SongBook", "http://zpevnik.net/SongBook.xsd");
+                xw.WriteStartElement("sb", "Songs", "http://zpevnik.net/SongBook.xsd");
                 m_dataset.WriteXml(xw);
+                xw.WriteEndElement();
                 xw.WriteEndElement();
             }
         }
+        [PropertyPage(Name = "fonts", Title = "Fonty")]
         public SongBookFonts Fonts { get { return m_fonts; } }
+
+        [PropertyPage(Name = "layout", Title = "Vzhled stránky")]
         public BookLayout Layout { get { return m_layout; } set { m_layout = value; } }
 
         public FormattedBook Format()

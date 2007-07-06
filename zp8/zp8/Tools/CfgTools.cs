@@ -9,7 +9,7 @@ namespace zp8
     {
         public static FormatOptions CreateSongViewFormatOptions(float pgwi)
         {
-            SongViewPropertyPage pg = Options.GlobalOpts.songview;
+            SongViewPropertyPage pg = GlobalOpts.Default.SongView;
             FormatOptions res = new FormatOptions(pgwi, pg.TextFont, pg.ChordFont, pg.LabelFont);
             return res;
         }

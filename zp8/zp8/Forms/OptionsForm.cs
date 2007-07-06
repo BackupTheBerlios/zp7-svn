@@ -10,23 +10,24 @@ namespace zp8
 {
     public partial class OptionsForm : Form
     {
-        Options m_options;
-        public OptionsForm(Options options)
+        object m_options;
+        List<object> m_pages = new List<object>();
+        public OptionsForm(object options)
         {
             InitializeComponent();
             m_options = options;
-            foreach (PropertyPage page in m_options.Pages)
+            foreach (PropertyPageReference page in Options.GetPropertyPages(m_options))
             {
-                lbobjects.Items.Add(page.m_title);
+                lbobjects.Items.Add(page.Title);
+                m_pages.Add(page.PageObject);
             }
             if (lbobjects.Items.Count > 0) lbobjects.SelectedIndex = 0;
         }
 
-        public static void Run(Options options)
+        public static void Run(object options)
         {
             OptionsForm win = new OptionsForm(options);
             win.ShowDialog();
-            options.Save();
         }
 
         private void lbobjects_SelectedIndexChanged(object sender, EventArgs e)
@@ -34,7 +35,7 @@ namespace zp8
             //propertyGrid1.Item.Clear();
 
             //foreach(
-            propertyGrid1.SelectedObject = m_options.Pages[lbobjects.SelectedIndex];
+            propertyGrid1.SelectedObject = m_pages[lbobjects.SelectedIndex];
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -68,6 +68,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>GlobalCfg.settings</DependentUpon>
     </Compile>
+    <Compile Include="Options\GlobalOpts.cs" />
     <Compile Include="Tools\CfgTools.cs" />
     <Compile Include="Tools\Chords.cs" />
     <Compile Include="Database\DbImport.cs" />
@@ -104,7 +105,7 @@
     <Compile Include="Forms\NewDbForm.Designer.cs">
       <DependentUpon>NewDbForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\Options.cs">
+    <Compile Include="Options\Options.cs">
     </Compile>
     <Compile Include="Forms\OptionsForm.cs">
       <SubType>Form</SubType>
@@ -252,7 +253,7 @@
     <Compile Include="Frames\SongTable.Designer.cs">
       <DependentUpon>SongTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\PersistentFont.cs" />
+    <Compile Include="Options\PersistentFont.cs" />
     <Compile Include="Tools\SongTool.cs" />
     <Compile Include="Frames\SongView.cs">
       <SubType>UserControl</SubType>

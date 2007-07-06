@@ -52,17 +52,22 @@ namespace zp8
             this.tbsongbook = new System.Windows.Forms.TabPage();
             this.songBookFrame1 = new zp8.SongBookFrame();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.zpìvníkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.novýToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.naèístToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.uložitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.uložitNaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.konecToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.souborToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.naèístToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.konecToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.databázeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuNewDb = new System.Windows.Forms.ToolStripMenuItem();
-            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSaveDb = new System.Windows.Forms.ToolStripMenuItem();
+            this.zpìvníkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.novýToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uložitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uložitNaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vlastnostiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.konecToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.písnìToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importPísníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nastavaníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.obecnéToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -302,8 +307,10 @@ namespace zp8
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.zpìvníkToolStripMenuItem,
+            this.souborToolStripMenuItem,
             this.databázeToolStripMenuItem,
+            this.zpìvníkToolStripMenuItem,
+            this.písnìToolStripMenuItem,
             this.nastavaníToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -311,13 +318,65 @@ namespace zp8
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // souborToolStripMenuItem
+            // 
+            this.souborToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.naèístToolStripMenuItem1,
+            this.toolStripMenuItem2,
+            this.konecToolStripMenuItem1});
+            this.souborToolStripMenuItem.Name = "souborToolStripMenuItem";
+            this.souborToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.souborToolStripMenuItem.Text = "Soubor";
+            // 
+            // naèístToolStripMenuItem1
+            // 
+            this.naèístToolStripMenuItem1.Name = "naèístToolStripMenuItem1";
+            this.naèístToolStripMenuItem1.ShortcutKeyDisplayString = "Ctrl+O";
+            this.naèístToolStripMenuItem1.Size = new System.Drawing.Size(154, 22);
+            this.naèístToolStripMenuItem1.Text = "Naèíst";
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(151, 6);
+            // 
+            // konecToolStripMenuItem1
+            // 
+            this.konecToolStripMenuItem1.Name = "konecToolStripMenuItem1";
+            this.konecToolStripMenuItem1.Size = new System.Drawing.Size(154, 22);
+            this.konecToolStripMenuItem1.Text = "Konec";
+            this.konecToolStripMenuItem1.Click += new System.EventHandler(this.konecToolStripMenuItem1_Click);
+            // 
+            // databázeToolStripMenuItem
+            // 
+            this.databázeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuNewDb,
+            this.mnuSaveDb});
+            this.databázeToolStripMenuItem.Name = "databázeToolStripMenuItem";
+            this.databázeToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
+            this.databázeToolStripMenuItem.Text = "Databáze";
+            // 
+            // mnuNewDb
+            // 
+            this.mnuNewDb.Name = "mnuNewDb";
+            this.mnuNewDb.Size = new System.Drawing.Size(152, 22);
+            this.mnuNewDb.Text = "Nová";
+            this.mnuNewDb.Click += new System.EventHandler(this.mnuNewDb_Click);
+            // 
+            // mnuSaveDb
+            // 
+            this.mnuSaveDb.Name = "mnuSaveDb";
+            this.mnuSaveDb.Size = new System.Drawing.Size(152, 22);
+            this.mnuSaveDb.Text = "Uložit";
+            this.mnuSaveDb.Click += new System.EventHandler(this.mnuSaveDb_Click);
+            // 
             // zpìvníkToolStripMenuItem
             // 
             this.zpìvníkToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.novýToolStripMenuItem,
-            this.naèístToolStripMenuItem,
             this.uložitToolStripMenuItem,
             this.uložitNaToolStripMenuItem,
+            this.vlastnostiToolStripMenuItem,
             this.toolStripMenuItem1,
             this.konecToolStripMenuItem});
             this.zpìvníkToolStripMenuItem.Name = "zpìvníkToolStripMenuItem";
@@ -328,73 +387,57 @@ namespace zp8
             // 
             this.novýToolStripMenuItem.Name = "novýToolStripMenuItem";
             this.novýToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+N";
-            this.novýToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.novýToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.novýToolStripMenuItem.Text = "Nový";
             this.novýToolStripMenuItem.Click += new System.EventHandler(this.novýToolStripMenuItem_Click);
-            // 
-            // naèístToolStripMenuItem
-            // 
-            this.naèístToolStripMenuItem.Name = "naèístToolStripMenuItem";
-            this.naèístToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+O";
-            this.naèístToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.naèístToolStripMenuItem.Text = "Naèíst";
             // 
             // uložitToolStripMenuItem
             // 
             this.uložitToolStripMenuItem.Name = "uložitToolStripMenuItem";
             this.uložitToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+S";
-            this.uložitToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.uložitToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.uložitToolStripMenuItem.Text = "Uložit";
             this.uložitToolStripMenuItem.Click += new System.EventHandler(this.uložitToolStripMenuItem_Click);
             // 
             // uložitNaToolStripMenuItem
             // 
             this.uložitNaToolStripMenuItem.Name = "uložitNaToolStripMenuItem";
-            this.uložitNaToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.uložitNaToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.uložitNaToolStripMenuItem.Text = "Uložit na";
             this.uložitNaToolStripMenuItem.Click += new System.EventHandler(this.uložitNaToolStripMenuItem_Click);
+            // 
+            // vlastnostiToolStripMenuItem
+            // 
+            this.vlastnostiToolStripMenuItem.Name = "vlastnostiToolStripMenuItem";
+            this.vlastnostiToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.vlastnostiToolStripMenuItem.Text = "Vlastnosti";
+            this.vlastnostiToolStripMenuItem.Click += new System.EventHandler(this.vlastnostiToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(151, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(146, 6);
             // 
             // konecToolStripMenuItem
             // 
             this.konecToolStripMenuItem.Name = "konecToolStripMenuItem";
-            this.konecToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.konecToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.konecToolStripMenuItem.Text = "Konec";
             // 
-            // databázeToolStripMenuItem
+            // písnìToolStripMenuItem
             // 
-            this.databázeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuNewDb,
-            this.importToolStripMenuItem,
-            this.mnuSaveDb});
-            this.databázeToolStripMenuItem.Name = "databázeToolStripMenuItem";
-            this.databázeToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
-            this.databázeToolStripMenuItem.Text = "Databáze";
+            this.písnìToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.importPísníToolStripMenuItem});
+            this.písnìToolStripMenuItem.Name = "písnìToolStripMenuItem";
+            this.písnìToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.písnìToolStripMenuItem.Text = "Písnì";
             // 
-            // mnuNewDb
+            // importPísníToolStripMenuItem
             // 
-            this.mnuNewDb.Name = "mnuNewDb";
-            this.mnuNewDb.Size = new System.Drawing.Size(141, 22);
-            this.mnuNewDb.Text = "Nová";
-            this.mnuNewDb.Click += new System.EventHandler(this.mnuNewDb_Click);
-            // 
-            // importToolStripMenuItem
-            // 
-            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
-            this.importToolStripMenuItem.Text = "Import písní";
-            this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
-            // 
-            // mnuSaveDb
-            // 
-            this.mnuSaveDb.Name = "mnuSaveDb";
-            this.mnuSaveDb.Size = new System.Drawing.Size(141, 22);
-            this.mnuSaveDb.Text = "Uložit";
-            this.mnuSaveDb.Click += new System.EventHandler(this.mnuSaveDb_Click);
+            this.importPísníToolStripMenuItem.Name = "importPísníToolStripMenuItem";
+            this.importPísníToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.importPísníToolStripMenuItem.Text = "Import písní";
+            this.importPísníToolStripMenuItem.Click += new System.EventHandler(this.importPísníToolStripMenuItem_Click);
             // 
             // nastavaníToolStripMenuItem
             // 
@@ -463,12 +506,10 @@ namespace zp8
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem zpìvníkToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem novýToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem naèístToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem konecToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem databázeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuNewDb;
-        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem mnuSaveDb;
         private System.Windows.Forms.StatusStrip StatusStrip1;
@@ -493,6 +534,13 @@ namespace zp8
         private System.Windows.Forms.ToolStripMenuItem obecnéToolStripMenuItem;
         private System.Windows.Forms.TabPage tbsongbook;
         private SongBookFrame songBookFrame1;
+        private System.Windows.Forms.ToolStripMenuItem vlastnostiToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem souborToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem naèístToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem konecToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem písnìToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importPísníToolStripMenuItem;
     }
 }
 
