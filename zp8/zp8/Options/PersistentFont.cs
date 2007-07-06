@@ -162,7 +162,12 @@ namespace zp8
 
         public string GetTitle()
         {
-            return String.Format("{0} {1}pt", FontName, FontSize);
+            string flags = "";
+            if (Bold) flags += "B";
+            if (Italic) flags += "I";
+            if (Strikeout) flags += "S";
+            if (Underline) flags += "U";
+            return String.Format("{0} {1}pt {2}", FontName, FontSize, flags);
         }
 
         public override string ToString()

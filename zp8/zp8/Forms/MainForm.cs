@@ -339,5 +339,15 @@ namespace zp8
             songBookFrame1.ExportAsPDF();
         }
 
+        private void stylyZpìvníkuToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            BookStylesForm.Run();
+        }
+
+        private void zmìnitStylToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            songBookFrame1.ChangeBookStyle();
+        }
+
     }
 }

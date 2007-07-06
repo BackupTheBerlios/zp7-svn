@@ -14,6 +14,8 @@ namespace zp8
         public static string Options_Prefix = "opt";
         public static string SongBook = "http://zpevnik.net/SongBook.xsd";
         public static string SongBook_Prefix = "sb";
+        public static string BookStyle = "http://zpevnik.net/BookStyle.xsd";
+        public static string BookStyle_Prefix = "bs";
 
         public static XmlNamespaceManager CreateManager(XmlNameTable table)
         {

@@ -54,7 +54,7 @@ namespace zp8
             if (m_book != null)
             {
                 OptionsForm.Run(m_book);
-                m_book.Reformat();
+                m_book.ClearCaches();
                 Format();
             }
         }
@@ -64,6 +64,18 @@ namespace zp8
             if (m_book != null && savepdf.ShowDialog() == DialogResult.OK)
             {
                 m_book.ExportAsPDF(savepdf.FileName);
+            }
+        }
+
+        public void ChangeBookStyle()
+        {
+            if (m_book==null) return;
+            string newstyle = ChangeBookStyleForm.Run();
+            if (newstyle != null)
+            {
+                m_book.SetBookStyle(newstyle);
+                m_book.ClearCaches();
+                Format();
             }
         }
     }

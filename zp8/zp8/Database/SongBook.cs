@@ -153,8 +153,22 @@ namespace zp8
             LogPages pages = m_sequence.CreateLogPages(this);
             return new FormattedBook(pages, Layout);
         }
-        public SongFormatOptions SongFormatOptions { get { return m_songFormatOptions; } }
-        public BookFormatOptions BookFormatOptions { get { return m_bookFormatOptions; } }
+        public SongFormatOptions SongFormatOptions
+        {
+            get
+            {
+                if (m_songFormatOptions == null) m_songFormatOptions = new SongFormatOptions(m_layout.SmallPageWidth, m_fonts.TextFont, m_fonts.ChordFont, m_fonts.LabelFont);
+                return m_songFormatOptions;
+            }
+        }
+        public BookFormatOptions BookFormatOptions
+        {
+            get
+            {
+                if (m_bookFormatOptions == null) m_bookFormatOptions = new BookFormatOptions(m_layout.SmallPageWidth, Fonts, Formatting, SongFormatOptions);
+                return m_bookFormatOptions;
+            }
+        }
 
         public PaneGrp FormatSong(int songid)
         {
@@ -170,11 +184,11 @@ namespace zp8
 
             return m_formatted[songid];
         }
-        public void Reformat()
+        public void ClearCaches()
         {
             m_formatted.Clear();
-            m_songFormatOptions = new SongFormatOptions(m_layout.SmallPageWidth, m_fonts.TextFont, m_fonts.ChordFont, m_fonts.LabelFont);
-            m_bookFormatOptions = new BookFormatOptions(m_layout.SmallPageWidth, Fonts, Formatting, SongFormatOptions);
+            m_songFormatOptions = null;
+            m_bookFormatOptions = null;
         }
         public event EventHandler Changed;
         public IPrintTarget PrintTarget
@@ -184,7 +198,7 @@ namespace zp8
             {
                 m_printTarget = value;
                 Layout.Target = value;
-                Reformat();                
+                ClearCaches();                
             }
         }
         public void Load(string filename)
@@ -214,6 +228,15 @@ namespace zp8
                 fbook.DrawBigPage(gfx, i / 2, i % 2);
             }
             doc.Save(filename);
+        }
+
+        public void SetBookStyle(string newstyle)
+        {
+            BookStyle style = BookStyle.LoadBookStyle(newstyle);
+            Layout = style.Layout;
+            Fonts = style.Fonts;
+            Formatting = style.Formatting;
+            PrintTarget = m_printTarget;
         }
     }
 }

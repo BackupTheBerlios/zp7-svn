@@ -40,6 +40,8 @@ namespace zp8
 
     public static class Options
     {
+        public static string CfgDirectory { get { return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cfg"); } }
+
         public static IEnumerable<PropertyPageReference> GetPropertyPages(object obj)
         {
             foreach (PropertyInfo info in obj.GetType().GetProperties())
@@ -85,6 +87,12 @@ namespace zp8
                 }
 
             }
+        }
+
+        static Options()
+        {
+            try { Directory.CreateDirectory(CfgDirectory); }
+            catch (Exception) { }
         }
 
         /*

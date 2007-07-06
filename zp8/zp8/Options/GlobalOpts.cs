@@ -36,7 +36,7 @@ namespace zp8
         SongViewPropertyPage m_songview;
 
         public static readonly GlobalOpts Default = new GlobalOpts();
-        public static string OptionsFile { get { return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "options.xml"); } }
+        public static string OptionsFile { get { return Path.Combine(Options.CfgDirectory, "options.xml"); } }
 
         [PropertyPage(Name="songview",Title="Prohlížení písní")]
         public SongViewPropertyPage SongView { get { return m_songview; } set { m_songview = value; } }

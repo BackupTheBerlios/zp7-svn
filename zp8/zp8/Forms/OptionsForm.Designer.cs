@@ -84,7 +84,7 @@ namespace zp8
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lbobjects);
             this.Name = "OptionsForm";
-            this.Text = "OptionsForm";
+            this.Text = "Vlastnosti";
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

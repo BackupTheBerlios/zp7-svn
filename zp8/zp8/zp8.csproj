@@ -53,6 +53,18 @@
     <Compile Include="Book\BookLayout.cs" />
     <Compile Include="Book\BookSequence.cs" />
     <Compile Include="Book\BookStyle.cs" />
+    <Compile Include="Forms\BookStylesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BookStylesForm.Designer.cs">
+      <DependentUpon>BookStylesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ChangeBookStyleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ChangeBookStyleForm.Designer.cs">
+      <DependentUpon>ChangeBookStyleForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Frames\PreviewFrame.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -121,6 +133,14 @@
     <EmbeddedResource Include="Forms\AddServerWizard.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AddServerWizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\BookStylesForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>BookStylesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ChangeBookStyleForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ChangeBookStyleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\DialogBase.resx">
       <SubType>Designer</SubType>
