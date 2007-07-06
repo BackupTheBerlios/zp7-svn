@@ -62,6 +62,12 @@
     <Compile Include="Frames\ZoomControl.Designer.cs">
       <DependentUpon>ZoomControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlobalCfg.cs" />
+    <Compile Include="GlobalCfg.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>GlobalCfg.settings</DependentUpon>
+    </Compile>
     <Compile Include="Tools\CfgTools.cs" />
     <Compile Include="Tools\Chords.cs" />
     <Compile Include="Database\DbImport.cs" />
@@ -175,6 +181,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="app.config" />
+    <None Include="GlobalCfg.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>GlobalCfg.Designer.cs</LastGenOutput>
+    </None>
     <None Include="InetSongDb.xsc">
       <DependentUpon>InetSongDb.xsd</DependentUpon>
     </None>

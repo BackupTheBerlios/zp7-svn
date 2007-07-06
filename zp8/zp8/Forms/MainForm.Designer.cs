@@ -50,6 +50,7 @@ namespace zp8
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.serversFrame1 = new zp8.ServersFrame();
             this.tbsongbook = new System.Windows.Forms.TabPage();
+            this.songBookFrame1 = new zp8.SongBookFrame();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.zpìvníkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.novýToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,7 +67,6 @@ namespace zp8
             this.obecnéToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.songBookFrame1 = new zp8.SongBookFrame();
             this.panel1.SuspendLayout();
             this.TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -290,6 +290,15 @@ namespace zp8
             this.tbsongbook.Text = "Uspoøádání zpìvníku";
             this.tbsongbook.UseVisualStyleBackColor = true;
             // 
+            // songBookFrame1
+            // 
+            this.songBookFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.songBookFrame1.Location = new System.Drawing.Point(3, 3);
+            this.songBookFrame1.Name = "songBookFrame1";
+            this.songBookFrame1.Size = new System.Drawing.Size(672, 399);
+            this.songBookFrame1.SongBook = null;
+            this.songBookFrame1.TabIndex = 0;
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -412,14 +421,6 @@ namespace zp8
             // 
             this.saveFileDialog1.Filter = "Zpìvníky (*.zp)|*.zp";
             // 
-            // songBookFrame1
-            // 
-            this.songBookFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.songBookFrame1.Location = new System.Drawing.Point(3, 3);
-            this.songBookFrame1.Name = "songBookFrame1";
-            this.songBookFrame1.Size = new System.Drawing.Size(672, 399);
-            this.songBookFrame1.TabIndex = 0;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -431,6 +432,7 @@ namespace zp8
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Zpìvníkátor 8.0";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);

@@ -44,7 +44,8 @@ namespace zp8
             {
                 m_fbook = m_book.Format();
             }
-            previewFrame1.Source = m_fbook.GetPreview();
+            if (m_fbook != null) previewFrame1.Source = m_fbook.GetPreview();
+            else previewFrame1.Source = null;
         }
 
     }

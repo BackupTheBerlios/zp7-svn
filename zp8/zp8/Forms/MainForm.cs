@@ -17,6 +17,7 @@ namespace zp8
         Dictionary<string, int> m_loaded_dbs_name_to_index = new Dictionary<string, int>();
         bool m_updating_state = false;
         //static MainForm m_form;
+        int? m_activeDbPage, m_activeSbPage;
 
         public MainForm()
         {
@@ -39,32 +40,13 @@ namespace zp8
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadDbList();
-            //SongDatabase sc = new SongDatabase(@"e:\dev\zp8\songs.db");
-            ////songDb1.song.AddsongRow("ahoj peggy", "Kamelot", "je mlynu", "1");
-            ////songDb1.WriteXml(@"e:\dev\zp8\songs2.xml");
-            //SQLiteDataAdapter ada = new SQLiteDataAdapter("SELECT * FROM song", sc.m_conn);
-            
-            //SQLiteCommandBuilder cb = new SQLiteCommandBuilder(ada);
-            ////ada.InsertCommand = (SQLiteCommand)cb.GetInsertCommand();
-            ////cb.GetDeleteCommand();
-            //ada.Fill(songDb1.song);
-            //SongDb xmldb = new SongDb();
-            ////xmldb.ReadXml(@"e:\dev\zp8\songs.xml");
-            ////songDb1.Merge((DataRow[])(new ArrayList(xmldb.song.Rows)).ToArray(typeof(DataRow)), true, MissingSchemaAction.Add);
-            ////songDb1.song.ReadXml(@"e:\dev\zp8\songs.xml");
-            //SQLiteTransaction t = sc.m_conn.BeginTransaction();
-            ////songDb1.song.AddsongRow(3, "ahoj peggy", "b", "c", "d", "e");
-            ////songDb1.AcceptChanges();
-            ////ada.Update(songDb1.song);
-            ////ada.Update(songDb1, "song");
-            ////songDb1.AcceptChanges();
-            //ada.Update(songDb1.song);
-            //t.Commit();
 
-            ////ada.Update(songDb1, "song");
-            ////ada.TableMappings.Add("songs", "songs");
-            ////ada.Update(songDb1, "song");
-            //int cnt = songDb1.song.Rows.Count;
+            string db = GlobalCfg.Default.currentdb;
+            if (m_loaded_dbs_name_to_index.ContainsKey(db))
+            {
+                cbdatabase.SelectedIndex = m_loaded_dbs_name_to_index[db];
+            }
+            LoadCurrentDbOrSb();
         }
 
         private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -136,11 +118,30 @@ namespace zp8
             //serversFrame1.Bind(SelectedDb);
             rbdatabase.Checked = true;
             LoadCurrentDbOrSb();
+            if (SelectedDatabase != null) GlobalCfg.Default.currentdb = SelectedDatabase.Name;
             //UpdateDbState();
         }
 
         private void LoadCurrentDbOrSb()
         {
+            if (rbsongbook.Checked)
+            {
+                if (!TabControl1.TabPages.Contains(tbsongbook))
+                {
+                    m_activeDbPage = TabControl1.SelectedIndex;
+                    TabControl1.TabPages.Add(tbsongbook);
+                    if (m_activeSbPage.HasValue) TabControl1.SelectedIndex = m_activeSbPage.Value;
+                }
+            }
+            else
+            {
+                if (TabControl1.TabPages.Contains(tbsongbook))
+                {
+                    m_activeSbPage = TabControl1.SelectedIndex;
+                    TabControl1.TabPages.Remove(tbsongbook);
+                    if (m_activeDbPage.HasValue) TabControl1.SelectedIndex = m_activeDbPage.Value;
+                }
+            }
             songDatabaseWrapper1.Database = SelectedDbOrSb;
             UpdateDbState();
         }
@@ -290,6 +291,11 @@ namespace zp8
         private void obecnéToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OptionsForm.Run(Options.GlobalOpts);
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            GlobalCfg.Default.Save();
         }
     }
 }
