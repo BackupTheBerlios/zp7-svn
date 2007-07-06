@@ -48,5 +48,15 @@ namespace zp8
             else previewFrame1.Source = null;
         }
 
+
+        public void PropertiesDialog()
+        {
+            if (m_book != null)
+            {
+                OptionsForm.Run(m_book);
+                m_book.Reformat();
+                Format();
+            }
+        }
     }
 }

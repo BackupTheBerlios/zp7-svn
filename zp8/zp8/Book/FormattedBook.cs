@@ -63,12 +63,12 @@ namespace zp8
                 {
                     for (int l = 0; l < m_vcnt; l++)
                     {
-                        for (int j = 0; l < 2; j++)
+                        for (int j = 0; j < 2; j++)
                         {
-                            for (int k = 0; l < m_hcnt; k++)
+                            for (int k = 0; k < m_hcnt; k++)
                             {
-                                m_pages[PageIndex(i, k, l, j)] = actpage.Current;
                                 actpage.MoveNext();
+                                m_pages[PageIndex(i, k, l, j)] = actpage.Current;
                             }
                         }
                     }
@@ -86,10 +86,10 @@ namespace zp8
                     IEnumerator<LogPage> decer = revvirtpages.GetEnumerator();
                     for (int i = 0; i < m_smallPageCount; i += 4)
                     {
-                        m_pages[i + 0] = incer.Current; incer.MoveNext();
-                        m_pages[i + 1] = incer.Current; incer.MoveNext();
-                        m_pages[i + 2] = decer.Current; decer.MoveNext();
-                        m_pages[i + 3] = decer.Current; decer.MoveNext();
+                        incer.MoveNext(); m_pages[i + 0] = incer.Current;
+                        incer.MoveNext(); m_pages[i + 1] = incer.Current;
+                        decer.MoveNext(); m_pages[i + 2] = decer.Current;
+                        decer.MoveNext(); m_pages[i + 3] = decer.Current; 
                     }
                 }
             }

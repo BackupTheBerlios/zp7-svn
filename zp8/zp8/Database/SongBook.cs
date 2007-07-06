@@ -19,9 +19,19 @@ namespace zp8
             get { return m_books; }
         }
 
-        public void CreateNew()
+        public SongBook CreateNew()
         {
-            m_books.Add(new SongBook());
+            SongBook book = new SongBook();
+            m_books.Add(book);
+            return book;
+        }
+
+        public SongBook LoadExisting(string filename)
+        {
+            SongBook book = new SongBook();
+            m_books.Add(book);
+            book.Load(filename);
+            return book;
         }
     }
 
@@ -99,15 +109,16 @@ namespace zp8
         {
             using (XmlWriter xw = XmlWriter.Create(m_filename))
             {
-                xw.WriteStartElement("sb", "SongBook", "http://zpevnik.net/SongBook.xsd");
-                xw.WriteStartElement("sb", "Songs", "http://zpevnik.net/SongBook.xsd");
+                xw.WriteStartElement(XmlNamespaces.SongBook_Prefix, "SongBook", XmlNamespaces.SongBook);
+                xw.WriteStartElement(XmlNamespaces.SongBook_Prefix, "Songs", XmlNamespaces.SongBook);
                 m_dataset.WriteXml(xw);
                 xw.WriteEndElement();
+                Options.SaveOptions(xw, this);
                 xw.WriteEndElement();
             }
         }
         [PropertyPage(Name = "fonts", Title = "Fonty")]
-        public SongBookFonts Fonts { get { return m_fonts; } }
+        public SongBookFonts Fonts { get { return m_fonts; } set { m_fonts = value; } }
 
         [PropertyPage(Name = "layout", Title = "Vzhled stránky")]
         public BookLayout Layout { get { return m_layout; } set { m_layout = value; } }
@@ -132,7 +143,7 @@ namespace zp8
 
             return m_formatted[songid];
         }
-        public void ClearCaches()
+        public void Reformat()
         {
             m_formatted.Clear();
         }
@@ -144,8 +155,23 @@ namespace zp8
             {
                 m_printTarget = value;
                 Layout.Target = value;
-                ClearCaches();                
+                Reformat();                
             }
+        }
+        public void Load(string filename)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(filename);
+            XmlNamespaceManager mgr = XmlNamespaces.CreateManager(doc.NameTable);
+
+            XmlNode songs = doc.DocumentElement.SelectSingleNode("sb:Songs", mgr);
+            m_dataset.ReadXml(new XmlNodeReader(songs.FirstChild));
+
+            XmlNode options = doc.DocumentElement.SelectSingleNode("opt:Options", mgr);
+            Options.LoadOptions((XmlElement)options, this);
+
+            m_filename = filename;
+            PrintTarget = m_printTarget;
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using System.ComponentModel;
 
 namespace zp8
 {
@@ -28,6 +29,7 @@ namespace zp8
         public DistribType DistribType { get { return m_dtype; } set { m_dtype = value; } }
 
         [System.Xml.Serialization.XmlIgnore]
+        [Browsable(false)]
         public IPrintTarget Target
         {
             get { return m_printTarget; }
@@ -47,10 +49,19 @@ namespace zp8
             }
         }
 
+        [Browsable(false)]
         public float SmallPageWidth { get { return m_smallWidth.Value; } }
+        [Browsable(false)]
         public float SmallPageHeight { get { return m_smallHeight.Value; } }
+        [Browsable(false)]
         public float BigPageWidth { get { return m_printTarget.Width; } }
+        [Browsable(false)]
         public float BigPageHeight { get { return m_printTarget.Height; } }
+
+        public int DistLeftMM { get { return m_dleft; } set { m_dleft = value; } }
+        public int DistTopMM { get { return m_dtop; } set { m_dtop = value; } }
+        public int DistRightMM { get { return m_dright; } set { m_dright = value; } }
+        public int DistBottomMM { get { return m_dbottom; } set { m_dbottom = value; } }
 
         public PointF GetPagePos(int x, int y)
         {

@@ -54,11 +54,12 @@ namespace zp8
 
         public static void SaveOptions(XmlWriter xw, object obj)
         {
-            xw.WriteStartElement("Options");
+            xw.WriteStartElement(XmlNamespaces.Options_Prefix, "Options", XmlNamespaces.Options);
             foreach (PropertyPageReference page in GetPropertyPages(obj))
             {
                 XmlSerializer xser = new XmlSerializer(page.PageObject.GetType());
-                xw.WriteStartElement(page.Name);
+                xw.WriteStartElement(XmlNamespaces.Options_Prefix, "Page", XmlNamespaces.Options);
+                xw.WriteAttributeString("name", page.Name);
                 xser.Serialize(xw, page.PageObject);
                 xw.WriteEndElement();
             }
@@ -67,10 +68,9 @@ namespace zp8
 
         public static void LoadOptions(XmlElement root, object obj)
         {
-
             foreach (PropertyPageReference page in GetPropertyPages(obj))
             {
-                XmlElement xml = root == null ? null : (XmlElement)root.SelectSingleNode(page.Name);
+                XmlElement xml = root == null ? null : (XmlElement)root.SelectSingleNode(String.Format("*[@name='{0}']", page.Name));
 
                 if (xml != null)
                 {

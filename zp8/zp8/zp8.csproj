@@ -261,6 +261,7 @@
     <Compile Include="Frames\SongView.Designer.cs">
       <DependentUpon>SongView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\XmlNamespaces.cs" />
     <Compile Include="xsls.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

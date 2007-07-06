@@ -15,6 +15,7 @@ namespace zp8
     {
         Dictionary<int, SongDatabase> m_loaded_dbs = new Dictionary<int, SongDatabase>();
         Dictionary<string, int> m_loaded_dbs_name_to_index = new Dictionary<string, int>();
+        Dictionary<SongBook, int> m_loaded_songbooks = new Dictionary<SongBook, int>();
         bool m_updating_state = false;
         //static MainForm m_form;
         int? m_activeDbPage, m_activeSbPage;
@@ -99,6 +100,13 @@ namespace zp8
             {
                 try { return SongBook.Manager.SongBooks[cbsongbook.SelectedIndex]; }
                 catch (Exception) { return null; }
+            }
+            set
+            {
+                if (m_loaded_songbooks.ContainsKey(value))
+                {
+                    cbsongbook.SelectedIndex = m_loaded_songbooks[value];
+                }
             }
         }
 
@@ -207,19 +215,22 @@ namespace zp8
 
         private void novýToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SongBook.Manager.CreateNew();
+            SongBook newsb = SongBook.Manager.CreateNew();
             LoadSbList();
+            SelectedSongBook = newsb;
         }
 
         private void LoadSbList()
         {
             SongBook lastsb = SelectedSongBook;
             cbsongbook.Items.Clear();
+            m_loaded_songbooks.Clear();
             foreach (SongBook sb in SongBook.Manager.SongBooks)
             {
+                m_loaded_songbooks[sb] = cbsongbook.Items.Count;
                 cbsongbook.Items.Add(sb.Title);
             }
-            if (lastsb != null) cbsongbook.SelectedIndex = cbsongbook.Items.IndexOf(lastsb);
+            if (lastsb != null && m_loaded_songbooks.ContainsKey(lastsb)) cbsongbook.SelectedIndex = m_loaded_songbooks[lastsb];
         }
 
         private void cbsongbook_SelectedIndexChanged(object sender, EventArgs e)
@@ -306,7 +317,21 @@ namespace zp8
 
         private void vlastnostiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (SelectedSongBook != null) OptionsForm.Run(SelectedSongBook);
+            if (SelectedSongBook != null) songBookFrame1.PropertiesDialog();
+        }
+
+        private void naèístToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string ext = Path.GetExtension(openFileDialog1.FileName).ToLower();
+                if (ext == ".zp")
+                {
+                    SongBook newsb = SongBook.Manager.LoadExisting(openFileDialog1.FileName);
+                    LoadSbList();
+                    SelectedSongBook = newsb;
+                }
+            }
         }
 
     }
