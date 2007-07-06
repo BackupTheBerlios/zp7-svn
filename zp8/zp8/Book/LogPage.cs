@@ -47,6 +47,11 @@ namespace zp8
                 acty += pane.Height;
             }
         }
+
+        public int ExtraPageCount(PaneGrp paneGrp)
+        {
+            return paneGrp.CountExtraSheets(m_heightWithDelim, m_heightWithoutDelim, m_maxPageHeight);            
+        }
     }
 
     public class LogPages
@@ -85,36 +90,7 @@ namespace zp8
         //    for (int i = m_pages.Count - 1; i >= 0; i--) yield return m_pages[i];
         //}
         public int Count { get { return m_pages.Count; } }
+        public float MaxPageHeight { get { return m_maxPageHeight; } }
     }
 
-    public interface IDistribAlg
-    {
-        void Run(LogPages pages, IEnumerable<PaneGrp> panegrps);
-        string Name { get;}
-    }
-
-    public static class DistribAlgs
-    {
-        public static readonly SimpleDistribAlg Simple = new SimpleDistribAlg();
-        public static IDistribAlg FromName(string name)
-        {
-            switch (name)
-            {
-                case "simple": return Simple;
-            }
-            throw new Exception("Unknown distrib algorithm:" + name);
-        }
-    }
-
-    public class SimpleDistribAlg : IDistribAlg
-    {
-        public void Run(LogPages pages, IEnumerable<PaneGrp> panegrps)
-        {
-            foreach (PaneGrp grp in panegrps)
-            {
-                pages.AddPaneGrp(grp);
-            }
-        }
-        public string Name { get { return "simple"; } }
-    }
 }

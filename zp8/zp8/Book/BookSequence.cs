@@ -11,7 +11,7 @@ namespace zp8
 
     public class AllSongsSequenceItem : SequenceItem
     {
-        IDistribAlg m_distrib = DistribAlgs.Simple;
+        IDistribAlg m_distrib = DistribAlgs.Complex;
         public string DistribAlg
         {
             get { return m_distrib.Name; }
@@ -24,7 +24,7 @@ namespace zp8
             {
                 grps.Add(book.FormatSong(row.ID));
             }
-            m_distrib.Run(pages, grps);
+            m_distrib.Run(pages, grps, book.Layout);
         }
     }
 

@@ -87,5 +87,27 @@ namespace zp8
         }
 
         public IEnumerable<Pane> Panes { get { return m_panes; } }
+
+        public int CountExtraSheets(float heightWithDelims, float heightWithoutDelims, float maxPageHeight)
+        {
+            int res = 0;
+            foreach (Pane pane in m_panes)
+            {
+                if (heightWithDelims + pane.Height > maxPageHeight)
+                {
+                    res += 1;
+                    heightWithDelims = 0;
+                    heightWithoutDelims = 0;
+                }
+                heightWithDelims += pane.Height;
+                if (!pane.IsDelimiter) heightWithoutDelims = heightWithDelims;
+            }
+            return res;
+        }
+        public int SheetCount(float maxPageHeight)
+        {
+            return CountExtraSheets(maxPageHeight, maxPageHeight, maxPageHeight);
+        }
+
     }
 }
