@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Format\BookFormat.cs" />
+    <Compile Include="Format\Panes.cs" />
     <Compile Include="Format\PrintTarget.cs" />
     <Compile Include="Forms\AddServerWizard.cs">
       <SubType>Form</SubType>
@@ -79,7 +81,7 @@
     <Compile Include="Forms\DialogBase.Designer.cs">
       <DependentUpon>DialogBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Format\Format.cs" />
+    <Compile Include="Format\SongFormat.cs" />
     <Compile Include="Book\FormattedBook.cs" />
     <Compile Include="Forms\ImportForm.cs">
       <SubType>Form</SubType>

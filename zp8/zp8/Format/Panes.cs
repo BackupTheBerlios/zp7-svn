@@ -1,0 +1,91 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+
+using PdfSharp;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.IO;
+
+namespace zp8
+{
+    public class FormatOptions
+    {
+        public readonly XGraphics DummyGraphics;
+        public readonly float PageWidth;
+
+        public FormatOptions(float pgwi)
+        {
+            PdfDocument doc = new PdfDocument();
+            PdfPage page = doc.AddPage();
+            DummyGraphics = XGraphics.FromPdfPage(page);
+            PageWidth = pgwi;
+        }
+
+        protected static void ConvertFont(PersistentFont pfont, out XFont xfont, out XBrush xcolor)
+        {
+            xfont = pfont.ToXFont();
+            using (Brush br = new SolidBrush(pfont.FontColor)) xcolor = (XBrush)br;
+        }
+    }
+
+    public abstract class Pane
+    {
+        protected FormatOptions m_options;
+        protected float? m_height;
+
+        protected Pane(FormatOptions options)
+        {
+            m_options = options;
+        }
+        public abstract float Draw(XGraphics gfx, PointF pt);
+        public abstract bool IsDelimiter { get;}
+
+        public float Height
+        {
+            get
+            {
+                if (!m_height.HasValue) m_height = Draw(m_options.DummyGraphics, new PointF(0, 0));
+                return m_height.Value;
+            }
+        }
+    }
+
+    public class PaneGrp
+    {
+        List<Pane> m_panes = new List<Pane>();
+        public void Draw(XGraphics gfx)
+        {
+            float y = 0;
+            foreach (Pane pane in m_panes)
+            {
+                pane.Draw(gfx, new PointF(0, y));
+                y += pane.Height;
+            }
+        }
+        public float FullHeight
+        {
+            get
+            {
+                float res = 0;
+                foreach (Pane pane in m_panes) res += pane.Height;
+                return res;
+            }
+        }
+
+        public void Add(Pane pane)
+        {
+            m_panes.Add(pane);
+        }
+        public void Insert(Pane pane)
+        {
+            m_panes.Insert(0, pane);
+        }
+
+        public IEnumerable<Pane> Panes { get { return m_panes; } }
+    }
+}

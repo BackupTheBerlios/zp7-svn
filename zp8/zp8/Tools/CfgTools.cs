@@ -7,10 +7,10 @@ namespace zp8
 {
     public static class CfgTools
     {
-        public static FormatOptions CreateSongViewFormatOptions(float pgwi)
+        public static SongFormatOptions CreateSongViewFormatOptions(float pgwi)
         {
             SongViewPropertyPage pg = GlobalOpts.Default.SongView;
-            FormatOptions res = new FormatOptions(pgwi, pg.TextFont, pg.ChordFont, pg.LabelFont);
+            SongFormatOptions res = new SongFormatOptions(pgwi, pg.TextFont, pg.ChordFont, pg.LabelFont);
             return res;
         }
     }

@@ -40,6 +40,8 @@ namespace zp8
         PersistentFont m_textFont = new PersistentFont();
         PersistentFont m_chordFont = new PersistentFont();
         PersistentFont m_labelFont = new PersistentFont();
+        PersistentFont m_titleFont = new PersistentFont();
+        PersistentFont m_authorFont = new PersistentFont();
 
         [Description("Font textu")]
         public PersistentFont TextFont { get { return m_textFont; } set { m_textFont = value; } }
@@ -47,6 +49,21 @@ namespace zp8
         public PersistentFont ChordFont { get { return m_chordFont; } set { m_chordFont = value; } }
         [Description("Font Návìští")]
         public PersistentFont LabelFont { get { return m_labelFont; } set { m_labelFont = value; } }
+        [Description("Font Názvu")]
+        public PersistentFont TitleFont { get { return m_titleFont; } set { m_titleFont = value; } }
+        [Description("Font Autora")]
+        public PersistentFont AuthorFont { get { return m_authorFont; } set { m_authorFont = value; } }
+    }
+
+    public class SongBookFormatting
+    {
+        int m_songSpaceHeight = 100;
+        bool m_printSongDividers = true;
+
+        [Description("Tisknout èáry mezi písnìmi")]
+        public bool PrintSongDividers { get { return m_printSongDividers; } set { m_printSongDividers = value; } }
+        [Description("Výška mezery mezi písnìmi v procentech výšky øádku")]
+        public int SongSpaceHeight { get { return m_songSpaceHeight; } set { m_songSpaceHeight = value; } }
     }
 
     public class SongBook : AbstractSongDatabase
@@ -54,10 +71,13 @@ namespace zp8
         public static readonly SongBookManager Manager = new SongBookManager();
         string m_filename;
         BookLayout m_layout = new BookLayout();
+        SongBookFormatting m_formatting = new SongBookFormatting();
         BookSequence m_sequence;
         IPrintTarget m_printTarget;
         SongBookFonts m_fonts = new SongBookFonts();
         Dictionary<int, PaneGrp> m_formatted = new Dictionary<int, PaneGrp>();
+        SongFormatOptions m_songFormatOptions;
+        BookFormatOptions m_bookFormatOptions;
         
         protected override void WantOpen() { }
 
@@ -117,35 +137,43 @@ namespace zp8
                 xw.WriteEndElement();
             }
         }
+
         [PropertyPage(Name = "fonts", Title = "Fonty")]
         public SongBookFonts Fonts { get { return m_fonts; } set { m_fonts = value; } }
 
         [PropertyPage(Name = "layout", Title = "Vzhled stránky")]
         public BookLayout Layout { get { return m_layout; } set { m_layout = value; } }
 
+        [PropertyPage(Name = "formatting", Title = "Formátování")]
+        public SongBookFormatting Formatting { get { return m_formatting; } set { m_formatting = value; } }
+
         public FormattedBook Format()
         {
             LogPages pages = m_sequence.CreateLogPages(this);
             return new FormattedBook(pages, Layout);
         }
-        public FormatOptions GetFormatOptions()
-        {
-            return new FormatOptions(m_layout.SmallPageWidth, m_fonts.TextFont, m_fonts.ChordFont, m_fonts.LabelFont);
-        }
+        public SongFormatOptions SongFormatOptions { get { return m_songFormatOptions; } }
+        public BookFormatOptions BookFormatOptions { get { return m_bookFormatOptions; } }
+
         public PaneGrp FormatSong(int songid)
         {
             if (m_formatted.ContainsKey(songid)) return m_formatted[songid];
             SongDb.songRow row = DataSet.song.FindByID(songid);
 
-            SongFormatter fmt = new SongFormatter(row.songtext, GetFormatOptions());
+            SongFormatter fmt = new SongFormatter(row.songtext, SongFormatOptions);
             fmt.Run();
-            m_formatted[songid] = fmt.Result;
+            PaneGrp grp = fmt.Result;
+            grp.Insert(new SongHeaderPane(BookFormatOptions, row.title, row.author));
+            grp.Add(new SongSeparatorPane(BookFormatOptions));
+            m_formatted[songid] = grp;
 
             return m_formatted[songid];
         }
         public void Reformat()
         {
             m_formatted.Clear();
+            m_songFormatOptions = new SongFormatOptions(m_layout.SmallPageWidth, m_fonts.TextFont, m_fonts.ChordFont, m_fonts.LabelFont);
+            m_bookFormatOptions = new BookFormatOptions(m_layout.SmallPageWidth, Fonts, Formatting, SongFormatOptions);
         }
         public event EventHandler Changed;
         public IPrintTarget PrintTarget

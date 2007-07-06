@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -12,7 +13,7 @@ using PdfSharp.Pdf.IO;
 
 namespace zp8
 {
-    public class FormatOptions
+    public class SongFormatOptions : FormatOptions
     {
         public readonly XFont TextFont;
         public readonly XFont ChordFont;
@@ -26,91 +27,67 @@ namespace zp8
         public readonly float TextHeight;
         public readonly float ChordHeight;
         public readonly float LabelHeight;
-        public readonly float PageWidth;
 
-        public readonly XGraphics DummyGraphics;
-
-        public FormatOptions(float pgwi, PersistentFont textFont, PersistentFont chordFont, PersistentFont labelFont)
+        public SongFormatOptions(float pgwi, PersistentFont textFont, PersistentFont chordFont, PersistentFont labelFont)
+            : base(pgwi)
         {
             ConvertFont(textFont, out TextFont, out TextColor);
             ConvertFont(chordFont, out ChordFont, out ChordColor);
             ConvertFont(labelFont, out LabelFont, out LabelColor);
 
-            PdfDocument doc = new PdfDocument();
-            PdfPage page = doc.AddPage();
-            DummyGraphics = XGraphics.FromPdfPage(page);
             HTextSpace = (float)DummyGraphics.MeasureString("i", TextFont).Width;
             HChordSpace = (float)DummyGraphics.MeasureString("i", ChordFont).Width;
             TextHeight = (float)DummyGraphics.MeasureString("M", TextFont).Height;
             ChordHeight = (float)DummyGraphics.MeasureString("M", ChordFont).Height;
             LabelHeight = (float)DummyGraphics.MeasureString("M", LabelFont).Height;
-            PageWidth = pgwi;
-        }
-
-        private static void ConvertFont(PersistentFont pfont, out XFont xfont, out XBrush xcolor)
-        {
-            xfont = pfont.ToXFont();
-            using (Brush br = new SolidBrush(pfont.FontColor)) xcolor = (XBrush)br;
         }
     }
 
-    public abstract class Pane
+    public abstract class SongFormatPane : Pane
     {
-        protected FormatOptions m_options;
-        protected float? m_height;
+        protected SongFormatOptions Options { get { return (SongFormatOptions)m_options; } }
 
-        protected Pane(FormatOptions options)
+        public SongFormatPane(SongFormatOptions options)
+            : base(options)
         {
-            m_options = options;
-        }
-        public abstract float Draw(XGraphics gfx, PointF pt);
-        public abstract bool IsDelimiter { get;}
-
-        public float Height
-        {
-            get
-            {
-                if (!m_height.HasValue) m_height = Draw(m_options.DummyGraphics, new PointF(0, 0));
-                return m_height.Value;
-            }
         }
     }
 
-    public class ParagraphSeparatorPane : Pane
+    public class ParagraphSeparatorPane : SongFormatPane
     {
-        public ParagraphSeparatorPane(FormatOptions options)
+        public ParagraphSeparatorPane(SongFormatOptions options)
             : base(options)
         {
         }
         public override float Draw(XGraphics gfx, PointF pt)
         {
-            return m_options.TextHeight / 2;
+            return Options.TextHeight / 2;
         }
         public override bool IsDelimiter { get { return true; } }
     }
 
-    public class LabelLinePane : Pane
+    public class LabelLinePane : SongFormatPane
     {
         protected readonly string m_label;
-        public LabelLinePane(FormatOptions options, string label)
+        public LabelLinePane(SongFormatOptions options, string label)
             : base(options)
         {
             m_label = label;
         }
         public override float Draw(XGraphics gfx, PointF pt)
         {
-            gfx.DrawString(m_label, m_options.LabelFont, m_options.LabelColor, pt, XStringFormat.TopLeft);
-            return m_options.LabelHeight;
+            gfx.DrawString(m_label, Options.LabelFont, Options.LabelColor, pt, XStringFormat.TopLeft);
+            return Options.LabelHeight;
         }
         public override bool IsDelimiter { get { return false; } }
     }
 
-    public abstract class LabelablePane : Pane
+    public abstract class LabelablePane : SongFormatPane
     {
         protected readonly float m_x0;
         protected readonly string m_label;
 
-        protected LabelablePane(FormatOptions options, float x0, string label)
+        protected LabelablePane(SongFormatOptions options, float x0, string label)
             : base(options)
         {
             m_x0 = x0;
@@ -121,7 +98,7 @@ namespace zp8
         {
             if (m_label != null)
             {
-                gfx.DrawString(m_label, m_options.LabelFont, m_options.LabelColor, new PointF(pt.X, pt.Y + baseline - m_options.LabelHeight), XStringFormat.TopLeft);
+                gfx.DrawString(m_label, Options.LabelFont, Options.LabelColor, new PointF(pt.X, pt.Y + baseline - Options.LabelHeight), XStringFormat.TopLeft);
             }
         }
         public override bool IsDelimiter { get { return false; } }
@@ -130,7 +107,7 @@ namespace zp8
     public class TextLinePane : LabelablePane
     {
         string m_text;
-        public TextLinePane(string text, FormatOptions options, float x0, string label)
+        public TextLinePane(string text, SongFormatOptions options, float x0, string label)
             : base(options, x0, label)
         {
             m_text = text;
@@ -145,22 +122,22 @@ namespace zp8
             {
                 if (par.Current == SongLineParser.Token.Word)
                 {
-                    if (wasword) actx += m_options.HTextSpace;
-                    float wordwi = (float)gfx.MeasureString(par.Data, m_options.TextFont).Width;
-                    if (actx + wordwi > m_options.PageWidth && actx > m_x0) // slovo se nevejde na radku
+                    if (wasword) actx += Options.HTextSpace;
+                    float wordwi = (float)gfx.MeasureString(par.Data, Options.TextFont).Width;
+                    if (actx + wordwi > Options.PageWidth && actx > m_x0) // slovo se nevejde na radku
                     { // odradkujeme
                         actx = m_x0;
-                        acty += m_options.TextHeight;
+                        acty += Options.TextHeight;
                     }
-                    gfx.DrawString(par.Data, m_options.TextFont, m_options.TextColor, new PointF(pt.X + actx, pt.Y + acty), XStringFormat.TopLeft);
+                    gfx.DrawString(par.Data, Options.TextFont, Options.TextColor, new PointF(pt.X + actx, pt.Y + acty), XStringFormat.TopLeft);
                     actx += wordwi;
                     wasword = true;
                 }
                 par.Read();
             }
 
-            if (actx > 0) acty += m_options.TextHeight;
-            DrawLabel(gfx, pt, m_options.TextHeight);
+            if (actx > 0) acty += Options.TextHeight;
+            DrawLabel(gfx, pt, Options.TextHeight);
             return acty;
         }
     }
@@ -168,7 +145,7 @@ namespace zp8
     public class ChordLinePane : LabelablePane
     {
         string m_text;
-        public ChordLinePane(string text, FormatOptions options, float x0, string label)
+        public ChordLinePane(string text, SongFormatOptions options, float x0, string label)
             : base(options, x0, label)
         {
             m_text = text;
@@ -188,13 +165,13 @@ namespace zp8
             {
                 if (par.Current == SongLineParser.Token.Word)
                 {
-                    float wordwi = (float)gfx.MeasureString(par.Data, m_options.TextFont).Width;
+                    float wordwi = (float)gfx.MeasureString(par.Data, Options.TextFont).Width;
                     tpos += wordwi;
                     par.Read();
                 }
                 else if (par.Current == SongLineParser.Token.Space || par.Current == SongLineParser.Token.End)
                 {
-                    if ((apos > m_options.PageWidth || tpos > m_options.PageWidth) && (lastspace.Position > lastflushed.Position))
+                    if ((apos > Options.PageWidth || tpos > Options.PageWidth) && (lastspace.Position > lastflushed.Position))
                     {
                         yield return par.Original.Substring(lastflushed.Position, lastspace.Position - lastflushed.Position);
                         lastflushed = lastspace;
@@ -204,7 +181,7 @@ namespace zp8
                     else
                     {
                         if (par.Current == SongLineParser.Token.End) break;
-                        tpos += m_options.HTextSpace;
+                        tpos += Options.HTextSpace;
                         lastspace = par.State;
                         par.Read();
                     }
@@ -214,8 +191,8 @@ namespace zp8
                 {
                     if (tpos < apos) tpos = apos; // aby nebyly 2 akordy pres sebe
                     apos = tpos;
-                    float chordwi = (float)gfx.MeasureString(par.Data, m_options.ChordFont).Width;
-                    apos += chordwi + m_options.HChordSpace;
+                    float chordwi = (float)gfx.MeasureString(par.Data, Options.ChordFont).Width;
+                    apos += chordwi + Options.HChordSpace;
                     par.Read();
                 }
             }
@@ -234,68 +211,39 @@ namespace zp8
                 {
                     if (par.Current == SongLineParser.Token.Word)
                     {
-                        float wordwi = (float)gfx.MeasureString(par.Data, m_options.TextFont).Width;
-                        gfx.DrawString(par.Data, m_options.TextFont, m_options.TextColor, new PointF(pt.X + tpos, acty + pt.Y + m_options.ChordHeight), XStringFormat.TopLeft);
+                        float wordwi = (float)gfx.MeasureString(par.Data, Options.TextFont).Width;
+                        gfx.DrawString(par.Data, Options.TextFont, Options.TextColor, new PointF(pt.X + tpos, acty + pt.Y + Options.ChordHeight), XStringFormat.TopLeft);
                         tpos += wordwi;
                     }
                     if (par.Current == SongLineParser.Token.Space)
                     {
-                        tpos += m_options.HTextSpace;
+                        tpos += Options.HTextSpace;
                     }
                     if (par.Current == SongLineParser.Token.Chord)
                     {
                         if (tpos < apos) tpos = apos; // aby nebyly 2 akordy pres sebe
                         apos = tpos;
-                        float chordwi = (float)gfx.MeasureString(par.Data, m_options.ChordFont).Width;
-                        gfx.DrawString(par.Data, m_options.ChordFont, m_options.ChordColor, new PointF(pt.X + apos, acty + pt.Y), XStringFormat.TopLeft);
-                        apos += chordwi + m_options.HChordSpace;
+                        float chordwi = (float)gfx.MeasureString(par.Data, Options.ChordFont).Width;
+                        gfx.DrawString(par.Data, Options.ChordFont, Options.ChordColor, new PointF(pt.X + apos, acty + pt.Y), XStringFormat.TopLeft);
+                        apos += chordwi + Options.HChordSpace;
                     }
                     par.Read();
                 }
-                acty += m_options.ChordHeight + m_options.TextHeight;
+                acty += Options.ChordHeight + Options.TextHeight;
             }
-            DrawLabel(gfx, pt, m_options.ChordHeight + m_options.TextHeight);
+            DrawLabel(gfx, pt, Options.ChordHeight + Options.TextHeight);
 
             return acty;
         }
     }
 
-    public class PaneGrp
-    {
-        List<Pane> m_panes = new List<Pane>();
-        public void Draw(XGraphics gfx)
-        {
-            float y = 0;
-            foreach (Pane pane in m_panes)
-            {
-                pane.Draw(gfx, new PointF(0, y));
-                y += pane.Height;
-            }
-        }
-        public float FullHeight
-        {
-            get
-            {
-                float res = 0;
-                foreach (Pane pane in m_panes) res += pane.Height;
-                return res;
-            }
-        }
-
-        public void Add(Pane pane)
-        {
-            m_panes.Add(pane);
-        }
-
-        public IEnumerable<Pane> Panes { get { return m_panes; } }
-    }
     public class SongFormatter
     {
         PaneGrp m_panegrp;
         string m_text;
-        FormatOptions m_options;
+        SongFormatOptions m_options;
 
-        public SongFormatter(string text, FormatOptions options)
+        public SongFormatter(string text, SongFormatOptions options)
         {
             m_panegrp = new PaneGrp();
             m_text = text;
