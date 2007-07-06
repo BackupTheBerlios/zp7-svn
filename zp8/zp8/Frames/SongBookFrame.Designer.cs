@@ -32,8 +32,9 @@ namespace zp8
             this.lbsequence = new System.Windows.Forms.ListBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.previewFrame1 = new zp8.PreviewFrame();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.savepdf = new System.Windows.Forms.SaveFileDialog();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -82,6 +83,15 @@ namespace zp8
             this.tabPage1.Text = "Náhled";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // previewFrame1
+            // 
+            this.previewFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.previewFrame1.Location = new System.Drawing.Point(3, 3);
+            this.previewFrame1.Name = "previewFrame1";
+            this.previewFrame1.Size = new System.Drawing.Size(402, 488);
+            this.previewFrame1.Source = null;
+            this.previewFrame1.TabIndex = 0;
+            // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -92,14 +102,9 @@ namespace zp8
             this.tabPage2.Text = "Logické stránky";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // previewFrame1
+            // savepdf
             // 
-            this.previewFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.previewFrame1.Location = new System.Drawing.Point(3, 3);
-            this.previewFrame1.Name = "previewFrame1";
-            this.previewFrame1.Size = new System.Drawing.Size(402, 488);
-            this.previewFrame1.Source = null;
-            this.previewFrame1.TabIndex = 0;
+            this.savepdf.Filter = "PDF soubory (*.pdf)|*.pdf";
             // 
             // SongBookFrame
             // 
@@ -124,5 +129,6 @@ namespace zp8
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private PreviewFrame previewFrame1;
+        private System.Windows.Forms.SaveFileDialog savepdf;
     }
 }

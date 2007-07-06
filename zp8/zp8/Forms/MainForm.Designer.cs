@@ -59,7 +59,6 @@ namespace zp8
             this.uložitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uložitNaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vlastnostiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.konecToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.písnìToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importPísníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -318,14 +317,14 @@ namespace zp8
             // mnuNewDb
             // 
             this.mnuNewDb.Name = "mnuNewDb";
-            this.mnuNewDb.Size = new System.Drawing.Size(152, 22);
+            this.mnuNewDb.Size = new System.Drawing.Size(111, 22);
             this.mnuNewDb.Text = "Nová";
             this.mnuNewDb.Click += new System.EventHandler(this.mnuNewDb_Click);
             // 
             // mnuSaveDb
             // 
             this.mnuSaveDb.Name = "mnuSaveDb";
-            this.mnuSaveDb.Size = new System.Drawing.Size(152, 22);
+            this.mnuSaveDb.Size = new System.Drawing.Size(111, 22);
             this.mnuSaveDb.Text = "Uložit";
             this.mnuSaveDb.Click += new System.EventHandler(this.mnuSaveDb_Click);
             // 
@@ -336,7 +335,6 @@ namespace zp8
             this.uložitToolStripMenuItem,
             this.uložitNaToolStripMenuItem,
             this.vlastnostiToolStripMenuItem,
-            this.toolStripMenuItem1,
             this.konecToolStripMenuItem});
             this.zpìvníkToolStripMenuItem.Name = "zpìvníkToolStripMenuItem";
             this.zpìvníkToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
@@ -347,7 +345,7 @@ namespace zp8
             this.novýToolStripMenuItem.Name = "novýToolStripMenuItem";
             this.novýToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.novýToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.novýToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.novýToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.novýToolStripMenuItem.Text = "Nový";
             this.novýToolStripMenuItem.Click += new System.EventHandler(this.novýToolStripMenuItem_Click);
             // 
@@ -356,34 +354,30 @@ namespace zp8
             this.uložitToolStripMenuItem.Name = "uložitToolStripMenuItem";
             this.uložitToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.uložitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.uložitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.uložitToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.uložitToolStripMenuItem.Text = "Uložit";
             this.uložitToolStripMenuItem.Click += new System.EventHandler(this.uložitToolStripMenuItem_Click);
             // 
             // uložitNaToolStripMenuItem
             // 
             this.uložitNaToolStripMenuItem.Name = "uložitNaToolStripMenuItem";
-            this.uložitNaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.uložitNaToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.uložitNaToolStripMenuItem.Text = "Uložit na";
             this.uložitNaToolStripMenuItem.Click += new System.EventHandler(this.uložitNaToolStripMenuItem_Click);
             // 
             // vlastnostiToolStripMenuItem
             // 
             this.vlastnostiToolStripMenuItem.Name = "vlastnostiToolStripMenuItem";
-            this.vlastnostiToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.vlastnostiToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.vlastnostiToolStripMenuItem.Text = "Vlastnosti";
             this.vlastnostiToolStripMenuItem.Click += new System.EventHandler(this.vlastnostiToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
             // 
             // konecToolStripMenuItem
             // 
             this.konecToolStripMenuItem.Name = "konecToolStripMenuItem";
-            this.konecToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.konecToolStripMenuItem.Text = "Konec";
+            this.konecToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.konecToolStripMenuItem.Text = "Export do PDF";
+            this.konecToolStripMenuItem.Click += new System.EventHandler(this.pdfExportToolStripMenuItem_Click);
             // 
             // písnìToolStripMenuItem
             // 
@@ -396,7 +390,7 @@ namespace zp8
             // importPísníToolStripMenuItem
             // 
             this.importPísníToolStripMenuItem.Name = "importPísníToolStripMenuItem";
-            this.importPísníToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.importPísníToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.importPísníToolStripMenuItem.Text = "Import písní";
             this.importPísníToolStripMenuItem.Click += new System.EventHandler(this.importPísníToolStripMenuItem_Click);
             // 
@@ -411,7 +405,7 @@ namespace zp8
             // obecnéToolStripMenuItem
             // 
             this.obecnéToolStripMenuItem.Name = "obecnéToolStripMenuItem";
-            this.obecnéToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.obecnéToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.obecnéToolStripMenuItem.Text = "Obecné";
             this.obecnéToolStripMenuItem.Click += new System.EventHandler(this.obecnéToolStripMenuItem_Click);
             // 
@@ -509,7 +503,6 @@ namespace zp8
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem zpìvníkToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem novýToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem konecToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem databázeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuNewDb;

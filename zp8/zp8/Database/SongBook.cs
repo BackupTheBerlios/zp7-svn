@@ -7,6 +7,7 @@ using System.ComponentModel;
 
 using PdfSharp;
 using PdfSharp.Pdf;
+using PdfSharp.Drawing;
 
 namespace zp8
 {
@@ -200,6 +201,19 @@ namespace zp8
 
             m_filename = filename;
             PrintTarget = m_printTarget;
+        }
+
+        public void ExportAsPDF(string filename)
+        {
+            FormattedBook fbook = Format();
+            PdfDocument doc = new PdfDocument();
+            for (int i = 0; i < fbook.A4SheetCount * 2; i++)
+            {
+                PdfPage page = doc.AddPage();
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+                fbook.DrawBigPage(gfx, i / 2, i % 2);
+            }
+            doc.Save(filename);
         }
     }
 }

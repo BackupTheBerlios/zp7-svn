@@ -58,5 +58,13 @@ namespace zp8
                 Format();
             }
         }
+
+        public void ExportAsPDF()
+        {
+            if (m_book != null && savepdf.ShowDialog() == DialogResult.OK)
+            {
+                m_book.ExportAsPDF(savepdf.FileName);
+            }
+        }
     }
 }

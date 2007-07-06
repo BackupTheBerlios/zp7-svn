@@ -254,8 +254,9 @@ namespace zp8
         {
             string pending_label = null;
             float x0 = 0;
-            foreach (string line in m_text.Split('\n'))
+            foreach (string line0 in m_text.Split('\n'))
             {
+                string line = line0.Trim();
                 if (SongTool.IsLabelLine(line))
                 {
                     if (pending_label != null) m_panegrp.Add(new LabelLinePane(m_options, pending_label));

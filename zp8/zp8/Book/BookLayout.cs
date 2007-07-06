@@ -38,8 +38,8 @@ namespace zp8
                 m_printTarget = value;
                 if (m_printTarget != null)
                 {
-                    m_smallWidth = m_printTarget.Width / m_hcnt - (m_hcnt - 1) * (m_dleft + m_dright);
-                    m_smallHeight = m_printTarget.Height / m_vcnt - (m_vcnt - 1) * (m_dtop + m_dbottom);
+                    m_smallWidth = m_printTarget.Width / m_hcnt - m_dleft - m_dright;
+                    m_smallHeight = m_printTarget.Height / m_vcnt - m_dtop - m_dbottom;
                 }
                 else
                 {

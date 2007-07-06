@@ -334,5 +334,10 @@ namespace zp8
             }
         }
 
+        private void pdfExportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            songBookFrame1.ExportAsPDF();
+        }
+
     }
 }
