@@ -36,7 +36,7 @@ namespace zp8
         }
     }
 
-    public class SongBookFonts
+    public class SongBookFonts : PropertyPageBase
     {
         PersistentFont m_textFont = new PersistentFont();
         PersistentFont m_chordFont = new PersistentFont();
@@ -44,25 +44,28 @@ namespace zp8
         PersistentFont m_titleFont = new PersistentFont();
         PersistentFont m_authorFont = new PersistentFont();
 
-        [Description("Font textu")]
+        [DisplayName("Font textu")]
         public PersistentFont TextFont { get { return m_textFont; } set { m_textFont = value; } }
-        [Description("Font akordù")]
+        [DisplayName("Font akordù")]
         public PersistentFont ChordFont { get { return m_chordFont; } set { m_chordFont = value; } }
-        [Description("Font Návìští")]
+        [DisplayName("Font návìští")]
         public PersistentFont LabelFont { get { return m_labelFont; } set { m_labelFont = value; } }
-        [Description("Font Názvu")]
+        [DisplayName("Font názvu")]
         public PersistentFont TitleFont { get { return m_titleFont; } set { m_titleFont = value; } }
-        [Description("Font Autora")]
+        [DisplayName("Font autora")]
         public PersistentFont AuthorFont { get { return m_authorFont; } set { m_authorFont = value; } }
     }
 
-    public class SongBookFormatting
+    public class SongBookFormatting : PropertyPageBase
     {
         int m_songSpaceHeight = 100;
         bool m_printSongDividers = true;
 
+        [DisplayName("Èáry mezi písnìmi")]
         [Description("Tisknout èáry mezi písnìmi")]
         public bool PrintSongDividers { get { return m_printSongDividers; } set { m_printSongDividers = value; } }
+
+        [DisplayName("Výška mezery")]
         [Description("Výška mezery mezi písnìmi v procentech výšky øádku")]
         public int SongSpaceHeight { get { return m_songSpaceHeight; } set { m_songSpaceHeight = value; } }
     }

@@ -84,6 +84,7 @@
       <DependentUpon>GlobalCfg.settings</DependentUpon>
     </Compile>
     <Compile Include="Options\GlobalOpts.cs" />
+    <Compile Include="Options\PropertyPageBase.cs" />
     <Compile Include="Tools\CfgTools.cs" />
     <Compile Include="Tools\Chords.cs" />
     <Compile Include="Database\DbImport.cs" />

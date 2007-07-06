@@ -8,7 +8,7 @@ namespace zp8
 {
     public enum DistribType { Book, Lines };
 
-    public class BookLayout
+    public class BookLayout : PropertyPageBase
     {
         IPrintTarget m_printTarget;
         int m_hcnt = 1;
@@ -24,8 +24,12 @@ namespace zp8
 
         DistribType m_dtype = DistribType.Book;
 
+        [DisplayName("Poèet malıch stránek horizontálnì")]
         public int HorizontalCount { get { return m_hcnt; } set { m_hcnt = value; } }
+        [DisplayName("Poèet malıch stránek vertikálnì")]
         public int VerticalCount { get { return m_vcnt; } set { m_vcnt = value; } }
+        [DisplayName("Zpùsob rozmístìní na stránky")]
+        [Description("Book - rozmísuje stránky pro tisk kníek, Lines - rozmisuje stránky vodorovnì do øádek (napø. styl zpìvníku \"Kapela\"")]
         public DistribType DistribType { get { return m_dtype; } set { m_dtype = value; } }
 
         [System.Xml.Serialization.XmlIgnore]
@@ -58,9 +62,20 @@ namespace zp8
         [Browsable(false)]
         public float BigPageHeight { get { return m_printTarget.Height; } }
 
+        [DisplayName("Odsazení zleva")]
+        [Description("Odsazení malé stránky v milimetrech")]
         public int DistLeftMM { get { return m_dleft; } set { m_dleft = value; } }
+
+        [DisplayName("Odsazení zezhora")]
+        [Description("Odsazení malé stránky v milimetrech")]
         public int DistTopMM { get { return m_dtop; } set { m_dtop = value; } }
+
+        [DisplayName("Odsazení zprava")]
+        [Description("Odsazení malé stránky v milimetrech")]
         public int DistRightMM { get { return m_dright; } set { m_dright = value; } }
+
+        [DisplayName("Odsazení zezdola")]
+        [Description("Odsazení malé stránky v milimetrech")]
         public int DistBottomMM { get { return m_dbottom; } set { m_dbottom = value; } }
 
         public PointF GetPagePos(int x, int y)

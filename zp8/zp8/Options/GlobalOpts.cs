@@ -16,17 +16,17 @@ namespace zp8
     }
     */
 
-    public class SongViewPropertyPage
+    public class SongViewPropertyPage : PropertyPageBase
     {
         PersistentFont m_textFont = new PersistentFont();
         PersistentFont m_chordFont = new PersistentFont();
         PersistentFont m_labelFont = new PersistentFont();
 
-        [Description("Font textu")]
+        [DisplayName("Font textu")]
         public PersistentFont TextFont { get { return m_textFont; } set { m_textFont = value; } }
-        [Description("Font akordù")]
+        [DisplayName("Font akordù")]
         public PersistentFont ChordFont { get { return m_chordFont; } set { m_chordFont = value; } }
-        [Description("Font Návìští")]
+        [DisplayName("Font Návìští")]
         public PersistentFont LabelFont { get { return m_labelFont; } set { m_labelFont = value; } }
     }
 
