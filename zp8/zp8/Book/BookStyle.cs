@@ -17,6 +17,7 @@ namespace zp8
         SongBookFonts m_fonts = new SongBookFonts();
         BookLayout m_layout = new BookLayout();
         SongBookFormatting m_formatting = new SongBookFormatting();
+        OutlineProperties m_outlineProperties = new OutlineProperties();
 
         [PropertyPage(Name = "fonts", Title = "Fonty")]
         public SongBookFonts Fonts { get { return m_fonts; } set { m_fonts = value; } }
@@ -26,6 +27,9 @@ namespace zp8
 
         [PropertyPage(Name = "formatting", Title = "Formátování")]
         public SongBookFormatting Formatting { get { return m_formatting; } set { m_formatting = value; } }
+
+        [PropertyPage(Name = "outline", Title = "Obsah")]
+        public OutlineProperties OutlineProperties { get { return m_outlineProperties; } set { m_outlineProperties = value; } }
 
         static BookStyle()
         {

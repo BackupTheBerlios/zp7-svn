@@ -7,24 +7,25 @@ using System.Drawing;
 
 namespace zp8
 {
+    public enum DistribAlg { Complex, Simple };
+
     public interface IDistribAlg
     {
         void Run(LogPages pages, IEnumerable<PaneGrp> panegrps, BookLayout layout);
-        string Name { get;}
     }
 
     public static class DistribAlgs
     {
         public static readonly SimpleDistribAlg Simple = new SimpleDistribAlg();
         public static readonly ComplexDistribAlg Complex = new ComplexDistribAlg();
-        public static IDistribAlg FromName(string name)
+        public static IDistribAlg FromEnum(DistribAlg alg)
         {
-            switch (name)
+            switch (alg)
             {
-                case "simple": return Simple;
-                case "complex": return Complex;
+                case DistribAlg.Simple: return Simple;
+                case DistribAlg.Complex: return Complex;
             }
-            throw new Exception("Unknown distrib algorithm:" + name);
+            throw new Exception("Unknown distrib algorithm:" + alg.ToString());
         }
     }
 

@@ -43,23 +43,53 @@ namespace zp8
         PersistentFont m_labelFont = new PersistentFont();
         PersistentFont m_titleFont = new PersistentFont();
         PersistentFont m_authorFont = new PersistentFont();
+        PersistentFont m_outlineTitleFont = new PersistentFont();
+        PersistentFont m_pageNumberFont = new PersistentFont();
+        PersistentFont m_headerFont = new PersistentFont();
+        PersistentFont m_footerFont = new PersistentFont();
 
-        [DisplayName("Font textu")]
+        [Category("Píseò")]
+        [DisplayName("Text")]
         public PersistentFont TextFont { get { return m_textFont; } set { m_textFont = value; } }
-        [DisplayName("Font akordù")]
+        [Category("Píseò")]
+        [DisplayName("Akordy")]
         public PersistentFont ChordFont { get { return m_chordFont; } set { m_chordFont = value; } }
-        [DisplayName("Font návìští")]
+        [Category("Píseò")]
+        [DisplayName("Návìští")]
         public PersistentFont LabelFont { get { return m_labelFont; } set { m_labelFont = value; } }
-        [DisplayName("Font názvu")]
+        [Category("Píseò")]
+        [DisplayName("Název")]
         public PersistentFont TitleFont { get { return m_titleFont; } set { m_titleFont = value; } }
-        [DisplayName("Font autora")]
+        [Category("Píseò")]
+        [DisplayName("Autor")]
         public PersistentFont AuthorFont { get { return m_authorFont; } set { m_authorFont = value; } }
+
+        [Category("Obsah")]
+        [DisplayName("Název")]
+        [Description("Font názvu písnì v obsahu")]
+        public PersistentFont OutlineTitleFont { get { return m_outlineTitleFont; } set { m_outlineTitleFont = value; } }
+
+        [Category("Obsah")]
+        [DisplayName("Èíslo øádky")]
+        [Description("Font èísla øádky v obsahu")]
+        public PersistentFont PageNumberFont { get { return m_pageNumberFont; } set { m_pageNumberFont = value; } }
+
+        [Category("Stránka")]
+        [DisplayName("Záhlaví")]
+        public PersistentFont HeaderFont { get { return m_headerFont; } set { m_headerFont = value; } }
+
+        [Category("Stránka")]
+        [DisplayName("Zápatí")]
+        public PersistentFont FooterFont { get { return m_footerFont; } set { m_footerFont = value; } }
     }
 
     public class SongBookFormatting : PropertyPageBase
     {
         int m_songSpaceHeight = 100;
         bool m_printSongDividers = true;
+        SongOrder m_order;
+        string m_header = "";
+        string m_footer = "";
 
         [DisplayName("Èáry mezi písnìmi")]
         [Description("Tisknout èáry mezi písnìmi")]
@@ -68,6 +98,43 @@ namespace zp8
         [DisplayName("Výška mezery")]
         [Description("Výška mezery mezi písnìmi v procentech výšky øádku")]
         public int SongSpaceHeight { get { return m_songSpaceHeight; } set { m_songSpaceHeight = value; } }
+
+        [DisplayName("Poøadí písní")]
+        [Description("TitleGroup - nejdøív podle názvu, pak podle skupiny, GroupTitle - nejdøív podle skupiny, pak podle názvu, Database - jak je uloženo v databázi")]
+        public SongOrder Order { get { return m_order; } set { m_order = value; } }
+
+        [DisplayName("Text záhlaví")]
+        [Description("%c bude nahrazeno èíslem stránky")]
+        public string Header { get { return m_header; } set { m_header = value; } }
+
+        [DisplayName("Text zápatí")]
+        [Description("%c bude nahrazeno èíslem stránky")]
+        public string Footer { get { return m_footer; } set { m_footer = value; } }
+    }
+
+    public enum OutlinePosition { Begin, End };
+    public enum SongOrder { TitleGroup, GroupTitle, Database };
+
+    public class OutlineProperties : PropertyPageBase
+    {
+        bool m_printOutline = false;
+        int m_columns = 2;
+        OutlinePosition m_position = OutlinePosition.Begin;
+        SongOrder m_order = SongOrder.TitleGroup;
+
+        [DisplayName("Tisknout obsah")]
+        public bool PrintOutline { get { return m_printOutline; } set { m_printOutline = value; } }
+
+        [DisplayName("Poèet sloupcù")]
+        public int Columns { get { return m_columns; } set { m_columns = value; } }
+
+        [DisplayName("Umístìní obsahu")]
+        [Description("Begin - na zaèátku, End - na konci")]
+        public OutlinePosition Position { get { return m_position; } set { m_position = value; } }
+
+        [DisplayName("Poøadí písní")]
+        [Description("TitleGroup - nejdøív podle názvu, pak podle skupiny, GroupTitle - nejdøív podle skupiny, pak podle názvu, Database - jak je uloženo v databázi")]
+        public SongOrder Order { get { return m_order; } set { m_order = value; } }
     }
 
     public class SongBook : AbstractSongDatabase
@@ -76,12 +143,15 @@ namespace zp8
         string m_filename;
         BookLayout m_layout = new BookLayout();
         SongBookFormatting m_formatting = new SongBookFormatting();
-        BookSequence m_sequence;
+        //BookSequence m_sequence;
         IPrintTarget m_printTarget;
         SongBookFonts m_fonts = new SongBookFonts();
+        OutlineProperties m_outlineProperties = new OutlineProperties();
         Dictionary<int, PaneGrp> m_formatted = new Dictionary<int, PaneGrp>();
         SongFormatOptions m_songFormatOptions;
         BookFormatOptions m_bookFormatOptions;
+        PageDrawOptions m_pageDrawOptions;
+        FormattedBook m_fbook;
         
         protected override void WantOpen() { }
 
@@ -92,8 +162,8 @@ namespace zp8
             m_dataset.song.songRowDeleted += song_songRowChanged;
             m_dataset.song.songRowChanged += song_songRowChanged;
 
-            m_sequence = new BookSequence();
-            m_sequence.Items.Add(new AllSongsSequenceItem());
+            //m_sequence = new BookSequence();
+            //m_sequence.Items.Add(new AllSongsSequenceItem());
 
             PdfDocument doc = new PdfDocument();
             PdfPage page = doc.AddPage();
@@ -102,6 +172,7 @@ namespace zp8
 
         void song_songRowChanged(object sender, SongDb.songRowChangeEvent e)
         {
+            m_fbook = null;
             if (Changed != null) Changed(sender, e);
         }
 
@@ -151,11 +222,29 @@ namespace zp8
         [PropertyPage(Name = "formatting", Title = "Formátování")]
         public SongBookFormatting Formatting { get { return m_formatting; } set { m_formatting = value; } }
 
+        [PropertyPage(Name = "outline", Title = "Obsah")]
+        public OutlineProperties OutlineProperties { get { return m_outlineProperties; } set { m_outlineProperties = value; } }
+
+        public FormattedBook Book
+        {
+            get
+            {
+                if (m_fbook == null)
+                {
+                    LogPages pages = Sequence.CreateLogPages(this);
+                    m_fbook = new FormattedBook(pages, Layout, PageDrawOptions);
+                }
+                return m_fbook;
+            }
+        }
+        /*
         public FormattedBook Format()
         {
             LogPages pages = m_sequence.CreateLogPages(this);
             return new FormattedBook(pages, Layout);
         }
+        */
+
         public SongFormatOptions SongFormatOptions
         {
             get
@@ -170,6 +259,14 @@ namespace zp8
             {
                 if (m_bookFormatOptions == null) m_bookFormatOptions = new BookFormatOptions(m_layout.SmallPageWidth, Fonts, Formatting, SongFormatOptions);
                 return m_bookFormatOptions;
+            }
+        }
+        public PageDrawOptions PageDrawOptions
+        {
+            get
+            {
+                if (m_pageDrawOptions == null) m_pageDrawOptions = new PageDrawOptions(Layout.SmallPageWidth, Layout.SmallPageHeight, Fonts.HeaderFont, Fonts.FooterFont, Formatting.Header, Formatting.Footer);
+                return m_pageDrawOptions;
             }
         }
 
@@ -192,6 +289,8 @@ namespace zp8
             m_formatted.Clear();
             m_songFormatOptions = null;
             m_bookFormatOptions = null;
+            m_pageDrawOptions = null;
+            m_fbook = null;
         }
         public event EventHandler Changed;
         public IPrintTarget PrintTarget
@@ -222,13 +321,13 @@ namespace zp8
 
         public void ExportAsPDF(string filename)
         {
-            FormattedBook fbook = Format();
+            FormattedBook fbook = Book;
             PdfDocument doc = new PdfDocument();
             for (int i = 0; i < fbook.A4SheetCount * 2; i++)
             {
                 PdfPage page = doc.AddPage();
                 XGraphics gfx = XGraphics.FromPdfPage(page);
-                fbook.DrawBigPage(gfx, i / 2, i % 2);
+                fbook.DrawBigPage(gfx, i / 2, i % 2, PageDrawOptions);
             }
             doc.Save(filename);
         }
@@ -239,7 +338,92 @@ namespace zp8
             Layout = style.Layout;
             Fonts = style.Fonts;
             Formatting = style.Formatting;
+            this.OutlineProperties = style.OutlineProperties;
             PrintTarget = m_printTarget;
+        }
+        public int? FindPageNumber(int songid)
+        {
+            FormattedBook book = Book;
+            PaneGrp grp = m_formatted[songid];
+            Pane header = grp.FirstPane;
+            foreach (LogPage page in book.OriginalPages)
+            {
+                if (page.HasPane(header)) return page.PageNumber;
+            }
+            return null;
+        }
+
+        protected BookSequence Sequence
+        {
+            get
+            {
+                BookSequence seq = new BookSequence();
+                if (OutlineProperties.PrintOutline && OutlineProperties.Position == OutlinePosition.Begin)
+                    seq.Items.Add(new OutlineSequenceItem());
+                seq.Items.Add(new AllSongsSequenceItem());
+                if (OutlineProperties.PrintOutline && OutlineProperties.Position == OutlinePosition.End)
+                    seq.Items.Add(new OutlineSequenceItem());
+                return seq;
+            }
+        }
+
+        private static int CompareTitleGroup(SongDb.songRow a, SongDb.songRow b)
+        {
+            int rt = String.Compare(a.title, b.title, true);
+            if (rt != 0) return rt;
+            int rg = String.Compare(a.groupname, b.groupname, true);
+            if (rg != 0) return rg;
+            return a.ID - b.ID;
+        }
+        private static int CompareGroupTitle(SongDb.songRow a, SongDb.songRow b)
+        {
+            int rg = String.Compare(a.groupname, b.groupname, true);
+            if (rg != 0) return rg;
+            int rt = String.Compare(a.title, b.title, true);
+            if (rt != 0) return rt;
+            return a.ID - b.ID;
+        }
+        private static int CompareDatabase(SongDb.songRow a, SongDb.songRow b)
+        {
+            return a.ID - b.ID;
+        }
+
+        public IEnumerable<SongDb.songRow> GetSongs(SongOrder order)
+        {
+            List<SongDb.songRow> rows = new List<SongDb.songRow>();
+            foreach (SongDb.songRow row in m_dataset.song.Rows)
+            {
+                rows.Add(row);
+            }
+            Comparison<SongDb.songRow> cmp = null;
+            switch (order)
+            {
+                case SongOrder.TitleGroup:
+                    cmp = CompareTitleGroup;
+                    break;
+                case SongOrder.GroupTitle:
+                    cmp = CompareTitleGroup;
+                    break;
+                case SongOrder.Database:
+                    cmp = CompareDatabase;
+                    break;
+            }
+            rows.Sort(cmp);
+            return rows;
+        }
+
+        public PaneGrp FormatOutline()
+        {
+            OutlineFormatOptions opt = new OutlineFormatOptions(
+                Layout.SmallPageWidth, 
+                Layout.SmallPageWidth, 
+                Fonts.OutlineTitleFont, 
+                Fonts.PageNumberFont, 
+                OutlineProperties.Columns, 
+                this);
+            OutlineFormatter fmt = new OutlineFormatter(opt, GetSongs(OutlineProperties.Order));
+            fmt.Run();
+            return fmt.Result;
         }
     }
 }

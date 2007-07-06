@@ -26,7 +26,7 @@ namespace zp8
             PageWidth = pgwi;
         }
 
-        protected static void ConvertFont(PersistentFont pfont, out XFont xfont, out XBrush xcolor)
+        public static void ConvertFont(PersistentFont pfont, out XFont xfont, out XBrush xcolor)
         {
             xfont = pfont.ToXFont();
             using (Brush br = new SolidBrush(pfont.FontColor)) xcolor = (XBrush)br;
@@ -108,6 +108,7 @@ namespace zp8
         {
             return CountExtraSheets(maxPageHeight, maxPageHeight, maxPageHeight);
         }
+        public Pane FirstPane { get { return m_panes[0]; } }
 
     }
 }

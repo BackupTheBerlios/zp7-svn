@@ -42,7 +42,7 @@ namespace zp8
             }
             else
             {
-                m_fbook = m_book.Format();
+                m_fbook = m_book.Book;
             }
             if (m_fbook != null) previewFrame1.Source = m_fbook.GetPreview();
             else previewFrame1.Source = null;

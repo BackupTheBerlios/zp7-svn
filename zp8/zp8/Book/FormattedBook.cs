@@ -25,15 +25,23 @@ namespace zp8
         int m_vcnt;
         int m_smallPageCount;
 
+        PageDrawOptions m_opts;
+
         LogPage[] m_pages; // importonce sequence: sheet,row,col,side
 
+        LogPage[] m_originalPages;
 
-        public FormattedBook(LogPages pages, BookLayout layout)
+        public FormattedBook(LogPages pages, BookLayout layout, PageDrawOptions opts)
         {
             m_layout = layout;
             m_hcnt = layout.HorizontalCount;
             m_vcnt = layout.VerticalCount;
             m_pagesPerSheet = 2 * m_vcnt * m_hcnt;
+            m_opts = opts;
+
+            List<LogPage> tmp = new List<LogPage>();
+            tmp.AddRange(pages.Pages);
+            m_originalPages = tmp.ToArray();
 
             m_smallPageCount = pages.Count;
 
@@ -108,7 +116,7 @@ namespace zp8
         public int FreePageCount { get { return m_sheetCount * 2 * m_hcnt * m_vcnt - m_smallPageCount; } }
         public BookLayout Layout { get { return m_layout; } }
 
-        public void DrawBigPage(XGraphics gfx, int sheet, int side)
+        public void DrawBigPage(XGraphics gfx, int sheet, int side, PageDrawOptions opts)
         {
             for (int x = 0; x < m_hcnt; x++)
             {
@@ -118,13 +126,15 @@ namespace zp8
                     if (page != null)
                     {
                         PointF pagepos = m_layout.GetPagePos(x, y);
-                        page.DrawPage(gfx, pagepos);
+                        page.DrawPage(gfx, pagepos, opts);
                     }
                 }
             }
         }
 
-        public IPreviewSource GetPreview() { return new NormalPreviewSource(this); }
+        public LogPage[] OriginalPages { get { return m_originalPages; } }
+
+        public IPreviewSource GetPreview() { return new NormalPreviewSource(this, m_opts); }
         //public void DrawSmallPage(XGraphics gfx, int index)
         //{
         //}
@@ -132,9 +142,11 @@ namespace zp8
     public class NormalPreviewSource : IPreviewSource
     {
         FormattedBook m_book;
-        public NormalPreviewSource(FormattedBook book)
+        PageDrawOptions m_opts;
+        public NormalPreviewSource(FormattedBook book, PageDrawOptions opts)
         {
             m_book = book;
+            m_opts = opts;
         }
         #region IPreviewSource Members
 
@@ -155,7 +167,7 @@ namespace zp8
 
         public void DrawPage(XGraphics gfx, int index)
         {
-            m_book.DrawBigPage(gfx, index / 2, index % 2);
+            m_book.DrawBigPage(gfx, index / 2, index % 2, m_opts);
         }
 
         public string PageTitle(int index)

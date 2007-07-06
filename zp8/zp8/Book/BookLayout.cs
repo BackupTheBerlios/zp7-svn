@@ -23,14 +23,19 @@ namespace zp8
         float? m_smallHeight;
 
         DistribType m_dtype = DistribType.Book;
+        DistribAlg m_distribAlg = DistribAlg.Complex;
 
         [DisplayName("Poèet malıch stránek horizontálnì")]
         public int HorizontalCount { get { return m_hcnt; } set { m_hcnt = value; } }
         [DisplayName("Poèet malıch stránek vertikálnì")]
         public int VerticalCount { get { return m_vcnt; } set { m_vcnt = value; } }
         [DisplayName("Zpùsob rozmístìní na stránky")]
-        [Description("Book - rozmísuje stránky pro tisk kníek, Lines - rozmisuje stránky vodorovnì do øádek (napø. styl zpìvníku \"Kapela\"")]
+        [Description("Book - rozmísuje stránky pro tisk kníek, Lines - rozmisuje stránky vodorovnì do øádek (napø. styl zpìvníku \"Kapela\")")]
         public DistribType DistribType { get { return m_dtype; } set { m_dtype = value; } }
+
+        [DisplayName("Rozmísovací algoritmus")]
+        [Description("Simple - jednduchı, Complex - sloitı, snaí se, aby píseò nebyla pøes více stránek")]
+        public DistribAlg DistribAlg { get { return m_distribAlg; } set { m_distribAlg = value; } }
 
         [System.Xml.Serialization.XmlIgnore]
         [Browsable(false)]

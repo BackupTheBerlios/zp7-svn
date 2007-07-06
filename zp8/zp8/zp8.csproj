@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Book\DistribAlg.cs" />
     <Compile Include="Format\BookFormat.cs" />
+    <Compile Include="Format\Outline.cs" />
     <Compile Include="Format\Panes.cs" />
     <Compile Include="Format\PrintTarget.cs" />
     <Compile Include="Forms\AddServerWizard.cs">
@@ -248,7 +249,7 @@
     <Compile Include="Frames\ServersFrame.Designer.cs">
       <DependentUpon>ServersFrame.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\SongBook.cs" />
+    <Compile Include="Book\SongBook.cs" />
     <Compile Include="Frames\SongBookFrame.cs">
       <SubType>UserControl</SubType>
     </Compile>

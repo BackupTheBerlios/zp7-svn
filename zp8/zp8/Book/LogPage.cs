@@ -6,6 +6,28 @@ using System.Drawing;
 
 namespace zp8
 {
+    public class PageDrawOptions
+    {
+        public readonly XFont HeaderFont;
+        public readonly XBrush HeaderColor;
+        public readonly XFont FooterFont;
+        public readonly XBrush FooterColor;
+        public readonly string Header;
+        public readonly string Footer;
+        public readonly float PageWidth;
+        public readonly float PageHeight;
+
+        public PageDrawOptions(float pgwi, float pghi, PersistentFont headerFont, PersistentFont footerFont, string header, string footer)
+        {
+            FormatOptions.ConvertFont(headerFont, out HeaderFont, out HeaderColor);
+            FormatOptions.ConvertFont(footerFont, out FooterFont, out FooterColor);
+            Header = header;
+            Footer = footer;
+            PageWidth = pgwi;
+            PageHeight = pghi;
+        }
+    }
+
     public class LogPage
     {
         List<Pane> m_panes = new List<Pane>();
@@ -14,10 +36,12 @@ namespace zp8
         float m_heightWithoutDelim = 0;
         float m_maxPageHeight;
         int m_noDelimPageCount = 0;
+        int m_pageNumber;
 
-        public LogPage(float maxPageHeight)
+        public LogPage(float maxPageHeight, int pageNumber)
         {
-            m_maxPageHeight=maxPageHeight;
+            m_maxPageHeight = maxPageHeight;
+            m_pageNumber = pageNumber;
         }
 
         public bool CanAddPane(Pane pane)
@@ -37,20 +61,42 @@ namespace zp8
             }
         }
 
-        public void DrawPage(XGraphics gfx, PointF pagepos)
+        public void DrawPage(XGraphics gfx, PointF pagepos, PageDrawOptions opts)
         {
             float acty = 0;
+
             for (int i = 0; i < m_noDelimPageCount; i++)
             {
                 Pane pane = m_panes[i];
                 pane.Draw(gfx, new PointF(pagepos.X, pagepos.Y + acty));
                 acty += pane.Height;
             }
+
+            string header = opts.Header.Replace("%c", PageNumber.ToString());
+            string footer = opts.Footer.Replace("%c", PageNumber.ToString());
+
+            if (header != "")
+            {
+                float hdrwi = (float)gfx.MeasureString(header, opts.HeaderFont).Width;
+                float hdrhi = (float)gfx.MeasureString(header, opts.HeaderFont).Height;
+                gfx.DrawString(header, opts.HeaderFont, opts.HeaderColor, new PointF(pagepos.X + opts.PageWidth / 2 - hdrwi / 2, pagepos.Y - hdrhi));
+            }
+            if (footer != "")
+            {
+                float ftrwi = (float)gfx.MeasureString(footer, opts.FooterFont).Width;
+                gfx.DrawString(footer, opts.FooterFont, opts.FooterColor, new PointF(pagepos.X + opts.PageWidth / 2 - ftrwi / 2, pagepos.Y + opts.PageHeight));
+            }
         }
 
         public int ExtraPageCount(PaneGrp paneGrp)
         {
             return paneGrp.CountExtraSheets(m_heightWithDelim, m_heightWithoutDelim, m_maxPageHeight);            
+        }
+
+        public int PageNumber { get { return m_pageNumber; } }
+        public bool HasPane(Pane pane)
+        {
+            return m_panes.Contains(pane);
         }
     }
 
@@ -74,7 +120,7 @@ namespace zp8
         }
         public void AddPage()
         {
-            m_pages.Add(new LogPage(m_maxPageHeight));
+            m_pages.Add(new LogPage(m_maxPageHeight, m_pages.Count + 1));
         }
         public LogPage LastPage
         {
