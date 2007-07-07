@@ -82,6 +82,16 @@ namespace zp8
             if (m_strip != null) m_strip.Closed += m_strip_Closed;
         }
 
+        private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            if (!m_dbwrap.CanEditSong(e.RowIndex)) e.Cancel = true;
+        }
+
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            m_dbwrap.Database.DataSet.song[e.RowIndex].localmodified = true;
+        }
+
         /*
         void m_dbwrap_ChangedSongDatabase(SongDatabase db)
         {

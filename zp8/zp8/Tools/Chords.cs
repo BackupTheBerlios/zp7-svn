@@ -134,7 +134,7 @@ namespace zp8
         public static int GetBaseTone(string text)
         {
             Match m = Regex.Match(text, @"\[[^]]*\]");
-            if (m != null)
+            if (m != null && m.Length > 0)
             {
                 ChordElement ch = SplitChord_Simple(m.Value.Substring(1, m.Value.Length - 2));
                 return ch.Height;

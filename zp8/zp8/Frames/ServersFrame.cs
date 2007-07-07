@@ -36,6 +36,7 @@ namespace zp8
                 row.url = srv.URL;
                 row.servertype = srv.Type;
                 row.config = srv.Config;
+                row.isreadonly = SongServer.ServerType(srv.Type).Readonly;
                 m_dbwrap.SongDb.server.AddserverRow(row);
             }
         }

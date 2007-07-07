@@ -58,5 +58,10 @@ namespace zp8
         public SongDb.songRow SelectedSong { get { return m_db.DataSet.song[songbindingSource.Position]; } }
         [Browsable(false)]
         public SongDb.serverRow SelectedServer { get { return m_db.DataSet.server[serverbindingSource.Position]; } }
+
+        public bool CanEditSong(int index)
+        {
+            return m_db.CanEditSong(m_db.DataSet.song[index]);
+        }
     }
 }

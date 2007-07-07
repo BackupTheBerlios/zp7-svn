@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Book\DistribAlg.cs" />
+    <Compile Include="Database\InternetDatabase.cs" />
     <Compile Include="Format\BookFormat.cs" />
     <Compile Include="Format\Outline.cs" />
     <Compile Include="Format\Panes.cs" />
@@ -66,6 +67,12 @@
     <Compile Include="Forms\ChangeBookStyleForm.Designer.cs">
       <DependentUpon>ChangeBookStyleForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\EditSongForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditSongForm.Designer.cs">
+      <DependentUpon>EditSongForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Frames\PreviewFrame.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -89,6 +96,9 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>GlobalCfg.settings</DependentUpon>
+    </Compile>
+    <Compile Include="InetSongDb.cs">
+      <DependentUpon>InetSongDb.xsd</DependentUpon>
     </Compile>
     <Compile Include="Options\GlobalOpts.cs" />
     <Compile Include="Options\PropertyPageBase.cs" />
@@ -153,6 +163,10 @@
     <EmbeddedResource Include="Forms\DialogBase.resx">
       <SubType>Designer</SubType>
       <DependentUpon>DialogBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditSongForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditSongForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImportForm.resx">
       <SubType>Designer</SubType>
@@ -289,6 +303,7 @@
       <DependentUpon>SongTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Options\PersistentFont.cs" />
+    <Compile Include="Tools\DbTools.cs" />
     <Compile Include="Tools\Printing.cs" />
     <Compile Include="Tools\Searching.cs" />
     <Compile Include="Tools\SongTool.cs" />

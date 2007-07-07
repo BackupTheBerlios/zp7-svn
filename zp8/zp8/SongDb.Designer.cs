@@ -27,6 +27,8 @@ namespace zp8 {
         
         private serverDataTable tableserver;
         
+        private deletedsongDataTable tabledeletedsong;
+        
         private System.Data.SchemaSerializationMode _schemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -58,6 +60,9 @@ namespace zp8 {
                 }
                 if ((ds.Tables["server"] != null)) {
                     base.Tables.Add(new serverDataTable(ds.Tables["server"]));
+                }
+                if ((ds.Tables["deletedsong"] != null)) {
+                    base.Tables.Add(new deletedsongDataTable(ds.Tables["deletedsong"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -92,6 +97,15 @@ namespace zp8 {
         public serverDataTable server {
             get {
                 return this.tableserver;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Browsable(false)]
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public deletedsongDataTable deletedsong {
+            get {
+                return this.tabledeletedsong;
             }
         }
         
@@ -160,6 +174,9 @@ namespace zp8 {
                 if ((ds.Tables["server"] != null)) {
                     base.Tables.Add(new serverDataTable(ds.Tables["server"]));
                 }
+                if ((ds.Tables["deletedsong"] != null)) {
+                    base.Tables.Add(new deletedsongDataTable(ds.Tables["deletedsong"]));
+                }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
                 this.Namespace = ds.Namespace;
@@ -202,6 +219,12 @@ namespace zp8 {
                     this.tableserver.InitVars();
                 }
             }
+            this.tabledeletedsong = ((deletedsongDataTable)(base.Tables["deletedsong"]));
+            if ((initTable == true)) {
+                if ((this.tabledeletedsong != null)) {
+                    this.tabledeletedsong.InitVars();
+                }
+            }
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -215,6 +238,8 @@ namespace zp8 {
             base.Tables.Add(this.tablesong);
             this.tableserver = new serverDataTable();
             base.Tables.Add(this.tableserver);
+            this.tabledeletedsong = new deletedsongDataTable();
+            base.Tables.Add(this.tabledeletedsong);
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -224,6 +249,11 @@ namespace zp8 {
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private bool ShouldSerializeserver() {
+            return false;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializedeletedsong() {
             return false;
         }
         
@@ -251,6 +281,8 @@ namespace zp8 {
         
         public delegate void serverRowChangeEventHandler(object sender, serverRowChangeEvent e);
         
+        public delegate void deletedsongRowChangeEventHandler(object sender, deletedsongRowChangeEvent e);
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [System.Serializable()]
         [System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
@@ -273,6 +305,12 @@ namespace zp8 {
             private System.Data.DataColumn columnnetID;
             
             private System.Data.DataColumn columntransp;
+            
+            private System.Data.DataColumn columnsearchtext;
+            
+            private System.Data.DataColumn columnpublished;
+            
+            private System.Data.DataColumn columnlocalmodified;
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public songDataTable() {
@@ -368,6 +406,27 @@ namespace zp8 {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn searchtextColumn {
+                get {
+                    return this.columnsearchtext;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn publishedColumn {
+                get {
+                    return this.columnpublished;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn localmodifiedColumn {
+                get {
+                    return this.columnlocalmodified;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -396,7 +455,7 @@ namespace zp8 {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public songRow AddsongRow(string title, string groupname, string author, string songtext, string lang, int server_id, int netID, int transp) {
+            public songRow AddsongRow(string title, string groupname, string author, string songtext, string lang, int server_id, int netID, int transp, string searchtext, System.DateTime published, bool localmodified) {
                 songRow rowsongRow = ((songRow)(this.NewRow()));
                 rowsongRow.ItemArray = new object[] {
                         null,
@@ -407,7 +466,10 @@ namespace zp8 {
                         lang,
                         server_id,
                         netID,
-                        transp};
+                        transp,
+                        searchtext,
+                        published,
+                        localmodified};
                 this.Rows.Add(rowsongRow);
                 return rowsongRow;
             }
@@ -446,6 +508,9 @@ namespace zp8 {
                 this.columnserver_id = base.Columns["server_id"];
                 this.columnnetID = base.Columns["netID"];
                 this.columntransp = base.Columns["transp"];
+                this.columnsearchtext = base.Columns["searchtext"];
+                this.columnpublished = base.Columns["published"];
+                this.columnlocalmodified = base.Columns["localmodified"];
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -468,6 +533,12 @@ namespace zp8 {
                 base.Columns.Add(this.columnnetID);
                 this.columntransp = new System.Data.DataColumn("transp", typeof(int), null, System.Data.MappingType.Element);
                 base.Columns.Add(this.columntransp);
+                this.columnsearchtext = new System.Data.DataColumn("searchtext", typeof(string), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnsearchtext);
+                this.columnpublished = new System.Data.DataColumn("published", typeof(System.DateTime), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnpublished);
+                this.columnlocalmodified = new System.Data.DataColumn("localmodified", typeof(bool), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnlocalmodified);
                 this.Constraints.Add(new System.Data.UniqueConstraint("songKey1", new System.Data.DataColumn[] {
                                 this.columnID}, true));
                 this.columnID.AutoIncrement = true;
@@ -571,6 +642,8 @@ namespace zp8 {
             
             private System.Data.DataColumn columnconfig;
             
+            private System.Data.DataColumn columnisreadonly;
+            
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public serverDataTable() {
                 this.TableName = "server";
@@ -630,6 +703,13 @@ namespace zp8 {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn isreadonlyColumn {
+                get {
+                    return this.columnisreadonly;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -658,13 +738,14 @@ namespace zp8 {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public serverRow AddserverRow(string url, string servertype, string config) {
+            public serverRow AddserverRow(string url, string servertype, string config, bool isreadonly) {
                 serverRow rowserverRow = ((serverRow)(this.NewRow()));
                 rowserverRow.ItemArray = new object[] {
                         null,
                         url,
                         servertype,
-                        config};
+                        config,
+                        isreadonly};
                 this.Rows.Add(rowserverRow);
                 return rowserverRow;
             }
@@ -698,6 +779,7 @@ namespace zp8 {
                 this.columnurl = base.Columns["url"];
                 this.columnservertype = base.Columns["servertype"];
                 this.columnconfig = base.Columns["config"];
+                this.columnisreadonly = base.Columns["isreadonly"];
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -710,6 +792,8 @@ namespace zp8 {
                 base.Columns.Add(this.columnservertype);
                 this.columnconfig = new System.Data.DataColumn("config", typeof(string), null, System.Data.MappingType.Element);
                 base.Columns.Add(this.columnconfig);
+                this.columnisreadonly = new System.Data.DataColumn("isreadonly", typeof(bool), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnisreadonly);
                 this.Constraints.Add(new System.Data.UniqueConstraint("Constraint1", new System.Data.DataColumn[] {
                                 this.columnID}, true));
                 this.columnID.AutoIncrement = true;
@@ -794,6 +878,234 @@ namespace zp8 {
                 System.Xml.Schema.XmlSchemaAttribute attribute2 = new System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "serverDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                return type;
+            }
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [System.Serializable()]
+        [System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class deletedsongDataTable : System.Data.DataTable, System.Collections.IEnumerable {
+            
+            private System.Data.DataColumn columnID;
+            
+            private System.Data.DataColumn columnsong_netID;
+            
+            private System.Data.DataColumn columnserver_id;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public deletedsongDataTable() {
+                this.TableName = "deletedsong";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal deletedsongDataTable(System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected deletedsongDataTable(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn IDColumn {
+                get {
+                    return this.columnID;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn song_netIDColumn {
+                get {
+                    return this.columnsong_netID;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn server_idColumn {
+                get {
+                    return this.columnserver_id;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public deletedsongRow this[int index] {
+                get {
+                    return ((deletedsongRow)(this.Rows[index]));
+                }
+            }
+            
+            public event deletedsongRowChangeEventHandler deletedsongRowChanging;
+            
+            public event deletedsongRowChangeEventHandler deletedsongRowChanged;
+            
+            public event deletedsongRowChangeEventHandler deletedsongRowDeleting;
+            
+            public event deletedsongRowChangeEventHandler deletedsongRowDeleted;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AdddeletedsongRow(deletedsongRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public deletedsongRow AdddeletedsongRow(int song_netID, int server_id) {
+                deletedsongRow rowdeletedsongRow = ((deletedsongRow)(this.NewRow()));
+                rowdeletedsongRow.ItemArray = new object[] {
+                        null,
+                        song_netID,
+                        server_id};
+                this.Rows.Add(rowdeletedsongRow);
+                return rowdeletedsongRow;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public deletedsongRow FindByID(int ID) {
+                return ((deletedsongRow)(this.Rows.Find(new object[] {
+                            ID})));
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override System.Data.DataTable Clone() {
+                deletedsongDataTable cln = ((deletedsongDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override System.Data.DataTable CreateInstance() {
+                return new deletedsongDataTable();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnID = base.Columns["ID"];
+                this.columnsong_netID = base.Columns["song_netID"];
+                this.columnserver_id = base.Columns["server_id"];
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnID = new System.Data.DataColumn("ID", typeof(int), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID);
+                this.columnsong_netID = new System.Data.DataColumn("song_netID", typeof(int), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnsong_netID);
+                this.columnserver_id = new System.Data.DataColumn("server_id", typeof(int), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnserver_id);
+                this.Constraints.Add(new System.Data.UniqueConstraint("Constraint1", new System.Data.DataColumn[] {
+                                this.columnID}, true));
+                this.columnID.AutoIncrement = true;
+                this.columnID.AllowDBNull = false;
+                this.columnID.Unique = true;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public deletedsongRow NewdeletedsongRow() {
+                return ((deletedsongRow)(this.NewRow()));
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override System.Data.DataRow NewRowFromBuilder(System.Data.DataRowBuilder builder) {
+                return new deletedsongRow(builder);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override System.Type GetRowType() {
+                return typeof(deletedsongRow);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.deletedsongRowChanged != null)) {
+                    this.deletedsongRowChanged(this, new deletedsongRowChangeEvent(((deletedsongRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.deletedsongRowChanging != null)) {
+                    this.deletedsongRowChanging(this, new deletedsongRowChangeEvent(((deletedsongRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.deletedsongRowDeleted != null)) {
+                    this.deletedsongRowDeleted(this, new deletedsongRowChangeEvent(((deletedsongRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.deletedsongRowDeleting != null)) {
+                    this.deletedsongRowDeleting(this, new deletedsongRowChangeEvent(((deletedsongRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemovedeletedsongRow(deletedsongRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(System.Xml.Schema.XmlSchemaSet xs) {
+                System.Xml.Schema.XmlSchemaComplexType type = new System.Xml.Schema.XmlSchemaComplexType();
+                System.Xml.Schema.XmlSchemaSequence sequence = new System.Xml.Schema.XmlSchemaSequence();
+                SongDb ds = new SongDb();
+                xs.Add(ds.GetSchemaSerializable());
+                System.Xml.Schema.XmlSchemaAny any1 = new System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                System.Xml.Schema.XmlSchemaAny any2 = new System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                System.Xml.Schema.XmlSchemaAttribute attribute1 = new System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                System.Xml.Schema.XmlSchemaAttribute attribute2 = new System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "deletedsongDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 return type;
@@ -942,6 +1254,51 @@ namespace zp8 {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string searchtext {
+                get {
+                    try {
+                        return ((string)(this[this.tablesong.searchtextColumn]));
+                    }
+                    catch (System.InvalidCastException e) {
+                        throw new System.Data.StrongTypingException("The value for column \'searchtext\' in table \'song\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablesong.searchtextColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.DateTime published {
+                get {
+                    try {
+                        return ((System.DateTime)(this[this.tablesong.publishedColumn]));
+                    }
+                    catch (System.InvalidCastException e) {
+                        throw new System.Data.StrongTypingException("The value for column \'published\' in table \'song\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablesong.publishedColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool localmodified {
+                get {
+                    try {
+                        return ((bool)(this[this.tablesong.localmodifiedColumn]));
+                    }
+                    catch (System.InvalidCastException e) {
+                        throw new System.Data.StrongTypingException("The value for column \'localmodified\' in table \'song\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablesong.localmodifiedColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IstitleNull() {
                 return this.IsNull(this.tablesong.titleColumn);
             }
@@ -1020,6 +1377,36 @@ namespace zp8 {
             public void SettranspNull() {
                 this[this.tablesong.transpColumn] = System.Convert.DBNull;
             }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IssearchtextNull() {
+                return this.IsNull(this.tablesong.searchtextColumn);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetsearchtextNull() {
+                this[this.tablesong.searchtextColumn] = System.Convert.DBNull;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IspublishedNull() {
+                return this.IsNull(this.tablesong.publishedColumn);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetpublishedNull() {
+                this[this.tablesong.publishedColumn] = System.Convert.DBNull;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IslocalmodifiedNull() {
+                return this.IsNull(this.tablesong.localmodifiedColumn);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetlocalmodifiedNull() {
+                this[this.tablesong.localmodifiedColumn] = System.Convert.DBNull;
+            }
         }
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
@@ -1089,6 +1476,21 @@ namespace zp8 {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool isreadonly {
+                get {
+                    try {
+                        return ((bool)(this[this.tableserver.isreadonlyColumn]));
+                    }
+                    catch (System.InvalidCastException e) {
+                        throw new System.Data.StrongTypingException("The value for column \'isreadonly\' in table \'server\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableserver.isreadonlyColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IsurlNull() {
                 return this.IsNull(this.tableserver.urlColumn);
             }
@@ -1116,6 +1518,88 @@ namespace zp8 {
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetconfigNull() {
                 this[this.tableserver.configColumn] = System.Convert.DBNull;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsisreadonlyNull() {
+                return this.IsNull(this.tableserver.isreadonlyColumn);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetisreadonlyNull() {
+                this[this.tableserver.isreadonlyColumn] = System.Convert.DBNull;
+            }
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class deletedsongRow : System.Data.DataRow {
+            
+            private deletedsongDataTable tabledeletedsong;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal deletedsongRow(System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tabledeletedsong = ((deletedsongDataTable)(this.Table));
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int ID {
+                get {
+                    return ((int)(this[this.tabledeletedsong.IDColumn]));
+                }
+                set {
+                    this[this.tabledeletedsong.IDColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int song_netID {
+                get {
+                    try {
+                        return ((int)(this[this.tabledeletedsong.song_netIDColumn]));
+                    }
+                    catch (System.InvalidCastException e) {
+                        throw new System.Data.StrongTypingException("The value for column \'song_netID\' in table \'deletedsong\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledeletedsong.song_netIDColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int server_id {
+                get {
+                    try {
+                        return ((int)(this[this.tabledeletedsong.server_idColumn]));
+                    }
+                    catch (System.InvalidCastException e) {
+                        throw new System.Data.StrongTypingException("The value for column \'server_id\' in table \'deletedsong\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledeletedsong.server_idColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool Issong_netIDNull() {
+                return this.IsNull(this.tabledeletedsong.song_netIDColumn);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void Setsong_netIDNull() {
+                this[this.tabledeletedsong.song_netIDColumn] = System.Convert.DBNull;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool Isserver_idNull() {
+                return this.IsNull(this.tabledeletedsong.server_idColumn);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void Setserver_idNull() {
+                this[this.tabledeletedsong.server_idColumn] = System.Convert.DBNull;
             }
         }
         
@@ -1162,6 +1646,34 @@ namespace zp8 {
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public serverRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class deletedsongRowChangeEvent : System.EventArgs {
+            
+            private deletedsongRow eventRow;
+            
+            private System.Data.DataRowAction eventAction;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public deletedsongRowChangeEvent(deletedsongRow row, System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public deletedsongRow Row {
                 get {
                     return this.eventRow;
                 }

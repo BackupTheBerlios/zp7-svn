@@ -236,6 +236,8 @@ namespace zp8 {
             
             private System.Data.DataColumn columntitle;
             
+            private System.Data.DataColumn columnpublished;
+            
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public songDataTable() {
                 this.TableName = "song";
@@ -309,6 +311,13 @@ namespace zp8 {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn publishedColumn {
+                get {
+                    return this.columnpublished;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -337,7 +346,7 @@ namespace zp8 {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public songRow AddsongRow(string lang, string songtext, string author, string groupname, string title) {
+            public songRow AddsongRow(string lang, string songtext, string author, string groupname, string title, System.DateTime published) {
                 songRow rowsongRow = ((songRow)(this.NewRow()));
                 rowsongRow.ItemArray = new object[] {
                         null,
@@ -345,7 +354,8 @@ namespace zp8 {
                         songtext,
                         author,
                         groupname,
-                        title};
+                        title,
+                        published};
                 this.Rows.Add(rowsongRow);
                 return rowsongRow;
             }
@@ -375,6 +385,7 @@ namespace zp8 {
                 this.columnauthor = base.Columns["author"];
                 this.columngroupname = base.Columns["groupname"];
                 this.columntitle = base.Columns["title"];
+                this.columnpublished = base.Columns["published"];
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -391,6 +402,8 @@ namespace zp8 {
                 base.Columns.Add(this.columngroupname);
                 this.columntitle = new System.Data.DataColumn("title", typeof(string), null, System.Data.MappingType.Element);
                 base.Columns.Add(this.columntitle);
+                this.columnpublished = new System.Data.DataColumn("published", typeof(System.DateTime), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnpublished);
                 this.Constraints.Add(new System.Data.UniqueConstraint("songKey11", new System.Data.DataColumn[] {
                                 this.columnID}, false));
                 this.columnID.AutoIncrement = true;
@@ -578,6 +591,21 @@ namespace zp8 {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.DateTime published {
+                get {
+                    try {
+                        return ((System.DateTime)(this[this.tablesong.publishedColumn]));
+                    }
+                    catch (System.InvalidCastException e) {
+                        throw new System.Data.StrongTypingException("The value for column \'published\' in table \'song\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablesong.publishedColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IslangNull() {
                 return this.IsNull(this.tablesong.langColumn);
             }
@@ -625,6 +653,16 @@ namespace zp8 {
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SettitleNull() {
                 this[this.tablesong.titleColumn] = System.Convert.DBNull;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IspublishedNull() {
+                return this.IsNull(this.tablesong.publishedColumn);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetpublishedNull() {
+                this[this.tablesong.publishedColumn] = System.Convert.DBNull;
             }
         }
         

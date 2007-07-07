@@ -90,10 +90,9 @@ namespace zp8
             panel1.Invalidate();
         }
 
-        private void SetSong(SongDb.songRow song)
+        private void SetText(string text)
         {
-            m_song = song;
-            m_origtext = song != null ? song.songtext : null;
+            m_origtext = text;
             if (m_origtext != null) m_basetone = Chords.GetBaseTone(m_origtext);
             else m_basetone = -1;
 
@@ -102,7 +101,8 @@ namespace zp8
             if (m_basetone >= 0)
             {
                 btreset.Enabled = cbtransp.Enabled = true;
-                int d = m_song.IstranspNull() ? 0 : m_song.transp;
+                int d = 0;
+                if (m_song != null && !m_song.IstranspNull()) d = m_song.transp;
                 cbtransp.SelectedIndex = (m_basetone + d) % 12;
             }
             else
@@ -111,6 +111,12 @@ namespace zp8
                 btreset.Enabled = cbtransp.Enabled = false;
             }
             Redraw();
+        }
+
+        private void SetSong(SongDb.songRow song)
+        {
+            m_song = song;
+            SetText(song != null ? song.songtext : null);
         }
 
         private void src_PositionChanged(object sender, EventArgs e)
@@ -147,7 +153,7 @@ namespace zp8
             int d = cbtransp.SelectedIndex - m_basetone;
             if (d < 0) d += 12;
             m_drawtext = Chords.Transpose(m_origtext, d);
-            if (m_song != null)
+            if (m_song != null && m_dbwrap.Database.CanEditSong(m_song))
             {
                 if (d == 0)
                 {
@@ -177,5 +183,10 @@ namespace zp8
         }
 
         public SongDb.songRow Song { get { return m_song; } }
+        public string SongText
+        {
+            get { return m_origtext; }
+            set { SetText(value); }
+        }
     }
 }

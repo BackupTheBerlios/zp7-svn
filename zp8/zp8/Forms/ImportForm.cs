@@ -65,5 +65,10 @@ namespace zp8
         {
             lbserver.Enabled = cbserver.Checked;
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (filelist.SelectedIndex >= 0) filelist.Items.RemoveAt(filelist.SelectedIndex);
+        }
     }
 }

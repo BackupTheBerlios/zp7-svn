@@ -11,7 +11,7 @@ using System.Data.SQLite;
 
 namespace zp8
 {
-    public abstract class AbstractSongDatabase
+    public abstract partial class AbstractSongDatabase
     {
         protected SongDb m_dataset;
         protected abstract void WantOpen();
@@ -63,66 +63,22 @@ namespace zp8
             }
 
         }
-        public void DeleteSongsFromServer(int server)
+        public bool CanEditSong(SongDb.songRow song)
         {
-            List<SongDb.songRow> rows = new List<SongDb.songRow>();
-            foreach (SongDb.songRow row in m_dataset.song.Rows) rows.Add(row);
-            foreach (SongDb.songRow row in rows)
-            {
-                if (row.server_id == server) row.Delete();
-            }
+            if (song.Isserver_idNull()) return true;
+            int srvid = song.server_id;
+            return !m_dataset.server.FindByID(srvid).isreadonly;
         }
-
-        public void ImportSongs(Stream fr, int? serverid)
+        public SongDb.songRow CreateSong()
         {
-            InetSongDb xmldb = new InetSongDb();
-            xmldb.ReadXml(fr);
-            ImportSongs(serverid, xmldb);
+            SongDb.songRow song = DataSet.song.NewsongRow();
+            song.title = "Nová píseò";
+            song.groupname = "";
+            song.author = "";
+            song.songtext = "";
+            DataSet.song.AddsongRow(song);
+            return song;
         }
-
-        public void ImportSongs(TextReader fr, int? serverid)
-        {
-            InetSongDb xmldb = new InetSongDb();
-            xmldb.ReadXml(fr);
-            ImportSongs(serverid, xmldb);
-        }
-
-        private void ImportSongs(int? serverid, InetSongDb xmldb)
-        {
-            foreach (InetSongDb.songRow row in xmldb.song.Rows)
-            {
-                SongDb.songRow newrow = DataSet.song.NewsongRow();
-                newrow.title = row.title;
-                newrow.groupname = row.groupname;
-                newrow.author = row.author;
-                newrow.songtext = row.songtext;
-                if (serverid.HasValue) newrow.server_id = serverid.Value;
-                newrow.lang = row.lang;
-                newrow.netID = row.ID;
-                DataSet.song.AddsongRow(newrow);
-            }
-        }
-
-        public void GetSongsAsInetXml(int serverid, Stream fw)
-        {
-            InetSongDb xmldb = new InetSongDb();
-            foreach (SongDb.songRow row in m_dataset.song.Rows)
-            {
-                if (row.server_id == serverid)
-                {
-                    InetSongDb.songRow newrow = xmldb.song.NewsongRow();
-                    newrow.title = row.title;
-                    newrow.groupname = row.groupname;
-                    newrow.author = row.author;
-                    newrow.songtext = row.songtext;
-                    newrow.lang = row.lang;
-                    if (!row.IsnetIDNull()) newrow.ID = row.netID;
-                    xmldb.song.AddsongRow(newrow);
-                }
-            }
-            xmldb.WriteXml(fw);
-        }
-
     }
 
     public class SongDatabase : AbstractSongDatabase
@@ -130,6 +86,7 @@ namespace zp8
         SQLiteConnection m_conn;
         SQLiteDataAdapter m_song_adapter;
         SQLiteDataAdapter m_server_adapter;
+        SQLiteDataAdapter m_deletedsong_adapter;
         string m_filename;
         bool m_opened = false;
 
@@ -154,20 +111,26 @@ namespace zp8
             {
                 m_conn = new SQLiteConnection(String.Format("Data Source={0};New=True;Version=3", m_filename));
                 m_conn.Open();
-                ExecuteSql("CREATE TABLE song (ID INTEGER PRIMARY KEY, title VARCHAR, groupname VARCHAR, author VARCHAR, songtext TEXT, lang VARCHAR, server_id INT NULL, transp INT, searchtext VARCHAR)");
-                ExecuteSql("CREATE TABLE server (ID INTEGER PRIMARY KEY, url VARCHAR, servertype VARCHAR, config TEXT)");
+                ExecuteSql("CREATE TABLE song (ID INTEGER PRIMARY KEY, title VARCHAR, groupname VARCHAR, author VARCHAR, songtext TEXT, lang VARCHAR, server_id INT NULL, transp INT, searchtext VARCHAR, published DATETIME, localmodified INT)");
+                ExecuteSql("CREATE TABLE server (ID INTEGER PRIMARY KEY, url VARCHAR, servertype VARCHAR, config TEXT, isreadonly INT)");
+                ExecuteSql("CREATE TABLE deletedsong (ID INTEGER PRIMARY KEY, song_netID INT, server_id INT)");
             }
             m_song_adapter = new SQLiteDataAdapter("SELECT * FROM song", m_conn);
             m_server_adapter = new SQLiteDataAdapter("SELECT * FROM server", m_conn);
+            m_deletedsong_adapter = new SQLiteDataAdapter("SELECT * FROM deletedsong", m_conn);
             m_dataset = new SongDb();
             m_song_adapter.Fill(m_dataset.song);
             m_server_adapter.Fill(m_dataset.server);
+            m_deletedsong_adapter.Fill(m_dataset.deletedsong);
 
             SQLiteCommandBuilder song_cb = new SQLiteCommandBuilder(m_song_adapter);
             m_song_adapter.InsertCommand = (SQLiteCommand)song_cb.GetInsertCommand();
 
             SQLiteCommandBuilder server_cb = new SQLiteCommandBuilder(m_server_adapter);
             m_server_adapter.InsertCommand = (SQLiteCommand)server_cb.GetInsertCommand();
+
+            SQLiteCommandBuilder deletedsong_cb = new SQLiteCommandBuilder(m_deletedsong_adapter);
+            m_deletedsong_adapter.InsertCommand = (SQLiteCommand)deletedsong_cb.GetInsertCommand();
 
             m_opened = true;
             InstallTriggers();

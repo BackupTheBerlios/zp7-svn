@@ -34,7 +34,7 @@ namespace zp8
             return m_dbs.Values;
         }
 
-        public void CreateDatabase(string dbname)
+        public SongDatabase CreateDatabase(string dbname)
         {
             dbname = dbname.ToLower();
             if (!dbname.EndsWith(".db")) dbname += ".db";
@@ -42,6 +42,7 @@ namespace zp8
             SongDatabase db = new SongDatabase(Path.Combine(DbPath, dbname));
             m_dbs[dbname] = db;
             db.Commit();
+            return db;
         }
 
         static DbManager()

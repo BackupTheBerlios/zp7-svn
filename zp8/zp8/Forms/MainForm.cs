@@ -83,8 +83,9 @@ namespace zp8
             string dbname;
             if (NewDbForm.Run(out dbname))
             {
-                DbManager.Manager.CreateDatabase(dbname);
+                SongDatabase newdb = DbManager.Manager.CreateDatabase(dbname);
                 LoadDbList();
+                SelectedDatabase = newdb;
             }
         }
         public SongDatabase SelectedDatabase
@@ -93,6 +94,13 @@ namespace zp8
             {
                 try { return m_loaded_dbs[cbdatabase.SelectedIndex]; }
                 catch (Exception) { return null; }
+            }
+            set
+            {
+                if (m_loaded_dbs_name_to_index.ContainsKey(value.Name))
+                {
+                    cbdatabase.SelectedIndex = m_loaded_dbs_name_to_index[value.Name];
+                }
             }
         }
 
@@ -395,6 +403,20 @@ namespace zp8
         private void button1_Click(object sender, EventArgs e)
         {
             tbfilter.Text = "";
+        }
+
+        private void upravitPÌseÚToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (songView1.Song != null) EditSongForm.Run(songView1.Song, SelectedDbOrSb.DataSet);
+        }
+
+        private void nov·PÌseÚToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (SelectedDbOrSb != null)
+            {
+                SongDb.songRow row = SelectedDbOrSb.CreateSong();
+                EditSongForm.Run(row, SelectedDbOrSb.DataSet);
+            }
         }
     }
 }
