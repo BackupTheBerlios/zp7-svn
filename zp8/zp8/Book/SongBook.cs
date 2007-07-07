@@ -168,6 +168,7 @@ namespace zp8
             //PdfDocument doc = new PdfDocument();
             //PdfPage page = doc.AddPage();
             PrintTarget = new PdfPrintTarget();
+            InstallTriggers();
         }
 
         void song_songRowChanged(object sender, SongDb.songRowChangeEvent e)
@@ -308,6 +309,7 @@ namespace zp8
         }
         public void Load(string filename)
         {
+            UnInstallTriggers();
             XmlDocument doc = new XmlDocument();
             doc.Load(filename);
             XmlNamespaceManager mgr = XmlNamespaces.CreateManager(doc.NameTable);
@@ -320,6 +322,7 @@ namespace zp8
 
             m_filename = filename;
             PrintTarget = m_printTarget;
+            InstallTriggers();
         }
 
         public void ExportAsPDF(string filename)

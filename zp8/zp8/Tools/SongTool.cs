@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace zp8
 {
@@ -17,6 +18,10 @@ namespace zp8
         public static bool IsEmptyLine(string line)
         {
             return line.Trim().Length == 0;
+        }
+        public static string RemoveChords(string text)
+        {
+            return Regex.Replace(text, @"\[[^]]*\]", "");
         }
     }
 

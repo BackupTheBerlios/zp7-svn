@@ -290,6 +290,7 @@
     </Compile>
     <Compile Include="Options\PersistentFont.cs" />
     <Compile Include="Tools\Printing.cs" />
+    <Compile Include="Tools\Searching.cs" />
     <Compile Include="Tools\SongTool.cs" />
     <Compile Include="Frames\SongView.cs">
       <SubType>UserControl</SubType>

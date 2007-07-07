@@ -379,5 +379,22 @@ namespace zp8
         {
             tspages.Text = songBookFrame1.PageInfo;
         }
+
+        private void tbfilter_TextChanged(object sender, EventArgs e)
+        {
+            if (tbfilter.Text != "")
+            {
+                songDatabaseWrapper1.SongBindingSource.Filter = String.Format("searchtext LIKE '%{0}%'", Searching.MakeSearchText(tbfilter.Text));
+            }
+            else
+            {
+                songDatabaseWrapper1.SongBindingSource.Filter = null;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            tbfilter.Text = "";
+        }
     }
 }
