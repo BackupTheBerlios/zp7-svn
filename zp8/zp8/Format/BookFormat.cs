@@ -57,12 +57,12 @@ namespace zp8
     public class SongSeparatorPane : BookFormatPane
     {
         public SongSeparatorPane(BookFormatOptions options) : base(options) { }
-        public override float Draw(XGraphics gfx, PointF pt)
+        public override float Draw(XGraphics gfx, PointF pt, bool dorender)
         {
             if (Options.PrintSeparatorLines)
             {
                 float y = pt.Y + Options.SongSpaceHeight / 2;
-                gfx.DrawLine(XPens.Black, pt.X, y, pt.X + Options.PageWidth, y);
+                if (dorender) gfx.DrawLine(XPens.Black, pt.X, y, pt.X + Options.PageWidth, y);
             }
             return Options.SongSpaceHeight;
         }
@@ -82,10 +82,13 @@ namespace zp8
             m_author = author;
         }
 
-        public override float Draw(XGraphics gfx, PointF pt)
+        public override float Draw(XGraphics gfx, PointF pt, bool dorender)
         {
-            gfx.DrawString(m_title, Options.TitleFont, Options.TitleColor, pt, XStringFormat.TopLeft);
-            gfx.DrawString(m_author, Options.AuthorFont, Options.AuthorColor, new PointF(pt.X, pt.Y+Options.TitleHeight), XStringFormat.TopLeft);
+            if (dorender)
+            {
+                gfx.DrawString(m_title, Options.TitleFont, Options.TitleColor, pt, XStringFormat.TopLeft);
+                gfx.DrawString(m_author, Options.AuthorFont, Options.AuthorColor, new PointF(pt.X, pt.Y + Options.TitleHeight), XStringFormat.TopLeft);
+            }
             return Options.HeaderHeight;
         }
 

@@ -59,7 +59,7 @@ namespace zp8
             : base(options)
         {
         }
-        public override float Draw(XGraphics gfx, PointF pt)
+        public override float Draw(XGraphics gfx, PointF pt, bool dorender)
         {
             return Options.TextHeight / 2;
         }
@@ -74,9 +74,9 @@ namespace zp8
         {
             m_label = label;
         }
-        public override float Draw(XGraphics gfx, PointF pt)
+        public override float Draw(XGraphics gfx, PointF pt, bool dorender)
         {
-            gfx.DrawString(m_label, Options.LabelFont, Options.LabelColor, pt, XStringFormat.TopLeft);
+            if (dorender) gfx.DrawString(m_label, Options.LabelFont, Options.LabelColor, pt, XStringFormat.TopLeft);
             return Options.LabelHeight;
         }
         public override bool IsDelimiter { get { return false; } }
@@ -112,7 +112,7 @@ namespace zp8
         {
             m_text = text;
         }
-        public override float Draw(XGraphics gfx, PointF pt)
+        public override float Draw(XGraphics gfx, PointF pt, bool dorender)
         {
             float actx = m_x0;
             float acty = 0;
@@ -129,7 +129,7 @@ namespace zp8
                         actx = m_x0;
                         acty += Options.TextHeight;
                     }
-                    gfx.DrawString(par.Data, Options.TextFont, Options.TextColor, new PointF(pt.X + actx, pt.Y + acty), XStringFormat.TopLeft);
+                    if (dorender) gfx.DrawString(par.Data, Options.TextFont, Options.TextColor, new PointF(pt.X + actx, pt.Y + acty), XStringFormat.TopLeft);
                     actx += wordwi;
                     wasword = true;
                 }
@@ -137,7 +137,7 @@ namespace zp8
             }
 
             if (actx > 0) acty += Options.TextHeight;
-            DrawLabel(gfx, pt, Options.TextHeight);
+            if (dorender) DrawLabel(gfx, pt, Options.TextHeight);
             return acty;
         }
     }
@@ -199,7 +199,7 @@ namespace zp8
             yield return par.Original.Substring(lastflushed.Position);
         }
 
-        public override float Draw(XGraphics gfx, PointF pt)
+        public override float Draw(XGraphics gfx, PointF pt, bool dorender)
         {
             float acty = 0;
 
@@ -212,7 +212,7 @@ namespace zp8
                     if (par.Current == SongLineParser.Token.Word)
                     {
                         float wordwi = (float)gfx.MeasureString(par.Data, Options.TextFont).Width;
-                        gfx.DrawString(par.Data, Options.TextFont, Options.TextColor, new PointF(pt.X + tpos, acty + pt.Y + Options.ChordHeight), XStringFormat.TopLeft);
+                        if (dorender) gfx.DrawString(par.Data, Options.TextFont, Options.TextColor, new PointF(pt.X + tpos, acty + pt.Y + Options.ChordHeight), XStringFormat.TopLeft);
                         tpos += wordwi;
                     }
                     if (par.Current == SongLineParser.Token.Space)
@@ -224,7 +224,7 @@ namespace zp8
                         if (tpos < apos) tpos = apos; // aby nebyly 2 akordy pres sebe
                         apos = tpos;
                         float chordwi = (float)gfx.MeasureString(par.Data, Options.ChordFont).Width;
-                        gfx.DrawString(par.Data, Options.ChordFont, Options.ChordColor, new PointF(pt.X + apos, acty + pt.Y), XStringFormat.TopLeft);
+                        if (dorender) gfx.DrawString(par.Data, Options.ChordFont, Options.ChordColor, new PointF(pt.X + apos, acty + pt.Y), XStringFormat.TopLeft);
                         apos += chordwi + Options.HChordSpace;
                     }
                     par.Read();

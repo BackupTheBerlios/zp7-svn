@@ -416,7 +416,7 @@ namespace zp8
         {
             OutlineFormatOptions opt = new OutlineFormatOptions(
                 Layout.SmallPageWidth, 
-                Layout.SmallPageWidth, 
+                Layout.SmallPageHeight, 
                 Fonts.OutlineTitleFont, 
                 Fonts.PageNumberFont, 
                 OutlineProperties.Columns, 

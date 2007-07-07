@@ -103,9 +103,12 @@ namespace zp8
             m_items.Add(new NumberItem(Options, songid, pt));
         }
 
-        public override float Draw(XGraphics gfx, PointF pt)
+        public override float Draw(XGraphics gfx, PointF pt, bool dorender)
         {
-            foreach (Item item in m_items) item.Draw(gfx, pt);
+            if (dorender)
+            {
+                foreach (Item item in m_items) item.Draw(gfx, pt);
+            }
             return Options.PageHeight;
         }
 

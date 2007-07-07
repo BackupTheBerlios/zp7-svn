@@ -42,14 +42,14 @@ namespace zp8
         {
             m_options = options;
         }
-        public abstract float Draw(XGraphics gfx, PointF pt);
+        public abstract float Draw(XGraphics gfx, PointF pt, bool dorender);
         public abstract bool IsDelimiter { get;}
 
         public float Height
         {
             get
             {
-                if (!m_height.HasValue) m_height = Draw(m_options.DummyGraphics, new PointF(0, 0));
+                if (!m_height.HasValue) m_height = Draw(m_options.DummyGraphics, new PointF(0, 0), false);
                 return m_height.Value;
             }
         }
@@ -63,7 +63,7 @@ namespace zp8
             float y = 0;
             foreach (Pane pane in m_panes)
             {
-                pane.Draw(gfx, new PointF(0, y));
+                pane.Draw(gfx, new PointF(0, y), true);
                 y += pane.Height;
             }
         }

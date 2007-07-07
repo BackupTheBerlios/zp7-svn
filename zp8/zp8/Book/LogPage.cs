@@ -68,7 +68,7 @@ namespace zp8
             for (int i = 0; i < m_noDelimPageCount; i++)
             {
                 Pane pane = m_panes[i];
-                pane.Draw(gfx, new PointF(pagepos.X, pagepos.Y + acty));
+                pane.Draw(gfx, new PointF(pagepos.X, pagepos.Y + acty), true);
                 acty += pane.Height;
             }
 
