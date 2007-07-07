@@ -53,7 +53,7 @@ namespace zp8
             // 
             // tbpage
             // 
-            this.tbpage.Location = new System.Drawing.Point(262, -1);
+            this.tbpage.Location = new System.Drawing.Point(280, -1);
             this.tbpage.Name = "tbpage";
             this.tbpage.Size = new System.Drawing.Size(123, 42);
             this.tbpage.TabIndex = 3;

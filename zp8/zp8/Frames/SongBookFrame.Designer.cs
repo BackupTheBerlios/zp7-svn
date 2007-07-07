@@ -32,12 +32,14 @@ namespace zp8
             this.lbsequence = new System.Windows.Forms.ListBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.previewFrame1 = new zp8.PreviewFrame();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.savepdf = new System.Windows.Forms.SaveFileDialog();
+            this.previewFrame1 = new zp8.PreviewFrame();
+            this.previewFrame2 = new zp8.PreviewFrame();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel2
@@ -83,17 +85,9 @@ namespace zp8
             this.tabPage1.Text = "Náhled";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // previewFrame1
-            // 
-            this.previewFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.previewFrame1.Location = new System.Drawing.Point(3, 3);
-            this.previewFrame1.Name = "previewFrame1";
-            this.previewFrame1.Size = new System.Drawing.Size(402, 488);
-            this.previewFrame1.Source = null;
-            this.previewFrame1.TabIndex = 0;
-            // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.previewFrame2);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -106,6 +100,24 @@ namespace zp8
             // 
             this.savepdf.Filter = "PDF soubory (*.pdf)|*.pdf";
             // 
+            // previewFrame1
+            // 
+            this.previewFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.previewFrame1.Location = new System.Drawing.Point(3, 3);
+            this.previewFrame1.Name = "previewFrame1";
+            this.previewFrame1.Size = new System.Drawing.Size(402, 488);
+            this.previewFrame1.Source = null;
+            this.previewFrame1.TabIndex = 0;
+            // 
+            // previewFrame2
+            // 
+            this.previewFrame2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.previewFrame2.Location = new System.Drawing.Point(3, 3);
+            this.previewFrame2.Name = "previewFrame2";
+            this.previewFrame2.Size = new System.Drawing.Size(402, 488);
+            this.previewFrame2.Source = null;
+            this.previewFrame2.TabIndex = 0;
+            // 
             // SongBookFrame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -117,6 +129,7 @@ namespace zp8
             this.panel2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -130,5 +143,6 @@ namespace zp8
         private System.Windows.Forms.TabPage tabPage2;
         private PreviewFrame previewFrame1;
         private System.Windows.Forms.SaveFileDialog savepdf;
+        private PreviewFrame previewFrame2;
     }
 }

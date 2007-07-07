@@ -25,13 +25,21 @@ namespace zp8
                 if (m_book != null) m_book.Changed -= m_book_Changed;
                 m_book = value;
                 if (m_book != null) m_book.Changed += m_book_Changed;
-                Format();
+                m_book_Changed(null, null);
             }
         }
 
         void m_book_Changed(object sender, EventArgs e)
         {
             Format();
+            lbsequence.Items.Clear();
+            if (m_book != null)
+            {
+                foreach (SongDb.songRow row in m_book.DataSet.song.Rows)
+                {
+                    lbsequence.Items.Add(row.title);
+                }
+            }
         }
 
         private void Format()
@@ -44,8 +52,16 @@ namespace zp8
             {
                 m_fbook = m_book.Book;
             }
-            if (m_fbook != null) previewFrame1.Source = m_fbook.GetPreview();
-            else previewFrame1.Source = null;
+            if (m_fbook != null)
+            {
+                previewFrame1.Source = m_fbook.GetPreview();
+                previewFrame2.Source = m_fbook.GetLogicalPreview();
+            }
+            else
+            {
+                previewFrame1.Source = null;
+                previewFrame2.Source = null;
+            }
         }
 
 

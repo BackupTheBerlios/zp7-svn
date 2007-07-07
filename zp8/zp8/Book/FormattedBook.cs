@@ -135,12 +135,95 @@ namespace zp8
         public LogPage[] OriginalPages { get { return m_originalPages; } }
 
         public IPreviewSource GetPreview() { return new NormalPreviewSource(this, m_opts); }
+
+        public IPreviewSource GetLogicalPreview()
+        {
+            if (m_layout.DistribType == DistribType.Book && m_layout.HorizontalCount % 2 == 0)
+                return new PolyLogPagePreview(this, m_opts, 1, 2);
+            if (m_layout.DistribType == DistribType.Lines)
+                return new PolyLogPagePreview(this, m_opts, 0, m_layout.HorizontalCount);
+            return new PolyLogPagePreview(this, m_opts, 0, 1);
+        }
+    }
+
+    public class PolyLogPagePreview : IPreviewSource
+    {
+        FormattedBook m_book;
+        PageDrawOptions m_opts;
+        int m_skipCount;
+        int m_groupSize;
+        float m_smallWidth;
+        float m_smallHeight;
+
+        public PolyLogPagePreview(FormattedBook book, PageDrawOptions opts, int skipCount, int groupSize)
+        {
+            m_book = book;
+            m_opts = opts;
+            m_skipCount = skipCount;
+            m_groupSize = groupSize;
+            m_smallWidth = m_book.Layout.SmallPageWidth + m_book.Layout.DistLeftMM + m_book.Layout.DistRightMM;
+            m_smallHeight = m_book.Layout.SmallPageHeight + m_book.Layout.DistTopMM + m_book.Layout.DistBottomMM;
+        }
+
+        #region IPreviewSource Members
+
+        public float PageWidth
+        {
+            get { return m_smallWidth * m_groupSize; }
+        }
+
+        public float PageHeight
+        {
+            get { return m_smallHeight; }
+        }
+
+        public int PageCount
+        {
+            get { return (m_book.OriginalPages.Length + m_skipCount + m_groupSize - 1) / m_groupSize; }
+        }
+
+        public void DrawPage(XGraphics gfx, int index)
+        {
+            int first = index * m_groupSize - m_skipCount;
+            for (int i = 0; i < m_groupSize; i++)
+            {
+                int pgi = first + i;
+                if (pgi >= 0 && pgi < m_book.OriginalPages.Length)
+                {
+                    PointF pos = new PointF(i * m_smallWidth + m_book.Layout.DistLeftMM, m_book.Layout.DistTopMM);
+                    m_book.OriginalPages[pgi].DrawPage(gfx, pos, m_opts);
+                }
+            }
+        }
+
+        public string PageTitle(int index)
+        {
+            string res = "";
+            int first = index * m_groupSize - m_skipCount;
+            for (int i = 0; i < m_groupSize; i++)
+            {
+                if (res != "") res += ",";
+                int pgi = first + i;
+                if (pgi >= 0 && pgi < m_book.OriginalPages.Length)
+                {
+                    res += m_book.OriginalPages[pgi].PageNumber;
+                }
+                else
+                {
+                    res += "?";
+                }
+            }
+            return "Strany " + res;
+        }
+
+        #endregion
     }
 
     public class NormalPreviewSource : IPreviewSource
     {
         FormattedBook m_book;
         PageDrawOptions m_opts;
+
         public NormalPreviewSource(FormattedBook book, PageDrawOptions opts)
         {
             m_book = book;
