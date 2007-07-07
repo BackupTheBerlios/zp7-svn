@@ -36,7 +36,7 @@ namespace zp8
         public override void AddToPages(LogPages pages, SongBook book)
         {
             PaneGrp outline = book.FormatOutline();
-            DistribAlgs.Simple.Run(pages, new PaneGrp[] { outline }, book.Layout);
+            pages.AddPaneGrp(outline);
         }
     }
 

@@ -72,19 +72,22 @@ namespace zp8
                 acty += pane.Height;
             }
 
-            string header = opts.Header.Replace("%c", PageNumber.ToString());
-            string footer = opts.Footer.Replace("%c", PageNumber.ToString());
+            if (opts != null)
+            {
+                string header = opts.Header.Replace("%c", PageNumber.ToString());
+                string footer = opts.Footer.Replace("%c", PageNumber.ToString());
 
-            if (header != "")
-            {
-                float hdrwi = (float)gfx.MeasureString(header, opts.HeaderFont).Width;
-                float hdrhi = (float)gfx.MeasureString(header, opts.HeaderFont).Height;
-                gfx.DrawString(header, opts.HeaderFont, opts.HeaderColor, new PointF(pagepos.X + opts.PageWidth / 2 - hdrwi / 2, pagepos.Y - hdrhi));
-            }
-            if (footer != "")
-            {
-                float ftrwi = (float)gfx.MeasureString(footer, opts.FooterFont).Width;
-                gfx.DrawString(footer, opts.FooterFont, opts.FooterColor, new PointF(pagepos.X + opts.PageWidth / 2 - ftrwi / 2, pagepos.Y + opts.PageHeight));
+                if (header != "")
+                {
+                    float hdrwi = (float)gfx.MeasureString(header, opts.HeaderFont).Width;
+                    float hdrhi = (float)gfx.MeasureString(header, opts.HeaderFont).Height;
+                    gfx.DrawString(header, opts.HeaderFont, opts.HeaderColor, new PointF(pagepos.X + opts.PageWidth / 2 - hdrwi / 2, pagepos.Y - hdrhi));
+                }
+                if (footer != "")
+                {
+                    float ftrwi = (float)gfx.MeasureString(footer, opts.FooterFont).Width;
+                    gfx.DrawString(footer, opts.FooterFont, opts.FooterColor, new PointF(pagepos.X + opts.PageWidth / 2 - ftrwi / 2, pagepos.Y + opts.PageHeight));
+                }
             }
         }
 

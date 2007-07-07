@@ -36,10 +36,7 @@ namespace zp8
             this.cbdatabase = new System.Windows.Forms.ComboBox();
             this.TabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.songView1 = new zp8.SongView();
-            this.songDatabaseWrapper1 = new zp8.SongDatabaseWrapper(this.components);
             this.splitter1 = new System.Windows.Forms.Splitter();
-            this.songTable1 = new zp8.SongTable();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.pøidatDoZpìvníkuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -48,9 +45,7 @@ namespace zp8
             this.dbstatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.serversFrame1 = new zp8.ServersFrame();
             this.tbsongbook = new System.Windows.Forms.TabPage();
-            this.songBookFrame1 = new zp8.SongBookFrame();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.souborToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.naèístToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,6 +60,7 @@ namespace zp8
             this.uložitNaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vlastnostiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.konecToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zmìnitStylToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.písnìToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importPísníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nastavaníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,7 +68,15 @@ namespace zp8
             this.stylyZpìvníkuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.zmìnitStylToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nastaveníTiskárnyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
+            this.songView1 = new zp8.SongView();
+            this.songDatabaseWrapper1 = new zp8.SongDatabaseWrapper(this.components);
+            this.songTable1 = new zp8.SongTable();
+            this.serversFrame1 = new zp8.ServersFrame();
+            this.songBookFrame1 = new zp8.SongBookFrame();
+            this.printDialog1 = new System.Windows.Forms.PrintDialog();
+            this.tisknoutAktuálníPíseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -165,21 +169,6 @@ namespace zp8
             this.tabPage1.Text = "Písnì";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // songView1
-            // 
-            this.songView1.AutoScroll = true;
-            this.songView1.BackColor = System.Drawing.SystemColors.Window;
-            this.songView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.songView1.Location = new System.Drawing.Point(449, 3);
-            this.songView1.Name = "songView1";
-            this.songView1.Size = new System.Drawing.Size(226, 377);
-            this.songView1.SongDb = this.songDatabaseWrapper1;
-            this.songView1.TabIndex = 7;
-            // 
-            // songDatabaseWrapper1
-            // 
-            this.songDatabaseWrapper1.Database = null;
-            // 
             // splitter1
             // 
             this.splitter1.Location = new System.Drawing.Point(439, 3);
@@ -187,16 +176,6 @@ namespace zp8
             this.splitter1.Size = new System.Drawing.Size(10, 377);
             this.splitter1.TabIndex = 6;
             this.splitter1.TabStop = false;
-            // 
-            // songTable1
-            // 
-            this.songTable1.ContextMenuStrip = this.contextMenuStrip1;
-            this.songTable1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.songTable1.Location = new System.Drawing.Point(3, 3);
-            this.songTable1.Name = "songTable1";
-            this.songTable1.Size = new System.Drawing.Size(436, 377);
-            this.songTable1.SongDb = this.songDatabaseWrapper1;
-            this.songTable1.TabIndex = 5;
             // 
             // contextMenuStrip1
             // 
@@ -276,15 +255,6 @@ namespace zp8
             this.tabPage3.Text = "Servery";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // serversFrame1
-            // 
-            this.serversFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.serversFrame1.Location = new System.Drawing.Point(3, 3);
-            this.serversFrame1.Name = "serversFrame1";
-            this.serversFrame1.Size = new System.Drawing.Size(672, 399);
-            this.serversFrame1.SongDb = this.songDatabaseWrapper1;
-            this.serversFrame1.TabIndex = 0;
-            // 
             // tbsongbook
             // 
             this.tbsongbook.Controls.Add(this.songBookFrame1);
@@ -295,15 +265,6 @@ namespace zp8
             this.tbsongbook.TabIndex = 3;
             this.tbsongbook.Text = "Uspoøádání zpìvníku";
             this.tbsongbook.UseVisualStyleBackColor = true;
-            // 
-            // songBookFrame1
-            // 
-            this.songBookFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.songBookFrame1.Location = new System.Drawing.Point(3, 3);
-            this.songBookFrame1.Name = "songBookFrame1";
-            this.songBookFrame1.Size = new System.Drawing.Size(672, 399);
-            this.songBookFrame1.SongBook = null;
-            this.songBookFrame1.TabIndex = 0;
             // 
             // menuStrip1
             // 
@@ -425,10 +386,18 @@ namespace zp8
             this.konecToolStripMenuItem.Text = "Export do PDF";
             this.konecToolStripMenuItem.Click += new System.EventHandler(this.pdfExportToolStripMenuItem_Click);
             // 
+            // zmìnitStylToolStripMenuItem
+            // 
+            this.zmìnitStylToolStripMenuItem.Name = "zmìnitStylToolStripMenuItem";
+            this.zmìnitStylToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.zmìnitStylToolStripMenuItem.Text = "Zmìnit styl";
+            this.zmìnitStylToolStripMenuItem.Click += new System.EventHandler(this.zmìnitStylToolStripMenuItem_Click);
+            // 
             // písnìToolStripMenuItem
             // 
             this.písnìToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.importPísníToolStripMenuItem});
+            this.importPísníToolStripMenuItem,
+            this.tisknoutAktuálníPíseToolStripMenuItem});
             this.písnìToolStripMenuItem.Name = "písnìToolStripMenuItem";
             this.písnìToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.písnìToolStripMenuItem.Text = "Písnì";
@@ -444,7 +413,8 @@ namespace zp8
             // 
             this.nastavaníToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.obecnéToolStripMenuItem,
-            this.stylyZpìvníkuToolStripMenuItem});
+            this.stylyZpìvníkuToolStripMenuItem,
+            this.nastaveníTiskárnyToolStripMenuItem});
             this.nastavaníToolStripMenuItem.Name = "nastavaníToolStripMenuItem";
             this.nastavaníToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
             this.nastavaníToolStripMenuItem.Text = "Nastavení";
@@ -452,14 +422,14 @@ namespace zp8
             // obecnéToolStripMenuItem
             // 
             this.obecnéToolStripMenuItem.Name = "obecnéToolStripMenuItem";
-            this.obecnéToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.obecnéToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.obecnéToolStripMenuItem.Text = "Obecné";
             this.obecnéToolStripMenuItem.Click += new System.EventHandler(this.obecnéToolStripMenuItem_Click);
             // 
             // stylyZpìvníkuToolStripMenuItem
             // 
             this.stylyZpìvníkuToolStripMenuItem.Name = "stylyZpìvníkuToolStripMenuItem";
-            this.stylyZpìvníkuToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.stylyZpìvníkuToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.stylyZpìvníkuToolStripMenuItem.Text = "Styly zpìvníku";
             this.stylyZpìvníkuToolStripMenuItem.Click += new System.EventHandler(this.stylyZpìvníkuToolStripMenuItem_Click);
             // 
@@ -472,12 +442,67 @@ namespace zp8
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Filter = "Zpìvníky (*.zp)|*.zp";
             // 
-            // zmìnitStylToolStripMenuItem
+            // nastaveníTiskárnyToolStripMenuItem
             // 
-            this.zmìnitStylToolStripMenuItem.Name = "zmìnitStylToolStripMenuItem";
-            this.zmìnitStylToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.zmìnitStylToolStripMenuItem.Text = "Zmìnit styl";
-            this.zmìnitStylToolStripMenuItem.Click += new System.EventHandler(this.zmìnitStylToolStripMenuItem_Click);
+            this.nastaveníTiskárnyToolStripMenuItem.Name = "nastaveníTiskárnyToolStripMenuItem";
+            this.nastaveníTiskárnyToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.nastaveníTiskárnyToolStripMenuItem.Text = "Nastavení tiskárny";
+            this.nastaveníTiskárnyToolStripMenuItem.Click += new System.EventHandler(this.nastaveníTiskárnyToolStripMenuItem_Click);
+            // 
+            // songView1
+            // 
+            this.songView1.AutoScroll = true;
+            this.songView1.BackColor = System.Drawing.SystemColors.Window;
+            this.songView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.songView1.Location = new System.Drawing.Point(449, 3);
+            this.songView1.Name = "songView1";
+            this.songView1.Size = new System.Drawing.Size(226, 377);
+            this.songView1.SongDb = this.songDatabaseWrapper1;
+            this.songView1.TabIndex = 7;
+            // 
+            // songDatabaseWrapper1
+            // 
+            this.songDatabaseWrapper1.Database = null;
+            // 
+            // songTable1
+            // 
+            this.songTable1.ContextMenuStrip = this.contextMenuStrip1;
+            this.songTable1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.songTable1.Location = new System.Drawing.Point(3, 3);
+            this.songTable1.Name = "songTable1";
+            this.songTable1.Size = new System.Drawing.Size(436, 377);
+            this.songTable1.SongDb = this.songDatabaseWrapper1;
+            this.songTable1.TabIndex = 5;
+            // 
+            // serversFrame1
+            // 
+            this.serversFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.serversFrame1.Location = new System.Drawing.Point(3, 3);
+            this.serversFrame1.Name = "serversFrame1";
+            this.serversFrame1.Size = new System.Drawing.Size(672, 399);
+            this.serversFrame1.SongDb = this.songDatabaseWrapper1;
+            this.serversFrame1.TabIndex = 0;
+            // 
+            // songBookFrame1
+            // 
+            this.songBookFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.songBookFrame1.Location = new System.Drawing.Point(3, 3);
+            this.songBookFrame1.Name = "songBookFrame1";
+            this.songBookFrame1.Size = new System.Drawing.Size(672, 399);
+            this.songBookFrame1.SongBook = null;
+            this.songBookFrame1.TabIndex = 0;
+            // 
+            // printDialog1
+            // 
+            this.printDialog1.UseEXDialog = true;
+            // 
+            // tisknoutAktuálníPíseToolStripMenuItem
+            // 
+            this.tisknoutAktuálníPíseToolStripMenuItem.Name = "tisknoutAktuálníPíseToolStripMenuItem";
+            this.tisknoutAktuálníPíseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.tisknoutAktuálníPíseToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.tisknoutAktuálníPíseToolStripMenuItem.Text = "Tisk písnì";
+            this.tisknoutAktuálníPíseToolStripMenuItem.Click += new System.EventHandler(this.tisknoutAktuálníPíseToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -557,6 +582,10 @@ namespace zp8
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem stylyZpìvníkuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem zmìnitStylToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem nastaveníTiskárnyToolStripMenuItem;
+        private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
+        private System.Windows.Forms.PrintDialog printDialog1;
+        private System.Windows.Forms.ToolStripMenuItem tisknoutAktuálníPíseToolStripMenuItem;
     }
 }
 

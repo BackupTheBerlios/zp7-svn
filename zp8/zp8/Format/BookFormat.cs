@@ -13,7 +13,7 @@ using PdfSharp.Pdf.IO;
 
 namespace zp8
 {
-    public class BookFormatOptions : FormatOptions
+    public class SongPrintFormatOptions : FormatOptions
     {
         public readonly XFont TitleFont;
         public readonly XFont AuthorFont;
@@ -24,23 +24,33 @@ namespace zp8
         public readonly float AuthorHeight;
         public readonly float HeaderHeight;
 
-        public readonly float SongSpaceHeight;
-        public readonly bool PrintSeparatorLines;
+        public readonly SongFormatOptions SongOptions;
 
-        SongFormatOptions m_songOptions;
-
-        public BookFormatOptions(float pgwi, SongBookFonts fonts, SongBookFormatting formatting, SongFormatOptions songOptions)
+        public SongPrintFormatOptions(float pgwi, PersistentFont titleFont, PersistentFont authorFont, SongFormatOptions songOptions)
             : base(pgwi)
         {
-            ConvertFont(fonts.TitleFont, out TitleFont, out TitleColor);
-            ConvertFont(fonts.AuthorFont, out AuthorFont, out AuthorColor);
-            m_songOptions = songOptions;
+            SongOptions = songOptions;
 
-            PrintSeparatorLines = formatting.PrintSongDividers;
+            ConvertFont(titleFont, out TitleFont, out TitleColor);
+            ConvertFont(authorFont, out AuthorFont, out AuthorColor);
             TitleHeight = (float)DummyGraphics.MeasureString("M", TitleFont).Height;
             AuthorHeight = (float)DummyGraphics.MeasureString("M", AuthorFont).Height;
             HeaderHeight = TitleHeight + AuthorHeight;
-            SongSpaceHeight = formatting.SongSpaceHeight * m_songOptions.TextHeight / 100;
+        }
+    }
+
+    public class BookFormatOptions : SongPrintFormatOptions
+    {
+        public readonly float SongSpaceHeight;
+        public readonly bool PrintSeparatorLines;
+
+
+        public BookFormatOptions(float pgwi, SongBookFonts fonts, SongBookFormatting formatting, SongFormatOptions songOptions)
+            : base(pgwi, fonts.TitleFont, fonts.AuthorFont, songOptions)
+        {
+
+            PrintSeparatorLines = formatting.PrintSongDividers;
+            SongSpaceHeight = formatting.SongSpaceHeight * SongOptions.TextHeight / 100;
         }
     }
 
@@ -49,6 +59,16 @@ namespace zp8
         protected BookFormatOptions Options { get { return (BookFormatOptions)m_options; } }
 
         public BookFormatPane(BookFormatOptions options)
+            : base(options)
+        {
+        }
+    }
+
+    public abstract class SongPrintFormatPane : Pane
+    {
+        protected SongPrintFormatOptions Options { get { return (SongPrintFormatOptions)m_options; } }
+
+        public SongPrintFormatPane(SongPrintFormatOptions options)
             : base(options)
         {
         }
@@ -70,12 +90,12 @@ namespace zp8
         public override bool IsDelimiter { get { return true; } }
     }
 
-    public class SongHeaderPane : BookFormatPane
+    public class SongHeaderPane : SongPrintFormatPane
     {
         string m_title;
         string m_author;
 
-        public SongHeaderPane(BookFormatOptions options, string title, string author)
+        public SongHeaderPane(SongPrintFormatOptions options, string title, string author)
             : base(options)
         {
             m_title = title;

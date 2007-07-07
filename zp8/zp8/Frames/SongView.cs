@@ -175,5 +175,7 @@ namespace zp8
         {
             Redraw();
         }
+
+        public SongDb.songRow Song { get { return m_song; } }
     }
 }

@@ -349,5 +349,27 @@ namespace zp8
             songBookFrame1.ChangeBookStyle();
         }
 
+        private void nastaveníTiskárnyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //PrinterSettings set = new PrinterSettings();
+            ////Printers
+            ////set.PrinterName
+
+            //pageSetupDialog1.PrinterSettings = new System.Drawing.Printing.PrinterSettings();
+            //pageSetupDialog1.PageSettings = new System.Drawing.Printing.PageSettings();
+            ////pageSetupDialog1.PrinterSettings.PrinterName
+            //pageSetupDialog1.ShowDialog();
+        }
+
+        private void tisknoutAktuálníPíseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SongDb.songRow song = songView1.Song;
+            if (song != null && printDialog1.ShowDialog() == DialogResult.OK)
+            {
+                SongPrinter sp = new SongPrinter(song, printDialog1.PrinterSettings);
+                sp.Run();
+            }
+        }
+
     }
 }
