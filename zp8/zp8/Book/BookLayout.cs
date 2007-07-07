@@ -23,8 +23,8 @@ namespace zp8
         float? m_smallWidth;
         float? m_smallHeight;
 
-        float? m_bigPageWidth;
-        float? m_bigPageHeight;
+        float? m_bigWidth;
+        float? m_bigHeight;
 
         PageOrientation m_orientation;
 
@@ -71,25 +71,17 @@ namespace zp8
         {
             if (m_printTarget != null)
             {
-                switch (m_orientation)
-                {
-                    case PageOrientation.Portrait:
-                        m_bigPageWidth = m_printTarget.Width;
-                        m_bigPageHeight = m_printTarget.Height;
-                        break;
-                    case PageOrientation.Landscape:
-                        m_bigPageHeight = m_printTarget.Width;
-                        m_bigPageWidth = m_printTarget.Height;
-                        break;
-                }
+                SizeF size = m_printTarget.GetPageSize(m_orientation);
+                m_bigWidth = size.Width;
+                m_bigHeight = size.Height;
 
-                m_smallWidth = m_bigPageWidth.Value / m_hcnt - m_dleft - m_dright;
-                m_smallHeight = m_bigPageHeight.Value / m_vcnt - m_dtop - m_dbottom;
+                m_smallWidth = m_bigWidth.Value / m_hcnt - m_dleft - m_dright;
+                m_smallHeight = m_bigHeight.Value / m_vcnt - m_dtop - m_dbottom;
             }
             else
             {
-                m_bigPageWidth = null;
-                m_bigPageHeight = null;
+                m_bigWidth = null;
+                m_bigHeight = null;
 
                 m_smallWidth = null;
                 m_smallHeight = null;
@@ -101,9 +93,9 @@ namespace zp8
         [Browsable(false)]
         public float SmallPageHeight { get { return m_smallHeight.Value; } }
         [Browsable(false)]
-        public float BigPageWidth { get { return m_bigPageWidth.Value; } }
+        public float BigPageWidth { get { return m_bigWidth.Value; } }
         [Browsable(false)]
-        public float BigPageHeight { get { return m_bigPageHeight.Value; } }
+        public float BigPageHeight { get { return m_bigHeight.Value; } }
 
         [DisplayName("Odsazení zleva")]
         [Description("Odsazení malé stránky v milimetrech")]
@@ -123,8 +115,8 @@ namespace zp8
 
         public PointF GetPagePos(int x, int y)
         {
-            float w0 = m_bigPageWidth.Value / m_hcnt;
-            float h0 = m_bigPageHeight.Value / m_vcnt;
+            float w0 = m_bigWidth.Value / m_hcnt;
+            float h0 = m_bigHeight.Value / m_vcnt;
             return new PointF(x * w0 + m_dleft, y * h0 + m_dtop);
         }
 

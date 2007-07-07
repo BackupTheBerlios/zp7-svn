@@ -28,18 +28,18 @@ namespace zp8
         public readonly float ChordHeight;
         public readonly float LabelHeight;
 
-        public SongFormatOptions(float pgwi, PersistentFont textFont, PersistentFont chordFont, PersistentFont labelFont)
-            : base(pgwi)
+        public SongFormatOptions(float pgwi, XGraphics infoContext, PersistentFont textFont, PersistentFont chordFont, PersistentFont labelFont)
+            : base(pgwi, infoContext)
         {
             ConvertFont(textFont, out TextFont, out TextColor);
             ConvertFont(chordFont, out ChordFont, out ChordColor);
             ConvertFont(labelFont, out LabelFont, out LabelColor);
 
-            HTextSpace = (float)DummyGraphics.MeasureString("i", TextFont).Width;
-            HChordSpace = (float)DummyGraphics.MeasureString("i", ChordFont).Width;
-            TextHeight = (float)DummyGraphics.MeasureString("M", TextFont).Height;
-            ChordHeight = (float)DummyGraphics.MeasureString("M", ChordFont).Height;
-            LabelHeight = (float)DummyGraphics.MeasureString("M", LabelFont).Height;
+            HTextSpace = (float)InfoContext.MeasureString("i", TextFont).Width;
+            HChordSpace = (float)InfoContext.MeasureString("i", ChordFont).Width;
+            TextHeight = (float)InfoContext.MeasureString("M", TextFont).Height;
+            ChordHeight = (float)InfoContext.MeasureString("M", ChordFont).Height;
+            LabelHeight = (float)InfoContext.MeasureString("M", LabelFont).Height;
         }
     }
 
@@ -261,7 +261,7 @@ namespace zp8
                 {
                     if (pending_label != null) m_panegrp.Add(new LabelLinePane(m_options, pending_label));
                     pending_label = line.Substring(1);
-                    x0 = (float)m_options.DummyGraphics.MeasureString(pending_label, m_options.LabelFont).Width;
+                    x0 = (float)m_options.InfoContext.MeasureString(pending_label, m_options.LabelFont).Width;
                 }
                 else if (SongTool.IsChordLine(line))
                 {

@@ -121,6 +121,12 @@ namespace zp8
             set { m_fontColor = Color.FromName(value); }
         }
 
+        //[System.Xml.Serialization.XmlIgnore]
+        //[Browsable(false)]
+        //public Single FontSizeInPoints
+        //{
+        //    get { return FontSize / 72.0f * MainForm.MainGraphics.DpiX; }
+        //}
 
         public static PersistentFont FromFont(Font font)
         {
@@ -144,7 +150,8 @@ namespace zp8
 
         public XFont ToXFont()
         {
-            XFont res = new XFont(FontName, FontSize, ToXFontStyle(this), XFontOptions);
+            float worldSize = FontSize * MainForm.MainGraphics.DpiX / 72.0f;
+            XFont res = new XFont(FontName, worldSize, ToXFontStyle(this), XFontOptions);
             return res;
         }
         public bool Bold { get { return (m_fontStyle & FontStyle.Bold) == FontStyle.Bold; } }

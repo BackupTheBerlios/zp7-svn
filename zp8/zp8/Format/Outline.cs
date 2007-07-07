@@ -22,8 +22,8 @@ namespace zp8
         public readonly float NumberHeight;
         public readonly SongBook SongBook;
 
-        public OutlineFormatOptions(float pgwi, float pghi, PersistentFont titleFont, PersistentFont numberFont, int columns, SongBook songBook)
-            : base(pgwi)
+        public OutlineFormatOptions(float pgwi, float pghi, XGraphics infoContex, PersistentFont titleFont, PersistentFont numberFont, int columns, SongBook songBook)
+            : base(pgwi, infoContex)
         {
             ConvertFont(titleFont, out TitleFont, out TitleColor);
             ConvertFont(numberFont, out NumberFont, out NumberColor);
@@ -31,11 +31,11 @@ namespace zp8
             Columns = columns;
 
             ColumnWidth = PageWidth / Columns;
-            float numwi = (float)DummyGraphics.MeasureString("99999", NumberFont).Width;
+            float numwi = (float)InfoContext.MeasureString("99999", NumberFont).Width;
             ColumnWidthForText = ColumnWidth - numwi;
             NumberLeft = ColumnWidthForText + numwi / 4;
-            TitleHeight = (float)DummyGraphics.MeasureString("M", TitleFont).Height;
-            NumberHeight = (float)DummyGraphics.MeasureString("M", NumberFont).Height;
+            TitleHeight = (float)InfoContext.MeasureString("M", TitleFont).Height;
+            NumberHeight = (float)InfoContext.MeasureString("M", NumberFont).Height;
             SongBook = songBook;
         }
     }
@@ -139,7 +139,7 @@ namespace zp8
             float acty = 0;
             foreach (SongDb.songRow song in m_songs)
             {
-                float hi = MeasureWrappedTextHeight(m_options.DummyGraphics, song.title, m_options.ColumnWidthForText, m_options.TitleFont);
+                float hi = MeasureWrappedTextHeight(m_options.InfoContext, song.title, m_options.ColumnWidthForText, m_options.TitleFont);
                 if (acty + hi > m_options.PageHeight)
                 {
                     actcol++;
@@ -154,7 +154,7 @@ namespace zp8
 
                 float x0 = actcol * m_options.ColumnWidth;
                 WrapText(
-                    m_options.DummyGraphics,
+                    m_options.InfoContext,
                     delegate(string txt, PointF pt) { m_actpane.DrawText(txt, new PointF(pt.X + x0, pt.Y + acty)); },
                     song.title,
                     m_options.ColumnWidthForText,

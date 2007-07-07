@@ -17,26 +17,28 @@ namespace zp8
         Dictionary<string, int> m_loaded_dbs_name_to_index = new Dictionary<string, int>();
         Dictionary<SongBook, int> m_loaded_songbooks = new Dictionary<SongBook, int>();
         bool m_updating_state = false;
-        //static MainForm m_form;
         int? m_activeDbPage, m_activeSbPage;
+
+        static MainForm m_form;
+        static Graphics m_mainGraphics;
 
         public MainForm()
         {
-            //m_form = this;
+            m_form = this;
+            m_mainGraphics = Graphics.FromHwnd(Handle);
+
             InitializeComponent();
             rbdatabase.Checked = true;
         }
 
-        /*
         public static IntPtr HDC
         {
-            get
-            {
-                using (Graphics g = Graphics.FromHwnd(m_form.Handle))
-                    return g.GetHdc();
-            }
+            get { return m_mainGraphics.GetHdc(); }
         }
-        */
+        public static Graphics MainGraphics
+        {
+            get { return m_mainGraphics; }
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -370,12 +372,7 @@ namespace zp8
 
         private void vytisknoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SongBook sb = SelectedSongBook;
-            if (sb != null && printDialog1.ShowDialog() == DialogResult.OK)
-            {
-                SongBookPrinter sp = new SongBookPrinter(sb, printDialog1.PrinterSettings);
-                sp.Run();
-            }
+            songBookFrame1.PrintSongBook();
         }
 
         private void songBookFrame1_ChangedPageInfo(object sender, EventArgs e)

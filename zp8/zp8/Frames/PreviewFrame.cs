@@ -35,6 +35,7 @@ namespace zp8
                     tbpage.Maximum = m_source.PageCount - 1;
                     tbpage.Value = 0;
                     tbpage.Enabled = true;
+                    tbpage_Scroll(null, null);
                 }
                 Redraw();
             }

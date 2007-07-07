@@ -26,15 +26,15 @@ namespace zp8
 
         public readonly SongFormatOptions SongOptions;
 
-        public SongPrintFormatOptions(float pgwi, PersistentFont titleFont, PersistentFont authorFont, SongFormatOptions songOptions)
-            : base(pgwi)
+        public SongPrintFormatOptions(float pgwi, XGraphics infoContext, PersistentFont titleFont, PersistentFont authorFont, SongFormatOptions songOptions)
+            : base(pgwi, infoContext)
         {
             SongOptions = songOptions;
 
             ConvertFont(titleFont, out TitleFont, out TitleColor);
             ConvertFont(authorFont, out AuthorFont, out AuthorColor);
-            TitleHeight = (float)DummyGraphics.MeasureString("M", TitleFont).Height;
-            AuthorHeight = (float)DummyGraphics.MeasureString("M", AuthorFont).Height;
+            TitleHeight = (float)InfoContext.MeasureString("M", TitleFont).Height;
+            AuthorHeight = (float)InfoContext.MeasureString("M", AuthorFont).Height;
             HeaderHeight = TitleHeight + AuthorHeight;
         }
     }
@@ -45,8 +45,8 @@ namespace zp8
         public readonly bool PrintSeparatorLines;
 
 
-        public BookFormatOptions(float pgwi, SongBookFonts fonts, SongBookFormatting formatting, SongFormatOptions songOptions)
-            : base(pgwi, fonts.TitleFont, fonts.AuthorFont, songOptions)
+        public BookFormatOptions(float pgwi, XGraphics infoContext, SongBookFonts fonts, SongBookFormatting formatting, SongFormatOptions songOptions)
+            : base(pgwi, infoContext, fonts.TitleFont, fonts.AuthorFont, songOptions)
         {
 
             PrintSeparatorLines = formatting.PrintSongDividers;

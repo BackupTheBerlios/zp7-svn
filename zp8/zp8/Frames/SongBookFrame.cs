@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using System.Drawing.Printing;
 
 namespace zp8
 {
@@ -12,6 +13,7 @@ namespace zp8
     {
         SongBook m_book;
         FormattedBook m_fbook;
+        PrinterSettings m_settings;
 
         public SongBookFrame()
         {
@@ -106,5 +108,59 @@ namespace zp8
         }
 
         public event EventHandler ChangedPageInfo;
+
+        private void SongBookFrame_Load(object sender, EventArgs e)
+        {
+            cbprinter.Items.Add("(PDF soubor)");
+            foreach (string name in PrinterSettings.InstalledPrinters)
+            {
+                cbprinter.Items.Add(name);
+            }
+            cbprinter.SelectedIndex = 0;
+            PrintDocument doc = new PrintDocument();
+            m_settings = doc.PrinterSettings;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (cbprinter.SelectedIndex > 0)
+            {
+                printDialog1.PrinterSettings = m_settings;
+                if (printDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    m_settings = printDialog1.PrinterSettings;
+                    cbprinter.SelectedIndex = cbprinter.Items.IndexOf(m_settings.PrinterName);
+                    ChangedPrintTarget();
+                }
+            }
+        }
+
+        private void cbprinter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbprinter.SelectedIndex > 0) m_settings.PrinterName = (string)cbprinter.Items[cbprinter.SelectedIndex];
+            ChangedPrintTarget();
+        }
+
+        private void ChangedPrintTarget()
+        {
+            if (m_book != null)
+            {
+                if (cbprinter.SelectedIndex == 0) m_book.PrintTarget = new PdfPrintTarget();
+                else m_book.PrintTarget = new PrinterPrintTarget(m_settings);
+            }
+        }
+
+        public void PrintSongBook()
+        {
+            if (m_book != null)
+            {
+                if (cbprinter.SelectedIndex > 0) printDialog1.PrinterSettings = m_settings;
+                if (printDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    SongBookPrinter sp = new SongBookPrinter(m_book, printDialog1.PrinterSettings);
+                    sp.Run();
+                }
+            }
+        }
     }
 }

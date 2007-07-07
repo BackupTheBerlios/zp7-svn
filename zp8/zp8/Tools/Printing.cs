@@ -32,22 +32,20 @@ namespace zp8
 
         void doc_PrintPage(object sender, PrintPageEventArgs e)
         {
+            XGraphics gfx = XGraphics.FromGraphics(e.Graphics, new XSize(e.PageBounds.Width, e.PageBounds.Height));
             if (m_actpage == null)
             {
-                LogPages pages = FormatSongForPrinting(m_song, e.PageBounds.Width, e.PageBounds.Height);
+                LogPages pages = FormatSongForPrinting(m_song, e.PageBounds.Width, gfx, e.PageBounds.Height);
                 m_actpage = pages.Pages.GetEnumerator();
                 m_actpage.MoveNext();
             }
-            m_actpage.Current.DrawPage(
-                XGraphics.FromGraphics(e.Graphics, new XSize(e.PageBounds.Width, e.PageBounds.Height)),
-                new PointF(0, 0),
-                null);
+            m_actpage.Current.DrawPage(gfx, new PointF(0, 0), null);
             e.HasMorePages = m_actpage.MoveNext();
         }
 
-        public static LogPages FormatSongForPrinting(SongDb.songRow song, float pgwi, float pghi)
+        public static LogPages FormatSongForPrinting(SongDb.songRow song, float pgwi, XGraphics infoContext, float pghi)
         {
-            SongPrintFormatOptions opt = CfgTools.CreateSongPrintFormatOptions(pgwi);
+            SongPrintFormatOptions opt = CfgTools.CreateSongPrintFormatOptions(pgwi, infoContext);
             SongFormatter fmt = new SongFormatter(song.songtext, opt.SongOptions);
             fmt.Run();
             PaneGrp grp = fmt.Result;
@@ -65,7 +63,7 @@ namespace zp8
         {
             PdfDocument doc = new PdfDocument();
             PdfPage page = doc.AddPage();
-            LogPages pages = SongPrinter.FormatSongForPrinting(song, PageSizeConverter.ToSize(page.Size).Width, PageSizeConverter.ToSize(page.Size).Height);
+            LogPages pages = SongPrinter.FormatSongForPrinting(song, PageSizeConverter.ToSize(page.Size).Width, PdfPrintTarget.InfoContext, PageSizeConverter.ToSize(page.Size).Height);
             foreach (LogPage lp in pages.Pages)
             {
                 lp.DrawPage(XGraphics.FromPdfPage(page), new PointF(0, 0), null);
@@ -73,29 +71,6 @@ namespace zp8
             }
             doc.Save(filename);
         }
-    }
-
-    public class PrinterPrintTarget : IPrintTarget
-    {
-        Rectangle m_bounds;
-        public PrinterPrintTarget(Rectangle bounds)
-        {
-            m_bounds = bounds;
-        }
-
-        #region IPrintTarget Members
-
-        public float Width
-        {
-            get { return m_bounds.Width; }
-        }
-
-        public float Height
-        {
-            get { return m_bounds.Height; }
-        }
-
-        #endregion
     }
 
     public class SongBookPrinter
@@ -127,15 +102,17 @@ namespace zp8
 
         void doc_PrintPage(object sender, PrintPageEventArgs e)
         {
+            XGraphics gfx = XGraphics.FromGraphics(e.Graphics, new XSize(e.PageBounds.Width, e.PageBounds.Height));
             if (m_preview == null)
             {
-                m_book.PrintTarget = new PrinterPrintTarget(e.PageBounds);
+                // uchovame stary PrintTarget: dispose=false
+                m_book.SetPrintTarget(new PrinterPrintTarget(m_settings), false);
                 m_preview = m_book.Book.GetPreview();
             }
 
             if (m_pageIndex < m_preview.PageCount)
             {
-                m_preview.DrawPage(XGraphics.FromGraphics(e.Graphics, new XSize(e.PageBounds.Width, e.PageBounds.Height)), m_pageIndex);
+                m_preview.DrawPage(gfx, m_pageIndex);
             }
             m_pageIndex++;
 

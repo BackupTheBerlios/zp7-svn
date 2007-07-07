@@ -15,14 +15,15 @@ namespace zp8
 {
     public class FormatOptions
     {
-        public readonly XGraphics DummyGraphics;
+        public readonly XGraphics InfoContext;
         public readonly float PageWidth;
 
-        public FormatOptions(float pgwi)
+        public FormatOptions(float pgwi, XGraphics infoContext)
         {
-            PdfDocument doc = new PdfDocument();
-            PdfPage page = doc.AddPage();
-            DummyGraphics = XGraphics.FromPdfPage(page);
+            //PdfDocument doc = new PdfDocument();
+            //PdfPage page = doc.AddPage();
+            //InfoContext = XGraphics.FromPdfPage(page);
+            InfoContext = infoContext;
             PageWidth = pgwi;
         }
 
@@ -49,7 +50,7 @@ namespace zp8
         {
             get
             {
-                if (!m_height.HasValue) m_height = Draw(m_options.DummyGraphics, new PointF(0, 0), false);
+                if (!m_height.HasValue) m_height = Draw(m_options.InfoContext, new PointF(0, 0), false);
                 return m_height.Value;
             }
         }

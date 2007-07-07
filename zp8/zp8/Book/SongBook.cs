@@ -165,9 +165,9 @@ namespace zp8
             //m_sequence = new BookSequence();
             //m_sequence.Items.Add(new AllSongsSequenceItem());
 
-            PdfDocument doc = new PdfDocument();
-            PdfPage page = doc.AddPage();
-            PrintTarget = new PdfPrintTarget(page);
+            //PdfDocument doc = new PdfDocument();
+            //PdfPage page = doc.AddPage();
+            PrintTarget = new PdfPrintTarget();
         }
 
         void song_songRowChanged(object sender, SongDb.songRowChangeEvent e)
@@ -249,7 +249,7 @@ namespace zp8
         {
             get
             {
-                if (m_songFormatOptions == null) m_songFormatOptions = new SongFormatOptions(m_layout.SmallPageWidth, m_fonts.TextFont, m_fonts.ChordFont, m_fonts.LabelFont);
+                if (m_songFormatOptions == null) m_songFormatOptions = new SongFormatOptions(m_layout.SmallPageWidth, PrintTarget.GetInfoContext(Layout.Orientation), m_fonts.TextFont, m_fonts.ChordFont, m_fonts.LabelFont);
                 return m_songFormatOptions;
             }
         }
@@ -257,7 +257,7 @@ namespace zp8
         {
             get
             {
-                if (m_bookFormatOptions == null) m_bookFormatOptions = new BookFormatOptions(m_layout.SmallPageWidth, Fonts, Formatting, SongFormatOptions);
+                if (m_bookFormatOptions == null) m_bookFormatOptions = new BookFormatOptions(m_layout.SmallPageWidth, PrintTarget.GetInfoContext(Layout.Orientation), Fonts, Formatting, SongFormatOptions);
                 return m_bookFormatOptions;
             }
         }
@@ -296,12 +296,15 @@ namespace zp8
         public IPrintTarget PrintTarget
         {
             get { return m_printTarget; }
-            set
-            {
-                m_printTarget = value;
-                Layout.Target = value;
-                ClearCaches();                
-            }
+            set { SetPrintTarget(value, true); }
+        }
+        public void SetPrintTarget(IPrintTarget value, bool dispose)
+        {
+            if (dispose && m_printTarget != null) m_printTarget.Dispose();
+            m_printTarget = value;
+            Layout.Target = value;
+            ClearCaches();
+            if (Changed != null) Changed(this, new EventArgs());
         }
         public void Load(string filename)
         {
@@ -418,6 +421,7 @@ namespace zp8
             OutlineFormatOptions opt = new OutlineFormatOptions(
                 Layout.SmallPageWidth, 
                 Layout.SmallPageHeight, 
+                PrintTarget.GetInfoContext(Layout.Orientation),
                 Fonts.OutlineTitleFont, 
                 Fonts.PageNumberFont, 
                 OutlineProperties.Columns, 
