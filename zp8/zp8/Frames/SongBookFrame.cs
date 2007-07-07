@@ -62,6 +62,7 @@ namespace zp8
                 previewFrame1.Source = null;
                 previewFrame2.Source = null;
             }
+            if (ChangedPageInfo != null) ChangedPageInfo(this, new EventArgs());
         }
 
 
@@ -85,7 +86,7 @@ namespace zp8
 
         public void ChangeBookStyle()
         {
-            if (m_book==null) return;
+            if (m_book == null) return;
             string newstyle = ChangeBookStyleForm.Run();
             if (newstyle != null)
             {
@@ -94,5 +95,16 @@ namespace zp8
                 Format();
             }
         }
+
+        public string PageInfo
+        {
+            get
+            {
+                if (m_fbook == null) return "n/a";
+                return String.Format("A4:{0}, prázdné:{1}", m_fbook.A4SheetCount * 2, m_fbook.FreePageCount);
+            }
+        }
+
+        public event EventHandler ChangedPageInfo;
     }
 }

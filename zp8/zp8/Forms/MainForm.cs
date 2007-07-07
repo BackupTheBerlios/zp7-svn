@@ -377,5 +377,10 @@ namespace zp8
                 sp.Run();
             }
         }
+
+        private void songBookFrame1_ChangedPageInfo(object sender, EventArgs e)
+        {
+            tspages.Text = songBookFrame1.PageInfo;
+        }
     }
 }

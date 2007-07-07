@@ -42,15 +42,16 @@ namespace zp8
             this.songTable1 = new zp8.SongTable();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.pøidatDoZpìvníkuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.StatusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.dbname = new System.Windows.Forms.ToolStripStatusLabel();
-            this.dbsize = new System.Windows.Forms.ToolStripStatusLabel();
-            this.dbstatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.serversFrame1 = new zp8.ServersFrame();
             this.tbsongbook = new System.Windows.Forms.TabPage();
             this.songBookFrame1 = new zp8.SongBookFrame();
+            this.StatusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.dbname = new System.Windows.Forms.ToolStripStatusLabel();
+            this.dbsize = new System.Windows.Forms.ToolStripStatusLabel();
+            this.dbstatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tspages = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.souborToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.naèístToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,9 +84,9 @@ namespace zp8
             this.TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
-            this.StatusStrip1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tbsongbook.SuspendLayout();
+            this.StatusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -154,7 +155,7 @@ namespace zp8
             this.TabControl1.Location = new System.Drawing.Point(0, 48);
             this.TabControl1.Name = "TabControl1";
             this.TabControl1.SelectedIndex = 0;
-            this.TabControl1.Size = new System.Drawing.Size(671, 460);
+            this.TabControl1.Size = new System.Drawing.Size(671, 438);
             this.TabControl1.TabIndex = 2;
             // 
             // tabPage1
@@ -162,11 +163,10 @@ namespace zp8
             this.tabPage1.Controls.Add(this.songView1);
             this.tabPage1.Controls.Add(this.splitter1);
             this.tabPage1.Controls.Add(this.songTable1);
-            this.tabPage1.Controls.Add(this.StatusStrip1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(663, 434);
+            this.tabPage1.Size = new System.Drawing.Size(663, 412);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Písnì";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -218,16 +218,68 @@ namespace zp8
             this.pøidatDoZpìvníkuToolStripMenuItem.Text = "Pøidat do zpìvníku";
             this.pøidatDoZpìvníkuToolStripMenuItem.Click += new System.EventHandler(this.pøidatDoZpìvníkuToolStripMenuItem_Click);
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(663, 412);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Skupiny";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.serversFrame1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(663, 412);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Servery";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // serversFrame1
+            // 
+            this.serversFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.serversFrame1.Location = new System.Drawing.Point(3, 3);
+            this.serversFrame1.Name = "serversFrame1";
+            this.serversFrame1.Size = new System.Drawing.Size(657, 406);
+            this.serversFrame1.SongDb = this.songDatabaseWrapper1;
+            this.serversFrame1.TabIndex = 0;
+            // 
+            // tbsongbook
+            // 
+            this.tbsongbook.Controls.Add(this.songBookFrame1);
+            this.tbsongbook.Location = new System.Drawing.Point(4, 22);
+            this.tbsongbook.Name = "tbsongbook";
+            this.tbsongbook.Padding = new System.Windows.Forms.Padding(3);
+            this.tbsongbook.Size = new System.Drawing.Size(663, 412);
+            this.tbsongbook.TabIndex = 3;
+            this.tbsongbook.Text = "Uspoøádání zpìvníku";
+            this.tbsongbook.UseVisualStyleBackColor = true;
+            // 
+            // songBookFrame1
+            // 
+            this.songBookFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.songBookFrame1.Location = new System.Drawing.Point(3, 3);
+            this.songBookFrame1.Name = "songBookFrame1";
+            this.songBookFrame1.Size = new System.Drawing.Size(657, 406);
+            this.songBookFrame1.SongBook = null;
+            this.songBookFrame1.TabIndex = 0;
+            this.songBookFrame1.ChangedPageInfo += new System.EventHandler(this.songBookFrame1_ChangedPageInfo);
+            // 
             // StatusStrip1
             // 
             this.StatusStrip1.AutoSize = false;
             this.StatusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dbname,
             this.dbsize,
-            this.dbstatus});
-            this.StatusStrip1.Location = new System.Drawing.Point(3, 409);
+            this.dbstatus,
+            this.tspages});
+            this.StatusStrip1.Location = new System.Drawing.Point(0, 486);
             this.StatusStrip1.Name = "StatusStrip1";
-            this.StatusStrip1.Size = new System.Drawing.Size(657, 22);
+            this.StatusStrip1.Size = new System.Drawing.Size(671, 22);
             this.StatusStrip1.TabIndex = 1;
             this.StatusStrip1.Text = "statusStrip1";
             // 
@@ -261,55 +313,15 @@ namespace zp8
             this.dbstatus.Name = "dbstatus";
             this.dbstatus.Size = new System.Drawing.Size(100, 17);
             // 
-            // tabPage2
+            // tspages
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(856, 462);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Skupiny";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.serversFrame1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(678, 405);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Servery";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // serversFrame1
-            // 
-            this.serversFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.serversFrame1.Location = new System.Drawing.Point(3, 3);
-            this.serversFrame1.Name = "serversFrame1";
-            this.serversFrame1.Size = new System.Drawing.Size(672, 399);
-            this.serversFrame1.SongDb = this.songDatabaseWrapper1;
-            this.serversFrame1.TabIndex = 0;
-            // 
-            // tbsongbook
-            // 
-            this.tbsongbook.Controls.Add(this.songBookFrame1);
-            this.tbsongbook.Location = new System.Drawing.Point(4, 22);
-            this.tbsongbook.Name = "tbsongbook";
-            this.tbsongbook.Padding = new System.Windows.Forms.Padding(3);
-            this.tbsongbook.Size = new System.Drawing.Size(678, 405);
-            this.tbsongbook.TabIndex = 3;
-            this.tbsongbook.Text = "Uspoøádání zpìvníku";
-            this.tbsongbook.UseVisualStyleBackColor = true;
-            // 
-            // songBookFrame1
-            // 
-            this.songBookFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.songBookFrame1.Location = new System.Drawing.Point(3, 3);
-            this.songBookFrame1.Name = "songBookFrame1";
-            this.songBookFrame1.Size = new System.Drawing.Size(672, 399);
-            this.songBookFrame1.SongBook = null;
-            this.songBookFrame1.TabIndex = 0;
+            this.tspages.AutoSize = false;
+            this.tspages.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.tspages.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
+            this.tspages.Name = "tspages";
+            this.tspages.Size = new System.Drawing.Size(109, 17);
             // 
             // menuStrip1
             // 
@@ -526,6 +538,7 @@ namespace zp8
             this.Controls.Add(this.TabControl1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.StatusStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Zpìvníkátor 8.0";
@@ -537,10 +550,10 @@ namespace zp8
             this.TabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
-            this.StatusStrip1.ResumeLayout(false);
-            this.StatusStrip1.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tbsongbook.ResumeLayout(false);
+            this.StatusStrip1.ResumeLayout(false);
+            this.StatusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -602,6 +615,7 @@ namespace zp8
         private System.Windows.Forms.ToolStripMenuItem exportPísnìDoPDFToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog savePDF;
         private System.Windows.Forms.ToolStripMenuItem vytisknoutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel tspages;
     }
 }
 

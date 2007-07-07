@@ -113,7 +113,7 @@ namespace zp8
 
         public int A4SheetCount { get { return m_sheetCount; } }
         public int SmallPageCount { get { return m_smallPageCount; } }
-        public int FreePageCount { get { return m_sheetCount * 2 * m_hcnt * m_vcnt - m_smallPageCount; } }
+        public int FreePageCount { get { return m_sheetCount * 2 * m_hcnt * m_vcnt - m_originalPages.Length; } }
         public BookLayout Layout { get { return m_layout; } }
 
         public void DrawBigPage(XGraphics gfx, int sheet, int side, PageDrawOptions opts)
