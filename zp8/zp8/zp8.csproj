@@ -72,6 +72,12 @@
     <Compile Include="Frames\PreviewFrame.Designer.cs">
       <DependentUpon>PreviewFrame.cs</DependentUpon>
     </Compile>
+    <Compile Include="Frames\SongsByGroupFrame.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Frames\SongsByGroupFrame.Designer.cs">
+      <DependentUpon>SongsByGroupFrame.cs</DependentUpon>
+    </Compile>
     <Compile Include="Frames\ZoomControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -167,6 +173,10 @@
     <EmbeddedResource Include="Frames\PreviewFrame.resx">
       <SubType>Designer</SubType>
       <DependentUpon>PreviewFrame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frames\SongsByGroupFrame.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SongsByGroupFrame.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frames\ZoomControl.resx">
       <SubType>Designer</SubType>
@@ -287,6 +297,7 @@
     <Compile Include="Frames\SongView.Designer.cs">
       <DependentUpon>SongView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\Sorting.cs" />
     <Compile Include="Tools\XmlNamespaces.cs" />
     <Compile Include="xsls.Designer.cs">
       <AutoGen>True</AutoGen>

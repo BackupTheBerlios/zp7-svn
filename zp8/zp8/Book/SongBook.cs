@@ -371,27 +371,6 @@ namespace zp8
             }
         }
 
-        private static int CompareTitleGroup(SongDb.songRow a, SongDb.songRow b)
-        {
-            int rt = String.Compare(a.title, b.title, true);
-            if (rt != 0) return rt;
-            int rg = String.Compare(a.groupname, b.groupname, true);
-            if (rg != 0) return rg;
-            return a.ID - b.ID;
-        }
-        private static int CompareGroupTitle(SongDb.songRow a, SongDb.songRow b)
-        {
-            int rg = String.Compare(a.groupname, b.groupname, true);
-            if (rg != 0) return rg;
-            int rt = String.Compare(a.title, b.title, true);
-            if (rt != 0) return rt;
-            return a.ID - b.ID;
-        }
-        private static int CompareDatabase(SongDb.songRow a, SongDb.songRow b)
-        {
-            return a.ID - b.ID;
-        }
-
         public IEnumerable<SongDb.songRow> GetSongs(SongOrder order)
         {
             List<SongDb.songRow> rows = new List<SongDb.songRow>();
@@ -399,20 +378,7 @@ namespace zp8
             {
                 rows.Add(row);
             }
-            Comparison<SongDb.songRow> cmp = null;
-            switch (order)
-            {
-                case SongOrder.TitleGroup:
-                    cmp = CompareTitleGroup;
-                    break;
-                case SongOrder.GroupTitle:
-                    cmp = CompareTitleGroup;
-                    break;
-                case SongOrder.Database:
-                    cmp = CompareDatabase;
-                    break;
-            }
-            rows.Sort(cmp);
+            rows.Sort(Sorting.GetComparison(order));
             return rows;
         }
 

@@ -39,10 +39,12 @@ namespace zp8
             this.songView1 = new zp8.SongView();
             this.songDatabaseWrapper1 = new zp8.SongDatabaseWrapper(this.components);
             this.splitter1 = new System.Windows.Forms.Splitter();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.songTable1 = new zp8.SongTable();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.pøidatDoZpìvníkuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.serversFrame1 = new zp8.ServersFrame();
             this.tbsongbook = new System.Windows.Forms.TabPage();
@@ -80,10 +82,14 @@ namespace zp8
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
             this.savePDF = new System.Windows.Forms.SaveFileDialog();
+            this.songsByGroupFrame1 = new zp8.Frames.SongsByGroupFrame();
             this.panel1.SuspendLayout();
             this.TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tbsongbook.SuspendLayout();
             this.StatusStrip1.SuspendLayout();
@@ -148,7 +154,6 @@ namespace zp8
             // TabControl1
             // 
             this.TabControl1.Controls.Add(this.tabPage1);
-            this.TabControl1.Controls.Add(this.tabPage2);
             this.TabControl1.Controls.Add(this.tabPage3);
             this.TabControl1.Controls.Add(this.tbsongbook);
             this.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -162,7 +167,7 @@ namespace zp8
             // 
             this.tabPage1.Controls.Add(this.songView1);
             this.tabPage1.Controls.Add(this.splitter1);
-            this.tabPage1.Controls.Add(this.songTable1);
+            this.tabPage1.Controls.Add(this.tabControl2);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -176,11 +181,11 @@ namespace zp8
             this.songView1.AutoScroll = true;
             this.songView1.BackColor = System.Drawing.SystemColors.Window;
             this.songView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.songView1.Location = new System.Drawing.Point(449, 3);
+            this.songView1.Location = new System.Drawing.Point(430, 3);
             this.songView1.Name = "songView1";
-            this.songView1.Size = new System.Drawing.Size(211, 406);
+            this.songView1.Size = new System.Drawing.Size(230, 406);
             this.songView1.SongDb = this.songDatabaseWrapper1;
-            this.songView1.TabIndex = 7;
+            this.songView1.TabIndex = 11;
             // 
             // songDatabaseWrapper1
             // 
@@ -188,21 +193,43 @@ namespace zp8
             // 
             // splitter1
             // 
-            this.splitter1.Location = new System.Drawing.Point(439, 3);
+            this.splitter1.Location = new System.Drawing.Point(420, 3);
             this.splitter1.Name = "splitter1";
             this.splitter1.Size = new System.Drawing.Size(10, 406);
-            this.splitter1.TabIndex = 6;
+            this.splitter1.TabIndex = 10;
             this.splitter1.TabStop = false;
+            // 
+            // tabControl2
+            // 
+            this.tabControl2.Controls.Add(this.tabPage2);
+            this.tabControl2.Controls.Add(this.tabPage4);
+            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.tabControl2.Location = new System.Drawing.Point(3, 3);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(417, 406);
+            this.tabControl2.TabIndex = 8;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.songTable1);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(409, 380);
+            this.tabPage2.TabIndex = 0;
+            this.tabPage2.Text = "Tabulka";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // songTable1
             // 
             this.songTable1.ContextMenuStrip = this.contextMenuStrip1;
-            this.songTable1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.songTable1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.songTable1.Location = new System.Drawing.Point(3, 3);
             this.songTable1.Name = "songTable1";
-            this.songTable1.Size = new System.Drawing.Size(436, 406);
+            this.songTable1.Size = new System.Drawing.Size(403, 374);
             this.songTable1.SongDb = this.songDatabaseWrapper1;
-            this.songTable1.TabIndex = 5;
+            this.songTable1.TabIndex = 6;
             // 
             // contextMenuStrip1
             // 
@@ -218,15 +245,16 @@ namespace zp8
             this.pøidatDoZpìvníkuToolStripMenuItem.Text = "Pøidat do zpìvníku";
             this.pøidatDoZpìvníkuToolStripMenuItem.Click += new System.EventHandler(this.pøidatDoZpìvníkuToolStripMenuItem_Click);
             // 
-            // tabPage2
+            // tabPage4
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(663, 412);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Skupiny";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage4.Controls.Add(this.songsByGroupFrame1);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(409, 380);
+            this.tabPage4.TabIndex = 1;
+            this.tabPage4.Text = "Skupiny";
+            this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // tabPage3
             // 
@@ -530,6 +558,15 @@ namespace zp8
             // 
             this.savePDF.Filter = "PDF soubory (*.pdf)|*.pdf";
             // 
+            // songsByGroupFrame1
+            // 
+            this.songsByGroupFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.songsByGroupFrame1.Location = new System.Drawing.Point(3, 3);
+            this.songsByGroupFrame1.Name = "songsByGroupFrame1";
+            this.songsByGroupFrame1.Size = new System.Drawing.Size(403, 374);
+            this.songsByGroupFrame1.SongDb = this.songDatabaseWrapper1;
+            this.songsByGroupFrame1.TabIndex = 0;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -549,7 +586,10 @@ namespace zp8
             this.panel1.PerformLayout();
             this.TabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tbsongbook.ResumeLayout(false);
             this.StatusStrip1.ResumeLayout(false);
@@ -568,7 +608,6 @@ namespace zp8
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ComboBox cbdatabase;
         private System.Windows.Forms.TabControl TabControl1;
-        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem zpìvníkToolStripMenuItem;
@@ -581,9 +620,6 @@ namespace zp8
         private System.Windows.Forms.ToolStripStatusLabel dbname;
         private System.Windows.Forms.ToolStripStatusLabel dbsize;
         private System.Windows.Forms.ToolStripStatusLabel dbstatus;
-        private SongView songView1;
-        private System.Windows.Forms.Splitter splitter1;
-        private SongTable songTable1;
         private System.Windows.Forms.TabPage tabPage3;
         private ServersFrame serversFrame1;
         private SongDatabaseWrapper songDatabaseWrapper1;
@@ -616,6 +652,13 @@ namespace zp8
         private System.Windows.Forms.SaveFileDialog savePDF;
         private System.Windows.Forms.ToolStripMenuItem vytisknoutToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel tspages;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPage4;
+        private SongView songView1;
+        private System.Windows.Forms.Splitter splitter1;
+        private SongTable songTable1;
+        private zp8.Frames.SongsByGroupFrame songsByGroupFrame1;
     }
 }
 
