@@ -326,6 +326,7 @@ namespace zp8
             for (int i = 0; i < fbook.A4SheetCount * 2; i++)
             {
                 PdfPage page = doc.AddPage();
+                page.Orientation = Layout.Orientation;
                 XGraphics gfx = XGraphics.FromPdfPage(page);
                 fbook.DrawBigPage(gfx, i / 2, i % 2, PageDrawOptions);
             }

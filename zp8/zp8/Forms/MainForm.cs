@@ -277,9 +277,9 @@ namespace zp8
         {
             SongBook sb = SelectedSongBook;
             if (sb == null) return;
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            if (saveZP.ShowDialog() == DialogResult.OK)
             {
-                sb.FileName = saveFileDialog1.FileName;
+                sb.FileName = saveZP.FileName;
                 sb.Save();
                 LoadSbList();
             }
@@ -349,18 +349,6 @@ namespace zp8
             songBookFrame1.ChangeBookStyle();
         }
 
-        private void nastaveníTiskárnyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //PrinterSettings set = new PrinterSettings();
-            ////Printers
-            ////set.PrinterName
-
-            //pageSetupDialog1.PrinterSettings = new System.Drawing.Printing.PrinterSettings();
-            //pageSetupDialog1.PageSettings = new System.Drawing.Printing.PageSettings();
-            ////pageSetupDialog1.PrinterSettings.PrinterName
-            //pageSetupDialog1.ShowDialog();
-        }
-
         private void tisknoutAktuálníPíseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SongDb.songRow song = songView1.Song;
@@ -371,5 +359,23 @@ namespace zp8
             }
         }
 
+        private void exportPísnìDoPDFToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SongDb.songRow song = songView1.Song;
+            if (song != null && savePDF.ShowDialog() == DialogResult.OK)
+            {
+                SongPDFPrinter.Print(song, savePDF.FileName);
+            }
+        }
+
+        private void vytisknoutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SongBook sb = SelectedSongBook;
+            if (sb != null && printDialog1.ShowDialog() == DialogResult.OK)
+            {
+                SongBookPrinter sp = new SongBookPrinter(sb, printDialog1.PrinterSettings);
+                sp.Run();
+            }
+        }
     }
 }

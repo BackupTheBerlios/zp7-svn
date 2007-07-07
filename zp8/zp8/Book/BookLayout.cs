@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.ComponentModel;
+using PdfSharp;
 
 namespace zp8
 {
@@ -22,6 +23,11 @@ namespace zp8
         float? m_smallWidth;
         float? m_smallHeight;
 
+        float? m_bigPageWidth;
+        float? m_bigPageHeight;
+
+        PageOrientation m_orientation;
+
         DistribType m_dtype = DistribType.Book;
         DistribAlg m_distribAlg = DistribAlg.Complex;
 
@@ -37,6 +43,18 @@ namespace zp8
         [Description("Simple - jednduchý, Complex - složitý, snaží se, aby píseò nebyla pøes více stránek")]
         public DistribAlg DistribAlg { get { return m_distribAlg; } set { m_distribAlg = value; } }
 
+        [DisplayName("Orientace stránky")]
+        [Description("Portrait - na výšku, Landscape - na šíøku")]
+        public PageOrientation Orientation
+        {
+            get { return m_orientation; }
+            set
+            {
+                m_orientation = value;
+                RecountPageSizes();
+            }
+        }
+
         [System.Xml.Serialization.XmlIgnore]
         [Browsable(false)]
         public IPrintTarget Target
@@ -45,16 +63,36 @@ namespace zp8
             set
             {
                 m_printTarget = value;
-                if (m_printTarget != null)
+                RecountPageSizes();
+            }
+        }
+
+        private void RecountPageSizes()
+        {
+            if (m_printTarget != null)
+            {
+                switch (m_orientation)
                 {
-                    m_smallWidth = m_printTarget.Width / m_hcnt - m_dleft - m_dright;
-                    m_smallHeight = m_printTarget.Height / m_vcnt - m_dtop - m_dbottom;
+                    case PageOrientation.Portrait:
+                        m_bigPageWidth = m_printTarget.Width;
+                        m_bigPageHeight = m_printTarget.Height;
+                        break;
+                    case PageOrientation.Landscape:
+                        m_bigPageHeight = m_printTarget.Width;
+                        m_bigPageWidth = m_printTarget.Height;
+                        break;
                 }
-                else
-                {
-                    m_smallWidth = null;
-                    m_smallHeight = null;
-                }
+
+                m_smallWidth = m_bigPageWidth.Value / m_hcnt - m_dleft - m_dright;
+                m_smallHeight = m_bigPageHeight.Value / m_vcnt - m_dtop - m_dbottom;
+            }
+            else
+            {
+                m_bigPageWidth = null;
+                m_bigPageHeight = null;
+
+                m_smallWidth = null;
+                m_smallHeight = null;
             }
         }
 
@@ -63,9 +101,9 @@ namespace zp8
         [Browsable(false)]
         public float SmallPageHeight { get { return m_smallHeight.Value; } }
         [Browsable(false)]
-        public float BigPageWidth { get { return m_printTarget.Width; } }
+        public float BigPageWidth { get { return m_bigPageWidth.Value; } }
         [Browsable(false)]
-        public float BigPageHeight { get { return m_printTarget.Height; } }
+        public float BigPageHeight { get { return m_bigPageHeight.Value; } }
 
         [DisplayName("Odsazení zleva")]
         [Description("Odsazení malé stránky v milimetrech")]
@@ -85,9 +123,10 @@ namespace zp8
 
         public PointF GetPagePos(int x, int y)
         {
-            float w0 = m_printTarget.Width / m_hcnt;
-            float h0 = m_printTarget.Height / m_vcnt;
+            float w0 = m_bigPageWidth.Value / m_hcnt;
+            float h0 = m_bigPageHeight.Value / m_vcnt;
             return new PointF(x * w0 + m_dleft, y * h0 + m_dtop);
         }
+
     }
 }

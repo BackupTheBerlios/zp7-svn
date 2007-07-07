@@ -63,20 +63,22 @@ namespace zp8
             this.zmìnitStylToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.písnìToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importPísníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tisknoutAktuálníPíseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nastavaníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.obecnéToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stylyZpìvníkuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.saveZP = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.nastaveníTiskárnyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
+            this.printDialog1 = new System.Windows.Forms.PrintDialog();
+            this.exportPísnìDoPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.savePDF = new System.Windows.Forms.SaveFileDialog();
             this.songView1 = new zp8.SongView();
             this.songDatabaseWrapper1 = new zp8.SongDatabaseWrapper(this.components);
             this.songTable1 = new zp8.SongTable();
             this.serversFrame1 = new zp8.ServersFrame();
             this.songBookFrame1 = new zp8.SongBookFrame();
-            this.printDialog1 = new System.Windows.Forms.PrintDialog();
-            this.tisknoutAktuálníPíseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vytisknoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -342,7 +344,8 @@ namespace zp8
             this.uložitNaToolStripMenuItem,
             this.vlastnostiToolStripMenuItem,
             this.konecToolStripMenuItem,
-            this.zmìnitStylToolStripMenuItem});
+            this.zmìnitStylToolStripMenuItem,
+            this.vytisknoutToolStripMenuItem});
             this.zpìvníkToolStripMenuItem.Name = "zpìvníkToolStripMenuItem";
             this.zpìvníkToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.zpìvníkToolStripMenuItem.Text = "Zpìvník";
@@ -397,7 +400,8 @@ namespace zp8
             // 
             this.písnìToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.importPísníToolStripMenuItem,
-            this.tisknoutAktuálníPíseToolStripMenuItem});
+            this.tisknoutAktuálníPíseToolStripMenuItem,
+            this.exportPísnìDoPDFToolStripMenuItem});
             this.písnìToolStripMenuItem.Name = "písnìToolStripMenuItem";
             this.písnìToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.písnìToolStripMenuItem.Text = "Písnì";
@@ -405,16 +409,23 @@ namespace zp8
             // importPísníToolStripMenuItem
             // 
             this.importPísníToolStripMenuItem.Name = "importPísníToolStripMenuItem";
-            this.importPísníToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.importPísníToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.importPísníToolStripMenuItem.Text = "Import písní";
             this.importPísníToolStripMenuItem.Click += new System.EventHandler(this.importPísníToolStripMenuItem_Click);
+            // 
+            // tisknoutAktuálníPíseToolStripMenuItem
+            // 
+            this.tisknoutAktuálníPíseToolStripMenuItem.Name = "tisknoutAktuálníPíseToolStripMenuItem";
+            this.tisknoutAktuálníPíseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.tisknoutAktuálníPíseToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.tisknoutAktuálníPíseToolStripMenuItem.Text = "Tisk písnì";
+            this.tisknoutAktuálníPíseToolStripMenuItem.Click += new System.EventHandler(this.tisknoutAktuálníPíseToolStripMenuItem_Click);
             // 
             // nastavaníToolStripMenuItem
             // 
             this.nastavaníToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.obecnéToolStripMenuItem,
-            this.stylyZpìvníkuToolStripMenuItem,
-            this.nastaveníTiskárnyToolStripMenuItem});
+            this.stylyZpìvníkuToolStripMenuItem});
             this.nastavaníToolStripMenuItem.Name = "nastavaníToolStripMenuItem";
             this.nastavaníToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
             this.nastavaníToolStripMenuItem.Text = "Nastavení";
@@ -422,32 +433,40 @@ namespace zp8
             // obecnéToolStripMenuItem
             // 
             this.obecnéToolStripMenuItem.Name = "obecnéToolStripMenuItem";
-            this.obecnéToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.obecnéToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.obecnéToolStripMenuItem.Text = "Obecné";
             this.obecnéToolStripMenuItem.Click += new System.EventHandler(this.obecnéToolStripMenuItem_Click);
             // 
             // stylyZpìvníkuToolStripMenuItem
             // 
             this.stylyZpìvníkuToolStripMenuItem.Name = "stylyZpìvníkuToolStripMenuItem";
-            this.stylyZpìvníkuToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.stylyZpìvníkuToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.stylyZpìvníkuToolStripMenuItem.Text = "Styly zpìvníku";
             this.stylyZpìvníkuToolStripMenuItem.Click += new System.EventHandler(this.stylyZpìvníkuToolStripMenuItem_Click);
             // 
-            // saveFileDialog1
+            // saveZP
             // 
-            this.saveFileDialog1.Filter = "Zpìvníky (*.zp)|*.zp";
+            this.saveZP.Filter = "Zpìvníky (*.zp)|*.zp";
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Filter = "Zpìvníky (*.zp)|*.zp";
             // 
-            // nastaveníTiskárnyToolStripMenuItem
+            // printDialog1
             // 
-            this.nastaveníTiskárnyToolStripMenuItem.Name = "nastaveníTiskárnyToolStripMenuItem";
-            this.nastaveníTiskárnyToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
-            this.nastaveníTiskárnyToolStripMenuItem.Text = "Nastavení tiskárny";
-            this.nastaveníTiskárnyToolStripMenuItem.Click += new System.EventHandler(this.nastaveníTiskárnyToolStripMenuItem_Click);
+            this.printDialog1.UseEXDialog = true;
+            // 
+            // exportPísnìDoPDFToolStripMenuItem
+            // 
+            this.exportPísnìDoPDFToolStripMenuItem.Name = "exportPísnìDoPDFToolStripMenuItem";
+            this.exportPísnìDoPDFToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.exportPísnìDoPDFToolStripMenuItem.Text = "Export písnì do PDF";
+            this.exportPísnìDoPDFToolStripMenuItem.Click += new System.EventHandler(this.exportPísnìDoPDFToolStripMenuItem_Click);
+            // 
+            // savePDF
+            // 
+            this.savePDF.Filter = "PDF soubory (*.pdf)|*.pdf";
             // 
             // songView1
             // 
@@ -492,17 +511,12 @@ namespace zp8
             this.songBookFrame1.SongBook = null;
             this.songBookFrame1.TabIndex = 0;
             // 
-            // printDialog1
+            // vytisknoutToolStripMenuItem
             // 
-            this.printDialog1.UseEXDialog = true;
-            // 
-            // tisknoutAktuálníPíseToolStripMenuItem
-            // 
-            this.tisknoutAktuálníPíseToolStripMenuItem.Name = "tisknoutAktuálníPíseToolStripMenuItem";
-            this.tisknoutAktuálníPíseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.tisknoutAktuálníPíseToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.tisknoutAktuálníPíseToolStripMenuItem.Text = "Tisk písnì";
-            this.tisknoutAktuálníPíseToolStripMenuItem.Click += new System.EventHandler(this.tisknoutAktuálníPíseToolStripMenuItem_Click);
+            this.vytisknoutToolStripMenuItem.Name = "vytisknoutToolStripMenuItem";
+            this.vytisknoutToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.vytisknoutToolStripMenuItem.Text = "Vytisknout";
+            this.vytisknoutToolStripMenuItem.Click += new System.EventHandler(this.vytisknoutToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -567,7 +581,7 @@ namespace zp8
         private System.Windows.Forms.ToolStripMenuItem pøidatDoZpìvníkuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uložitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uložitNaToolStripMenuItem;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveZP;
         private System.Windows.Forms.ToolStripMenuItem nastavaníToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem obecnéToolStripMenuItem;
         private System.Windows.Forms.TabPage tbsongbook;
@@ -582,10 +596,12 @@ namespace zp8
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem stylyZpìvníkuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem zmìnitStylToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem nastaveníTiskárnyToolStripMenuItem;
         private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
         private System.Windows.Forms.PrintDialog printDialog1;
         private System.Windows.Forms.ToolStripMenuItem tisknoutAktuálníPíseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportPísnìDoPDFToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog savePDF;
+        private System.Windows.Forms.ToolStripMenuItem vytisknoutToolStripMenuItem;
     }
 }
 

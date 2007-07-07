@@ -135,10 +135,8 @@ namespace zp8
         public LogPage[] OriginalPages { get { return m_originalPages; } }
 
         public IPreviewSource GetPreview() { return new NormalPreviewSource(this, m_opts); }
-        //public void DrawSmallPage(XGraphics gfx, int index)
-        //{
-        //}
     }
+
     public class NormalPreviewSource : IPreviewSource
     {
         FormattedBook m_book;

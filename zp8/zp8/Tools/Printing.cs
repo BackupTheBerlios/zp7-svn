@@ -5,14 +5,14 @@ using System.Text;
 using System.Drawing;
 using System.Drawing.Printing;
 using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using PdfSharp;
 
 namespace zp8
 {
     public class SongPrinter
     {
         SongDb.songRow m_song;
-        PaneGrp m_panegrp;
-        LogPages m_pages;
         IEnumerator<LogPage> m_actpage;
         PrinterSettings m_settings;
 
@@ -32,18 +32,10 @@ namespace zp8
 
         void doc_PrintPage(object sender, PrintPageEventArgs e)
         {
-            if (m_panegrp == null)
+            if (m_actpage == null)
             {
-                SongPrintFormatOptions opt = CfgTools.CreateSongPrintFormatOptions(e.PageBounds.Width);
-                SongFormatter fmt = new SongFormatter(m_song.songtext, opt.SongOptions);
-                fmt.Run();
-                m_panegrp = fmt.Result;
-                m_panegrp.Insert(new SongHeaderPane(opt, m_song.title, m_song.author));
-
-                m_pages = new LogPages(e.PageBounds.Height);
-                m_pages.AddPaneGrp(m_panegrp);
-
-                m_actpage = m_pages.Pages.GetEnumerator();
+                LogPages pages = FormatSongForPrinting(m_song, e.PageBounds.Width, e.PageBounds.Height);
+                m_actpage = pages.Pages.GetEnumerator();
                 m_actpage.MoveNext();
             }
             m_actpage.Current.DrawPage(
@@ -51,6 +43,107 @@ namespace zp8
                 new PointF(0, 0),
                 null);
             e.HasMorePages = m_actpage.MoveNext();
+        }
+
+        public static LogPages FormatSongForPrinting(SongDb.songRow song, float pgwi, float pghi)
+        {
+            SongPrintFormatOptions opt = CfgTools.CreateSongPrintFormatOptions(pgwi);
+            SongFormatter fmt = new SongFormatter(song.songtext, opt.SongOptions);
+            fmt.Run();
+            PaneGrp grp = fmt.Result;
+            grp.Insert(new SongHeaderPane(opt, song.title, song.author));
+
+            LogPages pages = new LogPages(pghi);
+            pages.AddPaneGrp(grp);
+            return pages;
+        }
+    }
+
+    public static class SongPDFPrinter
+    {
+        public static void Print(SongDb.songRow song, string filename)
+        {
+            PdfDocument doc = new PdfDocument();
+            PdfPage page = doc.AddPage();
+            LogPages pages = SongPrinter.FormatSongForPrinting(song, PageSizeConverter.ToSize(page.Size).Width, PageSizeConverter.ToSize(page.Size).Height);
+            foreach (LogPage lp in pages.Pages)
+            {
+                lp.DrawPage(XGraphics.FromPdfPage(page), new PointF(0, 0), null);
+                if (pages.LastPage != lp) page = doc.AddPage();
+            }
+            doc.Save(filename);
+        }
+    }
+
+    public class PrinterPrintTarget : IPrintTarget
+    {
+        Rectangle m_bounds;
+        public PrinterPrintTarget(Rectangle bounds)
+        {
+            m_bounds = bounds;
+        }
+
+        #region IPrintTarget Members
+
+        public float Width
+        {
+            get { return m_bounds.Width; }
+        }
+
+        public float Height
+        {
+            get { return m_bounds.Height; }
+        }
+
+        #endregion
+    }
+
+    public class SongBookPrinter
+    {
+        SongBook m_book;
+        PrinterSettings m_settings;
+        IPrintTarget m_lastTarget;
+        IPreviewSource m_preview;
+        int m_pageIndex;
+
+        public SongBookPrinter(SongBook book, PrinterSettings settings)
+        {
+            m_book = book;
+            m_settings = settings;
+            m_lastTarget = m_book.PrintTarget;
+            if (book.Layout.Orientation == PageOrientation.Landscape)
+            {
+                m_settings.DefaultPageSettings.Landscape = true;
+            }
+        }
+
+        public void Run()
+        {
+            PrintDocument doc = new PrintDocument();
+            doc.PrinterSettings = m_settings;
+            doc.PrintPage += doc_PrintPage;
+            doc.Print();
+        }
+
+        void doc_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            if (m_preview == null)
+            {
+                m_book.PrintTarget = new PrinterPrintTarget(e.PageBounds);
+                m_preview = m_book.Book.GetPreview();
+            }
+
+            if (m_pageIndex < m_preview.PageCount)
+            {
+                m_preview.DrawPage(XGraphics.FromGraphics(e.Graphics, new XSize(e.PageBounds.Width, e.PageBounds.Height)), m_pageIndex);
+            }
+            m_pageIndex++;
+
+            e.HasMorePages = m_pageIndex < m_preview.PageCount;
+            if (m_pageIndex >= m_preview.PageCount)
+            {
+                m_book.PrintTarget = m_lastTarget;
+            }
         }
     }
 }
