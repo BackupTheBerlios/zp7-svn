@@ -69,8 +69,10 @@ namespace zp8
         {
             RegisterSongServer(new XmlSongServerType());
             RegisterSongServer(new FtpSongServerType());
+            RegisterSongServer(new FileSongServerType());
             RegisterFactory(new XmlSongServerFactoryType());
             RegisterFactory(new FtpSongServerFactoryType());
+            RegisterFactory(new FileSongServerFactoryType());
         }
     }
 
@@ -268,7 +270,59 @@ namespace zp8
         }
     }
 
-    public class FtpSongServer : BaseSongServer
+    public abstract class ReadWriteServer : BaseSongServer
+    {
+        public ReadWriteServer(string type, string url, string config)
+            : base(type, url, config)
+        {
+        }
+
+        protected abstract Stream Read(ref object request);
+        protected virtual void CloseRead(object request) { }
+        protected abstract Stream Write(ref object request);
+        protected virtual void CloseWrite(object request) { }
+
+        public override void DownloadNew(AbstractSongDatabase db, int serverid)
+        {
+            //db.DeleteSongsFromServer(serverid);
+            object request = null;
+            using (Stream fr = Read(ref request))
+            {
+                InetSongDb xmldb = new InetSongDb();
+                xmldb.ReadXml(fr);
+                db.MergeInternetXml(serverid, xmldb);
+            }
+            CloseRead(request);
+        }
+        public override void UploadChanges(AbstractSongDatabase db, int serverid)
+        {
+            InetSongDb xmldb = new InetSongDb();
+            object req1 = null;
+            using (Stream fr = Read(ref req1)) xmldb.ReadXml(fr);
+            CloseRead(req1);
+
+            db.UpdateInternetXml(serverid, xmldb);
+
+            object req2 = null;
+            using (Stream fw = Write(ref req2))
+            {
+                xmldb.WriteXml(fw);
+            }
+            CloseWrite(req2);
+        }
+        public override void UploadWhole(AbstractSongDatabase db, int serverid)
+        {
+            object request = null;
+            using (Stream fw = Write(ref request))
+            {
+                db.CreateInternetXml(serverid, fw);
+            }
+            CloseWrite(request);
+        }
+
+    }
+
+    public class FtpSongServer : ReadWriteServer
     {
         FtpAccess m_access;
 
@@ -278,39 +332,22 @@ namespace zp8
             m_access = FtpAccess.Load(config);
         }
 
-        public override void DownloadNew(AbstractSongDatabase db, int serverid)
+        protected override Stream Read(ref object request)
         {
-            db.DeleteSongsFromServer(serverid);
             WebResponse resp;
-            using (Stream fr = m_access.DownloadFile(out resp))
-            {
-                InetSongDb xmldb = new InetSongDb();
-                xmldb.ReadXml(fr);
-                db.MergeInternetXml(serverid, xmldb);
-            }
-            resp.Close();
+            Stream fr = m_access.DownloadFile(out resp);
+            request = resp;
+            return fr;
         }
-        public override void UploadChanges(AbstractSongDatabase db, int serverid)
+        protected override void CloseRead(object request)
         {
-            InetSongDb xmldb = new InetSongDb();
-            WebResponse resp;
-            using (Stream fr = m_access.DownloadFile(out resp)) xmldb.ReadXml(fr);
-            resp.Close();
-
-            db.UpdateInternetXml(serverid, xmldb);
-
-            using (Stream fw = m_access.UploadFile())
-            {
-                xmldb.WriteXml(fw);
-            }
+            ((WebResponse)request).Close();
         }
-        public override void UploadWhole(AbstractSongDatabase db, int serverid)
+        protected override Stream Write(ref object request)
         {
-            using (Stream fw = m_access.UploadFile())
-            {
-                db.CreateInternetXml(serverid, fw);
-            }
+            return m_access.UploadFile();
         }
+
     }
 
     public class FtpSongServerFactory : ISongServerFactory
@@ -356,4 +393,83 @@ namespace zp8
         #endregion
     }
 
+    public class FileSongServerType : ISongServerType
+    {
+        #region ISongServerType Members
+
+        public ISongServer Load(string url, string config)
+        {
+            return new FileSongServer(url);
+        }
+
+        public string Name
+        {
+            get { return "file"; }
+        }
+
+        public bool Readonly
+        {
+            get { return false; }
+        }
+
+        #endregion
+    }
+
+    public class FileSongServer : ReadWriteServer
+    {
+        public FileSongServer(string fileName)
+            : base("file", fileName, null)
+        {
+        }
+
+        protected override Stream Read(ref object request)
+        {
+            return new FileStream(URL, FileMode.Open);
+        }
+
+        protected override Stream Write(ref object request)
+        {
+            return new FileStream(URL, FileMode.Create);
+        }
+    }
+
+    public class FileSongServerFactory : ISongServerFactory
+    {
+        string m_fileName;
+
+        public string FileName { get { return m_fileName; } set { m_fileName = value; } }
+
+        #region ISongServerFactory Members
+
+        public bool Work(List<ISongServer> servers, out string message)
+        {
+            servers.Add(new FileSongServer(m_fileName));
+            message = "Server pøidán";
+            return true;
+        }
+
+        #endregion
+    }
+
+    public class FileSongServerFactoryType : ISongServerFactoryType
+    {
+        #region ISongServerFactoryType Members
+
+        public ISongServerFactory CreateFactory()
+        {
+            return new FileSongServerFactory();
+        }
+
+        public string Name
+        {
+            get { return "file"; }
+        }
+
+        public string Description
+        {
+            get { return "Soubor uložený na disku, hlavnì pro testovací úèely, chová se stejnì jako FTP song-server"; }
+        }
+
+        #endregion
+    }
 }

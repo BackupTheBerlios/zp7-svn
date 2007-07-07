@@ -54,18 +54,42 @@ namespace zp8
             }
         }
 
+        private delegate void ServerActionDelegate(AbstractSongDatabase db, ISongServer srv, int serverid);
+
+        private void DoServerAction(ServerActionDelegate callback)
+        {
+            //try
+            //{
+                SongDb.serverRow row = m_dbwrap.SelectedServer;
+                ISongServer srv = SongServer.LoadSongServer(row.servertype, row.url, row.IsconfigNull() ? null : row.config);
+                callback(m_dbwrap.Database, srv, row.ID);
+                MessageBox.Show("Akce probìhla úspìšnì");
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show(e.ToString(), "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
+        }
+
         private void button3_Click(object sender, EventArgs e)
         {
-            SongDb.serverRow row = m_dbwrap.SelectedServer;
-            ISongServer srv = SongServer.LoadSongServer(row.servertype, row.url, row.config);
-            srv.UploadChanges(m_dbwrap.Database, row.ID);
+            DoServerAction(delegate(AbstractSongDatabase db, ISongServer srv, int serverid)
+                { srv.UploadChanges(db, serverid); }
+            );
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            SongDb.serverRow row = m_dbwrap.SelectedServer;
-            ISongServer srv = SongServer.LoadSongServer(row.servertype, row.url, row.IsconfigNull() ? null : row.config);
-            srv.DownloadNew(m_dbwrap.Database, row.ID);
+            DoServerAction(delegate(AbstractSongDatabase db, ISongServer srv, int serverid)
+                { srv.DownloadNew(db, serverid); }
+            );
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            DoServerAction(delegate(AbstractSongDatabase db, ISongServer srv, int serverid)
+                { srv.UploadWhole(db, serverid); }
+            );
         }
     }
 }
