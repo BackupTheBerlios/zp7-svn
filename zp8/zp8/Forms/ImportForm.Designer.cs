@@ -31,28 +31,28 @@ namespace zp8
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImportForm));
             this.wizard1 = new Gui.Wizard.Wizard();
+            this.wizardPage1 = new Gui.Wizard.WizardPage();
+            this.lbserver = new System.Windows.Forms.ComboBox();
             this.serverBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.songDb = new zp8.SongDb();
-            this.wizardPage1 = new Gui.Wizard.WizardPage();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cbserver = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.description = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.imptype = new System.Windows.Forms.ListBox();
             this.header1 = new Gui.Wizard.Header();
             this.wizardPage3 = new Gui.Wizard.WizardPage();
+            this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.filelist = new System.Windows.Forms.ListBox();
             this.header3 = new Gui.Wizard.Header();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.button2 = new System.Windows.Forms.Button();
-            this.cbserver = new System.Windows.Forms.CheckBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.lbserver = new System.Windows.Forms.ComboBox();
             this.wizard1.SuspendLayout();
+            this.wizardPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.serverBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.songDb)).BeginInit();
-            this.wizardPage1.SuspendLayout();
             this.wizardPage3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,16 +70,6 @@ namespace zp8
             this.wizard1.Size = new System.Drawing.Size(483, 355);
             this.wizard1.TabIndex = 0;
             // 
-            // serverBindingSource
-            // 
-            this.serverBindingSource.DataMember = "server";
-            this.serverBindingSource.DataSource = this.songDb;
-            // 
-            // songDb
-            // 
-            this.songDb.DataSetName = "SongDb";
-            this.songDb.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
             // wizardPage1
             // 
             this.wizardPage1.Controls.Add(this.lbserver);
@@ -96,6 +86,49 @@ namespace zp8
             this.wizardPage1.Name = "wizardPage1";
             this.wizardPage1.Size = new System.Drawing.Size(483, 307);
             this.wizardPage1.TabIndex = 1;
+            // 
+            // lbserver
+            // 
+            this.lbserver.DataSource = this.serverBindingSource;
+            this.lbserver.DisplayMember = "url";
+            this.lbserver.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.lbserver.Enabled = false;
+            this.lbserver.FormattingEnabled = true;
+            this.lbserver.Location = new System.Drawing.Point(275, 261);
+            this.lbserver.Name = "lbserver";
+            this.lbserver.Size = new System.Drawing.Size(121, 21);
+            this.lbserver.TabIndex = 7;
+            this.lbserver.ValueMember = "ID";
+            // 
+            // serverBindingSource
+            // 
+            this.serverBindingSource.DataMember = "server";
+            this.serverBindingSource.DataSource = this.songDb;
+            // 
+            // songDb
+            // 
+            this.songDb.DataSetName = "SongDb";
+            this.songDb.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(272, 245);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(39, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Server";
+            // 
+            // cbserver
+            // 
+            this.cbserver.AutoSize = true;
+            this.cbserver.Location = new System.Drawing.Point(59, 245);
+            this.cbserver.Name = "cbserver";
+            this.cbserver.Size = new System.Drawing.Size(88, 17);
+            this.cbserver.TabIndex = 5;
+            this.cbserver.Text = "Zadat server";
+            this.cbserver.UseVisualStyleBackColor = true;
+            this.cbserver.CheckedChanged += new System.EventHandler(this.cbserver_CheckedChanged);
             // 
             // label2
             // 
@@ -160,6 +193,16 @@ namespace zp8
             this.wizardPage3.Size = new System.Drawing.Size(483, 307);
             this.wizardPage3.TabIndex = 3;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(120, 272);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "Odstranit";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(39, 272);
@@ -206,47 +249,6 @@ namespace zp8
             this.openFileDialog1.Multiselect = true;
             this.openFileDialog1.ShowReadOnly = true;
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(120, 272);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "Odstranit";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // cbserver
-            // 
-            this.cbserver.AutoSize = true;
-            this.cbserver.Location = new System.Drawing.Point(59, 245);
-            this.cbserver.Name = "cbserver";
-            this.cbserver.Size = new System.Drawing.Size(88, 17);
-            this.cbserver.TabIndex = 5;
-            this.cbserver.Text = "Zadat server";
-            this.cbserver.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(272, 245);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(39, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Server";
-            // 
-            // lbserver
-            // 
-            this.lbserver.DataSource = this.serverBindingSource;
-            this.lbserver.DisplayMember = "url";
-            this.lbserver.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.lbserver.FormattingEnabled = true;
-            this.lbserver.Location = new System.Drawing.Point(275, 261);
-            this.lbserver.Name = "lbserver";
-            this.lbserver.Size = new System.Drawing.Size(121, 21);
-            this.lbserver.TabIndex = 7;
-            this.lbserver.ValueMember = "ID";
-            // 
             // ImportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -256,10 +258,10 @@ namespace zp8
             this.Name = "ImportForm";
             this.Text = "ImportForm";
             this.wizard1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.serverBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.songDb)).EndInit();
             this.wizardPage1.ResumeLayout(false);
             this.wizardPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.serverBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.songDb)).EndInit();
             this.wizardPage3.ResumeLayout(false);
             this.wizardPage3.PerformLayout();
             this.ResumeLayout(false);

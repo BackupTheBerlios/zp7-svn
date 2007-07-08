@@ -33,15 +33,24 @@ namespace zp8
             this.songDb = new zp8.SongDb();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.viditelnéSloupceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iDDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.authorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.songtextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.langDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.server_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.netID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.transp = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.searchtext = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.published = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.localmodified = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.songBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.songDb)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // songBindingSource
@@ -70,7 +79,14 @@ namespace zp8
             this.groupnameDataGridViewTextBoxColumn,
             this.authorDataGridViewTextBoxColumn,
             this.songtextDataGridViewTextBoxColumn,
-            this.langDataGridViewTextBoxColumn});
+            this.langDataGridViewTextBoxColumn,
+            this.server_id,
+            this.netID,
+            this.transp,
+            this.searchtext,
+            this.published,
+            this.localmodified});
+            this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
             this.dataGridView1.DataSource = this.songBindingSource;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
@@ -78,8 +94,21 @@ namespace zp8
             this.dataGridView1.Size = new System.Drawing.Size(603, 507);
             this.dataGridView1.TabIndex = 5;
             this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
-            this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
             this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viditelnéSloupceToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(165, 26);
+            // 
+            // viditelnéSloupceToolStripMenuItem
+            // 
+            this.viditelnéSloupceToolStripMenuItem.Name = "viditelnéSloupceToolStripMenuItem";
+            this.viditelnéSloupceToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.viditelnéSloupceToolStripMenuItem.Text = "Viditelné sloupce";
+            this.viditelnéSloupceToolStripMenuItem.Click += new System.EventHandler(this.viditelnéSloupceToolStripMenuItem_Click);
             // 
             // iDDataGridViewTextBoxColumn1
             // 
@@ -118,6 +147,49 @@ namespace zp8
             this.langDataGridViewTextBoxColumn.HeaderText = "Jazyk";
             this.langDataGridViewTextBoxColumn.Name = "langDataGridViewTextBoxColumn";
             // 
+            // server_id
+            // 
+            this.server_id.DataPropertyName = "server_id";
+            this.server_id.HeaderText = "Server ID";
+            this.server_id.Name = "server_id";
+            this.server_id.Visible = false;
+            // 
+            // netID
+            // 
+            this.netID.DataPropertyName = "netID";
+            this.netID.HeaderText = "netID";
+            this.netID.Name = "netID";
+            this.netID.Visible = false;
+            // 
+            // transp
+            // 
+            this.transp.DataPropertyName = "transp";
+            this.transp.HeaderText = "Transpozice";
+            this.transp.Name = "transp";
+            this.transp.Visible = false;
+            // 
+            // searchtext
+            // 
+            this.searchtext.DataPropertyName = "searchtext";
+            this.searchtext.HeaderText = "Vyhledávací text";
+            this.searchtext.Name = "searchtext";
+            this.searchtext.ReadOnly = true;
+            this.searchtext.Visible = false;
+            // 
+            // published
+            // 
+            this.published.DataPropertyName = "published";
+            this.published.HeaderText = "Publikováno";
+            this.published.Name = "published";
+            this.published.Visible = false;
+            // 
+            // localmodified
+            // 
+            this.localmodified.DataPropertyName = "localmodified";
+            this.localmodified.HeaderText = "Lokální zmìny";
+            this.localmodified.Name = "localmodified";
+            this.localmodified.Visible = false;
+            // 
             // SongTable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -125,10 +197,10 @@ namespace zp8
             this.Controls.Add(this.dataGridView1);
             this.Name = "SongTable";
             this.Size = new System.Drawing.Size(603, 507);
-            this.ContextMenuStripChanged += new System.EventHandler(this.SongTable_ContextMenuStripChanged);
             ((System.ComponentModel.ISupportInitialize)(this.songBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.songDb)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -139,11 +211,19 @@ namespace zp8
         private System.Windows.Forms.BindingSource songBindingSource;
         private SongDb songDb;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem viditelnéSloupceToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn titleDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn groupnameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn authorDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn songtextDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn langDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn server_id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn netID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn transp;
+        private System.Windows.Forms.DataGridViewTextBoxColumn searchtext;
+        private System.Windows.Forms.DataGridViewTextBoxColumn published;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn localmodified;
     }
 }

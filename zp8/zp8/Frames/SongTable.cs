@@ -13,8 +13,8 @@ namespace zp8
         //SongDatabase m_dataset;
         SongDatabaseWrapper m_dbwrap;
         ContextMenuStrip m_strip;
-        int? m_selectedRow;
-        int? m_returningRow;
+        //int? m_selectedRow;
+        //int? m_returningRow;
 
         public SongTable()
         {
@@ -43,6 +43,8 @@ namespace zp8
                 //m_dbwrap.ChangedSongDatabase += m_dbwrap_ChangedSongDatabase;
             }
         }
+
+        /*
         public IEnumerable<SongDb.songRow> GetSelectedSongs()
         {
             foreach (DataGridViewRow row in dataGridView1.SelectedRows)
@@ -55,7 +57,6 @@ namespace zp8
             }
             
         }
-
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right && dataGridView1.SelectedRows.Count == 0)
@@ -81,6 +82,7 @@ namespace zp8
             m_strip = ContextMenuStrip;
             if (m_strip != null) m_strip.Closed += m_strip_Closed;
         }
+        */
 
         private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
@@ -90,6 +92,11 @@ namespace zp8
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             m_dbwrap.Database.DataSet.song[e.RowIndex].localmodified = true;
+        }
+
+        private void viditelnéSloupceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            VisibleColumnsForm.Run(dataGridView1);
         }
 
         /*

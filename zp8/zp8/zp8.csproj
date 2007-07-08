@@ -73,6 +73,12 @@
     <Compile Include="Forms\EditSongForm.Designer.cs">
       <DependentUpon>EditSongForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\VisibleColumnsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\VisibleColumnsForm.Designer.cs">
+      <DependentUpon>VisibleColumnsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Frames\PreviewFrame.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -183,6 +189,10 @@
     <EmbeddedResource Include="Forms\OptionsForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>OptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\VisibleColumnsForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>VisibleColumnsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frames\PreviewFrame.resx">
       <SubType>Designer</SubType>

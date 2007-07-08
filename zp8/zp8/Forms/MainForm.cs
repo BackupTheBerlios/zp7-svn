@@ -29,6 +29,8 @@ namespace zp8
 
             InitializeComponent();
             rbdatabase.Checked = true;
+
+            WindowState = global::zp8.Properties.Settings.Default.MainWindowState;
         }
 
         public static IntPtr HDC
@@ -39,6 +41,7 @@ namespace zp8
         {
             get { return m_mainGraphics; }
         }
+        public static MainForm Form { get { return m_form; } }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -150,6 +153,8 @@ namespace zp8
                     TabControl1.TabPages.Add(tbsongbook);
                     if (m_activeSbPage.HasValue) TabControl1.SelectedIndex = m_activeSbPage.Value;
                 }
+                cbdatabase.BackColor = SystemColors.Window;
+                cbsongbook.BackColor = Color.Yellow;
             }
             else
             {
@@ -159,6 +164,8 @@ namespace zp8
                     TabControl1.TabPages.Remove(tbsongbook);
                     if (m_activeDbPage.HasValue) TabControl1.SelectedIndex = m_activeDbPage.Value;
                 }
+                cbsongbook.BackColor = SystemColors.Window;
+                cbdatabase.BackColor = Color.Yellow;
             }
             songDatabaseWrapper1.Database = SelectedDbOrSb;
             UpdateDbState();
@@ -255,6 +262,7 @@ namespace zp8
             LoadCurrentDbOrSb();
         }
 
+        /*
         private void pøidatDoZpìvníkuToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SongBook sb = SelectedSongBook;
@@ -273,6 +281,7 @@ namespace zp8
                 }
             }
         }
+        */
 
         private void uložitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -303,7 +312,9 @@ namespace zp8
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            global::zp8.Properties.Settings.Default.MainWindowState = WindowState;
             GlobalCfg.Default.Save();
+            zp8.Properties.Settings.Default.Save();
         }
 
         private void konecToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -417,6 +428,22 @@ namespace zp8
                 SongDb.songRow row = SelectedDbOrSb.CreateSong();
                 EditSongForm.Run(row, SelectedDbOrSb.DataSet);
             }
+        }
+
+        private void pøidatVybranouPíseòDoZpìvníkuToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddSongToDb(songView1.Song, SelectedSongBook);
+        }
+
+        private void AddSongToDb(SongDb.songRow song, AbstractSongDatabase db)
+        {
+            if (song == null || db == null) return;
+            DbTools.AddSongRow(song, db);
+        }
+
+        private void pøidatVybranouPíseòDoDatabázeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddSongToDb(songView1.Song, SelectedDatabase);
         }
     }
 }

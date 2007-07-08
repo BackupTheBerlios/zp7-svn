@@ -52,6 +52,7 @@ namespace zp8
         {
             if (m_disableTriggers) return;
             SongDb.songRow row = (SongDb.songRow)e.Row;
+            if (row.RowState != DataRowState.Modified) return;
             try
             {
                 m_disableTriggers = true;
@@ -67,7 +68,14 @@ namespace zp8
         {
             if (song.Isserver_idNull()) return true;
             int srvid = song.server_id;
-            return !m_dataset.server.FindByID(srvid).isreadonly;
+            try
+            {
+                return !m_dataset.server.FindByID(srvid).isreadonly;
+            }
+            catch (Exception)
+            {
+                return true;
+            }
         }
         public SongDb.songRow CreateSong()
         {
