@@ -399,21 +399,10 @@ namespace zp8
             tspages.Text = songBookFrame1.PageInfo;
         }
 
-        private void tbfilter_TextChanged(object sender, EventArgs e)
-        {
-            if (tbfilter.Text != "")
-            {
-                songDatabaseWrapper1.SongBindingSource.Filter = String.Format("searchtext LIKE '%{0}%'", Searching.MakeSearchText(tbfilter.Text));
-            }
-            else
-            {
-                songDatabaseWrapper1.SongBindingSource.Filter = null;
-            }
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             tbfilter.Text = "";
+            ApplyFilter();
         }
 
         private void upravitPíseòToolStripMenuItem_Click(object sender, EventArgs e)
@@ -444,6 +433,36 @@ namespace zp8
         private void pøidatVybranouPíseòDoDatabázeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddSongToDb(songView1.Song, SelectedDatabase);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ApplyFilter();
+        }
+
+        private void ApplyFilter()
+        {
+            if (tbfilter.Text != "")
+            {
+                songDatabaseWrapper1.SongBindingSource.Filter = String.Format("searchtext LIKE '%{0}%'", Searching.MakeSearchText(tbfilter.Text));
+            }
+            else
+            {
+                songDatabaseWrapper1.SongBindingSource.Filter = null;
+            }
+        }
+
+        private void tbfilter_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                ApplyFilter();
+            }
+            if (e.KeyCode == Keys.Escape)
+            {
+                tbfilter.Text = "";
+                ApplyFilter();
+            }
         }
     }
 }

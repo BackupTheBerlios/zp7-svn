@@ -52,7 +52,7 @@ namespace zp8
         {
             if (m_disableTriggers) return;
             SongDb.songRow row = (SongDb.songRow)e.Row;
-            if (row.RowState != DataRowState.Modified) return;
+            if (row.RowState != DataRowState.Modified && row.RowState != DataRowState.Added) return;
             try
             {
                 m_disableTriggers = true;

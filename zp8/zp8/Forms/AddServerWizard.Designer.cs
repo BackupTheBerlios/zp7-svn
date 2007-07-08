@@ -30,6 +30,8 @@ namespace zp8
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddServerWizard));
             this.wizard1 = new Gui.Wizard.Wizard();
+            this.wizardPage3 = new Gui.Wizard.WizardPage();
+            this.endpage = new Gui.Wizard.InfoPage();
             this.wizardPage2 = new Gui.Wizard.WizardPage();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.header2 = new Gui.Wizard.Header();
@@ -39,19 +41,17 @@ namespace zp8
             this.label1 = new System.Windows.Forms.Label();
             this.servertype = new System.Windows.Forms.ListBox();
             this.header1 = new Gui.Wizard.Header();
-            this.wizardPage3 = new Gui.Wizard.WizardPage();
-            this.endpage = new Gui.Wizard.InfoPage();
             this.wizard1.SuspendLayout();
+            this.wizardPage3.SuspendLayout();
             this.wizardPage2.SuspendLayout();
             this.wizardPage1.SuspendLayout();
-            this.wizardPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // wizard1
             // 
-            this.wizard1.Controls.Add(this.wizardPage3);
-            this.wizard1.Controls.Add(this.wizardPage2);
             this.wizard1.Controls.Add(this.wizardPage1);
+            this.wizard1.Controls.Add(this.wizardPage2);
+            this.wizard1.Controls.Add(this.wizardPage3);
             this.wizard1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.wizard1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.wizard1.Location = new System.Drawing.Point(0, 0);
@@ -62,6 +62,29 @@ namespace zp8
             this.wizardPage3});
             this.wizard1.Size = new System.Drawing.Size(476, 366);
             this.wizard1.TabIndex = 0;
+            // 
+            // wizardPage3
+            // 
+            this.wizardPage3.Controls.Add(this.endpage);
+            this.wizardPage3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.wizardPage3.IsFinishPage = false;
+            this.wizardPage3.Location = new System.Drawing.Point(0, 0);
+            this.wizardPage3.Name = "wizardPage3";
+            this.wizardPage3.Size = new System.Drawing.Size(476, 318);
+            this.wizardPage3.TabIndex = 3;
+            this.wizardPage3.ShowFromNext += new System.EventHandler(this.wizardPage3_ShowFromNext);
+            // 
+            // endpage
+            // 
+            this.endpage.BackColor = System.Drawing.Color.White;
+            this.endpage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.endpage.Image = ((System.Drawing.Image)(resources.GetObject("endpage.Image")));
+            this.endpage.Location = new System.Drawing.Point(0, 0);
+            this.endpage.Name = "endpage";
+            this.endpage.PageText = "This wizard enables you to...";
+            this.endpage.PageTitle = "Dokonèení pøidání serveru";
+            this.endpage.Size = new System.Drawing.Size(476, 318);
+            this.endpage.TabIndex = 0;
             // 
             // wizardPage2
             // 
@@ -87,14 +110,14 @@ namespace zp8
             // 
             this.header2.BackColor = System.Drawing.SystemColors.Control;
             this.header2.CausesValidation = false;
-            this.header2.Description = "Description";
+            this.header2.Description = "Vlastnosti serveru";
             this.header2.Dock = System.Windows.Forms.DockStyle.Top;
             this.header2.Image = ((System.Drawing.Image)(resources.GetObject("header2.Image")));
             this.header2.Location = new System.Drawing.Point(0, 0);
             this.header2.Name = "header2";
             this.header2.Size = new System.Drawing.Size(476, 64);
             this.header2.TabIndex = 0;
-            this.header2.Title = "Title";
+            this.header2.Title = "Pøidání serveru";
             // 
             // wizardPage1
             // 
@@ -150,37 +173,14 @@ namespace zp8
             // 
             this.header1.BackColor = System.Drawing.SystemColors.Control;
             this.header1.CausesValidation = false;
-            this.header1.Description = "Description";
+            this.header1.Description = "Typ serveru";
             this.header1.Dock = System.Windows.Forms.DockStyle.Top;
             this.header1.Image = ((System.Drawing.Image)(resources.GetObject("header1.Image")));
             this.header1.Location = new System.Drawing.Point(0, 0);
             this.header1.Name = "header1";
             this.header1.Size = new System.Drawing.Size(476, 64);
             this.header1.TabIndex = 0;
-            this.header1.Title = "Title";
-            // 
-            // wizardPage3
-            // 
-            this.wizardPage3.Controls.Add(this.endpage);
-            this.wizardPage3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.wizardPage3.IsFinishPage = false;
-            this.wizardPage3.Location = new System.Drawing.Point(0, 0);
-            this.wizardPage3.Name = "wizardPage3";
-            this.wizardPage3.Size = new System.Drawing.Size(476, 318);
-            this.wizardPage3.TabIndex = 3;
-            this.wizardPage3.ShowFromNext += new System.EventHandler(this.wizardPage3_ShowFromNext);
-            // 
-            // endpage
-            // 
-            this.endpage.BackColor = System.Drawing.Color.White;
-            this.endpage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.endpage.Image = ((System.Drawing.Image)(resources.GetObject("endpage.Image")));
-            this.endpage.Location = new System.Drawing.Point(0, 0);
-            this.endpage.Name = "endpage";
-            this.endpage.PageText = "This wizard enables you to...";
-            this.endpage.PageTitle = "Dokonèení pøidání serveru";
-            this.endpage.Size = new System.Drawing.Size(476, 318);
-            this.endpage.TabIndex = 0;
+            this.header1.Title = "Pøidání serveru";
             // 
             // AddServerWizard
             // 
@@ -189,12 +189,12 @@ namespace zp8
             this.ClientSize = new System.Drawing.Size(476, 366);
             this.Controls.Add(this.wizard1);
             this.Name = "AddServerWizard";
-            this.Text = "AddServerWizard";
+            this.Text = "Prùvodce pøidáním serveru";
             this.wizard1.ResumeLayout(false);
+            this.wizardPage3.ResumeLayout(false);
             this.wizardPage2.ResumeLayout(false);
             this.wizardPage1.ResumeLayout(false);
             this.wizardPage1.PerformLayout();
-            this.wizardPage3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

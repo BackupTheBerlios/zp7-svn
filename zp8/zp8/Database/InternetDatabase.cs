@@ -49,6 +49,13 @@ namespace zp8
             }
         }
 
+        public void MergeInternetXml(int serverid, Stream fr)
+        {
+            InetSongDb xmldb = new InetSongDb();
+            xmldb.ReadXml(fr);
+            MergeInternetXml(serverid, fr);
+        }
+
         public void MergeInternetXml(int serverid, InetSongDb xmldb)
         {
             // indexed by netid

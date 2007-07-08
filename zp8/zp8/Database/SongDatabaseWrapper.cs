@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Data;
 
 namespace zp8
 {
@@ -55,13 +56,26 @@ namespace zp8
         [Browsable(false)]
         public System.Windows.Forms.BindingSource ServerBindingSource { get { return serverbindingSource; } }
         [Browsable(false)]
-        public SongDb.songRow SelectedSong { get { return m_db.DataSet.song[songbindingSource.Position]; } }
+        public SongDb.songRow SelectedSong { get { return SongByIndex(songbindingSource.Position); } }
         [Browsable(false)]
-        public SongDb.serverRow SelectedServer { get { return m_db.DataSet.server[serverbindingSource.Position]; } }
+        public SongDb.serverRow SelectedServer { get { return (zp8.SongDb.serverRow)ServerByIndex(serverbindingSource.Position); } }
 
         public bool CanEditSong(int index)
         {
-            return m_db.CanEditSong(m_db.DataSet.song[index]);
+            return m_db.CanEditSong(SongByIndex(index));
         }
+
+        public SongDb.songRow SongByIndex(int index)
+        {
+            DataRowView view = (DataRowView)SongBindingSource.List[index];
+            return (zp8.SongDb.songRow)view.Row;
+        }
+
+        public SongDb.serverRow ServerByIndex(int index)
+        {
+            DataRowView view = (DataRowView)ServerBindingSource.List[index];
+            return (zp8.SongDb.serverRow)view.Row;
+        }
+
     }
 }

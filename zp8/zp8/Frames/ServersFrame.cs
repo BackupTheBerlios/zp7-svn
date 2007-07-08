@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace zp8
 {
@@ -90,6 +91,28 @@ namespace zp8
             DoServerAction(delegate(AbstractSongDatabase db, ISongServer srv, int serverid)
                 { srv.UploadWhole(db, serverid); }
             );
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (saveXML.ShowDialog() == DialogResult.OK)
+            {
+                using (FileStream fw = new FileStream(saveXML.FileName, FileMode.Create))
+                {
+                    m_dbwrap.Database.CreateInternetXml(m_dbwrap.SelectedServer.ID, fw);
+                }
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (openXML.ShowDialog() == DialogResult.OK)
+            {
+                using (FileStream fr = new FileStream(openXML.FileName, FileMode.Open))
+                {
+                    m_dbwrap.Database.MergeInternetXml(m_dbwrap.SelectedServer.ID, fr);
+                }
+            }
         }
     }
 }

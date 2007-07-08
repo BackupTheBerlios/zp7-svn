@@ -155,9 +155,7 @@ namespace zp8
             db.DeleteSongsFromServer(serverid);
             using (Stream fr = resp.GetResponseStream())
             {
-                InetSongDb xmldb = new InetSongDb();
-                xmldb.ReadXml(fr);
-                db.MergeInternetXml(serverid, xmldb);
+                db.MergeInternetXml(serverid, fr);
             }
             resp.Close();
         }
@@ -290,9 +288,7 @@ namespace zp8
             object request = null;
             using (Stream fr = Read(ref request))
             {
-                InetSongDb xmldb = new InetSongDb();
-                xmldb.ReadXml(fr);
-                db.MergeInternetXml(serverid, xmldb);
+                db.MergeInternetXml(serverid, fr);
             }
             CloseRead(request);
         }

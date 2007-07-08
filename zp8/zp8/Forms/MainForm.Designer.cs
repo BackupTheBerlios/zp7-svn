@@ -29,7 +29,9 @@ namespace zp8
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.tbfilter = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -102,6 +104,7 @@ namespace zp8
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.tbfilter);
             this.panel1.Controls.Add(this.label1);
@@ -114,6 +117,16 @@ namespace zp8
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(671, 24);
             this.panel1.TabIndex = 1;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(617, 2);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(30, 23);
+            this.button2.TabIndex = 7;
+            this.button2.Text = "OK";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
@@ -131,7 +144,7 @@ namespace zp8
             this.tbfilter.Name = "tbfilter";
             this.tbfilter.Size = new System.Drawing.Size(100, 20);
             this.tbfilter.TabIndex = 5;
-            this.tbfilter.TextChanged += new System.EventHandler(this.tbfilter_TextChanged);
+            this.tbfilter.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbfilter_KeyDown);
             // 
             // label1
             // 
@@ -631,6 +644,7 @@ namespace zp8
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.StatusStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Zpìvníkátor 8.0";
@@ -718,6 +732,7 @@ namespace zp8
         private System.Windows.Forms.ToolStripMenuItem upravitPíseòToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pøidatVybranouPíseòDoDatabázeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pøidatVybranouPíseòDoZpìvníkuToolStripMenuItem;
+        private System.Windows.Forms.Button button2;
     }
 }
 

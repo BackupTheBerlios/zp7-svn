@@ -123,7 +123,7 @@ namespace zp8
         {
             try
             {
-                SetSong(m_db.DataSet.song[m_bsrc.Position]);
+                SetSong(m_dbwrap.SelectedSong);
             }
             catch (Exception)
             {
