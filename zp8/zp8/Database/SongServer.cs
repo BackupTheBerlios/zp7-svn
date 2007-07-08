@@ -5,6 +5,7 @@ using System.Net;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using System.ComponentModel;
 
 namespace zp8
 {
@@ -162,10 +163,11 @@ namespace zp8
         }
     }
 
-    public class XmlSongServerFactory : ISongServerFactory
+    public class XmlSongServerFactory : PropertyPageBase, ISongServerFactory
     {
         string m_url;
 
+        [Description("Internetová adresa XML souboru, napø. http://nejakyweb.cz/muj_zpevnik.xml")]
         public string URL { get { return m_url; } set { m_url = value; } }
         #region ISongServerFactory Members
 
@@ -350,13 +352,19 @@ namespace zp8
 
     }
 
-    public class FtpSongServerFactory : ISongServerFactory
+    public class FtpSongServerFactory : PropertyPageBase, ISongServerFactory
     {
         FtpAccess m_access = new FtpAccess();
 
+        [DisplayName("Hostitel")]
+        [Description("Jméno FTP serveru, napø. ftp.webzdarma.cz")]
         public string Host { get { return m_access.Host; } set { m_access.Host = value; } }
+        [DisplayName("Jméno uživatele")]
         public string Login { get { return m_access.Login; } set { m_access.Login = value; } }
+        [DisplayName("Heslo")]
         public string Password { get { return m_access.Password; } set { m_access.Password = value; } }
+        [DisplayName("Cesta k souboru")]
+        [Description("Cesta k souboru na FTP serveru, vìtšinou staèí uvést jméno souboru, napø. muj_zpevnik.xml")]
         public string Path { get { return m_access.Path; } set { m_access.Path = value; } }
 
         #region ISongServerFactory Members
@@ -433,10 +441,12 @@ namespace zp8
         }
     }
 
-    public class FileSongServerFactory : ISongServerFactory
+    public class FileSongServerFactory : PropertyPageBase, ISongServerFactory
     {
         string m_fileName;
 
+        [DisplayName("Jméno souboru")]
+        [Description("Úplná cesta k souboru na disku, napø. c:/dokumenty/muj_zpevnik.xml")]
         public string FileName { get { return m_fileName; } set { m_fileName = value; } }
 
         #region ISongServerFactory Members

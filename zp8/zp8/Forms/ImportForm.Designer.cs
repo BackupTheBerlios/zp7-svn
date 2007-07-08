@@ -170,14 +170,14 @@ namespace zp8
             // 
             this.header1.BackColor = System.Drawing.SystemColors.Control;
             this.header1.CausesValidation = false;
-            this.header1.Description = "Description";
+            this.header1.Description = "Základní údaje";
             this.header1.Dock = System.Windows.Forms.DockStyle.Top;
             this.header1.Image = ((System.Drawing.Image)(resources.GetObject("header1.Image")));
             this.header1.Location = new System.Drawing.Point(0, 0);
             this.header1.Name = "header1";
             this.header1.Size = new System.Drawing.Size(483, 64);
             this.header1.TabIndex = 0;
-            this.header1.Title = "Title";
+            this.header1.Title = "Import písní";
             // 
             // wizardPage3
             // 
@@ -234,14 +234,14 @@ namespace zp8
             // 
             this.header3.BackColor = System.Drawing.SystemColors.Control;
             this.header3.CausesValidation = false;
-            this.header3.Description = "Description";
+            this.header3.Description = "Importované soubory";
             this.header3.Dock = System.Windows.Forms.DockStyle.Top;
             this.header3.Image = ((System.Drawing.Image)(resources.GetObject("header3.Image")));
             this.header3.Location = new System.Drawing.Point(0, 0);
             this.header3.Name = "header3";
             this.header3.Size = new System.Drawing.Size(483, 64);
             this.header3.TabIndex = 0;
-            this.header3.Title = "Title";
+            this.header3.Title = "Import písní";
             // 
             // openFileDialog1
             // 
@@ -256,7 +256,7 @@ namespace zp8
             this.ClientSize = new System.Drawing.Size(483, 355);
             this.Controls.Add(this.wizard1);
             this.Name = "ImportForm";
-            this.Text = "ImportForm";
+            this.Text = "Import písní";
             this.wizard1.ResumeLayout(false);
             this.wizardPage1.ResumeLayout(false);
             this.wizardPage1.PerformLayout();
