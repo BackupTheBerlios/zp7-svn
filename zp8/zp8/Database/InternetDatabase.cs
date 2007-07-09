@@ -40,6 +40,7 @@ namespace zp8
 
         private void ImportSongs(int? serverid, InetSongDb xmldb)
         {
+            UnInstallTriggers();
             foreach (InetSongDb.songRow row in xmldb.song.Rows)
             {
                 SongDb.songRow newrow = DataSet.song.NewsongRow();
@@ -47,6 +48,7 @@ namespace zp8
                 if (serverid.HasValue) newrow.server_id = serverid.Value;
                 DataSet.song.AddsongRow(newrow);
             }
+            InstallTriggers();
         }
 
         public void MergeInternetXml(int serverid, Stream fr)
@@ -58,6 +60,8 @@ namespace zp8
 
         public void MergeInternetXml(int serverid, InetSongDb xmldb)
         {
+            UnInstallTriggers();
+
             // indexed by netid
             Dictionary<int, SongDb.songRow> locals = new Dictionary<int, SongDb.songRow>();
             foreach (SongDb.songRow song in m_dataset.song.Rows)
@@ -100,6 +104,8 @@ namespace zp8
                     song.Delete();
                 }
             }
+
+            InstallTriggers();
         }
 
         public IEnumerable<SongDb.songRow> EnumSongsWithLocalModifications(int serverid)
@@ -132,6 +138,7 @@ namespace zp8
 
         public void UpdateInternetXml(int serverid, InetSongDb xmldb)
         {
+            UnInstallTriggers();
             foreach (SongDb.songRow local in EnumSongsWithLocalModifications(serverid))
             {
                 if (local.IsnetIDNull())
@@ -156,7 +163,7 @@ namespace zp8
             }
 
             DeleteMarkedSongs(serverid, xmldb);
-
+            InstallTriggers();
         }
 
         protected void DeleteMarkedSongs(int serverid, InetSongDb xmldb)
@@ -175,6 +182,7 @@ namespace zp8
 
         public void CreateInternetXml(int serverid, Stream fw)
         {
+            UnInstallTriggers();
             InetSongDb xmldb = new InetSongDb();
             foreach (SongDb.songRow local in m_dataset.song.Rows)
             {
@@ -190,6 +198,7 @@ namespace zp8
                 }
             }
             xmldb.WriteXml(fw);
+            InstallTriggers();
         }
 
         /*

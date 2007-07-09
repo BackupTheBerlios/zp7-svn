@@ -12,7 +12,7 @@ namespace zp8
     {
         //SongDatabase m_dataset;
         SongDatabaseWrapper m_dbwrap;
-        ContextMenuStrip m_strip;
+        //ContextMenuStrip m_strip;
         //int? m_selectedRow;
         //int? m_returningRow;
 

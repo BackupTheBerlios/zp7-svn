@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Book\DistribAlg.cs" />
     <Compile Include="Database\InternetDatabase.cs" />
+    <Compile Include="Database\SongServer2.cs" />
     <Compile Include="Format\BookFormat.cs" />
     <Compile Include="Format\Outline.cs" />
     <Compile Include="Format\Panes.cs" />

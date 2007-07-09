@@ -17,6 +17,8 @@ namespace zp8
         protected abstract void WantOpen();
         private bool m_disableTriggers;
 
+        public event EventHandler SongChanged;
+
         public SongDb DataSet
         {
             get
@@ -36,6 +38,7 @@ namespace zp8
                 if (row.IssearchtextNull()) row.searchtext = MakeSearchText(row);
             }
             m_dataset.song.RowChanged += song_RowChanged;
+            if (SongChanged != null) SongChanged(this, new EventArgs());
         }
 
         private static string MakeSearchText(SongDb.songRow row)
@@ -51,6 +54,7 @@ namespace zp8
         void song_RowChanged(object sender, DataRowChangeEventArgs e)
         {
             if (m_disableTriggers) return;
+            if (SongChanged != null) SongChanged(sender, e);
             SongDb.songRow row = (SongDb.songRow)e.Row;
             if (row.RowState != DataRowState.Modified && row.RowState != DataRowState.Added) return;
             try

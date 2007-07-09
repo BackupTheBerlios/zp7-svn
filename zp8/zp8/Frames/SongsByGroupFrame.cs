@@ -10,6 +10,7 @@ namespace zp8.Frames
 {
     public partial class SongsByGroupFrame : UserControl
     {
+        AbstractSongDatabase m_db;
         SongDatabaseWrapper m_dbwrap;
         List<zp8.SongDb.songRow> m_loadedSongs = new List<SongDb.songRow>();
 
@@ -63,6 +64,14 @@ namespace zp8.Frames
         
 
         void m_dbwrap_ChangedSongDatabase(AbstractSongDatabase db)
+        {
+            if (m_db != null) m_db.SongChanged -= m_db_SongChanged;
+            Reload();
+            m_db = db;
+            if (m_db != null) m_db.SongChanged += m_db_SongChanged;
+        }
+
+        void m_db_SongChanged(object sender, EventArgs e)
         {
             Reload();
         }

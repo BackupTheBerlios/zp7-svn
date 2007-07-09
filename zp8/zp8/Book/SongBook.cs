@@ -174,7 +174,7 @@ namespace zp8
         void song_songRowChanged(object sender, SongDb.songRowChangeEvent e)
         {
             m_fbook = null;
-            if (Changed != null) Changed(sender, e);
+            if (BookChanged != null) BookChanged(sender, e);
         }
 
         /*
@@ -293,7 +293,7 @@ namespace zp8
             m_pageDrawOptions = null;
             m_fbook = null;
         }
-        public event EventHandler Changed;
+        public event EventHandler BookChanged;
         public IPrintTarget PrintTarget
         {
             get { return m_printTarget; }
@@ -305,7 +305,7 @@ namespace zp8
             m_printTarget = value;
             Layout.Target = value;
             ClearCaches();
-            if (Changed != null) Changed(this, new EventArgs());
+            if (BookChanged != null) BookChanged(this, new EventArgs());
         }
         public void Load(string filename)
         {

@@ -24,9 +24,9 @@ namespace zp8
             get { return m_book; }
             set
             {
-                if (m_book != null) m_book.Changed -= m_book_Changed;
+                if (m_book != null) m_book.BookChanged -= m_book_Changed;
                 m_book = value;
-                if (m_book != null) m_book.Changed += m_book_Changed;
+                if (m_book != null) m_book.BookChanged += m_book_Changed;
                 m_book_Changed(null, null);
             }
         }
