@@ -53,7 +53,7 @@ namespace zp8
         {
             InetSongDb xmldb = new InetSongDb();
             xmldb.ReadXml(fr);
-            MergeInternetXml(serverid, fr);
+            MergeInternetXml(serverid, xmldb);
         }
 
         public void MergeInternetXml(int serverid, InetSongDb xmldb)

@@ -91,7 +91,7 @@ namespace zp8
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            m_dbwrap.Database.DataSet.song[e.RowIndex].localmodified = true;
+            m_dbwrap.SongByIndex(e.RowIndex).localmodified = true;
         }
 
         private void viditelnéSloupceToolStripMenuItem_Click(object sender, EventArgs e)

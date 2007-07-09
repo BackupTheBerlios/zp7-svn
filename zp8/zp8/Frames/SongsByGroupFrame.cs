@@ -55,7 +55,7 @@ namespace zp8.Frames
                 int index = m_dbwrap.SongBindingSource.Position;
                 if (index >= 0)
                 {
-                    string grp = m_dbwrap.Database.DataSet.song[index].groupname;
+                    string grp = m_dbwrap.SongByIndex(index).groupname;
                     lbgroups.SelectedIndex = grps.IndexOf(grp);
                 }
             }
@@ -84,7 +84,7 @@ namespace zp8.Frames
                     lbsongs.Items.Add(song.title);
                 if (m_dbwrap.SongBindingSource.Position >= 0)
                 {
-                    int relindex = m_loadedSongs.IndexOf(m_dbwrap.Database.DataSet.song[m_dbwrap.SongBindingSource.Position]);
+                    int relindex = m_loadedSongs.IndexOf(m_dbwrap.SongByIndex(m_dbwrap.SongBindingSource.Position));
                     if (relindex >= 0) lbsongs.SelectedIndex = relindex;
                 }
             }

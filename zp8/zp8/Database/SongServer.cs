@@ -152,7 +152,6 @@ namespace zp8
         {
             WebRequest req = WebRequest.Create(m_url);
             WebResponse resp = req.GetResponse();
-            db.DeleteSongsFromServer(serverid);
             using (Stream fr = resp.GetResponseStream())
             {
                 db.MergeInternetXml(serverid, fr);
