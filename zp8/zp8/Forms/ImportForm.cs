@@ -28,18 +28,17 @@ namespace zp8
         private void imptype_SelectedIndexChanged(object sender, EventArgs e)
         {
             description.Text = m_types[imptype.SelectedIndex].Description;
+            openFileDialog1.Filter = m_types[imptype.SelectedIndex].FileDialogFilter;
         }
 
         private void Work()
         {
             IDbImportType type = m_types[imptype.SelectedIndex];
-            foreach (string item in filelist.Items)
-            {
-                int? serverid = null;
-                if (cbserver.Checked) serverid = (int)lbserver.SelectedValue;
-
-                type.Run(m_db, item, serverid);
-            }
+            InetSongDb xmldb = new InetSongDb();
+            int? serverid = null;
+            if (cbserver.Checked) serverid = (int)lbserver.SelectedValue;
+            foreach (string item in filelist.Items) type.Run(item, xmldb);
+            m_db.ImportSongs(xmldb, serverid);
         }
 
         public static bool Run(AbstractSongDatabase db)

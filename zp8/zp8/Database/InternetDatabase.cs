@@ -24,6 +24,7 @@ namespace zp8
             }
         }
 
+        /*
         public void ImportSongs(Stream fr, int? serverid)
         {
             InetSongDb xmldb = new InetSongDb();
@@ -37,8 +38,9 @@ namespace zp8
             xmldb.ReadXml(fr);
             ImportSongs(serverid, xmldb);
         }
+        */
 
-        private void ImportSongs(int? serverid, InetSongDb xmldb)
+        public void ImportSongs(InetSongDb xmldb, int? serverid)
         {
             UnInstallTriggers();
             foreach (InetSongDb.songRow row in xmldb.song.Rows)

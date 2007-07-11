@@ -98,6 +98,13 @@ namespace zp8
         {
             VisibleColumnsForm.Run(dataGridView1);
         }
+        public IEnumerable<SongDb.songRow> GetSelectedSongs()
+        {
+            foreach (DataGridViewRow row in dataGridView1.SelectedRows)
+            {
+                if (!row.IsNewRow) yield return m_dbwrap.SongByIndex(row.Index);
+            }
+        }
 
         /*
         void m_dbwrap_ChangedSongDatabase(SongDatabase db)

@@ -12,7 +12,9 @@ namespace zp8
         string Name { get;}
         string Title { get;}
         string Description { get;}
-        void Run(AbstractSongDatabase db, string filename, int? serverid);
+        string FileDialogFilter { get;}
+        //void Run(AbstractSongDatabase db, string filename, int? serverid);
+        void Run(string filename, InetSongDb xmldb);
     }
 
     public class Zp6ImportType : IDbImportType
@@ -29,12 +31,18 @@ namespace zp8
             get { return "Databáze zpìvníkátoru 6.0"; }
         }
 
+        public string FileDialogFilter
+        {
+            get { return "XML soubory (*.xml)|*.xml"; }
+        }
+
         public string Description
         {
             get { return "Databáze zpìvníkátoru 6.0 ve formátu XML"; }
         }
 
-        public void Run(AbstractSongDatabase db, string filename, int? serverid)
+        //public void Run(AbstractSongDatabase db, string filename, int? serverid)
+        public void Run(string filename, InetSongDb xmldb)
         {
             XslCompiledTransform xslt = new XslCompiledTransform();
             xslt.Load(XmlReader.Create(new StringReader(xsls.zp6_to_zp8)));
@@ -45,8 +53,40 @@ namespace zp8
             xslt.Transform(zp6doc, XmlWriter.Create(sb));
             using (StringReader sr = new StringReader(sb.ToString()))
             {
-                db.ImportSongs(sr, serverid);
+                xmldb.song.ReadXml(sr);
             }
+            //db.ImportSongs(sr, serverid);
+        }
+
+        #endregion
+    }
+
+    public class InetDbImportType : IDbImportType
+    {
+        #region IDbExportType Members
+
+        public string Name
+        {
+            get { return "inetdb"; }
+        }
+
+        public string Title
+        {
+            get { return "Internetová databáze"; }
+        }
+
+        public string Description
+        {
+            get { return "Soubor XML s písnìmi ve stejném formátu, jako je uložen v internetové databázi"; }
+        }
+
+        public string FileDialogFilter
+        {
+            get { return "XML soubory (*.xml)|*.xml"; }
+        }
+
+        public void Run(string filename, InetSongDb xmldb)
+        {
         }
 
         #endregion
@@ -57,9 +97,9 @@ namespace zp8
         static Dictionary<string, IDbImportType> m_imports = new Dictionary<string, IDbImportType>();
         static DbImport()
         {
-            RegisterImprotType(new Zp6ImportType());
+            RegisterImportType(new Zp6ImportType());
         }
-        public static void RegisterImprotType(IDbImportType type)
+        public static void RegisterImportType(IDbImportType type)
         {
             m_imports[type.Name] = type;
         }
