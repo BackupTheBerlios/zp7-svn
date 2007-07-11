@@ -7,6 +7,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.ComponentModel;
 
+#if false
 namespace zp8
 {
     public interface ISongServerType
@@ -478,3 +479,4 @@ namespace zp8
         #endregion
     }
 }
+#endif

@@ -28,18 +28,15 @@ namespace zp8
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ISongServer[] servers = AddServerWizard.Run();
-            if (servers == null) return;
-            foreach(ISongServer srv in servers)
-            {
-                SongDb.serverRow row = m_dbwrap.SongDb.server.NewserverRow();
-                //m_dataset.DataSet.server.IDColumn.
-                row.url = srv.URL;
-                row.servertype = srv.Type;
-                row.config = srv.Config;
-                row.isreadonly = SongServer.ServerType(srv.Type).Readonly;
-                m_dbwrap.SongDb.server.AddserverRow(row);
-            }
+            ISongServer server = AddServerWizard.Run();
+            if (server == null) return;
+            SongDb.serverRow row = m_dbwrap.SongDb.server.NewserverRow();
+            row.url = server.ToString();
+            SongServerType st = SongServer.GetServerName(server);
+            row.servertype = st.Name;
+            row.config = SongServer.Save(server);
+            row.isreadonly =  st.ReadOnly;
+            m_dbwrap.SongDb.server.AddserverRow(row);
         }
 
         public SongDatabaseWrapper SongDb
@@ -62,7 +59,7 @@ namespace zp8
             try
             {
                 SongDb.serverRow row = m_dbwrap.SelectedServer;
-                ISongServer srv = SongServer.LoadSongServer(row.servertype, row.url, row.IsconfigNull() ? null : row.config);
+                ISongServer srv = SongServer.Load(row.servertype, row.config);
                 callback(m_dbwrap.Database, srv, row.ID);
                 MessageBox.Show("Akce probìhla úspìšnì");
             }
@@ -113,6 +110,15 @@ namespace zp8
                     m_dbwrap.Database.MergeInternetXml(m_dbwrap.SelectedServer.ID, fr);
                 }
             }
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            SongDb.serverRow row = m_dbwrap.SelectedServer;
+            ISongServer srv = SongServer.Load(row.servertype, row.config);
+            PropertiesForm.Run(srv);
+            row.config = SongServer.Save(srv);
+            row.url = srv.ToString();
         }
     }
 }

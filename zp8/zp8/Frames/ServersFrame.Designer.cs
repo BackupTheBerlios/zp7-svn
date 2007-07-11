@@ -32,6 +32,8 @@ namespace zp8
             this.serverBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.songDb = new zp8.SongDb();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -41,10 +43,9 @@ namespace zp8
             this.urlDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.servertypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.configDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
             this.saveXML = new System.Windows.Forms.SaveFileDialog();
             this.openXML = new System.Windows.Forms.OpenFileDialog();
+            this.button7 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.serverBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.songDb)).BeginInit();
             this.panel1.SuspendLayout();
@@ -63,6 +64,7 @@ namespace zp8
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button7);
             this.panel1.Controls.Add(this.button6);
             this.panel1.Controls.Add(this.button5);
             this.panel1.Controls.Add(this.button4);
@@ -74,6 +76,26 @@ namespace zp8
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(165, 441);
             this.panel1.TabIndex = 1;
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(26, 163);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(116, 23);
+            this.button6.TabIndex = 5;
+            this.button6.Text = "Export do souboru";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(26, 134);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(116, 23);
+            this.button5.TabIndex = 4;
+            this.button5.Text = "Import z souboru";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button4
             // 
@@ -161,26 +183,6 @@ namespace zp8
             this.configDataGridViewTextBoxColumn.ReadOnly = true;
             this.configDataGridViewTextBoxColumn.Visible = false;
             // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(26, 134);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(116, 23);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "Import z souboru";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(26, 163);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(116, 23);
-            this.button6.TabIndex = 5;
-            this.button6.Text = "Export do souboru";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
             // saveXML
             // 
             this.saveXML.Filter = "XML soubory (*.xml)|*.xml";
@@ -188,6 +190,16 @@ namespace zp8
             // openXML
             // 
             this.openXML.Filter = "XML soubory (*.xml)|*.xml";
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(26, 192);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(116, 23);
+            this.button7.TabIndex = 6;
+            this.button7.Text = "Upravit server";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // ServersFrame
             // 
@@ -223,5 +235,6 @@ namespace zp8
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.SaveFileDialog saveXML;
         private System.Windows.Forms.OpenFileDialog openXML;
+        private System.Windows.Forms.Button button7;
     }
 }
