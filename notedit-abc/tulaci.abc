@@ -1,0 +1,12 @@
+% Comment
+
+X:1
+T:Tulaci
+K:C treble
+%%staves {1}
+V:1
+L: 1/4
+B D G A | G A B G | c E A B | c B A c |
+B D G A | G A B G | c E A B | c B A G |
+F C F G | F G A c | B2-B/ B//A// G/E/ | D G A G
+F C F G | F G A c | B2 c2 | d4 |
