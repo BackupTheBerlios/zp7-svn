@@ -464,5 +464,15 @@ namespace zp8
                 ApplyFilter();
             }
         }
+
+        private void songDatabaseWrapper1_SongChanged(object sender, EventArgs e)
+        {
+            UpdateDbState();
+        }
+
+        private void exportPísníToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportForm.Run(songDatabaseWrapper1, songTable1.GetSelectedSongs());
+        }
     }
 }

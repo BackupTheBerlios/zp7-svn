@@ -30,9 +30,16 @@ namespace zp8
             set
             {
                 if (m_db == value) return;
+
+                if (m_db != null)
+                {
+                    m_db.SongChanged -= m_db_SongChanged;
+                }
+
                 m_db = value;
                 if (m_db != null)
                 {
+                    m_db.SongChanged += m_db_SongChanged;
                     songbindingSource.DataSource = m_db.DataSet.song;
                     serverbindingSource.DataSource = m_db.DataSet.server;
                 }
@@ -42,13 +49,18 @@ namespace zp8
                     serverbindingSource.DataSource = null;
                 }
 
-                if (ChangedSongDatabase != null)
-                {
-                    ChangedSongDatabase(m_db);
-                }
+                if (ChangedSongDatabase != null) ChangedSongDatabase(m_db);
+                if (SongChanged != null) SongChanged(this, new EventArgs());
             }
         }
+
+        void m_db_SongChanged(object sender, EventArgs e)
+        {
+            if (SongChanged != null) SongChanged(sender, e);
+        }
         public event SongDatabaseChanged ChangedSongDatabase;
+        public event EventHandler SongChanged;
+
         [Browsable(false)]
         public SongDb SongDb { get { return m_db.DataSet; } }
         [Browsable(false)]

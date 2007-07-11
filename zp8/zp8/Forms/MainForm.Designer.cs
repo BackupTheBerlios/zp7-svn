@@ -90,6 +90,7 @@ namespace zp8
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
             this.savePDF = new System.Windows.Forms.SaveFileDialog();
+            this.exportPísníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -238,6 +239,7 @@ namespace zp8
             // songDatabaseWrapper1
             // 
             this.songDatabaseWrapper1.Database = null;
+            this.songDatabaseWrapper1.SongChanged += new System.EventHandler(this.songDatabaseWrapper1_SongChanged);
             // 
             // splitter1
             // 
@@ -553,7 +555,8 @@ namespace zp8
             this.tisknoutAktuálníPíseToolStripMenuItem,
             this.exportPísnìDoPDFToolStripMenuItem,
             this.nováPíseòToolStripMenuItem,
-            this.upravitPíseòToolStripMenuItem});
+            this.upravitPíseòToolStripMenuItem,
+            this.exportPísníToolStripMenuItem});
             this.písnìToolStripMenuItem.Name = "písnìToolStripMenuItem";
             this.písnìToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.písnìToolStripMenuItem.Text = "Písnì";
@@ -635,6 +638,13 @@ namespace zp8
             // 
             this.savePDF.Filter = "PDF soubory (*.pdf)|*.pdf";
             // 
+            // exportPísníToolStripMenuItem
+            // 
+            this.exportPísníToolStripMenuItem.Name = "exportPísníToolStripMenuItem";
+            this.exportPísníToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.exportPísníToolStripMenuItem.Text = "Export písní";
+            this.exportPísníToolStripMenuItem.Click += new System.EventHandler(this.exportPísníToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -648,9 +658,9 @@ namespace zp8
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Zpìvníkátor 8.0";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.TabControl1.ResumeLayout(false);
@@ -733,6 +743,7 @@ namespace zp8
         private System.Windows.Forms.ToolStripMenuItem pøidatVybranouPíseòDoDatabázeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pøidatVybranouPíseòDoZpìvníkuToolStripMenuItem;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ToolStripMenuItem exportPísníToolStripMenuItem;
     }
 }
 

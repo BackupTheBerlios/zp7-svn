@@ -160,10 +160,12 @@ namespace zp8
         public void Commit()
         {
             WantOpen();
+            UnInstallTriggers();
             SQLiteTransaction t = m_conn.BeginTransaction();
             m_song_adapter.Update(m_dataset.song);
             m_server_adapter.Update(m_dataset.server);
             t.Commit();
+            InstallTriggers();
         }
         public bool Modified
         {
