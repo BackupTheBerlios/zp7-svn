@@ -42,7 +42,7 @@ namespace zp8.Frames
             lbsongs.Items.Clear();
             if (m_dbwrap != null && m_dbwrap.Database != null)
             {
-                foreach (zp8.SongDb.songRow song in m_dbwrap.Database.DataSet.song.Rows)
+                foreach (zp8.SongDb.songRow song in m_dbwrap.Database.EnumSongs())
                 {
                     if (!groups.ContainsKey(song.groupname))
                     {
@@ -85,7 +85,7 @@ namespace zp8.Frames
             if (gindex >= 0)
             {
                 string grp = (string)lbgroups.Items[gindex];
-                foreach (zp8.SongDb.songRow song in m_dbwrap.Database.DataSet.song.Rows)
+                foreach (zp8.SongDb.songRow song in m_dbwrap.Database.EnumSongs())
                     if (song.groupname == grp)
                         m_loadedSongs.Add(song);
                 m_loadedSongs.Sort(Sorting.GetComparison(SongOrder.TitleGroup));

@@ -377,7 +377,7 @@ namespace zp8
         public IEnumerable<SongDb.songRow> GetSongs(SongOrder order)
         {
             List<SongDb.songRow> rows = new List<SongDb.songRow>();
-            foreach (SongDb.songRow row in m_dataset.song.Rows)
+            foreach (SongDb.songRow row in EnumSongs())
             {
                 rows.Add(row);
             }

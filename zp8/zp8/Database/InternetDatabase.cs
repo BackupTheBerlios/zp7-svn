@@ -17,10 +17,10 @@ namespace zp8
         public void DeleteSongsFromServer(int server)
         {
             List<SongDb.songRow> rows = new List<SongDb.songRow>();
-            foreach (SongDb.songRow row in m_dataset.song.Rows) rows.Add(row);
+            foreach (SongDb.songRow row in EnumSongs()) rows.Add(row);
             foreach (SongDb.songRow row in rows)
             {
-                if (row.server_id == server) row.Delete();
+                if (!row.Isserver_idNull() && row.server_id == server) row.Delete();
             }
         }
 
@@ -66,7 +66,7 @@ namespace zp8
 
             // indexed by netid
             Dictionary<int, SongDb.songRow> locals = new Dictionary<int, SongDb.songRow>();
-            foreach (SongDb.songRow song in m_dataset.song.Rows)
+            foreach (SongDb.songRow song in EnumSongs())
             {
                 if (!song.Isserver_idNull() && song.server_id == serverid)
                 {
@@ -112,7 +112,7 @@ namespace zp8
 
         public IEnumerable<SongDb.songRow> EnumSongsWithLocalModifications(int serverid)
         {
-            foreach (SongDb.songRow song in m_dataset.song.Rows)
+            foreach (SongDb.songRow song in EnumSongs())
             {
                 if (!song.Isserver_idNull() && song.server_id == serverid)
                 {
@@ -186,7 +186,7 @@ namespace zp8
         {
             UnInstallTriggers();
             InetSongDb xmldb = new InetSongDb();
-            foreach (SongDb.songRow local in m_dataset.song.Rows)
+            foreach (SongDb.songRow local in EnumSongs())
             {
                 if (!local.Isserver_idNull() && local.server_id == serverid)
                 {
@@ -207,7 +207,7 @@ namespace zp8
         public void GetSongsAsInetXml(int serverid, Stream fw)
         {
             InetSongDb xmldb = new InetSongDb();
-            foreach (SongDb.songRow row in m_dataset.song.Rows)
+            foreach (SongDb.songRow row in EnumSongs())
             {
                 if (row.server_id == serverid)
                 {

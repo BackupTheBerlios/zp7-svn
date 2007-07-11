@@ -33,7 +33,7 @@ namespace zp8
         }
         protected void InstallTriggers()
         {
-            foreach (SongDb.songRow row in m_dataset.song.Rows)
+            foreach (SongDb.songRow row in EnumSongs())
             {
                 if (row.IssearchtextNull()) row.searchtext = MakeSearchText(row);
             }
@@ -91,6 +91,13 @@ namespace zp8
             DataSet.song.AddsongRow(song);
             return song;
         }
+        public IEnumerable<SongDb.songRow> EnumSongs()
+        {
+            foreach (SongDb.songRow row in m_dataset.song.Rows)
+            {
+                if (row.RowState != DataRowState.Deleted && row.RowState != DataRowState.Detached) yield return row;
+            }
+        }
     }
 
     public class SongDatabase : AbstractSongDatabase
@@ -123,7 +130,7 @@ namespace zp8
             {
                 m_conn = new SQLiteConnection(String.Format("Data Source={0};New=True;Version=3", m_filename));
                 m_conn.Open();
-                ExecuteSql("CREATE TABLE song (ID INTEGER PRIMARY KEY, title VARCHAR, groupname VARCHAR, author VARCHAR, songtext TEXT, lang VARCHAR, server_id INT NULL, transp INT, searchtext VARCHAR, published DATETIME, localmodified INT)");
+                ExecuteSql("CREATE TABLE song (ID INTEGER PRIMARY KEY, title VARCHAR, groupname VARCHAR, author VARCHAR, songtext TEXT, lang VARCHAR, server_id INT NULL, netID INT NULL, transp INT, searchtext VARCHAR, published DATETIME, localmodified INT)");
                 ExecuteSql("CREATE TABLE server (ID INTEGER PRIMARY KEY, url VARCHAR, servertype VARCHAR, config TEXT, isreadonly INT)");
                 ExecuteSql("CREATE TABLE deletedsong (ID INTEGER PRIMARY KEY, song_netID INT, server_id INT)");
             }

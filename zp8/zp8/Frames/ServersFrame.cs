@@ -56,17 +56,17 @@ namespace zp8
 
         private void DoServerAction(ServerActionDelegate callback)
         {
-            try
-            {
+            //try
+            //{
                 SongDb.serverRow row = m_dbwrap.SelectedServer;
                 ISongServer srv = SongServer.Load(row.servertype, row.config);
                 callback(m_dbwrap.Database, srv, row.ID);
                 MessageBox.Show("Akce probìhla úspìšnì");
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString(), "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show(e.ToString(), "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
 
         private void button3_Click(object sender, EventArgs e)

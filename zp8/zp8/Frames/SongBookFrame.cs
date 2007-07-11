@@ -37,7 +37,7 @@ namespace zp8
             lbsequence.Items.Clear();
             if (m_book != null)
             {
-                foreach (SongDb.songRow row in m_book.DataSet.song.Rows)
+                foreach (SongDb.songRow row in m_book.EnumSongs())
                 {
                     lbsequence.Items.Add(row.title);
                 }
