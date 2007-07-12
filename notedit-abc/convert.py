@@ -7,6 +7,8 @@ basedir = os.path.dirname(sys.argv[0])
 abcm2ps_exe = os.path.join(basedir, 'abcm2ps', 'abcm2ps.exe')
 abc2midi_exe = os.path.join(basedir, 'abcmidi', 'abc2midi.exe')
 gsdir = os.path.join(basedir, 'gs5.50')
+gsfontsdir = os.path.join(gsdir, 'fonts')
+
 gs_exe = 'gswin32c.exe'
 tmpdir = os.path.join(basedir, 'tmp')
 try: os.mkdir(tmpdir)
@@ -20,7 +22,7 @@ def run_gsexe(infile, outfile, device):
     try:
         cwd = os.getcwd()
         os.chdir(gsdir)
-        cmd = '%s -sDEVICE=%s -dNOPAUSE -dBATCH -q -sOutputFile=%s %s' % (gs_exe, device, outfile, infile)
+        cmd = '%s -sDEVICE=%s -dNOPAUSE -dBATCH -q -sOutputFile=%s "-I%s" "-I%s" %s' % (gs_exe, device, outfile, gsdir, gsfontsdir, infile)
         print 'Executing: %s' % cmd
         os.system(cmd)
     finally:
