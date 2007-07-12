@@ -1,0 +1,81 @@
+[Config]
+Relative path=1
+Compilator.FileName=
+Compilator.PSPar=
+Compilator.Log=
+Compilator.Run=
+Compilator.DefaultDir=
+Compilator.SaveAll=0
+Compilator.Capture=0
+Compilator.ParsLog=
+Compilator.HideOutput=0
+Prog1=
+Prog2=
+Prog3=
+Prog4=
+Prog5=
+DefaultDir=
+DefaultCPIndex=6
+LogtoEnd=1
+DontOpen=0
+FileFormat=0
+DocumentRoot=
+HTServer=
+[Project tree]
+notedit
+	+Složka
+		+html
+			html\templates.py
+			html\new_wizard.html
+		abcedit.py
+		convert.py
+		htmldialog.py
+		notedit.py
+		setup.py
+		viewpanel.py
+		worker.py
+		wxutils.py
+[Open project files]
+0=abcedit.py
+1=convert.py
+2=htmldialog.py
+3=notedit.py
+4=setup.py
+5=viewpanel.py
+6=worker.py
+7=wxutils.py
+8=html\new_wizard.html
+9=html\templates.py
+[Selected Project Files]
+Main=
+Selected=html\templates.py
+[abcedit.py]
+TopLine=1
+Caret=1,1
+[convert.py]
+TopLine=1
+Caret=1,1
+[htmldialog.py]
+TopLine=1
+Caret=1,1
+[notedit.py]
+TopLine=1
+Caret=1,1
+[setup.py]
+TopLine=1
+Caret=1,1
+[viewpanel.py]
+TopLine=1
+Caret=1,1
+[worker.py]
+TopLine=1
+Caret=1,1
+[wxutils.py]
+TopLine=1
+Caret=1,1
+[html\new_wizard.html]
+TopLine=1
+Caret=1,1
+[html\templates.py]
+TopLine=1
+Caret=1,1
