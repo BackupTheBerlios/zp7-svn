@@ -82,6 +82,7 @@ namespace zp8
             this.exportPísnìDoPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nováPíseòToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.upravitPíseòToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportPísníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nastavaníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.obecnéToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stylyZpìvníkuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,7 +91,7 @@ namespace zp8
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
             this.savePDF = new System.Windows.Forms.SaveFileDialog();
-            this.exportPísníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filtryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -598,11 +599,19 @@ namespace zp8
             this.upravitPíseòToolStripMenuItem.Text = "Upravit píseò";
             this.upravitPíseòToolStripMenuItem.Click += new System.EventHandler(this.upravitPíseòToolStripMenuItem_Click);
             // 
+            // exportPísníToolStripMenuItem
+            // 
+            this.exportPísníToolStripMenuItem.Name = "exportPísníToolStripMenuItem";
+            this.exportPísníToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.exportPísníToolStripMenuItem.Text = "Export písní";
+            this.exportPísníToolStripMenuItem.Click += new System.EventHandler(this.exportPísníToolStripMenuItem_Click);
+            // 
             // nastavaníToolStripMenuItem
             // 
             this.nastavaníToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.obecnéToolStripMenuItem,
-            this.stylyZpìvníkuToolStripMenuItem});
+            this.stylyZpìvníkuToolStripMenuItem,
+            this.filtryToolStripMenuItem});
             this.nastavaníToolStripMenuItem.Name = "nastavaníToolStripMenuItem";
             this.nastavaníToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
             this.nastavaníToolStripMenuItem.Text = "Nastavení";
@@ -638,12 +647,12 @@ namespace zp8
             // 
             this.savePDF.Filter = "PDF soubory (*.pdf)|*.pdf";
             // 
-            // exportPísníToolStripMenuItem
+            // filtryToolStripMenuItem
             // 
-            this.exportPísníToolStripMenuItem.Name = "exportPísníToolStripMenuItem";
-            this.exportPísníToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.exportPísníToolStripMenuItem.Text = "Export písní";
-            this.exportPísníToolStripMenuItem.Click += new System.EventHandler(this.exportPísníToolStripMenuItem_Click);
+            this.filtryToolStripMenuItem.Name = "filtryToolStripMenuItem";
+            this.filtryToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.filtryToolStripMenuItem.Text = "Filtry";
+            this.filtryToolStripMenuItem.Click += new System.EventHandler(this.filtryToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -658,9 +667,9 @@ namespace zp8
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Zpìvníkátor 8.0";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.TabControl1.ResumeLayout(false);
@@ -744,6 +753,7 @@ namespace zp8
         private System.Windows.Forms.ToolStripMenuItem pøidatVybranouPíseòDoZpìvníkuToolStripMenuItem;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ToolStripMenuItem exportPísníToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem filtryToolStripMenuItem;
     }
 }
 

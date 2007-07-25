@@ -9,11 +9,16 @@ using System.IO;
 
 namespace zp8
 {
-    public partial class BookStylesForm : Form
+    public partial class FiltersForm : Form
     {
-        public BookStylesForm()
+        public FiltersForm()
         {
             InitializeComponent();
+
+            lbfiltertype.Items.Clear();
+            foreach (ConfigurableSongFilterStruct f in SongFilters.FilterTypes) lbfiltertype.Items.Add(f.Name);
+            lbfiltertype.SelectedIndex = 0;
+
             LoadBsList();
         }
 
@@ -29,14 +34,14 @@ namespace zp8
 
         private void LoadBsList()
         {
-            lbbookstyles.Items.Clear();
-            foreach (string name in BookStyle.GetSbTypes()) lbbookstyles.Items.Add(name);
+            lbfilters.Items.Clear();
+            
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (lbbookstyles.SelectedIndex < 0) return;
-            string name = (string)lbbookstyles.Items[lbbookstyles.SelectedIndex];
+            if (lbfilters.SelectedIndex < 0) return;
+            string name = (string)lbfilters.Items[lbfilters.SelectedIndex];
 
             if (MessageBox.Show("Opravdu vymazat styl zpìvníku " + name + "?", "Zpìvníkátor", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
@@ -53,8 +58,8 @@ namespace zp8
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (lbbookstyles.SelectedIndex < 0) return;
-            string name = (string)lbbookstyles.Items[lbbookstyles.SelectedIndex];
+            if (lbfilters.SelectedIndex < 0) return;
+            string name = (string)lbfilters.Items[lbfilters.SelectedIndex];
             BookStyle bs = BookStyle.LoadBookStyle(name);
             OptionsForm.Run(bs);
             bs.Save();
@@ -62,7 +67,7 @@ namespace zp8
 
         public static void Run()
         {
-            BookStylesForm frm = new BookStylesForm();
+            FiltersForm frm = new FiltersForm();
             frm.ShowDialog();
         }
     }

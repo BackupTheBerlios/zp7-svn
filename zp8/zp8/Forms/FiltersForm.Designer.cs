@@ -1,6 +1,6 @@
 namespace zp8
 {
-    partial class BookStylesForm
+    partial class FiltersForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@ namespace zp8
         /// </summary>
         private void InitializeComponent()
         {
-            this.lbbookstyles = new System.Windows.Forms.ListBox();
+            this.lbfilters = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -36,28 +36,31 @@ namespace zp8
             this.button4 = new System.Windows.Forms.Button();
             this.tbnewname = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lbfiltertype = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
-            // lbbookstyles
+            // lbfilters
             // 
-            this.lbbookstyles.FormattingEnabled = true;
-            this.lbbookstyles.Location = new System.Drawing.Point(12, 38);
-            this.lbbookstyles.Name = "lbbookstyles";
-            this.lbbookstyles.Size = new System.Drawing.Size(157, 225);
-            this.lbbookstyles.TabIndex = 0;
+            this.lbfilters.FormattingEnabled = true;
+            this.lbfilters.Location = new System.Drawing.Point(12, 38);
+            this.lbfilters.Name = "lbfilters";
+            this.lbfilters.Size = new System.Drawing.Size(157, 225);
+            this.lbfilters.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 22);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 13);
+            this.label1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label1.Size = new System.Drawing.Size(28, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Styly zpìvníku";
+            this.label1.Text = "Filtry";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(175, 85);
+            this.button1.Location = new System.Drawing.Point(175, 151);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 2;
@@ -67,7 +70,7 @@ namespace zp8
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(175, 114);
+            this.button2.Location = new System.Drawing.Point(175, 180);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 3;
@@ -77,7 +80,7 @@ namespace zp8
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(175, 143);
+            this.button3.Location = new System.Drawing.Point(175, 209);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 4;
@@ -108,16 +111,36 @@ namespace zp8
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(175, 43);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(101, 13);
+            this.label2.Size = new System.Drawing.Size(99, 13);
             this.label2.TabIndex = 7;
-            this.label2.Text = "Jméno nového stylu";
+            this.label2.Text = "Jméno nového filtru";
             // 
-            // BookStylesForm
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(175, 82);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(86, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Typ nového filtru";
+            // 
+            // lbfiltertype
+            // 
+            this.lbfiltertype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.lbfiltertype.FormattingEnabled = true;
+            this.lbfiltertype.Location = new System.Drawing.Point(175, 98);
+            this.lbfiltertype.Name = "lbfiltertype";
+            this.lbfiltertype.Size = new System.Drawing.Size(101, 21);
+            this.lbfiltertype.TabIndex = 9;
+            // 
+            // FiltersForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button4;
             this.ClientSize = new System.Drawing.Size(289, 272);
+            this.Controls.Add(this.lbfiltertype);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tbnewname);
             this.Controls.Add(this.button4);
@@ -125,10 +148,10 @@ namespace zp8
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.lbbookstyles);
+            this.Controls.Add(this.lbfilters);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Name = "BookStylesForm";
-            this.Text = "Styly zpìvníku";
+            this.Name = "FiltersForm";
+            this.Text = "Filtry";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -136,7 +159,7 @@ namespace zp8
 
         #endregion
 
-        private System.Windows.Forms.ListBox lbbookstyles;
+        private System.Windows.Forms.ListBox lbfilters;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
@@ -144,5 +167,7 @@ namespace zp8
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox tbnewname;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox lbfiltertype;
     }
 }

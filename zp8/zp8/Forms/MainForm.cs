@@ -474,5 +474,10 @@ namespace zp8
         {
             ExportForm.Run(songDatabaseWrapper1, songTable1.GetSelectedSongs());
         }
+
+        private void filtryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FiltersForm.Run();
+        }
     }
 }
