@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using System.Xml.Serialization;
 
 namespace zp8
 {
@@ -83,6 +84,7 @@ namespace zp8
         }
 
         public static string CustomFiltersDirectory { get { return Path.Combine(Options.CfgDirectory, "filters"); } }
+        public static string FilterPath(string name) { return Path.Combine(CustomFiltersDirectory, name + ".flt"); }
 
         public static IEnumerable<string> GetCustomFilters()
         {
@@ -94,5 +96,28 @@ namespace zp8
             }
         }
 
+        public static bool ExistsCustomFilter(string name)
+        {
+            return File.Exists(FilterPath(name));
+        }
+
+        public static void DeleteFilter(string name)
+        {
+            File.Delete(FilterPath(name));
+        }
+
+        public static void SaveCustomFilter(string name, ISongFilter flt)
+        {
+            XmlSerializer ser = new XmlSerializer(flt.GetType());
+            using (FileStream fw = new FileStream(FilterPath(name), FileMode.Create))
+            {
+                ser.Serialize(fw, flt);
+            }
+        }
+
+        public static ISongFilter LoadCustomFilter(string name)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
     }
 }

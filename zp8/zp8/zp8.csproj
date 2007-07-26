@@ -46,6 +46,7 @@
     <Compile Include="Database\InternetDatabase.cs" />
     <Compile Include="Database\SongServer2.cs" />
     <Compile Include="Filters\FilterIntf.cs" />
+    <Compile Include="Filters\TextFormatter.cs" />
     <Compile Include="Format\BookFormat.cs" />
     <Compile Include="Format\Outline.cs" />
     <Compile Include="Format\Panes.cs" />

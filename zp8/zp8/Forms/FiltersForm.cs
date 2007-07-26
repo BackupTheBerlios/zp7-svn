@@ -19,23 +19,27 @@ namespace zp8
             foreach (ConfigurableSongFilterStruct f in SongFilters.FilterTypes) lbfiltertype.Items.Add(f.Name);
             lbfiltertype.SelectedIndex = 0;
 
-            LoadBsList();
+            LoadFilterList();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!BookStyle.Exists(tbnewname.Text))
+            if (!SongFilters.ExistsCustomFilter(tbnewname.Text))
             {
-                BookStyle bs = new BookStyle(tbnewname.Text);
-                bs.Save();
-                LoadBsList();
+                Type t = SongFilters.FilterTypes[lbfiltertype.SelectedIndex].Type;
+                ISongFilter flt = (ISongFilter)t.GetConstructor(new Type[] { }).Invoke(new object[] { });
+                SongFilters.SaveCustomFilter(tbnewname.Text, flt);
+                LoadFilterList();
             }
         }
 
-        private void LoadBsList()
+        private void LoadFilterList()
         {
             lbfilters.Items.Clear();
-            
+            foreach (string flt in SongFilters.GetCustomFilters())
+            {
+                lbfilters.Items.Add(flt);
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -43,11 +47,10 @@ namespace zp8
             if (lbfilters.SelectedIndex < 0) return;
             string name = (string)lbfilters.Items[lbfilters.SelectedIndex];
 
-            if (MessageBox.Show("Opravdu vymazat styl zpìvníku " + name + "?", "Zpìvníkátor", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("Opravdu vymazat filtr " + name + "?", "Zpìvníkátor", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                BookStyle bs = new BookStyle(name);
-                File.Delete(bs.FileName);
-                LoadBsList();
+                SongFilters.DeleteFilter(name);
+                LoadFilterList();
             }
         }
 
@@ -60,9 +63,9 @@ namespace zp8
         {
             if (lbfilters.SelectedIndex < 0) return;
             string name = (string)lbfilters.Items[lbfilters.SelectedIndex];
-            BookStyle bs = BookStyle.LoadBookStyle(name);
-            OptionsForm.Run(bs);
-            bs.Save();
+            ISongFilter flt = SongFilters.LoadCustomFilter(name);
+            OptionsForm.Run(flt);
+            SongFilters.SaveCustomFilter(name, flt);
         }
 
         public static void Run()
