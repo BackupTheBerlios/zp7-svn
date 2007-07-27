@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Collections;
+using System.IO;
 
 namespace zp8
 {
@@ -14,14 +15,14 @@ namespace zp8
         InetSongDb m_db;
         SongDatabaseWrapper m_dbwrap;
         IEnumerable<SongDb.songRow> m_selected;
-        List<IDbExportType> m_types = new List<IDbExportType>();
+        List<ISongFormatter> m_types = new List<ISongFormatter>();
 
         public ExportForm(SongDatabaseWrapper dbwrap, IEnumerable<SongDb.songRow> selected)
         {
             InitializeComponent();
             m_dbwrap = dbwrap;
             m_selected = selected;
-            foreach (IDbExportType exp in DbExport.Types)
+            foreach (ISongFormatter exp in SongFilters.EnumFilters<ISongFormatter>())
             {
                 m_types.Add(exp);
                 lbformat.Items.Add(exp.Title);
@@ -62,8 +63,11 @@ namespace zp8
             {
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
-                    IDbExportType exp = frm.m_types[frm.lbformat.SelectedIndex];
-                    exp.Run(frm.m_db, frm.tbfilename.Text);
+                    ISongFormatter exp = frm.m_types[frm.lbformat.SelectedIndex];
+                    using (FileStream fw = new FileStream(frm.tbfilename.Text, FileMode.Create))
+                    {
+                        exp.Format(frm.m_db, fw);
+                    }
                 }
                 else
                 {

@@ -7,6 +7,7 @@ using System.IO;
 
 namespace zp8
 {
+    /*
     public interface IDbExportType
     {
         string Name { get;}
@@ -61,4 +62,5 @@ namespace zp8
         }
         public static IEnumerable<IDbExportType> Types { get { return m_exports.Values; } }
     }
+    */
 }

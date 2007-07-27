@@ -24,10 +24,11 @@ namespace zp8
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!SongFilters.ExistsCustomFilter(tbnewname.Text))
+            if (tbnewname.Text != "" && !SongFilters.ExistsCustomFilter(tbnewname.Text))
             {
                 Type t = SongFilters.FilterTypes[lbfiltertype.SelectedIndex].Type;
                 ISongFilter flt = (ISongFilter)t.GetConstructor(new Type[] { }).Invoke(new object[] { });
+                ((ICustomSongFilter)flt).SetName(tbnewname.Text);
                 SongFilters.SaveCustomFilter(tbnewname.Text, flt);
                 LoadFilterList();
             }
@@ -64,7 +65,7 @@ namespace zp8
             if (lbfilters.SelectedIndex < 0) return;
             string name = (string)lbfilters.Items[lbfilters.SelectedIndex];
             ISongFilter flt = SongFilters.LoadCustomFilter(name);
-            OptionsForm.Run(flt);
+            PropertiesForm.Run(flt);
             SongFilters.SaveCustomFilter(name, flt);
         }
 

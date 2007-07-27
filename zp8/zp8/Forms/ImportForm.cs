@@ -5,19 +5,20 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace zp8
 {
     public partial class ImportForm : Form
     {
-        List<IDbImportType> m_types = new List<IDbImportType>();
+        List<ISongParser> m_types = new List<ISongParser>();
         AbstractSongDatabase m_db;
         public ImportForm(AbstractSongDatabase db)
         {
             InitializeComponent();
             m_db = db;
             serverBindingSource.DataSource = m_db.DataSet.server;
-            foreach (IDbImportType type in DbImport.Types)
+            foreach (ISongParser type in SongFilters.EnumFilters<ISongParser>())
             {
                 m_types.Add(type);
                 imptype.Items.Add(type.Title);
@@ -33,11 +34,17 @@ namespace zp8
 
         private void Work()
         {
-            IDbImportType type = m_types[imptype.SelectedIndex];
+            ISongParser type = m_types[imptype.SelectedIndex];
             InetSongDb xmldb = new InetSongDb();
             int? serverid = null;
             if (cbserver.Checked) serverid = (int)lbserver.SelectedValue;
-            foreach (string item in filelist.Items) type.Run(item, xmldb);
+            foreach (string item in filelist.Items)
+            {
+                using (FileStream fr = new FileStream(item, FileMode.Open))
+                {
+                    type.Parse(fr, xmldb);
+                }
+            }
             m_db.ImportSongs(xmldb, serverid);
         }
 

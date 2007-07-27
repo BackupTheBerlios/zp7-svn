@@ -4,13 +4,23 @@ using System.Text;
 using System.IO;
 using System.Reflection;
 using System.Xml.Serialization;
+using System.Xml;
 
 namespace zp8
 {
     public interface ISongFilter
     {
+        string Title { get;}
+        string Description { get;}
+        string FileDialogFilter { get;}
     }
 
+    public interface ICustomSongFilter
+    {
+        void SetName(string name);
+    }
+
+    /*
     public struct SongData
     {
         public string Title;
@@ -19,15 +29,18 @@ namespace zp8
         public string Text;
         public string Language;
     }
+    */
 
     public interface ISongParser : ISongFilter
     {
-        IEnumerable<SongData> Parse(Stream fr);
+        //IEnumerable<SongData> Parse(Stream fr);
+        void Parse(Stream fr, InetSongDb db);
     }
 
     public interface ISongFormatter : ISongFilter
     {
-        void Format(IEnumerable<SongData> songs, Stream fw);
+        //void Format(IEnumerable<SongData> songs, Stream fw);
+        void Format(InetSongDb db, Stream fw);
     }
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
@@ -81,6 +94,11 @@ namespace zp8
         public static IEnumerable<T> EnumFilters<T>() where T : class
         {
             foreach (ISongFilter flt in m_staticFilters) if (flt is T) yield return (T)flt;
+            foreach (string cf in GetCustomFilters())
+            {
+                ISongFilter flt = LoadCustomFilter(cf);
+                if (flt is T) yield return (T)flt;
+            }
         }
 
         public static string CustomFiltersDirectory { get { return Path.Combine(Options.CfgDirectory, "filters"); } }
@@ -108,16 +126,33 @@ namespace zp8
 
         public static void SaveCustomFilter(string name, ISongFilter flt)
         {
-            XmlSerializer ser = new XmlSerializer(flt.GetType());
+            Type type = flt.GetType();
+            XmlSerializer ser = new XmlSerializer(type);
             using (FileStream fw = new FileStream(FilterPath(name), FileMode.Create))
             {
-                ser.Serialize(fw, flt);
+                using (XmlWriter xw = XmlWriter.Create(fw))
+                {
+                    xw.WriteStartElement("CustomFilter");
+                    xw.WriteAttributeString("type", type.FullName);
+                    ser.Serialize(xw, flt);
+                    xw.WriteEndElement();
+                }
             }
         }
 
         public static ISongFilter LoadCustomFilter(string name)
         {
-            throw new Exception("The method or operation is not implemented.");
+            XmlDocument doc = new XmlDocument();
+            doc.Load(FilterPath(name));
+            string typename = doc.DocumentElement.GetAttribute("type");
+            Type type = Type.GetType(typename);
+            XmlSerializer ser = new XmlSerializer(type);
+            using (XmlNodeReader xr = new XmlNodeReader(doc.DocumentElement.LastChild))
+            {
+                object res = ser.Deserialize(xr);
+                ((ICustomSongFilter)res).SetName(name);
+                return (ISongFilter)res;
+            }
         }
     }
 }

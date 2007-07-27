@@ -1,32 +1,39 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Xml.Xsl;
-using System.Xml;
 using System.IO;
+using System.Xml;
+using System.Xml.Xsl;
 
 namespace zp8
 {
-    /*
-    public interface IDbImportType
+    [StaticSongFilter]
+    public class InetDbSongFormatter : ISongFormatter
     {
-        string Name { get;}
-        string Title { get;}
-        string Description { get;}
-        string FileDialogFilter { get;}
-        //void Run(AbstractSongDatabase db, string filename, int? serverid);
-        void Run(string filename, InetSongDb xmldb);
-    }
-
-    public class Zp6ImportType : IDbImportType
-    {
-        #region IDbImportType Members
-
-        public string Name
+        public string Title
         {
-            get { return "zp6"; }
+            get { return "Internetová databáze"; }
         }
 
+        public string Description
+        {
+            get { return "Soubor XML s písnìmi ve stejném formátu, jako je uložen v internetové databázi"; }
+        }
+
+        public string FileDialogFilter
+        {
+            get { return "XML soubory (*.xml)|*.xml"; }
+        }
+
+        public void Format(InetSongDb xmldb, Stream fw)
+        {
+            xmldb.song.WriteXml(fw);
+        }
+    }
+
+    [StaticSongFilter]
+    public class Zp6SongParser : ISongParser
+    {
         public string Title
         {
             get { return "Databáze zpìvníkátoru 6.0"; }
@@ -43,14 +50,14 @@ namespace zp8
         }
 
         //public void Run(AbstractSongDatabase db, string filename, int? serverid)
-        public void Run(string filename, InetSongDb xmldb)
+        public void Parse(Stream fr, InetSongDb xmldb)
         {
             XslCompiledTransform xslt = new XslCompiledTransform();
             xslt.Load(XmlReader.Create(new StringReader(xsls.zp6_to_zp8)));
             XmlDocument result = new XmlDocument();
             StringBuilder sb = new StringBuilder();
             XmlDocument zp6doc = new XmlDocument();
-            zp6doc.Load(filename);
+            zp6doc.Load(fr);
             xslt.Transform(zp6doc, XmlWriter.Create(sb));
             using (StringReader sr = new StringReader(sb.ToString()))
             {
@@ -58,19 +65,11 @@ namespace zp8
             }
             //db.ImportSongs(sr, serverid);
         }
-
-        #endregion
     }
 
-    public class InetDbImportType : IDbImportType
+    [StaticSongFilter]
+    public class InetDbSongParser : ISongParser
     {
-        #region IDbExportType Members
-
-        public string Name
-        {
-            get { return "inetdb"; }
-        }
-
         public string Title
         {
             get { return "Internetová databáze"; }
@@ -86,25 +85,10 @@ namespace zp8
             get { return "XML soubory (*.xml)|*.xml"; }
         }
 
-        public void Run(string filename, InetSongDb xmldb)
+        public void Parse(Stream fr, InetSongDb xmldb)
         {
+            xmldb.ReadXml(fr);
         }
-
-        #endregion
     }
 
-    public static class DbImport
-    {
-        static Dictionary<string, IDbImportType> m_imports = new Dictionary<string, IDbImportType>();
-        static DbImport()
-        {
-            RegisterImportType(new Zp6ImportType());
-        }
-        public static void RegisterImportType(IDbImportType type)
-        {
-            m_imports[type.Name] = type;
-        }
-        public static IEnumerable<IDbImportType> Types { get { return m_imports.Values; } }
-    }
-    */
 }

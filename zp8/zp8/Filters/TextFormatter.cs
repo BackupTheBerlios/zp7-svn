@@ -2,28 +2,48 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.ComponentModel;
+using System.Drawing.Design;
 
 namespace zp8
 {
     public enum LineType { TEXT, CHORD, MIXED };
-
-    public class TextFormatProps
+    
+    //[Editor("zp8.TextFormatPropsEditor", typeof(UITypeEditor))]
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+    public class TextFormatProps : PropertyPageBase
     {
         bool m_textLabels = true; // navesti je az pred textem (tj. nevola se DumpLabel, ale BeginLine s label!="")
         bool m_chordsInText = false; // akordy uvnitr textu
         bool m_chordsOut = false; // vyhodit akordy
 
+        [DisplayName("Návìští v textu")]
+        [Description("Návìští je na stejné øádce jako text")]
         public bool TextLabels { get { return m_textLabels; } set { m_textLabels = value; } }
+
+        [DisplayName("Vyhodit akordy")]
         public bool ChordsOut { get { return m_chordsOut; } set { m_chordsOut = value; } }
+
+        [DisplayName("Akordy uvnitø textu")]
+        [Description("Akordy uvnitø textu v hranatých závorkách")]
         public bool ChordsInText { get { return m_chordsInText; } set { m_chordsInText = value; } }
+
+        public override string ToString()
+        {
+            string res = "Akordy:";
+            if (m_chordsOut) res += "ne";
+            else if (m_chordsInText) res += "unvitø";
+            else res += "nahoøe";
+            return res;
+        }
     }
 
-    public abstract class TextFormatter
+    public abstract class TextFormatter : PropertyPageBase
     {
         bool m_waslabel;
         string m_label;
         string m_labelsp;
-        TextFormatProps m_textProps = new TextFormatProps();
+        protected TextFormatProps m_textProps = new TextFormatProps();
 
         public void Run(string text, TextWriter fw)
         {
