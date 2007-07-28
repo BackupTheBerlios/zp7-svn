@@ -16,6 +16,7 @@ namespace zp8
         SongDatabaseWrapper m_dbwrap;
         IEnumerable<SongDb.songRow> m_selected;
         List<ISongFormatter> m_types = new List<ISongFormatter>();
+        object m_dynamciProperties;
 
         public ExportForm(SongDatabaseWrapper dbwrap, IEnumerable<SongDb.songRow> selected)
         {
@@ -59,35 +60,18 @@ namespace zp8
         public static void Run(SongDatabaseWrapper dbwrap, IEnumerable<SongDb.songRow> selected)
         {
             ExportForm frm = new ExportForm(dbwrap, selected);
-            while (frm.tbfilename.Text == "")
+            if (frm.ShowDialog() == DialogResult.OK)
             {
-                if (frm.ShowDialog() == DialogResult.OK)
-                {
-                    ISongFormatter exp = frm.m_types[frm.lbformat.SelectedIndex];
-                    using (FileStream fw = new FileStream(frm.tbfilename.Text, FileMode.Create))
-                    {
-                        exp.Format(frm.m_db, fw);
-                    }
-                }
-                else
-                {
-                    break;
-                }
-
+                ISongFormatter exp = frm.m_types[frm.lbformat.SelectedIndex];
+                exp.Format(frm.m_db, frm.m_dynamciProperties);
             }
         }
 
         private void lbformat_SelectedIndexChanged(object sender, EventArgs e)
         {
-            saveFileDialog1.Filter = m_types[lbformat.SelectedIndex].FileDialogFilter;
+            m_dynamciProperties = m_types[lbformat.SelectedIndex].CreateDynamicProperties();
+            propertyGrid1.SelectedObject = m_dynamciProperties;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                tbfilename.Text = saveFileDialog1.FileName;
-            }
-        }
     }
 }

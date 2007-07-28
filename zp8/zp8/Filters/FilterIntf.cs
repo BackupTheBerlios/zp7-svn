@@ -12,7 +12,8 @@ namespace zp8
     {
         string Title { get;}
         string Description { get;}
-        string FileDialogFilter { get;}
+        //string FileDialogFilter { get;}
+        object CreateDynamicProperties();
     }
 
     public interface ICustomSongFilter
@@ -34,10 +35,22 @@ namespace zp8
     public interface ISongParser : ISongFilter
     {
         //IEnumerable<SongData> Parse(Stream fr);
+        void Parse(object props, InetSongDb db);
+    }
+
+    public interface IStreamSongParser
+    {
+        //IEnumerable<SongData> Parse(Stream fr);
         void Parse(Stream fr, InetSongDb db);
     }
 
     public interface ISongFormatter : ISongFilter
+    {
+        //void Format(IEnumerable<SongData> songs, Stream fw);
+        void Format(InetSongDb db, object props);
+    }
+
+    public interface IStreamSongFormatter
     {
         //void Format(IEnumerable<SongData> songs, Stream fw);
         void Format(InetSongDb db, Stream fw);

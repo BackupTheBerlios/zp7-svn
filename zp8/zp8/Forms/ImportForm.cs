@@ -13,6 +13,9 @@ namespace zp8
     {
         List<ISongParser> m_types = new List<ISongParser>();
         AbstractSongDatabase m_db;
+        object m_dynamicProperties;
+        InetSongDb m_xmldb;
+
         public ImportForm(AbstractSongDatabase db)
         {
             InitializeComponent();
@@ -29,23 +32,15 @@ namespace zp8
         private void imptype_SelectedIndexChanged(object sender, EventArgs e)
         {
             description.Text = m_types[imptype.SelectedIndex].Description;
-            openFileDialog1.Filter = m_types[imptype.SelectedIndex].FileDialogFilter;
+            m_dynamicProperties = m_types[imptype.SelectedIndex].CreateDynamicProperties();
+            propertyGrid1.SelectedObject = m_dynamicProperties;
         }
 
         private void Work()
         {
-            ISongParser type = m_types[imptype.SelectedIndex];
-            InetSongDb xmldb = new InetSongDb();
             int? serverid = null;
             if (cbserver.Checked) serverid = (int)lbserver.SelectedValue;
-            foreach (string item in filelist.Items)
-            {
-                using (FileStream fr = new FileStream(item, FileMode.Open))
-                {
-                    type.Parse(fr, xmldb);
-                }
-            }
-            m_db.ImportSongs(xmldb, serverid);
+            m_db.ImportSongs(m_xmldb, serverid);
         }
 
         public static bool Run(AbstractSongDatabase db)
@@ -59,22 +54,17 @@ namespace zp8
             return false;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                filelist.Items.AddRange(openFileDialog1.FileNames);
-            }
-        }
-
         private void cbserver_CheckedChanged(object sender, EventArgs e)
         {
             lbserver.Enabled = cbserver.Checked;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void wizardPage2_ShowFromNext(object sender, EventArgs e)
         {
-            if (filelist.SelectedIndex >= 0) filelist.Items.RemoveAt(filelist.SelectedIndex);
+            ISongParser type = m_types[imptype.SelectedIndex];
+            m_xmldb = new InetSongDb();
+            type.Parse(m_dynamicProperties, m_xmldb);
+            songBindingSource.DataSource = m_xmldb.song;
         }
     }
 }

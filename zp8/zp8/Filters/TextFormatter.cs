@@ -38,7 +38,7 @@ namespace zp8
         }
     }
 
-    public abstract class TextFormatter : PropertyPageBase
+    public abstract class TextFormatter : SingleFileExporter
     {
         bool m_waslabel;
         string m_label;
@@ -192,9 +192,7 @@ namespace zp8
             set { m_textProps = value; }
         }
 
-        #region ISongFormatter Members
-
-        public void Format(InetSongDb db, Stream fw)
+        protected override void Format(InetSongDb db, Stream fw)
         {
             using (StreamWriter sw = new StreamWriter(fw, m_encoding))
             {
@@ -212,31 +210,10 @@ namespace zp8
             }
         }
 
-        #endregion
-
         protected virtual void DumpFileBegin(TextWriter fw) { }
         protected virtual void DumpFileEnd(TextWriter fw) { }
         protected virtual void DumpSongSeparator(TextWriter fw) { }
         protected virtual void DumpSongBegin(InetSongDb.songRow song, TextWriter fw) { }
         protected virtual void DumpSongEnd(InetSongDb.songRow song, TextWriter fw) { }
-
-        #region ISongFilter Members
-
-        public virtual string Title
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
-
-        public virtual string Description
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
-
-        public virtual string FileDialogFilter
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
-
-        #endregion
     }
 }

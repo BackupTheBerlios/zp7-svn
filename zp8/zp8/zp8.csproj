@@ -44,9 +44,12 @@
     <Compile Include="Book\DistribAlg.cs" />
     <Compile Include="Database\InternetDatabase.cs" />
     <Compile Include="Database\SongServer.cs" />
+    <Compile Include="Filters\DirectorySongExporter.cs" />
     <Compile Include="Filters\HtmlFilters.cs" />
     <Compile Include="Filters\FilterIntf.cs" />
+    <Compile Include="Filters\MultipleFileFilters.cs" />
     <Compile Include="Filters\RTFFilters.cs" />
+    <Compile Include="Filters\SingleFileFilters.cs" />
     <Compile Include="Filters\TemplateFilter.cs" />
     <Compile Include="Filters\TextFilters.cs" />
     <Compile Include="Filters\TextFormatter.cs" />
@@ -75,6 +78,12 @@
     </Compile>
     <Compile Include="Forms\ChangeBookStyleForm.Designer.cs">
       <DependentUpon>ChangeBookStyleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FileCollectionEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FileCollectionEditorForm.Designer.cs">
+      <DependentUpon>FileCollectionEditorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FiltersForm.cs">
       <SubType>Form</SubType>
@@ -197,6 +206,10 @@
     <EmbeddedResource Include="Forms\ChangeBookStyleForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ChangeBookStyleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FileCollectionEditorForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FileCollectionEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FiltersForm.resx">
       <DependentUpon>FiltersForm.cs</DependentUpon>

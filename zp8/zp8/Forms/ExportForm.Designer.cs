@@ -40,18 +40,12 @@ namespace zp8
             this.rbcurrentsong = new System.Windows.Forms.RadioButton();
             this.header1 = new Gui.Wizard.Header();
             this.wizardPage3 = new Gui.Wizard.WizardPage();
-            this.button1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.tbfilename = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.lbformat = new System.Windows.Forms.ListBox();
             this.header3 = new Gui.Wizard.Header();
             this.wizardPage2 = new Gui.Wizard.WizardPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.songBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.inetSongDb = new zp8.InetSongDb();
-            this.header2 = new Gui.Wizard.Header();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -59,6 +53,10 @@ namespace zp8
             this.langDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.songtextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.publishedDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.songBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.inetSongDb = new zp8.InetSongDb();
+            this.header2 = new Gui.Wizard.Header();
+            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.wizard1.SuspendLayout();
             this.wizardPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -71,9 +69,9 @@ namespace zp8
             // 
             // wizard1
             // 
-            this.wizard1.Controls.Add(this.wizardPage1);
-            this.wizard1.Controls.Add(this.wizardPage2);
             this.wizard1.Controls.Add(this.wizardPage3);
+            this.wizard1.Controls.Add(this.wizardPage2);
+            this.wizard1.Controls.Add(this.wizardPage1);
             this.wizard1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.wizard1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.wizard1.Location = new System.Drawing.Point(0, 0);
@@ -176,9 +174,8 @@ namespace zp8
             // 
             // wizardPage3
             // 
-            this.wizardPage3.Controls.Add(this.button1);
+            this.wizardPage3.Controls.Add(this.propertyGrid1);
             this.wizardPage3.Controls.Add(this.label2);
-            this.wizardPage3.Controls.Add(this.tbfilename);
             this.wizardPage3.Controls.Add(this.label1);
             this.wizardPage3.Controls.Add(this.lbformat);
             this.wizardPage3.Controls.Add(this.header3);
@@ -189,32 +186,14 @@ namespace zp8
             this.wizardPage3.Size = new System.Drawing.Size(512, 381);
             this.wizardPage3.TabIndex = 3;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(425, 103);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(39, 23);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "...";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(231, 89);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(84, 13);
+            this.label2.Size = new System.Drawing.Size(123, 13);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Výstupní soubor";
-            // 
-            // tbfilename
-            // 
-            this.tbfilename.Location = new System.Drawing.Point(234, 105);
-            this.tbfilename.Name = "tbfilename";
-            this.tbfilename.ReadOnly = true;
-            this.tbfilename.Size = new System.Drawing.Size(185, 21);
-            this.tbfilename.TabIndex = 3;
+            this.label2.Text = "Výstupní soubor / složka";
             // 
             // label1
             // 
@@ -278,29 +257,6 @@ namespace zp8
             this.dataGridView1.Size = new System.Drawing.Size(512, 317);
             this.dataGridView1.TabIndex = 1;
             // 
-            // songBindingSource
-            // 
-            this.songBindingSource.DataMember = "song";
-            this.songBindingSource.DataSource = this.inetSongDb;
-            // 
-            // inetSongDb
-            // 
-            this.inetSongDb.DataSetName = "InetSongDb";
-            this.inetSongDb.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // header2
-            // 
-            this.header2.BackColor = System.Drawing.SystemColors.Control;
-            this.header2.CausesValidation = false;
-            this.header2.Description = "Prohlížení exportovaných písní";
-            this.header2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.header2.Image = ((System.Drawing.Image)(resources.GetObject("header2.Image")));
-            this.header2.Location = new System.Drawing.Point(0, 0);
-            this.header2.Name = "header2";
-            this.header2.Size = new System.Drawing.Size(512, 64);
-            this.header2.TabIndex = 0;
-            this.header2.Title = "Export písní";
-            // 
             // iDDataGridViewTextBoxColumn
             // 
             this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
@@ -345,6 +301,36 @@ namespace zp8
             this.publishedDataGridViewTextBoxColumn.Name = "publishedDataGridViewTextBoxColumn";
             this.publishedDataGridViewTextBoxColumn.Visible = false;
             // 
+            // songBindingSource
+            // 
+            this.songBindingSource.DataMember = "song";
+            this.songBindingSource.DataSource = this.inetSongDb;
+            // 
+            // inetSongDb
+            // 
+            this.inetSongDb.DataSetName = "InetSongDb";
+            this.inetSongDb.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // header2
+            // 
+            this.header2.BackColor = System.Drawing.SystemColors.Control;
+            this.header2.CausesValidation = false;
+            this.header2.Description = "Prohlížení exportovaných písní";
+            this.header2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.header2.Image = ((System.Drawing.Image)(resources.GetObject("header2.Image")));
+            this.header2.Location = new System.Drawing.Point(0, 0);
+            this.header2.Name = "header2";
+            this.header2.Size = new System.Drawing.Size(512, 64);
+            this.header2.TabIndex = 0;
+            this.header2.Title = "Export písní";
+            // 
+            // propertyGrid1
+            // 
+            this.propertyGrid1.Location = new System.Drawing.Point(235, 105);
+            this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.Size = new System.Drawing.Size(265, 199);
+            this.propertyGrid1.TabIndex = 5;
+            // 
             // ExportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -386,11 +372,8 @@ namespace zp8
         private System.Windows.Forms.DataGridView dataGridView1;
         private Gui.Wizard.Header header2;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox tbfilename;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.BindingSource songBindingSource;
         private InetSongDb inetSongDb;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn titleDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn groupnameDataGridViewTextBoxColumn;
@@ -398,5 +381,6 @@ namespace zp8
         private System.Windows.Forms.DataGridViewTextBoxColumn langDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn songtextDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn publishedDataGridViewTextBoxColumn;
+        private System.Windows.Forms.PropertyGrid propertyGrid1;
     }
 }
