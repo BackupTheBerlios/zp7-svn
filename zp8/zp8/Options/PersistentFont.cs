@@ -154,10 +154,24 @@ namespace zp8
             XFont res = new XFont(FontName, worldSize, ToXFontStyle(this), XFontOptions);
             return res;
         }
-        public bool Bold { get { return (m_fontStyle & FontStyle.Bold) == FontStyle.Bold; } }
-        public bool Italic { get { return (m_fontStyle & FontStyle.Italic) == FontStyle.Italic; } }
-        public bool Underline { get { return (m_fontStyle & FontStyle.Underline) == FontStyle.Underline; } }
-        public bool Strikeout { get { return (m_fontStyle & FontStyle.Strikeout) == FontStyle.Strikeout; } }
+        public bool Bold { 
+            get { return (m_fontStyle & FontStyle.Bold) == FontStyle.Bold; }
+            set { if (value) m_fontStyle |= FontStyle.Bold; else m_fontStyle &= ~FontStyle.Bold; }
+        }
+        public bool Italic { 
+            get { return (m_fontStyle & FontStyle.Italic) == FontStyle.Italic; }
+            set { if (value) m_fontStyle |= FontStyle.Italic;else m_fontStyle &= ~FontStyle.Italic; }
+        }
+        public bool Underline
+        {
+            get { return (m_fontStyle & FontStyle.Underline) == FontStyle.Underline; }
+            set { if (value) m_fontStyle |= FontStyle.Underline; else m_fontStyle &= ~FontStyle.Underline; }
+        }
+        public bool Strikeout
+        {
+            get { return (m_fontStyle & FontStyle.Strikeout) == FontStyle.Strikeout; }
+            set { if (value) m_fontStyle |= FontStyle.Strikeout; else m_fontStyle &= ~FontStyle.Strikeout; }
+        }
         private static XFontStyle ToXFontStyle(PersistentFont font)
         {
             return

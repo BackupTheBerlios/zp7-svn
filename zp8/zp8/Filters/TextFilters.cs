@@ -13,7 +13,8 @@ namespace zp8
             if (m_textProps.ChordsInText) fw.Write('[');
             fw.Write(chord);
             if (m_textProps.ChordsInText) fw.Write(']');
-        }
+        }
+
         #region ISongFormatter Members
 
         public void Format(InetSongDb db, Stream fw)
@@ -24,7 +25,7 @@ namespace zp8
                 {
                     sw.WriteLine(row.title);
                     sw.WriteLine(row.author);
-                    Run(row.songtext, sw);
+                    RunTextFormatting(row.songtext, sw);
                     sw.WriteLine("");
                     sw.WriteLine("");
                 }

@@ -45,7 +45,7 @@ namespace zp8
         string m_labelsp;
         protected TextFormatProps m_textProps = new TextFormatProps();
 
-        public void Run(string text, TextWriter fw)
+        public void RunTextFormatting(string text, TextWriter fw)
         {
             foreach (string line0 in text.Split('\n'))
             {
@@ -164,6 +164,11 @@ namespace zp8
                 return m_label;
             }
             return m_labelsp;
+        }
+
+        public static bool IsLabel(string label)
+        {
+            return label.Replace(" ", "") != "";
         }
 
         protected virtual void DumpChord(string chord, TextWriter fw, ref int reallen) { fw.Write(chord); }
