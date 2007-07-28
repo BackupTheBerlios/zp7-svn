@@ -5,6 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Xml;
 using System.IO;
+using System.Drawing;
 
 namespace zp8
 {
@@ -43,6 +44,23 @@ namespace zp8
         public PersistentFont TitleFont { get { return m_titleFont; } set { m_titleFont = value; } }
         [DisplayName("Font autora")]
         public PersistentFont AuthorFont { get { return m_authorFont; } set { m_authorFont = value; } }
+    }
+
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+    public class ExportFontsPropertyPage : SongPrintPropertyPage
+    {
+        public ExportFontsPropertyPage()
+        {
+            TextFont.FontName = "Courier New";
+            LabelFont.FontName = "Courier New";
+            ChordFont.FontName = "Courier New";
+            LabelFont.Underline = true;
+            ChordFont.Bold = true;
+            TitleFont.FontSize = 15;
+            AuthorFont.FontSize = 12;
+            AuthorFont.Italic = true;
+            ChordFont.FontColor = Color.Blue;
+        }
     }
 
     public class GlobalOpts

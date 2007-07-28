@@ -46,26 +46,9 @@ namespace zp8
         }
     }
 
-    [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class RtfFontsPropertyPage : SongPrintPropertyPage
-    {
-        public RtfFontsPropertyPage()
-        {
-            TextFont.FontName = "Courier New";
-            LabelFont.FontName = "Courier New";
-            ChordFont.FontName = "Courier New";
-            LabelFont.Underline = true;
-            ChordFont.Bold = true;
-            TitleFont.FontSize = 15;
-            AuthorFont.FontSize = 12;
-            AuthorFont.Italic = true;
-            ChordFont.FontColor = Color.Blue;
-        }
-    }
-
     public class RtfTextFormatterBase : TextFormatter, ISongFormatter
     {
-        RtfFontsPropertyPage m_fonts = new RtfFontsPropertyPage();
+        ExportFontsPropertyPage m_fonts = new ExportFontsPropertyPage();
 
         protected override void DumpChord(string chord, TextWriter fw, ref int reallen)
         {
@@ -75,7 +58,7 @@ namespace zp8
         }
 
         [DisplayName("Fonty")]
-        public RtfFontsPropertyPage Fonts
+        public ExportFontsPropertyPage Fonts
         {
             get { return m_fonts; }
             set { m_fonts = value; }

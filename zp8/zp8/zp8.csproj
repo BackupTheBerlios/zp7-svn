@@ -44,6 +44,7 @@
     <Compile Include="Book\DistribAlg.cs" />
     <Compile Include="Database\InternetDatabase.cs" />
     <Compile Include="Database\SongServer.cs" />
+    <Compile Include="Filters\HtmlFilters.cs" />
     <Compile Include="Filters\FilterIntf.cs" />
     <Compile Include="Filters\RTFFilters.cs" />
     <Compile Include="Filters\TextFilters.cs" />
