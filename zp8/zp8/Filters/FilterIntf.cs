@@ -18,7 +18,7 @@ namespace zp8
 
     public interface ICustomSongFilter
     {
-        void SetName(string name);
+        string Name { get;set;}
     }
 
     /*
@@ -163,9 +163,30 @@ namespace zp8
             using (XmlNodeReader xr = new XmlNodeReader(doc.DocumentElement.LastChild))
             {
                 object res = ser.Deserialize(xr);
-                ((ICustomSongFilter)res).SetName(name);
+                ((ICustomSongFilter)res).Name = name;
                 return (ISongFilter)res;
             }
+        }
+
+        public static ISongFilter FilterByName(string name)
+        {
+            if (name.StartsWith("@"))
+            {
+                Type type = Type.GetType(name.Substring(1));
+                object res = type.GetConstructor(new Type[] { }).Invoke(new object[] { });
+                return (ISongFilter)res;
+            }
+            return LoadCustomFilter(name);
+        }
+
+        public static IEnumerable<string> EnumFilterNames<T>() where T:class
+        {
+            foreach (T flt in EnumFilters<T>())
+            {
+                if (flt is ICustomSongFilter) yield return ((ICustomSongFilter)flt).Name;
+                else yield return "@" + flt.GetType().FullName;
+            }
+
         }
     }
 }

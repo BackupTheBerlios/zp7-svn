@@ -42,6 +42,16 @@ namespace zp8
         {
             textBox1.SelectedText = "$[NL]";
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            textBox1.SelectedText = "$[SONGINDEX]";
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            textBox1.SelectedText = "$[GROUPINDEX]";
+        }
     }
 }
 

@@ -11,6 +11,16 @@ using System.Data.SQLite;
 
 namespace zp8
 {
+    public interface ISongRow
+    {
+        int ID { get;set;}
+        string title { get;set;}
+        string author { get;set;}
+        string groupname { get;set;}
+        string songtext { get;set;}
+        string lang { get;set;}
+    }
+
     public abstract partial class AbstractSongDatabase
     {
         protected SongDb m_dataset;

@@ -48,7 +48,7 @@ namespace zp8
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.songTable1 = new zp8.SongTable();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.songsByGroupFrame1 = new zp8.Frames.SongsByGroupFrame();
+            this.songsByGroupFrame1 = new zp8.SongsByGroupFrame();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.serversFrame1 = new zp8.ServersFrame();
             this.tbsongbook = new System.Windows.Forms.TabPage();
@@ -778,7 +778,7 @@ namespace zp8
         private SongView songView1;
         private System.Windows.Forms.Splitter splitter1;
         private SongTable songTable1;
-        private zp8.Frames.SongsByGroupFrame songsByGroupFrame1;
+        private zp8.SongsByGroupFrame songsByGroupFrame1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox tbfilter;
         private System.Windows.Forms.Label label1;

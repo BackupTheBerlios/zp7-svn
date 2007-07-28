@@ -55,7 +55,7 @@ namespace zp8
         }
     }
 
-    public abstract class MultipleStreamImporter : PropertyPageBase, ISongParser
+    public abstract class MultipleStreamImporter : PropertyPageBase, ISongParser, IStreamSongParser
     {
         #region ISongFilter Members
 
@@ -97,7 +97,7 @@ namespace zp8
 
         #endregion
 
-        protected abstract void Parse(Stream fr, InetSongDb db);
+        public abstract void Parse(Stream fr, InetSongDb db);
     }
 
 }

@@ -11,5 +11,9 @@ namespace zp8 {
                 throw new Exception("Row not found");
             }
         }
+
+        public partial class songRow : ISongRow
+        {
+        }
     }
 }

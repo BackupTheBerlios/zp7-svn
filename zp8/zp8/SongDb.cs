@@ -5,5 +5,9 @@
         partial class songDataTable
         {
         }
+
+        public partial class songRow : ISongRow
+        {
+        }
     }
 }

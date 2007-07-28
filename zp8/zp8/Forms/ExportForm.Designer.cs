@@ -31,15 +31,8 @@ namespace zp8
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExportForm));
             this.wizard1 = new Gui.Wizard.Wizard();
-            this.wizardPage1 = new Gui.Wizard.WizardPage();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tbcondition = new System.Windows.Forms.TextBox();
-            this.rbcondition = new System.Windows.Forms.RadioButton();
-            this.rbwholedb = new System.Windows.Forms.RadioButton();
-            this.rbselectedsongs = new System.Windows.Forms.RadioButton();
-            this.rbcurrentsong = new System.Windows.Forms.RadioButton();
-            this.header1 = new Gui.Wizard.Header();
             this.wizardPage3 = new Gui.Wizard.WizardPage();
+            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lbformat = new System.Windows.Forms.ListBox();
@@ -56,22 +49,29 @@ namespace zp8
             this.songBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.inetSongDb = new zp8.InetSongDb();
             this.header2 = new Gui.Wizard.Header();
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.wizardPage1 = new Gui.Wizard.WizardPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tbcondition = new System.Windows.Forms.TextBox();
+            this.rbcondition = new System.Windows.Forms.RadioButton();
+            this.rbwholedb = new System.Windows.Forms.RadioButton();
+            this.rbselectedsongs = new System.Windows.Forms.RadioButton();
+            this.rbcurrentsong = new System.Windows.Forms.RadioButton();
+            this.header1 = new Gui.Wizard.Header();
             this.wizard1.SuspendLayout();
-            this.wizardPage1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.wizardPage3.SuspendLayout();
             this.wizardPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.songBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.inetSongDb)).BeginInit();
+            this.wizardPage1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // wizard1
             // 
+            this.wizard1.Controls.Add(this.wizardPage1);
             this.wizard1.Controls.Add(this.wizardPage3);
             this.wizard1.Controls.Add(this.wizardPage2);
-            this.wizard1.Controls.Add(this.wizardPage1);
             this.wizard1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.wizard1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.wizard1.Location = new System.Drawing.Point(0, 0);
@@ -82,95 +82,6 @@ namespace zp8
             this.wizardPage3});
             this.wizard1.Size = new System.Drawing.Size(512, 429);
             this.wizard1.TabIndex = 0;
-            // 
-            // wizardPage1
-            // 
-            this.wizardPage1.Controls.Add(this.groupBox1);
-            this.wizardPage1.Controls.Add(this.header1);
-            this.wizardPage1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.wizardPage1.IsFinishPage = false;
-            this.wizardPage1.Location = new System.Drawing.Point(0, 0);
-            this.wizardPage1.Name = "wizardPage1";
-            this.wizardPage1.Size = new System.Drawing.Size(512, 381);
-            this.wizardPage1.TabIndex = 1;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.tbcondition);
-            this.groupBox1.Controls.Add(this.rbcondition);
-            this.groupBox1.Controls.Add(this.rbwholedb);
-            this.groupBox1.Controls.Add(this.rbselectedsongs);
-            this.groupBox1.Controls.Add(this.rbcurrentsong);
-            this.groupBox1.Location = new System.Drawing.Point(12, 70);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(488, 308);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Zdroj písní";
-            // 
-            // tbcondition
-            // 
-            this.tbcondition.Enabled = false;
-            this.tbcondition.Location = new System.Drawing.Point(25, 112);
-            this.tbcondition.Name = "tbcondition";
-            this.tbcondition.Size = new System.Drawing.Size(216, 21);
-            this.tbcondition.TabIndex = 4;
-            // 
-            // rbcondition
-            // 
-            this.rbcondition.AutoSize = true;
-            this.rbcondition.Location = new System.Drawing.Point(6, 89);
-            this.rbcondition.Name = "rbcondition";
-            this.rbcondition.Size = new System.Drawing.Size(130, 17);
-            this.rbcondition.TabIndex = 3;
-            this.rbcondition.Text = "Podmnožina databáze";
-            this.rbcondition.UseVisualStyleBackColor = true;
-            this.rbcondition.CheckedChanged += new System.EventHandler(this.rbcondition_CheckedChanged);
-            // 
-            // rbwholedb
-            // 
-            this.rbwholedb.AutoSize = true;
-            this.rbwholedb.Location = new System.Drawing.Point(6, 66);
-            this.rbwholedb.Name = "rbwholedb";
-            this.rbwholedb.Size = new System.Drawing.Size(94, 17);
-            this.rbwholedb.TabIndex = 2;
-            this.rbwholedb.Text = "Celá databáze";
-            this.rbwholedb.UseVisualStyleBackColor = true;
-            // 
-            // rbselectedsongs
-            // 
-            this.rbselectedsongs.AutoSize = true;
-            this.rbselectedsongs.Location = new System.Drawing.Point(6, 43);
-            this.rbselectedsongs.Name = "rbselectedsongs";
-            this.rbselectedsongs.Size = new System.Drawing.Size(93, 17);
-            this.rbselectedsongs.TabIndex = 1;
-            this.rbselectedsongs.Text = "Vybrané písnì";
-            this.rbselectedsongs.UseVisualStyleBackColor = true;
-            // 
-            // rbcurrentsong
-            // 
-            this.rbcurrentsong.AutoSize = true;
-            this.rbcurrentsong.Checked = true;
-            this.rbcurrentsong.Location = new System.Drawing.Point(6, 20);
-            this.rbcurrentsong.Name = "rbcurrentsong";
-            this.rbcurrentsong.Size = new System.Drawing.Size(91, 17);
-            this.rbcurrentsong.TabIndex = 0;
-            this.rbcurrentsong.TabStop = true;
-            this.rbcurrentsong.Text = "Aktuální píseò";
-            this.rbcurrentsong.UseVisualStyleBackColor = true;
-            // 
-            // header1
-            // 
-            this.header1.BackColor = System.Drawing.SystemColors.Control;
-            this.header1.CausesValidation = false;
-            this.header1.Description = "Zdroj písní pro export";
-            this.header1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.header1.Image = ((System.Drawing.Image)(resources.GetObject("header1.Image")));
-            this.header1.Location = new System.Drawing.Point(0, 0);
-            this.header1.Name = "header1";
-            this.header1.Size = new System.Drawing.Size(512, 64);
-            this.header1.TabIndex = 0;
-            this.header1.Title = "Export písní";
             // 
             // wizardPage3
             // 
@@ -185,6 +96,13 @@ namespace zp8
             this.wizardPage3.Name = "wizardPage3";
             this.wizardPage3.Size = new System.Drawing.Size(512, 381);
             this.wizardPage3.TabIndex = 3;
+            // 
+            // propertyGrid1
+            // 
+            this.propertyGrid1.Location = new System.Drawing.Point(235, 105);
+            this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.Size = new System.Drawing.Size(265, 199);
+            this.propertyGrid1.TabIndex = 5;
             // 
             // label2
             // 
@@ -324,12 +242,94 @@ namespace zp8
             this.header2.TabIndex = 0;
             this.header2.Title = "Export písní";
             // 
-            // propertyGrid1
+            // wizardPage1
             // 
-            this.propertyGrid1.Location = new System.Drawing.Point(235, 105);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(265, 199);
-            this.propertyGrid1.TabIndex = 5;
+            this.wizardPage1.Controls.Add(this.groupBox1);
+            this.wizardPage1.Controls.Add(this.header1);
+            this.wizardPage1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.wizardPage1.IsFinishPage = false;
+            this.wizardPage1.Location = new System.Drawing.Point(0, 0);
+            this.wizardPage1.Name = "wizardPage1";
+            this.wizardPage1.Size = new System.Drawing.Size(512, 381);
+            this.wizardPage1.TabIndex = 1;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.tbcondition);
+            this.groupBox1.Controls.Add(this.rbcondition);
+            this.groupBox1.Controls.Add(this.rbwholedb);
+            this.groupBox1.Controls.Add(this.rbselectedsongs);
+            this.groupBox1.Controls.Add(this.rbcurrentsong);
+            this.groupBox1.Location = new System.Drawing.Point(12, 70);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(488, 308);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Zdroj písní";
+            // 
+            // tbcondition
+            // 
+            this.tbcondition.Enabled = false;
+            this.tbcondition.Location = new System.Drawing.Point(25, 112);
+            this.tbcondition.Name = "tbcondition";
+            this.tbcondition.Size = new System.Drawing.Size(216, 21);
+            this.tbcondition.TabIndex = 4;
+            // 
+            // rbcondition
+            // 
+            this.rbcondition.AutoSize = true;
+            this.rbcondition.Location = new System.Drawing.Point(6, 89);
+            this.rbcondition.Name = "rbcondition";
+            this.rbcondition.Size = new System.Drawing.Size(130, 17);
+            this.rbcondition.TabIndex = 3;
+            this.rbcondition.Text = "Podmnožina databáze";
+            this.rbcondition.UseVisualStyleBackColor = true;
+            this.rbcondition.CheckedChanged += new System.EventHandler(this.rbcondition_CheckedChanged);
+            // 
+            // rbwholedb
+            // 
+            this.rbwholedb.AutoSize = true;
+            this.rbwholedb.Location = new System.Drawing.Point(6, 66);
+            this.rbwholedb.Name = "rbwholedb";
+            this.rbwholedb.Size = new System.Drawing.Size(94, 17);
+            this.rbwholedb.TabIndex = 2;
+            this.rbwholedb.Text = "Celá databáze";
+            this.rbwholedb.UseVisualStyleBackColor = true;
+            // 
+            // rbselectedsongs
+            // 
+            this.rbselectedsongs.AutoSize = true;
+            this.rbselectedsongs.Location = new System.Drawing.Point(6, 43);
+            this.rbselectedsongs.Name = "rbselectedsongs";
+            this.rbselectedsongs.Size = new System.Drawing.Size(93, 17);
+            this.rbselectedsongs.TabIndex = 1;
+            this.rbselectedsongs.Text = "Vybrané písnì";
+            this.rbselectedsongs.UseVisualStyleBackColor = true;
+            // 
+            // rbcurrentsong
+            // 
+            this.rbcurrentsong.AutoSize = true;
+            this.rbcurrentsong.Checked = true;
+            this.rbcurrentsong.Location = new System.Drawing.Point(6, 20);
+            this.rbcurrentsong.Name = "rbcurrentsong";
+            this.rbcurrentsong.Size = new System.Drawing.Size(91, 17);
+            this.rbcurrentsong.TabIndex = 0;
+            this.rbcurrentsong.TabStop = true;
+            this.rbcurrentsong.Text = "Aktuální píseò";
+            this.rbcurrentsong.UseVisualStyleBackColor = true;
+            // 
+            // header1
+            // 
+            this.header1.BackColor = System.Drawing.SystemColors.Control;
+            this.header1.CausesValidation = false;
+            this.header1.Description = "Zdroj písní pro export";
+            this.header1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.header1.Image = ((System.Drawing.Image)(resources.GetObject("header1.Image")));
+            this.header1.Location = new System.Drawing.Point(0, 0);
+            this.header1.Name = "header1";
+            this.header1.Size = new System.Drawing.Size(512, 64);
+            this.header1.TabIndex = 0;
+            this.header1.Title = "Export písní";
             // 
             // ExportForm
             // 
@@ -340,15 +340,15 @@ namespace zp8
             this.Name = "ExportForm";
             this.Text = "Export písní";
             this.wizard1.ResumeLayout(false);
-            this.wizardPage1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.wizardPage3.ResumeLayout(false);
             this.wizardPage3.PerformLayout();
             this.wizardPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.songBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.inetSongDb)).EndInit();
+            this.wizardPage1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }

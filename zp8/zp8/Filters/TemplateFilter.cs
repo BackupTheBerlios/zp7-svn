@@ -102,6 +102,7 @@ namespace zp8
 
         [Category("Øádka textu")]
         [DisplayName("Zaèátek textové øádky")]
+        [Editor(typeof(TemplateTextEditor), typeof(UITypeEditor))]
         public string TextLineBegin
         {
             get { return m_textLineBegin; }
@@ -110,6 +111,7 @@ namespace zp8
 
         [Category("Øádka textu")]
         [DisplayName("Konec textové øádky")]
+        [Editor(typeof(TemplateTextEditor), typeof(UITypeEditor))]
         public string TextLineEnd
         {
             get { return m_textLineEnd; }
@@ -118,6 +120,7 @@ namespace zp8
 
         [Category("Øádka textu")]
         [DisplayName("Zaèátek akordové øádky")]
+        [Editor(typeof(TemplateTextEditor), typeof(UITypeEditor))]
         public string ChordLineBegin
         {
             get { return m_chordLineBegin; }
@@ -126,6 +129,7 @@ namespace zp8
 
         [Category("Øádka textu")]
         [DisplayName("Konec akordové øádky")]
+        [Editor(typeof(TemplateTextEditor), typeof(UITypeEditor))]
         public string ChordLineEnd
         {
             get { return m_chordLineEnd; }
@@ -134,6 +138,7 @@ namespace zp8
 
         [Category("Øádka textu")]
         [DisplayName("Zaèátek smíšené øádky")]
+        [Editor(typeof(TemplateTextEditor), typeof(UITypeEditor))]
         public string MixedLineBegin
         {
             get { return m_mixedLineBegin; }
@@ -142,6 +147,7 @@ namespace zp8
 
         [Category("Øádka textu")]
         [DisplayName("Konec smíšené øádky")]
+        [Editor(typeof(TemplateTextEditor), typeof(UITypeEditor))]
         public string MixedLineEnd
         {
             get { return m_mixedLineEnd; }
@@ -150,6 +156,7 @@ namespace zp8
 
         [Category("Øádka textu")]
         [DisplayName("Zaèátek øádky s návìštím")]
+        [Editor(typeof(TemplateTextEditor), typeof(UITypeEditor))]
         public string LabelBegin
         {
             get { return m_labelBegin; }
@@ -158,6 +165,7 @@ namespace zp8
 
         [Category("Øádka textu")]
         [DisplayName("Konec øádky s návìštím")]
+        [Editor(typeof(TemplateTextEditor), typeof(UITypeEditor))]
         public string LabelEnd
         {
             get { return m_labelEnd; }
@@ -166,6 +174,7 @@ namespace zp8
 
         [Category("Øádka textu")]
         [DisplayName("Zaèátek akordu")]
+        [Editor(typeof(TemplateTextEditor), typeof(UITypeEditor))]
         public string ChordBegin
         {
             get { return m_chordBegin; }
@@ -174,6 +183,7 @@ namespace zp8
 
         [Category("Øádka textu")]
         [DisplayName("Konec akordu")]
+        [Editor(typeof(TemplateTextEditor), typeof(UITypeEditor))]
         public string ChordEnd
         {
             get { return m_chordEnd; }
@@ -182,6 +192,7 @@ namespace zp8
 
         [Category("Øádka textu")]
         [DisplayName("Zaèátek návìští v textu")]
+        [Editor(typeof(TemplateTextEditor), typeof(UITypeEditor))]
         public string LabelInTextBegin
         {
             get { return m_labelInTextBegin; }
@@ -190,6 +201,7 @@ namespace zp8
 
         [Category("Øádka textu")]
         [DisplayName("Konec návìští v textu")]
+        [Editor(typeof(TemplateTextEditor), typeof(UITypeEditor))]
         public string LabelInTextEnd
         {
             get { return m_labelInTextEnd; }
@@ -319,14 +331,13 @@ namespace zp8
             get { return String.Format("{0} soubory (*.{1})|*.{1}", m_ext.ToLower(), m_ext.ToUpper()); }
         }
 
-        #region ICustomSongFilter Members
-
-        public void SetName(string name)
+        [Browsable(false)]
+        [XmlIgnore]
+        public string Name
         {
-            m_name = name;
+            get { return m_name; }
+            set { m_name = value; }
         }
-
-        #endregion
     }
 
 }

@@ -6,13 +6,13 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace zp8.Frames
+namespace zp8
 {
     public partial class SongsByGroupFrame : UserControl
     {
         AbstractSongDatabase m_db;
         SongDatabaseWrapper m_dbwrap;
-        List<zp8.SongDb.songRow> m_loadedSongs = new List<SongDb.songRow>();
+        List<zp8.SongDb.songRow> m_loadedSongs = new List<zp8.SongDb.songRow>();
 
         public SongsByGroupFrame()
         {
@@ -88,7 +88,7 @@ namespace zp8.Frames
                 foreach (zp8.SongDb.songRow song in m_dbwrap.Database.EnumSongs())
                     if (song.groupname == grp)
                         m_loadedSongs.Add(song);
-                m_loadedSongs.Sort(Sorting.GetComparison(SongOrder.TitleGroup));
+                Sorting.Sort(m_loadedSongs, SongOrder.TitleGroup);
                 foreach (zp8.SongDb.songRow song in m_loadedSongs)
                     lbsongs.Items.Add(song.title);
                 if (m_dbwrap.SongBindingSource.Position >= 0)

@@ -39,5 +39,16 @@ namespace zp8
             if (!src.IstranspNull()) dst.transp = src.transp;
             db.DataSet.song.AddsongRow(dst);
         }
+
+        public static void AddSongRow(ISongRow src, InetSongDb db)
+        {
+            InetSongDb.songRow dst = db.song.NewsongRow();
+            dst.title = src.title;
+            dst.groupname = src.groupname;
+            dst.author = src.author;
+            dst.songtext = src.songtext;
+            dst.lang = src.lang;
+            db.song.AddsongRow(dst);
+        }
     }
 }

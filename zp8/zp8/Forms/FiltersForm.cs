@@ -28,7 +28,7 @@ namespace zp8
             {
                 Type t = SongFilters.FilterTypes[lbfiltertype.SelectedIndex].Type;
                 ISongFilter flt = (ISongFilter)t.GetConstructor(new Type[] { }).Invoke(new object[] { });
-                ((ICustomSongFilter)flt).SetName(tbnewname.Text);
+                ((ICustomSongFilter)flt).Name = tbnewname.Text;
                 SongFilters.SaveCustomFilter(tbnewname.Text, flt);
                 LoadFilterList();
             }

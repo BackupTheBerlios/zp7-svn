@@ -64,7 +64,7 @@ namespace zp8
         }
     }
 
-    public abstract class SingleFileExporter : PropertyPageBase, ISongFormatter
+    public abstract class SingleFileExporter : PropertyPageBase, ISongFormatter, IStreamSongFormatter
     {
         #region ISongFilter Members
 
@@ -103,7 +103,7 @@ namespace zp8
 
         #endregion
 
-        protected abstract void Format(InetSongDb db, Stream fw);
+        public abstract void Format(InetSongDb db, Stream fw);
     }
 
 }

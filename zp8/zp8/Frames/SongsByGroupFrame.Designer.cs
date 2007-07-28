@@ -1,4 +1,4 @@
-namespace zp8.Frames
+namespace zp8
 {
     partial class SongsByGroupFrame
     {

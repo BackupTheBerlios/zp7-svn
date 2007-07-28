@@ -6,7 +6,7 @@ namespace zp8
 {
     public static class Sorting
     {
-        public static int CompareTitleGroup(SongDb.songRow a, SongDb.songRow b)
+        public static int CompareTitleGroup(ISongRow a, ISongRow b)
         {
             int rt = String.Compare(a.title, b.title, true);
             if (rt != 0) return rt;
@@ -14,7 +14,7 @@ namespace zp8
             if (rg != 0) return rg;
             return a.ID - b.ID;
         }
-        public static int CompareGroupTitle(SongDb.songRow a, SongDb.songRow b)
+        public static int CompareGroupTitle(ISongRow a, ISongRow b)
         {
             int rg = String.Compare(a.groupname, b.groupname, true);
             if (rg != 0) return rg;
@@ -22,11 +22,11 @@ namespace zp8
             if (rt != 0) return rt;
             return a.ID - b.ID;
         }
-        public static int CompareDatabase(SongDb.songRow a, SongDb.songRow b)
+        public static int CompareDatabase(ISongRow a, ISongRow b)
         {
             return a.ID - b.ID;
         }
-        public static Comparison<SongDb.songRow> GetComparison(SongOrder order)
+        public static Comparison<ISongRow> GetComparison(SongOrder order)
         {
             switch (order)
             {
@@ -38,6 +38,14 @@ namespace zp8
                     return CompareDatabase;
             }
             throw new Exception("Unsupported order:" + order.ToString());
+        }
+        public static void Sort(List<SongDb.songRow> rows, SongOrder order)
+        {
+            List<ISongRow> irows = new List<ISongRow>();
+            foreach (ISongRow row in rows) irows.Add(row);
+            irows.Sort(GetComparison(order));
+            rows.Clear();
+            foreach (SongDb.songRow row in irows) rows.Add(row);
         }
     }
 }

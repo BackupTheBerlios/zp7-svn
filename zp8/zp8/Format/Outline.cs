@@ -123,11 +123,11 @@ namespace zp8
     public class OutlineFormatter
     {
         OutlineFormatOptions m_options;
-        IEnumerable<SongDb.songRow> m_songs;
+        IEnumerable<ISongRow> m_songs;
         OutlinePane m_actpane;
         public readonly PaneGrp Result;
 
-        public OutlineFormatter(OutlineFormatOptions options, IEnumerable<SongDb.songRow> songs)
+        public OutlineFormatter(OutlineFormatOptions options, IEnumerable<ISongRow> songs)
         {
             m_options = options;
             m_songs = songs;

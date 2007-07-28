@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 using System.ComponentModel;
 using System.Drawing;
+using System.Xml.Serialization;
 
 namespace zp8
 {
@@ -168,15 +169,15 @@ namespace zp8
     {
         string m_name;
 
-        public override string Title { get { return m_name; } }
-
-        #region ICustomSongFilter Members
-
-        public void SetName(string name)
+        [Browsable(false)]
+        [XmlIgnore]
+        public string Name
         {
-            m_name = name;
+            get { return m_name; }
+            set { m_name = value; }
         }
 
-        #endregion
+        public override string Title { get { return m_name; } }
+
     }
 }
