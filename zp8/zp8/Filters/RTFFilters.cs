@@ -46,9 +46,14 @@ namespace zp8
         }
     }
 
-    public class RtfTextFormatterBase : TextFormatter, ISongFormatter
+    public class RtfTextFormatterBase : AbstractSongsTextFormatter
     {
         ExportFontsPropertyPage m_fonts = new ExportFontsPropertyPage();
+
+        public RtfTextFormatterBase()
+        {
+            m_encoding = Encoding.GetEncoding(1250);
+        }
 
         protected override void DumpChord(string chord, TextWriter fw, ref int reallen)
         {
@@ -64,7 +69,7 @@ namespace zp8
             set { m_fonts = value; }
         }
 
-        private void DumpSong(InetSongDb.songRow song, TextWriter fw)
+        protected override void DumpSongBegin(InetSongDb.songRow song, TextWriter fw)
         {
             RtfTools.SetFont(fw, Fonts.TitleFont, 4);
             fw.Write(song.title);
@@ -73,8 +78,6 @@ namespace zp8
             RtfTools.SetFont(fw, Fonts.AuthorFont, 5);
             fw.Write(song.author);
             fw.Write("\\par ");
-
-            RunTextFormatting(song.songtext,fw);
         }
 
         protected override void BeginLine(string label, TextWriter fw, LineType type)
@@ -115,7 +118,7 @@ namespace zp8
             fw.Write("\\par ");
         }
 
-        private void DumpFileBegin(TextWriter fw)
+        protected override void DumpFileBegin(TextWriter fw)
         {
             fw.Write("{\\rtf1\\ansi\\deff0\\deftab720{\\fonttbl{\\f0\\fnil MS Sans Serif;}");
             fw.Write("{\\f1\\fnil "); fw.Write(Fonts.TextFont.FontName); fw.Write(";}");
@@ -133,47 +136,27 @@ namespace zp8
             fw.Write("}");
         }
 
-        private void DumpFileEnd(TextWriter fw)
+        protected override void DumpFileEnd(TextWriter fw)
         {
             fw.Write("\\par }");
         }
 
-        #region ISongFormatter Members
 
-        public void Format(InetSongDb db, Stream fw)
-        {
-            using (StreamWriter sw = new StreamWriter(fw, Encoding.GetEncoding(1250)))
-            {
-                DumpFileBegin(sw);
-                foreach (InetSongDb.songRow row in db.song.Rows)
-                {
-                    DumpSong(row, sw);
-                }
-                DumpFileEnd(sw);
-            }
-        }
-
-        #endregion
-
-        #region ISongFilter Members
-
-        public virtual string Title
+        public override string Title
         {
             get { return "RTF soubor"; }
         }
 
-        public string Description
+        public override string Description
         {
             get { return "RTF soubor"; }
         }
 
         [Browsable(false)]
-        public string FileDialogFilter
+        public override string FileDialogFilter
         {
             get { return "RTF soubory (*.rtf)|*.rtf"; }
         }
-
-        #endregion
     }
 
     [StaticSongFilter]
@@ -186,13 +169,6 @@ namespace zp8
         string m_name;
 
         public override string Title { get { return m_name; } }
-
-        [DisplayName("Vlastnosti formátování")]
-        public TextFormatProps FormatProperties
-        {
-            get { return m_textProps; }
-            set { m_textProps = value; }
-        }
 
         #region ICustomSongFilter Members
 

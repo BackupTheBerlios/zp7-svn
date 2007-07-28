@@ -47,6 +47,7 @@
     <Compile Include="Filters\HtmlFilters.cs" />
     <Compile Include="Filters\FilterIntf.cs" />
     <Compile Include="Filters\RTFFilters.cs" />
+    <Compile Include="Filters\TemplateFilter.cs" />
     <Compile Include="Filters\TextFilters.cs" />
     <Compile Include="Filters\TextFormatter.cs" />
     <Compile Include="Filters\XmlFilters.cs" />
@@ -98,6 +99,12 @@
     </Compile>
     <Compile Include="Forms\PropertiesForm.Designer.cs">
       <DependentUpon>PropertiesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TemplateTextForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TemplateTextForm.Designer.cs">
+      <DependentUpon>TemplateTextForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\VisibleColumnsForm.cs">
       <SubType>Form</SubType>
@@ -226,6 +233,10 @@
     <EmbeddedResource Include="Forms\PropertiesForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>PropertiesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TemplateTextForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TemplateTextForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\VisibleColumnsForm.resx">
       <SubType>Designer</SubType>

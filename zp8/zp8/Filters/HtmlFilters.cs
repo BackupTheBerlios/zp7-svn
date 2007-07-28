@@ -77,7 +77,7 @@ namespace zp8
         }
     }
 
-    public class HtmlTextFormatterBase : TextFormatter, ISongFormatter
+    public class HtmlTextFormatterBase : AbstractSongsTextFormatter
     {
         ExportFontsPropertyPage m_fonts = new ExportFontsPropertyPage();
 
@@ -97,15 +97,21 @@ namespace zp8
             set { m_fonts = value; }
         }
 
-        private void DumpSong(InetSongDb.songRow song, TextWriter fw)
+        protected override void DumpSongBegin(InetSongDb.songRow song, TextWriter fw)
         {
             HtmlTools.WriteDiv(song.title, "title", fw);
             HtmlTools.WriteDiv(song.author, "author", fw);
 
             if (UsePre) fw.Write("<pre>");
-            RunTextFormatting(song.songtext,fw);
-            if (UsePre) fw.Write("</pre>");
+        }
 
+        protected override void DumpSongEnd(InetSongDb.songRow song, TextWriter fw)
+        {
+            if (UsePre) fw.Write("</pre>");
+        }
+
+        protected override void DumpSongSeparator(TextWriter fw)
+        {
             fw.Write("<hr />");
         }
 
@@ -132,7 +138,9 @@ namespace zp8
         protected override void DumpChordSpace(string space, TextWriter fw)
         {
             HtmlTools.WriteSpan(space, "chord", fw);
-        }        protected override void EndLine(TextWriter fw, LineType type)
+        }
+
+        protected override void EndLine(TextWriter fw, LineType type)
         {
             DumpEndLine(fw);
         }
@@ -149,7 +157,7 @@ namespace zp8
             DumpEndLine(fw);
         }
 
-        private void DumpFileBegin(TextWriter fw)
+        protected override void DumpFileBegin(TextWriter fw)
         {
             fw.Write("<html>\n<head>\n");
             fw.Write("<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">\n");
@@ -165,42 +173,25 @@ namespace zp8
             fw.Write("</head><body>");
         }
 
-        private void DumpFileEnd(TextWriter fw)
+        protected override void DumpFileEnd(TextWriter fw)
         {
             fw.Write("</body><html>");
         }
 
-        #region ISongFormatter Members
-
-        public void Format(InetSongDb db, Stream fw)
-        {
-            using (StreamWriter sw = new StreamWriter(fw))
-            {
-                DumpFileBegin(sw);
-                foreach (InetSongDb.songRow row in db.song.Rows)
-                {
-                    DumpSong(row, sw);
-                }
-                DumpFileEnd(sw);
-            }
-        }
-
-        #endregion
-
         #region ISongFilter Members
 
-        public virtual string Title
+        public override string Title
         {
             get { return "HTML soubor"; }
         }
 
-        public string Description
+        public override string Description
         {
             get { return "HTML soubor"; }
         }
 
         [Browsable(false)]
-        public string FileDialogFilter
+        public override string FileDialogFilter
         {
             get { return "HTML soubory (*.html)|*.html"; }
         }
@@ -218,13 +209,6 @@ namespace zp8
         string m_name;
 
         public override string Title { get { return m_name; } }
-
-        [DisplayName("Vlastnosti formátování")]
-        public TextFormatProps FormatProperties
-        {
-            get { return m_textProps; }
-            set { m_textProps = value; }
-        }
 
         #region ICustomSongFilter Members
 

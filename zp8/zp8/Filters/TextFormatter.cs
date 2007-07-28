@@ -180,4 +180,63 @@ namespace zp8
         protected virtual void BeginText(string text, TextWriter fw) { }
         protected virtual void EndText(TextWriter fw) { }
     }
+
+    public abstract class AbstractSongsTextFormatter : TextFormatter, ISongFormatter
+    {
+        protected Encoding m_encoding = Encoding.UTF8;
+
+        [DisplayName("Vlastnosti formátování")]
+        public TextFormatProps FormatProperties
+        {
+            get { return m_textProps; }
+            set { m_textProps = value; }
+        }
+
+        #region ISongFormatter Members
+
+        public void Format(InetSongDb db, Stream fw)
+        {
+            using (StreamWriter sw = new StreamWriter(fw, m_encoding))
+            {
+                DumpFileBegin(sw);
+                bool wassong = false;
+                foreach (InetSongDb.songRow row in db.song.Rows)
+                {
+                    if (wassong) DumpSongSeparator(sw);
+                    DumpSongBegin(row, sw);
+                    RunTextFormatting(row.songtext, sw);
+                    DumpSongEnd(row, sw);
+                    wassong = true;
+                }
+                DumpFileEnd(sw);
+            }
+        }
+
+        #endregion
+
+        protected virtual void DumpFileBegin(TextWriter fw) { }
+        protected virtual void DumpFileEnd(TextWriter fw) { }
+        protected virtual void DumpSongSeparator(TextWriter fw) { }
+        protected virtual void DumpSongBegin(InetSongDb.songRow song, TextWriter fw) { }
+        protected virtual void DumpSongEnd(InetSongDb.songRow song, TextWriter fw) { }
+
+        #region ISongFilter Members
+
+        public virtual string Title
+        {
+            get { throw new Exception("The method or operation is not implemented."); }
+        }
+
+        public virtual string Description
+        {
+            get { throw new Exception("The method or operation is not implemented."); }
+        }
+
+        public virtual string FileDialogFilter
+        {
+            get { throw new Exception("The method or operation is not implemented."); }
+        }
+
+        #endregion
+    }
 }
