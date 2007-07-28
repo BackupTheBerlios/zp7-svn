@@ -42,9 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Book\DistribAlg.cs" />
-    <Compile Include="Filters\DbExport.cs" />
     <Compile Include="Database\InternetDatabase.cs" />
-    <Compile Include="Database\SongServer2.cs" />
+    <Compile Include="Database\SongServer.cs" />
     <Compile Include="Filters\FilterIntf.cs" />
     <Compile Include="Filters\RTFFilters.cs" />
     <Compile Include="Filters\TextFilters.cs" />
@@ -136,7 +135,6 @@
     <Compile Include="Options\PropertyPageBase.cs" />
     <Compile Include="Tools\CfgTools.cs" />
     <Compile Include="Tools\Chords.cs" />
-    <Compile Include="Filters\DbImport.cs" />
     <Compile Include="Database\DbManager.cs" />
     <Compile Include="Forms\DialogBase.cs">
       <SubType>Form</SubType>
@@ -343,7 +341,6 @@
       <DependentUpon>SongDb.xsd</DependentUpon>
     </Compile>
     <Compile Include="Database\SongDatabase.cs" />
-    <Compile Include="Database\SongServer.cs" />
     <Compile Include="Frames\SongTable.cs">
       <SubType>UserControl</SubType>
     </Compile>
