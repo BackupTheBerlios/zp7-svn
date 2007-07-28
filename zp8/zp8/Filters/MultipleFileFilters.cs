@@ -11,6 +11,26 @@ using System.Windows.Forms;
 
 namespace zp8
 {
+    [Editor(typeof(OpenFileNamesEditor), typeof(UITypeEditor))]
+    public class FileCollection
+    {
+        public readonly string[] Files;
+        public override string ToString()
+        {
+            if (Files.Length == 0) return "Žádné soubory";
+            return String.Join(", ", Files);
+        }
+        public FileCollection(string[] files)
+        {
+            Files = files;
+        }
+        public FileCollection()
+        {
+            Files = new string[] { };
+        }
+    
+    }
+
     public class OpenFileNamesEditor : UITypeEditor
     {
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
@@ -33,17 +53,16 @@ namespace zp8
                 return base.EditValue(provider, value);
             }
             string filter = ((MultipleStreamImporterProperties)context.Instance).Importer.FileDialogFilter;
-            return FileCollectionEditorForm.Run((string[])value, filter);
+            return FileCollectionEditorForm.Run((FileCollection)value, filter);
         }
     }
 
     public class MultipleStreamImporterProperties : PropertyPageBase
     {
-        string[] m_fileNames = new string[] { };
+        FileCollection m_fileNames = new FileCollection();
 
-        [Editor(typeof(OpenFileNamesEditor), typeof(UITypeEditor))]
         [DisplayName("Importované soubory")]
-        public string[] FileNames
+        public FileCollection FileNames
         {
             get { return m_fileNames; }
             set { m_fileNames = value; }
@@ -86,7 +105,7 @@ namespace zp8
         public void Parse(object props, InetSongDb db)
         {
             MultipleStreamImporterProperties p = (MultipleStreamImporterProperties)props;
-            foreach (string filename in p.FileNames)
+            foreach (string filename in p.FileNames.Files)
             {
                 using (FileStream fr = new FileStream(filename, FileMode.Open))
                 {

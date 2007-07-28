@@ -28,11 +28,11 @@ namespace zp8
             }
         }
 
-        public static string[] Run(string[] files, string filter)
+        public static FileCollection Run(FileCollection files, string filter)
         {
             FileCollectionEditorForm win = new FileCollectionEditorForm();
             win.openFileDialog1.Filter = filter;
-            foreach (string file in files) win.filelist.Items.Add(file);
+            foreach (string file in files.Files) win.filelist.Items.Add(file);
             if (win.ShowDialog() == DialogResult.OK)
             {
                 List<string> res = new List<string>();
@@ -40,7 +40,7 @@ namespace zp8
                 {
                     res.Add(item);
                 }
-                return res.ToArray();
+                return new FileCollection(res.ToArray());
             }
             return files;
         }

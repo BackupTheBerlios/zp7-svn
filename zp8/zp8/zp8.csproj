@@ -54,6 +54,7 @@
     <Compile Include="Filters\TemplateFilter.cs" />
     <Compile Include="Filters\TextFilters.cs" />
     <Compile Include="Filters\TextFormatter.cs" />
+    <Compile Include="Filters\TextParser.cs" />
     <Compile Include="Filters\XmlFilters.cs" />
     <Compile Include="Format\BookFormat.cs" />
     <Compile Include="Format\Outline.cs" />
@@ -151,6 +152,7 @@
     </Compile>
     <Compile Include="Options\GlobalOpts.cs" />
     <Compile Include="Options\PropertyPageBase.cs" />
+    <Compile Include="Filters\SongTextAnalyser.cs" />
     <Compile Include="Tools\CfgTools.cs" />
     <Compile Include="Tools\Chords.cs" />
     <Compile Include="Database\DbManager.cs" />
