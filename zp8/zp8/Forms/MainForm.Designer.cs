@@ -71,17 +71,22 @@ namespace zp8
             this.novýToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uložitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uložitNaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.vlastnostiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.konecToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zmìnitStylToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
+            this.konecToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vytisknoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.pøidatVybranouPíseòDoZpìvníkuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.písnìToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importPísníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tisknoutAktuálníPíseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportPísnìDoPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nováPíseòToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.upravitPíseòToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.tisknoutAktuálníPíseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportPísnìDoPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.importPísníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportPísníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nastavaníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.obecnéToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -92,11 +97,9 @@ namespace zp8
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
             this.savePDF = new System.Windows.Forms.SaveFileDialog();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
+            this.nápovìdaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wWWStránkaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oProgramuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -409,7 +412,8 @@ namespace zp8
             this.databázeToolStripMenuItem,
             this.zpìvníkToolStripMenuItem,
             this.písnìToolStripMenuItem,
-            this.nastavaníToolStripMenuItem});
+            this.nastavaníToolStripMenuItem,
+            this.nápovìdaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(671, 24);
@@ -521,19 +525,17 @@ namespace zp8
             this.uložitNaToolStripMenuItem.Text = "Uložit na";
             this.uložitNaToolStripMenuItem.Click += new System.EventHandler(this.uložitNaToolStripMenuItem_Click);
             // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(266, 6);
+            // 
             // vlastnostiToolStripMenuItem
             // 
             this.vlastnostiToolStripMenuItem.Name = "vlastnostiToolStripMenuItem";
             this.vlastnostiToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
             this.vlastnostiToolStripMenuItem.Text = "Vlastnosti";
             this.vlastnostiToolStripMenuItem.Click += new System.EventHandler(this.vlastnostiToolStripMenuItem_Click);
-            // 
-            // konecToolStripMenuItem
-            // 
-            this.konecToolStripMenuItem.Name = "konecToolStripMenuItem";
-            this.konecToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
-            this.konecToolStripMenuItem.Text = "Export do PDF";
-            this.konecToolStripMenuItem.Click += new System.EventHandler(this.pdfExportToolStripMenuItem_Click);
             // 
             // zmìnitStylToolStripMenuItem
             // 
@@ -542,12 +544,29 @@ namespace zp8
             this.zmìnitStylToolStripMenuItem.Text = "Zmìnit styl";
             this.zmìnitStylToolStripMenuItem.Click += new System.EventHandler(this.zmìnitStylToolStripMenuItem_Click);
             // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(266, 6);
+            // 
+            // konecToolStripMenuItem
+            // 
+            this.konecToolStripMenuItem.Name = "konecToolStripMenuItem";
+            this.konecToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.konecToolStripMenuItem.Text = "Export do PDF";
+            this.konecToolStripMenuItem.Click += new System.EventHandler(this.pdfExportToolStripMenuItem_Click);
+            // 
             // vytisknoutToolStripMenuItem
             // 
             this.vytisknoutToolStripMenuItem.Name = "vytisknoutToolStripMenuItem";
             this.vytisknoutToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
             this.vytisknoutToolStripMenuItem.Text = "Vytisknout";
             this.vytisknoutToolStripMenuItem.Click += new System.EventHandler(this.vytisknoutToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem6
+            // 
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(266, 6);
             // 
             // pøidatVybranouPíseòDoZpìvníkuToolStripMenuItem
             // 
@@ -572,12 +591,25 @@ namespace zp8
             this.písnìToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.písnìToolStripMenuItem.Text = "Písnì";
             // 
-            // importPísníToolStripMenuItem
+            // nováPíseòToolStripMenuItem
             // 
-            this.importPísníToolStripMenuItem.Name = "importPísníToolStripMenuItem";
-            this.importPísníToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.importPísníToolStripMenuItem.Text = "Import písní";
-            this.importPísníToolStripMenuItem.Click += new System.EventHandler(this.importPísníToolStripMenuItem_Click);
+            this.nováPíseòToolStripMenuItem.Name = "nováPíseòToolStripMenuItem";
+            this.nováPíseòToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.nováPíseòToolStripMenuItem.Text = "Nová píseò";
+            this.nováPíseòToolStripMenuItem.Click += new System.EventHandler(this.nováPíseòToolStripMenuItem_Click);
+            // 
+            // upravitPíseòToolStripMenuItem
+            // 
+            this.upravitPíseòToolStripMenuItem.Name = "upravitPíseòToolStripMenuItem";
+            this.upravitPíseòToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
+            this.upravitPíseòToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.upravitPíseòToolStripMenuItem.Text = "Upravit píseò";
+            this.upravitPíseòToolStripMenuItem.Click += new System.EventHandler(this.upravitPíseòToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(179, 6);
             // 
             // tisknoutAktuálníPíseToolStripMenuItem
             // 
@@ -594,20 +626,17 @@ namespace zp8
             this.exportPísnìDoPDFToolStripMenuItem.Text = "Export písnì do PDF";
             this.exportPísnìDoPDFToolStripMenuItem.Click += new System.EventHandler(this.exportPísnìDoPDFToolStripMenuItem_Click);
             // 
-            // nováPíseòToolStripMenuItem
+            // toolStripMenuItem1
             // 
-            this.nováPíseòToolStripMenuItem.Name = "nováPíseòToolStripMenuItem";
-            this.nováPíseòToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.nováPíseòToolStripMenuItem.Text = "Nová píseò";
-            this.nováPíseòToolStripMenuItem.Click += new System.EventHandler(this.nováPíseòToolStripMenuItem_Click);
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(179, 6);
             // 
-            // upravitPíseòToolStripMenuItem
+            // importPísníToolStripMenuItem
             // 
-            this.upravitPíseòToolStripMenuItem.Name = "upravitPíseòToolStripMenuItem";
-            this.upravitPíseòToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
-            this.upravitPíseòToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.upravitPíseòToolStripMenuItem.Text = "Upravit píseò";
-            this.upravitPíseòToolStripMenuItem.Click += new System.EventHandler(this.upravitPíseòToolStripMenuItem_Click);
+            this.importPísníToolStripMenuItem.Name = "importPísníToolStripMenuItem";
+            this.importPísníToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.importPísníToolStripMenuItem.Text = "Import písní";
+            this.importPísníToolStripMenuItem.Click += new System.EventHandler(this.importPísníToolStripMenuItem_Click);
             // 
             // exportPísníToolStripMenuItem
             // 
@@ -664,30 +693,28 @@ namespace zp8
             // 
             this.savePDF.Filter = "PDF soubory (*.pdf)|*.pdf";
             // 
-            // toolStripMenuItem1
+            // nápovìdaToolStripMenuItem
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(179, 6);
+            this.nápovìdaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.wWWStránkaToolStripMenuItem,
+            this.oProgramuToolStripMenuItem});
+            this.nápovìdaToolStripMenuItem.Name = "nápovìdaToolStripMenuItem";
+            this.nápovìdaToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
+            this.nápovìdaToolStripMenuItem.Text = "Nápovìda";
             // 
-            // toolStripMenuItem3
+            // wWWStránkaToolStripMenuItem
             // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(179, 6);
+            this.wWWStránkaToolStripMenuItem.Name = "wWWStránkaToolStripMenuItem";
+            this.wWWStránkaToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.wWWStránkaToolStripMenuItem.Text = "WWW stránka";
+            this.wWWStránkaToolStripMenuItem.Click += new System.EventHandler(this.wWWStránkaToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem4
+            // oProgramuToolStripMenuItem
             // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(266, 6);
-            // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(266, 6);
-            // 
-            // toolStripMenuItem6
-            // 
-            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(266, 6);
+            this.oProgramuToolStripMenuItem.Name = "oProgramuToolStripMenuItem";
+            this.oProgramuToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.oProgramuToolStripMenuItem.Text = "O programu";
+            this.oProgramuToolStripMenuItem.Click += new System.EventHandler(this.oProgramuToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -794,6 +821,9 @@ namespace zp8
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem nápovìdaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem wWWStránkaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem oProgramuToolStripMenuItem;
     }
 }
 

@@ -403,6 +403,7 @@
     </Compile>
     <Compile Include="Tools\Sorting.cs" />
     <Compile Include="Tools\Templates.cs" />
+    <Compile Include="Tools\VersionInfo.cs" />
     <Compile Include="Tools\XmlNamespaces.cs" />
     <Compile Include="xsls.Designer.cs">
       <AutoGen>True</AutoGen>
