@@ -57,6 +57,8 @@
     <Compile Include="Filters\TextFilters.cs" />
     <Compile Include="Filters\TextFormatter.cs" />
     <Compile Include="Filters\TextParser.cs" />
+    <Compile Include="Filters\Tools.cs" />
+    <Compile Include="Filters\WebSongImporter.cs" />
     <Compile Include="Filters\XmlFilters.cs" />
     <Compile Include="Format\BookFormat.cs" />
     <Compile Include="Format\Outline.cs" />

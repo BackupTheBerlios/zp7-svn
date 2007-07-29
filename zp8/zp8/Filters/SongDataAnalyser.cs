@@ -65,7 +65,7 @@ namespace zp8
                     if (index >= 0)
                     {
                         index += m_begin.Length;
-                        int endindex = fulltext.IndexOf(m_end, index + 1);
+                        int endindex = fulltext.IndexOf(m_end, index);
                         if (endindex >= 0) return fulltext.Substring(index, endindex - index);
                         return fulltext.Substring(index);
                     }

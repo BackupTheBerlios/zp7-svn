@@ -11,51 +11,6 @@ using System.IO;
 
 namespace zp8
 {
-    public class DependedFilterEditor<T> : UITypeEditor where T : class
-    {
-        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
-        {
-            if (context != null && context.Instance != null)
-            {
-                if (!context.PropertyDescriptor.IsReadOnly)
-                {
-                    return UITypeEditorEditStyle.DropDown;
-                }
-            }
-            return UITypeEditorEditStyle.None;
-        }
-
-        public override object EditValue(ITypeDescriptorContext context,
-        IServiceProvider provider, object value)
-        {
-            if (context != null
-                && context.Instance != null
-                && provider != null)
-            {
-                // Get an instance of the IWindowsFormsEditorService. 
-                IWindowsFormsEditorService edSvc = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
-
-                if (edSvc != null)
-                {
-                    ListBox ctrl = new ListBox();
-                    foreach (string name in SongFilters.EnumFilterNames<T>())
-                    {
-                        ctrl.Items.Add(name);
-                    }
-
-                    if (value != null) ctrl.SelectedIndex = ctrl.Items.IndexOf((string)value);
-
-                    edSvc.DropDownControl(ctrl);
-
-                    if (ctrl.SelectedIndex >= 0) return (string)ctrl.Items[ctrl.SelectedIndex];
-                    return null;
-                }
-            }
-
-            return value;
-        }
-    }
-
     public class DirectorySongExporterProperties : PropertyPageBase
     {
         string m_folderName;
@@ -117,6 +72,14 @@ namespace zp8
         {
             get { return m_name; }
             set { m_name = value; }
+        }
+
+        Encoding m_encoding = System.Text.Encoding.UTF8;
+        [DisplayName("Kódování")]
+        public string Encoding
+        {
+            get { return m_encoding.WebName; }
+            set { m_encoding = System.Text.Encoding.GetEncoding(value); }
         }
 
         bool m_writeIndex;
@@ -346,9 +309,12 @@ namespace zp8
             // nejdrive zapiseme index
             if (m_writeIndex)
             {
-                using (StreamWriter fw = new StreamWriter(Path.Combine(directory, m_indexFileName)))
+                using (FileStream fsw = new FileStream(Path.Combine(directory, m_indexFileName), FileMode.Create))
                 {
-                    WriteIndexFile(fw, dsh);
+                    using (StreamWriter fw = new StreamWriter(fsw, m_encoding))
+                    {
+                        WriteIndexFile(fw, dsh);
+                    }
                 }
             }
 
@@ -360,9 +326,12 @@ namespace zp8
                     string path = Path.Combine(directory, MakeTemplate(m_groupFileMask, grp));
                     try { Directory.CreateDirectory(Path.GetDirectoryName(path)); }
                     catch (Exception) { }
-                    using (StreamWriter fw = new StreamWriter(path))
+                    using (FileStream fsw = new FileStream(path, FileMode.Create))
                     {
-                        WriteGroupFile(fw, grp, dsh);
+                        using (StreamWriter fw = new StreamWriter(fsw, m_encoding))
+                        {
+                            WriteGroupFile(fw, grp, dsh);
+                        }
                     }
                 }
             }

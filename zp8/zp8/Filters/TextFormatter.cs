@@ -41,8 +41,8 @@ namespace zp8
     public abstract class TextFormatter : SingleFileExporter
     {
         bool m_waslabel;
-        string m_label;
-        string m_labelsp;
+        string m_label = "";
+        string m_labelsp = "";
         protected TextFormatProps m_textProps = new TextFormatProps();
 
         public void RunTextFormatting(string text, TextWriter fw)
