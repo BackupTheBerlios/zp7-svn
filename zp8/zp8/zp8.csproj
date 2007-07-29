@@ -51,6 +51,8 @@
     <Compile Include="Filters\MultipleFileFilters.cs" />
     <Compile Include="Filters\RTFFilters.cs" />
     <Compile Include="Filters\SingleFileFilters.cs" />
+    <Compile Include="Filters\SongDataAnalyser.cs" />
+    <Compile Include="Filters\SongStreamSPlitter.cs" />
     <Compile Include="Filters\TemplateFilter.cs" />
     <Compile Include="Filters\TextFilters.cs" />
     <Compile Include="Filters\TextFormatter.cs" />
@@ -387,6 +389,7 @@
       <DependentUpon>SongView.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Sorting.cs" />
+    <Compile Include="Tools\Templates.cs" />
     <Compile Include="Tools\XmlNamespaces.cs" />
     <Compile Include="xsls.Designer.cs">
       <AutoGen>True</AutoGen>

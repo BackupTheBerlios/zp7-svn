@@ -10,11 +10,48 @@ namespace zp8
     public class TextParserBase : MultipleStreamImporter
     {
         Encoding m_encoding = System.Text.Encoding.UTF8;
+        [DisplayName("Kódování")]
+        public string Encoding
+        {
+            get { return m_encoding.WebName; }
+            set { m_encoding = System.Text.Encoding.GetEncoding(value); }
+        }
+
+        SongTextAnalyseProperties m_textProps = new SongTextAnalyseProperties();
+        [DisplayName("Zpracování textu písnì")]
+        public SongTextAnalyseProperties TextProps
+        {
+            get { return m_textProps; }
+            set { m_textProps = value; }
+        }
+        SongStreamSplitProperties m_splitProps = new SongStreamSplitProperties();
+        [DisplayName("Rozdìlení na pisnì")]
+        public SongStreamSplitProperties SplitProps
+        {
+            get { return m_splitProps; }
+            set { m_splitProps = value; }
+        }
+
+        SongDataAnalyseProperties m_dataProps = new SongDataAnalyseProperties();
+        [DisplayName("Analýza atributù písnì")]
+        public SongDataAnalyseProperties DataProps
+        {
+            get { return m_dataProps; }
+            set { m_dataProps = value; }
+        }
 
         public override void Parse(Stream fr, InetSongDb db)
         {
             using (StreamReader sr = new StreamReader(fr, m_encoding))
             {
+                foreach (string fulltext in SongStreamSplitter.SplitSongs(sr, m_splitProps))
+                {
+                    if (fulltext.Trim() == "") continue;
+                    SongData song = SongDataAnalyser.AnalyseSongData(fulltext, m_dataProps);
+                    song.songtext = SongTextAnalyser.NormalizeSongText(song.songtext, m_textProps);
+                    DbTools.AddSongRow(song, db);
+                }
+                /*
                 List<string> lines = new List<string>();
                 while (!sr.EndOfStream) lines.Add(sr.ReadLine().TrimEnd());
                 int i = 0;
@@ -41,6 +78,7 @@ namespace zp8
                         db.song.AddsongRow(song);
                     }
                 }
+                */
             }
         }
 
@@ -58,13 +96,6 @@ namespace zp8
         public override string FileDialogFilter
         {
             get { return "Textové soubory (*.txt)|*.txt|Všechny soubory|*.*"; }
-        }
-
-        [DisplayName("Kódování")]
-        public string Encoding
-        {
-            get { return m_encoding.WebName; }
-            set { m_encoding = System.Text.Encoding.GetEncoding(value); }
         }
     }
 

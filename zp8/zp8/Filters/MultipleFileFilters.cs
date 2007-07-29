@@ -8,6 +8,7 @@ using System.Xml;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms;
+using System.Net;
 
 namespace zp8
 {
@@ -60,6 +61,14 @@ namespace zp8
     public class MultipleStreamImporterProperties : PropertyPageBase
     {
         FileCollection m_fileNames = new FileCollection();
+        string m_URL = "";
+
+        [Description("Internetová adresa, ze které se stáhne zdrojový soubor")]
+        public string URL
+        {
+            get { return m_URL; }
+            set { m_URL = value; }
+        }
 
         [DisplayName("Importované soubory")]
         public FileCollection FileNames
@@ -111,6 +120,16 @@ namespace zp8
                 {
                     Parse(fr, db);
                 }
+            }
+            if (p.URL != "")
+            {
+                WebRequest req = WebRequest.Create(p.URL);
+                WebResponse resp = req.GetResponse();
+                using (Stream fr = resp.GetResponseStream())
+                {
+                    Parse(fr, db);
+                }
+                resp.Close();
             }
         }
 

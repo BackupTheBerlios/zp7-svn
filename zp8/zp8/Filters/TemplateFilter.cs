@@ -236,56 +236,52 @@ namespace zp8
         }
         */
 
-        private static string ModifyTemplate(string tpl)
+        private static string MakeTemplate(string tpl)
         {
-            tpl = tpl.Replace("$[NL]", "\r\n");
-            return tpl;
+            return Templates.MakeTemplate(tpl);
         }
 
-        private static string ModifyTemplate(string tpl, InetSongDb.songRow song)
+        private static string MakeTemplate(string tpl, InetSongDb.songRow song)
         {
-            tpl = tpl.Replace("$[TITLE]", song.title);
-            tpl = tpl.Replace("$[AUTHOR]", song.author);
-            tpl = tpl.Replace("$[GROUP]", song.groupname);
-            return ModifyTemplate(tpl);
+            return Templates.MakeTemplate(tpl, song);
         }
 
         protected override void DumpSongBegin(InetSongDb.songRow song, TextWriter fw)
         {
-            fw.Write(ModifyTemplate(m_songHeader, song));
+            fw.Write(MakeTemplate(m_songHeader, song));
         }
 
         protected override void DumpSongEnd(InetSongDb.songRow song, TextWriter fw)
         {
-            fw.Write(ModifyTemplate(m_songFooter, song));
+            fw.Write(MakeTemplate(m_songFooter, song));
         }
 
         protected override void BeginLine(string label, TextWriter fw, LineType type)
         {
-            if (type == LineType.TEXT) fw.Write(ModifyTemplate(TextLineBegin));
-            if (type == LineType.CHORD) fw.Write(ModifyTemplate(ChordLineBegin));
-            if (type == LineType.MIXED) fw.Write(ModifyTemplate(MixedLineBegin));
+            if (type == LineType.TEXT) fw.Write(MakeTemplate(TextLineBegin));
+            if (type == LineType.CHORD) fw.Write(MakeTemplate(ChordLineBegin));
+            if (type == LineType.MIXED) fw.Write(MakeTemplate(MixedLineBegin));
 
             if (m_textProps.TextLabels)
             {
-                if (IsLabel(label)) fw.Write(ModifyTemplate(LabelInTextBegin));
+                if (IsLabel(label)) fw.Write(MakeTemplate(LabelInTextBegin));
                 fw.Write(label);
-                if (IsLabel(label)) fw.Write(ModifyTemplate(LabelInTextEnd));
+                if (IsLabel(label)) fw.Write(MakeTemplate(LabelInTextEnd));
             }
         }
 
         protected override void EndLine(TextWriter fw, LineType type)
         {
-            if (type == LineType.TEXT) fw.Write(ModifyTemplate(TextLineEnd));
-            if (type == LineType.CHORD) fw.Write(ModifyTemplate(ChordLineEnd));
-            if (type == LineType.MIXED) fw.Write(ModifyTemplate(MixedLineEnd));
+            if (type == LineType.TEXT) fw.Write(MakeTemplate(TextLineEnd));
+            if (type == LineType.CHORD) fw.Write(MakeTemplate(ChordLineEnd));
+            if (type == LineType.MIXED) fw.Write(MakeTemplate(MixedLineEnd));
         }
 
         protected override void DumpLabel(string label, TextWriter fw)
         {
-            fw.Write(ModifyTemplate(LabelBegin));
+            fw.Write(MakeTemplate(LabelBegin));
             fw.Write(label);
-            fw.Write(ModifyTemplate(LabelEnd));
+            fw.Write(MakeTemplate(LabelEnd));
         }
 
         protected override void DumpText(string text, TextWriter fw)
@@ -295,24 +291,24 @@ namespace zp8
 
         protected override void DumpChord(string chord, TextWriter fw, ref int reallen)
         {
-            fw.Write(ModifyTemplate(ChordBegin));
+            fw.Write(MakeTemplate(ChordBegin));
             fw.Write(chord);
-            fw.Write(ModifyTemplate(ChordEnd));
+            fw.Write(MakeTemplate(ChordEnd));
         }
 
         protected override void DumpFileBegin(TextWriter fw)
         {
-            fw.Write(ModifyTemplate(FileHeader));
+            fw.Write(MakeTemplate(FileHeader));
         }
 
         protected override void DumpFileEnd(TextWriter fw)
         {
-            fw.Write(ModifyTemplate(FileFooter));
+            fw.Write(MakeTemplate(FileFooter));
         }
 
         protected override void DumpSongSeparator(TextWriter fw)
         {
-            fw.Write(ModifyTemplate(SongSeparator));
+            fw.Write(MakeTemplate(SongSeparator));
         }
 
         public override string Title

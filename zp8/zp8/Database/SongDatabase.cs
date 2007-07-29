@@ -21,6 +21,52 @@ namespace zp8
         string lang { get;set;}
     }
 
+    public class SongData : ISongRow
+    {
+        int m_ID = 0;
+        public int ID
+        {
+            get { return m_ID; }
+            set { m_ID = value; }
+        }
+
+        string m_title = "";
+        public string title
+        {
+            get { return m_title; }
+            set { m_title = value; }
+        }
+
+        string m_author = "";
+        public string author
+        {
+            get { return m_author; }
+            set { m_author = value; }
+        }
+
+        string m_groupname = "";
+        public string groupname
+        {
+            get { return m_groupname; }
+            set { m_groupname = value; }
+        }
+
+        string m_songtext = "";
+        public string songtext
+        {
+            get { return m_songtext; }
+            set { m_songtext = value; }
+        }
+
+        string m_lang = "";
+        public string lang
+        {
+            get { return m_lang; }
+            set { m_lang = value; }
+        }
+    }
+
+
     public abstract partial class AbstractSongDatabase
     {
         protected SongDb m_dataset;

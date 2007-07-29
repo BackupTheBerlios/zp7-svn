@@ -305,9 +305,7 @@ namespace zp8
         private string MakeTemplate(string tpl, ISongRow song, DirectorySongHolder dsh)
         {
             tpl = tpl.Replace("$[SONGINDEX]", dsh.SongIndexes[song].ToString());
-            tpl = tpl.Replace("$[TITLE]", song.title);
-            tpl = tpl.Replace("$[AUTHOR]", song.author);
-            tpl = tpl.Replace("$[GROUP]", song.groupname);
+            tpl = Templates.MakeTemplate(tpl, song);
             tpl = MakeTemplate(tpl, dsh.SongGroups[song]);
             return tpl;
         }

@@ -21,17 +21,6 @@ namespace zp8
         string Name { get;set;}
     }
 
-    /*
-    public struct SongData
-    {
-        public string Title;
-        public string Author;
-        public string Group;
-        public string Text;
-        public string Language;
-    }
-    */
-
     public interface ISongParser : ISongFilter
     {
         //IEnumerable<SongData> Parse(Stream fr);
