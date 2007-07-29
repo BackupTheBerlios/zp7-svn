@@ -40,7 +40,7 @@ namespace zp8
             set { m_dataProps = value; }
         }
 
-        public override void Parse(Stream fr, InetSongDb db)
+        public override void Parse(Stream fr, InetSongDb db, IWaitDialog wait)
         {
             using (StreamReader sr = new StreamReader(fr, m_encoding))
             {
@@ -50,6 +50,8 @@ namespace zp8
                     SongData song = SongDataAnalyser.AnalyseSongData(fulltext, m_dataProps);
                     song.songtext = SongTextAnalyser.NormalizeSongText(song.songtext, m_textProps);
                     DbTools.AddSongRow(song, db);
+                    if (wait.Canceled) return;
+                    wait.Message("Zpracována píseò " + song.title);
                 }
                 /*
                 List<string> lines = new List<string>();

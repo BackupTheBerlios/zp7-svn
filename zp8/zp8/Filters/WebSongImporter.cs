@@ -203,14 +203,14 @@ namespace zp8
             resp.Close();
         }
 
-        private static void ParseSongStream(InetSongDb db, IStreamSongParser parser, string link, string defsongname, string defgroupname)
+        private static void ParseSongStream(InetSongDb db, IStreamSongParser parser, string link, string defsongname, string defgroupname, IWaitDialog wait)
         {
             InetSongDb tmp = new InetSongDb();
             WebRequest req = WebRequest.Create(link);
             WebResponse resp = req.GetResponse();
             using (Stream fr = resp.GetResponseStream())
             {
-                parser.Parse(fr, tmp);
+                parser.Parse(fr, tmp, wait);
             }
             resp.Close();
             foreach (ISongRow row in tmp.song.Rows)
@@ -231,21 +231,27 @@ namespace zp8
 
         #region ISongParser Members
 
-        public void Parse(object props, InetSongDb db)
+        public void Parse(object props, InetSongDb db, IWaitDialog wait)
         {
             IStreamSongParser parser = GetStreamParser();
             WebSongImporterProperties p = (WebSongImporterProperties)props;
             foreach (HtmlLink grp in EnumLinks(p.URL, IndexGroupPattern, IndexGroupRName, IndexGroupRLink))
             {
+                wait.Message("Importuji skupinu " + grp.Name);
                 string grplink = MakeAbsoluteUri(p.URL, grp.Link);
                 foreach (HtmlLink song in EnumLinks(grplink, GroupSongPattern, GroupSongRName, GroupSongRLink))
                 {
-                    ParseSongStream(db, parser, MakeAbsoluteUri(grplink, song.Link), song.Name, grp.Name);
+                    wait.Message("Importuji píseò " + song.Name);
+                    if (wait.Canceled) return;
+                    ParseSongStream(db, parser, MakeAbsoluteUri(grplink, song.Link), song.Name, grp.Name, wait);
                 }
+                if (wait.Canceled) return;
             }
             foreach (HtmlLink song in EnumLinks(p.URL, IndexSongPattern, IndexSongRName, IndexSongRLink))
             {
-                ParseSongStream(db, parser, MakeAbsoluteUri(p.URL, song.Link), song.Name, null);
+                wait.Message("Importuji píseò " + song.Name);
+                if (wait.Canceled) return;
+                ParseSongStream(db, parser, MakeAbsoluteUri(p.URL, song.Link), song.Name, null, wait);
             }
         }
 

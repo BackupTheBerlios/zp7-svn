@@ -25,7 +25,7 @@ namespace zp8
             get { return "XML soubory (*.xml)|*.xml"; }
         }
 
-        public override void Format(InetSongDb xmldb, Stream fw)
+        public override void Format(InetSongDb xmldb, Stream fw, IWaitDialog wait)
         {
             xmldb.song.WriteXml(fw);
         }
@@ -50,7 +50,7 @@ namespace zp8
         }
 
         //public void Run(AbstractSongDatabase db, string filename, int? serverid)
-        public override void Parse(Stream fr, InetSongDb xmldb)
+        public override void Parse(Stream fr, InetSongDb xmldb, IWaitDialog wait)
         {
             XslCompiledTransform xslt = new XslCompiledTransform();
             xslt.Load(XmlReader.Create(new StringReader(xsls.zp6_to_zp8)));
@@ -85,7 +85,7 @@ namespace zp8
             get { return "XML soubory (*.xml)|*.xml"; }
         }
 
-        public override void Parse(Stream fr, InetSongDb xmldb)
+        public override void Parse(Stream fr, InetSongDb xmldb, IWaitDialog wait)
         {
             xmldb.ReadXml(fr);
         }

@@ -127,6 +127,12 @@
     <Compile Include="Forms\VisibleColumnsForm.Designer.cs">
       <DependentUpon>VisibleColumnsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\WaitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WaitForm.Designer.cs">
+      <DependentUpon>WaitForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Frames\PreviewFrame.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -262,6 +268,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>VisibleColumnsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\WaitForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>WaitForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Frames\PreviewFrame.resx">
       <SubType>Designer</SubType>
       <DependentUpon>PreviewFrame.cs</DependentUpon>
@@ -381,6 +391,7 @@
     </Compile>
     <Compile Include="Options\PersistentFont.cs" />
     <Compile Include="Tools\DbTools.cs" />
+    <Compile Include="Tools\Logging.cs" />
     <Compile Include="Tools\Printing.cs" />
     <Compile Include="Tools\Searching.cs" />
     <Compile Include="Tools\SongTool.cs" />

@@ -111,14 +111,16 @@ namespace zp8
 
         #region ISongParser Members
 
-        public void Parse(object props, InetSongDb db)
+        public void Parse(object props, InetSongDb db, IWaitDialog wait)
         {
             MultipleStreamImporterProperties p = (MultipleStreamImporterProperties)props;
             foreach (string filename in p.FileNames.Files)
             {
+                wait.Message("Importuji soubor " + filename);
+                if (wait.Canceled) return;
                 using (FileStream fr = new FileStream(filename, FileMode.Open))
                 {
-                    Parse(fr, db);
+                    Parse(fr, db, wait);
                 }
             }
             if (p.URL != "")
@@ -127,7 +129,7 @@ namespace zp8
                 WebResponse resp = req.GetResponse();
                 using (Stream fr = resp.GetResponseStream())
                 {
-                    Parse(fr, db);
+                    Parse(fr, db, wait);
                 }
                 resp.Close();
             }
@@ -135,7 +137,7 @@ namespace zp8
 
         #endregion
 
-        public abstract void Parse(Stream fr, InetSongDb db);
+        public abstract void Parse(Stream fr, InetSongDb db, IWaitDialog wait);
     }
 
 }

@@ -92,18 +92,18 @@ namespace zp8
 
         #region ISongFormatter Members
 
-        public void Format(InetSongDb db, object props)
+        public void Format(InetSongDb db, object props, IWaitDialog wait)
         {
             string filename = ((SingleFileDynamicProperties)props).FileName;
             using (FileStream fw = new FileStream(filename, FileMode.Create))
             {
-                Format(db, fw);
+                Format(db, fw, wait);
             }
         }
 
         #endregion
 
-        public abstract void Format(InetSongDb db, Stream fw);
+        public abstract void Format(InetSongDb db, Stream fw, IWaitDialog wait);
     }
 
 }

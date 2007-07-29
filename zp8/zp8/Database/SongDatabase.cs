@@ -177,38 +177,41 @@ namespace zp8
         protected override void WantOpen()
         {
             if (m_opened) return;
-            if (File.Exists(m_filename))
+            using (IWaitDialog wait = WaitForm.Show("Naèítám databázi " + Path.GetFileName(m_filename), false))
             {
-                m_conn = new SQLiteConnection(String.Format("Data Source={0};Version=3", m_filename));
-                m_conn.Open();
+                if (File.Exists(m_filename))
+                {
+                    m_conn = new SQLiteConnection(String.Format("Data Source={0};Version=3", m_filename));
+                    m_conn.Open();
+                }
+                else
+                {
+                    m_conn = new SQLiteConnection(String.Format("Data Source={0};New=True;Version=3", m_filename));
+                    m_conn.Open();
+                    ExecuteSql("CREATE TABLE song (ID INTEGER PRIMARY KEY, title VARCHAR, groupname VARCHAR, author VARCHAR, songtext TEXT, lang VARCHAR, server_id INT NULL, netID INT NULL, transp INT, searchtext VARCHAR, published DATETIME, localmodified INT)");
+                    ExecuteSql("CREATE TABLE server (ID INTEGER PRIMARY KEY, url VARCHAR, servertype VARCHAR, config TEXT, isreadonly INT)");
+                    ExecuteSql("CREATE TABLE deletedsong (ID INTEGER PRIMARY KEY, song_netID INT, server_id INT)");
+                }
+                m_song_adapter = new SQLiteDataAdapter("SELECT * FROM song", m_conn);
+                m_server_adapter = new SQLiteDataAdapter("SELECT * FROM server", m_conn);
+                m_deletedsong_adapter = new SQLiteDataAdapter("SELECT * FROM deletedsong", m_conn);
+                m_dataset = new SongDb();
+                m_song_adapter.Fill(m_dataset.song);
+                m_server_adapter.Fill(m_dataset.server);
+                m_deletedsong_adapter.Fill(m_dataset.deletedsong);
+
+                SQLiteCommandBuilder song_cb = new SQLiteCommandBuilder(m_song_adapter);
+                m_song_adapter.InsertCommand = (SQLiteCommand)song_cb.GetInsertCommand();
+
+                SQLiteCommandBuilder server_cb = new SQLiteCommandBuilder(m_server_adapter);
+                m_server_adapter.InsertCommand = (SQLiteCommand)server_cb.GetInsertCommand();
+
+                SQLiteCommandBuilder deletedsong_cb = new SQLiteCommandBuilder(m_deletedsong_adapter);
+                m_deletedsong_adapter.InsertCommand = (SQLiteCommand)deletedsong_cb.GetInsertCommand();
+
+                m_opened = true;
+                InstallTriggers();
             }
-            else
-            {
-                m_conn = new SQLiteConnection(String.Format("Data Source={0};New=True;Version=3", m_filename));
-                m_conn.Open();
-                ExecuteSql("CREATE TABLE song (ID INTEGER PRIMARY KEY, title VARCHAR, groupname VARCHAR, author VARCHAR, songtext TEXT, lang VARCHAR, server_id INT NULL, netID INT NULL, transp INT, searchtext VARCHAR, published DATETIME, localmodified INT)");
-                ExecuteSql("CREATE TABLE server (ID INTEGER PRIMARY KEY, url VARCHAR, servertype VARCHAR, config TEXT, isreadonly INT)");
-                ExecuteSql("CREATE TABLE deletedsong (ID INTEGER PRIMARY KEY, song_netID INT, server_id INT)");
-            }
-            m_song_adapter = new SQLiteDataAdapter("SELECT * FROM song", m_conn);
-            m_server_adapter = new SQLiteDataAdapter("SELECT * FROM server", m_conn);
-            m_deletedsong_adapter = new SQLiteDataAdapter("SELECT * FROM deletedsong", m_conn);
-            m_dataset = new SongDb();
-            m_song_adapter.Fill(m_dataset.song);
-            m_server_adapter.Fill(m_dataset.server);
-            m_deletedsong_adapter.Fill(m_dataset.deletedsong);
-
-            SQLiteCommandBuilder song_cb = new SQLiteCommandBuilder(m_song_adapter);
-            m_song_adapter.InsertCommand = (SQLiteCommand)song_cb.GetInsertCommand();
-
-            SQLiteCommandBuilder server_cb = new SQLiteCommandBuilder(m_server_adapter);
-            m_server_adapter.InsertCommand = (SQLiteCommand)server_cb.GetInsertCommand();
-
-            SQLiteCommandBuilder deletedsong_cb = new SQLiteCommandBuilder(m_deletedsong_adapter);
-            m_deletedsong_adapter.InsertCommand = (SQLiteCommand)deletedsong_cb.GetInsertCommand();
-
-            m_opened = true;
-            InstallTriggers();
         }
 
         /*
@@ -222,13 +225,16 @@ namespace zp8
         public string Name { get { return ExtractDbName(m_filename); } }
         public void Commit()
         {
-            WantOpen();
-            UnInstallTriggers();
-            SQLiteTransaction t = m_conn.BeginTransaction();
-            m_song_adapter.Update(m_dataset.song);
-            m_server_adapter.Update(m_dataset.server);
-            t.Commit();
-            InstallTriggers();
+            using (IWaitDialog wait = WaitForm.Show("Ukládám databázi " + Path.GetFileName(m_filename), false))
+            {
+                WantOpen();
+                UnInstallTriggers();
+                SQLiteTransaction t = m_conn.BeginTransaction();
+                m_song_adapter.Update(m_dataset.song);
+                m_server_adapter.Update(m_dataset.server);
+                t.Commit();
+                InstallTriggers();
+            }
         }
         public bool Modified
         {

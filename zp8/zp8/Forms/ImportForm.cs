@@ -63,7 +63,10 @@ namespace zp8
         {
             ISongParser type = m_types[imptype.SelectedIndex];
             m_xmldb = new InetSongDb();
-            type.Parse(m_dynamicProperties, m_xmldb);
+            using (IWaitDialog wait = WaitForm.Show("Import písní", true))
+            {
+                type.Parse(m_dynamicProperties, m_xmldb, wait);
+            }
             songBindingSource.DataSource = m_xmldb.song;
         }
     }

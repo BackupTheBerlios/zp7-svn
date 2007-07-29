@@ -24,25 +24,25 @@ namespace zp8
     public interface ISongParser : ISongFilter
     {
         //IEnumerable<SongData> Parse(Stream fr);
-        void Parse(object props, InetSongDb db);
+        void Parse(object props, InetSongDb db, IWaitDialog wait);
     }
 
     public interface IStreamSongParser
     {
         //IEnumerable<SongData> Parse(Stream fr);
-        void Parse(Stream fr, InetSongDb db);
+        void Parse(Stream fr, InetSongDb db, IWaitDialog wait);
     }
 
     public interface ISongFormatter : ISongFilter
     {
         //void Format(IEnumerable<SongData> songs, Stream fw);
-        void Format(InetSongDb db, object props);
+        void Format(InetSongDb db, object props, IWaitDialog wait);
     }
 
     public interface IStreamSongFormatter
     {
         //void Format(IEnumerable<SongData> songs, Stream fw);
-        void Format(InetSongDb db, Stream fw);
+        void Format(InetSongDb db, Stream fw, IWaitDialog wait);
     }
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]

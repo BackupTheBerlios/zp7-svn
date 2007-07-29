@@ -62,8 +62,11 @@ namespace zp8
             ExportForm frm = new ExportForm(dbwrap, selected);
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                ISongFormatter exp = frm.m_types[frm.lbformat.SelectedIndex];
-                exp.Format(frm.m_db, frm.m_dynamciProperties);
+                using (IWaitDialog wait = WaitForm.Show("Exportování písní", true))
+                {
+                    ISongFormatter exp = frm.m_types[frm.lbformat.SelectedIndex];
+                    exp.Format(frm.m_db, frm.m_dynamciProperties, wait);
+                }
             }
         }
 

@@ -300,13 +300,14 @@ namespace zp8
 
         #region ISongFormatter Members
 
-        public void Format(InetSongDb db, object props)
+        public void Format(InetSongDb db, object props, IWaitDialog wait)
         {
             DirectorySongExporterProperties p = (DirectorySongExporterProperties)props;
             IStreamSongFormatter songfmt = GetStreamFormatter();
             string directory = p.FolderName;
             DirectorySongHolder dsh = new DirectorySongHolder(db.song.Rows);
             // nejdrive zapiseme index
+            wait.Message("Zapisuji " + m_indexFileName);
             if (m_writeIndex)
             {
                 using (FileStream fsw = new FileStream(Path.Combine(directory, m_indexFileName), FileMode.Create))
@@ -326,6 +327,10 @@ namespace zp8
                     string path = Path.Combine(directory, MakeTemplate(m_groupFileMask, grp));
                     try { Directory.CreateDirectory(Path.GetDirectoryName(path)); }
                     catch (Exception) { }
+
+                    wait.Message("Zapisuji " + path);
+                    if (wait.Canceled) return;
+
                     using (FileStream fsw = new FileStream(path, FileMode.Create))
                     {
                         using (StreamWriter fw = new StreamWriter(fsw, m_encoding))
@@ -345,6 +350,9 @@ namespace zp8
                     try { Directory.CreateDirectory(Path.GetDirectoryName(path)); }
                     catch (Exception) { }
 
+                    wait.Message("Zapisuji " + path);
+                    if (wait.Canceled) return;
+
                     InetSongDb tmp = new InetSongDb();
                     foreach (ISongRow song in grp.Songs)
                     {
@@ -352,7 +360,7 @@ namespace zp8
                     }
                     using (FileStream fw = new FileStream(path, FileMode.Create))
                     {
-                        songfmt.Format(tmp, fw);
+                        songfmt.Format(tmp, fw, wait);
                     }
                 }
             }
@@ -365,11 +373,15 @@ namespace zp8
                     string path = Path.Combine(directory, MakeTemplate(m_songFileMask, song, dsh));
                     try { Directory.CreateDirectory(Path.GetDirectoryName(path)); }
                     catch (Exception) { }
+
+                    wait.Message("Zapisuji " + path);
+                    if (wait.Canceled) return;
+
                     InetSongDb tmp = new InetSongDb();
                     DbTools.AddSongRow(song, tmp);
                     using (FileStream fw = new FileStream(path, FileMode.Create))
                     {
-                        songfmt.Format(tmp, fw);
+                        songfmt.Format(tmp, fw, wait);
                     }
                 }
             }

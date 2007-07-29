@@ -192,7 +192,7 @@ namespace zp8
             set { m_textProps = value; }
         }
 
-        public override void Format(InetSongDb db, Stream fw)
+        public override void Format(InetSongDb db, Stream fw, IWaitDialog wait)
         {
             using (StreamWriter sw = new StreamWriter(fw, m_encoding))
             {
