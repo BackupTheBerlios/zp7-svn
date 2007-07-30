@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<help title="Zpěvníkátor">
+
+Zpěvníkátor je program pro práci s písněmi, které má v databázi. Základními funkcemi jsou:
+<h2>Základní funkce:</h2>
+<ul>
+    <li>Tisk písniček</li>
+    <li>Vytváření zpěvníků, tisk ve formátu A4,A5 nebo A6</li>
+    <li>Export zpěvníků do formátu PDF</li>
+    <li>Transpozice akordů</li>
+    <li>Automatické stahování písní z internetu.</li>
+    <li>Vyhledávání v písních</li>
+    <li>Export do formátů XML, HTML RTF</li>
+</ul>
+</help>
+
