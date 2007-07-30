@@ -35,14 +35,14 @@ namespace zp8
                 m_dbwrap.ChangedSongDatabase += m_dbwrap_ChangedSongDatabase;
             }
         }
-        private void Reload()
+        public void Reload()
         {
             Dictionary<string, bool> groups = new Dictionary<string, bool>();
             lbgroups.Items.Clear();
             lbsongs.Items.Clear();
             if (m_dbwrap != null && m_dbwrap.Database != null)
             {
-                foreach (zp8.SongDb.songRow song in m_dbwrap.Database.EnumSongs())
+                foreach (zp8.SongDb.songRow song in m_dbwrap.EnumVisibleSongs())
                 {
                     if (!groups.ContainsKey(song.groupname))
                     {
@@ -85,7 +85,7 @@ namespace zp8
             if (gindex >= 0)
             {
                 string grp = (string)lbgroups.Items[gindex];
-                foreach (zp8.SongDb.songRow song in m_dbwrap.Database.EnumSongs())
+                foreach (zp8.SongDb.songRow song in m_dbwrap.EnumVisibleSongs())
                     if (song.groupname == grp)
                         m_loadedSongs.Add(song);
                 Sorting.Sort(m_loadedSongs, SongOrder.TitleGroup);
@@ -101,9 +101,9 @@ namespace zp8
 
         private void lbsongs_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (m_dbwrap.Database.DataSet.song.Rows[m_dbwrap.SongBindingSource.Position] != m_loadedSongs[lbsongs.SelectedIndex])
+            if (m_dbwrap.SongByIndex(m_dbwrap.SongBindingSource.Position) != m_loadedSongs[lbsongs.SelectedIndex])
             {
-                m_dbwrap.SongBindingSource.Position = m_dbwrap.Database.DataSet.song.Rows.IndexOf(m_loadedSongs[lbsongs.SelectedIndex]);
+                m_dbwrap.SongBindingSource.Position = m_dbwrap.SongIndex(m_loadedSongs[lbsongs.SelectedIndex]);
             }
         }
     }

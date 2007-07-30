@@ -77,6 +77,19 @@ namespace zp8
             return m_db.CanEditSong(SongByIndex(index));
         }
 
+        public int SongIndex(SongDb.songRow song)
+        {
+            int index = 0;
+            foreach (DataRowView row in SongBindingSource.List)
+            {
+                if (row.Row == song) return index;
+                index++;
+            }
+            return -1;
+            //DataRowView view = (DataRowView)SongBindingSource.List[index];
+            //return (zp8.SongDb.songRow)view.Row;
+        }
+
         public SongDb.songRow SongByIndex(int index)
         {
             DataRowView view = (DataRowView)SongBindingSource.List[index];
@@ -88,6 +101,12 @@ namespace zp8
             DataRowView view = (DataRowView)ServerBindingSource.List[index];
             return (zp8.SongDb.serverRow)view.Row;
         }
-
+        public IEnumerable<SongDb.songRow> EnumVisibleSongs()
+        {
+            foreach (DataRowView row in SongBindingSource.List)
+            {
+                yield return (SongDb.songRow)row.Row;
+            }
+        }
     }
 }

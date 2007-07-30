@@ -451,6 +451,7 @@ namespace zp8
             {
                 songDatabaseWrapper1.SongBindingSource.Filter = null;
             }
+            songsByGroupFrame1.Reload();
         }
 
         private void tbfilter_KeyDown(object sender, KeyEventArgs e)
