@@ -3,7 +3,7 @@
 namespace zp8 {
 
     public partial class InetSongDb {
-        partial class songDataTable
+        public partial class songDataTable
         {
             public songRow FindByID(int id)
             {

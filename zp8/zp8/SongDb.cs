@@ -2,7 +2,7 @@
     
     
     public partial class SongDb {
-        partial class songDataTable
+        public partial class songDataTable
         {
         }
 
