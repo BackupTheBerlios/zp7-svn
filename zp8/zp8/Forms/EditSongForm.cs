@@ -20,6 +20,7 @@ namespace zp8
             tbauthor.Text = song.author;
             tbgroup.Text = song.groupname;
             tbtext.Text = song.songtext.Replace("\r", "").Replace("\n", "\r\n");
+            tbremark.Text = song.remark;
             songView1.SongText = song.songtext;
 
             if (songdb != null)
@@ -75,6 +76,7 @@ namespace zp8
             m_song.author = tbauthor.Text;
             m_song.groupname = tbgroup.Text;
             m_song.songtext = tbtext.Text.Replace("\r", "");
+            m_song.remark = tbremark.Text;
             if (cbuseserver.Checked)
             {
                 m_song.server_id = (int)cbserver.SelectedValue;

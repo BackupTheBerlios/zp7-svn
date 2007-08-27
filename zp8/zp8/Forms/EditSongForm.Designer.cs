@@ -56,6 +56,8 @@ namespace zp8
             this.tbtext = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.songView1 = new zp8.SongView();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tbremark = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.serverBindingSource)).BeginInit();
@@ -149,6 +151,8 @@ namespace zp8
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.tbremark);
+            this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.cbuseserver);
             this.panel1.Controls.Add(this.cbserver);
             this.panel1.Controls.Add(this.label4);
@@ -167,7 +171,7 @@ namespace zp8
             // cbuseserver
             // 
             this.cbuseserver.AutoSize = true;
-            this.cbuseserver.Location = new System.Drawing.Point(137, 139);
+            this.cbuseserver.Location = new System.Drawing.Point(137, 178);
             this.cbuseserver.Name = "cbuseserver";
             this.cbuseserver.Size = new System.Drawing.Size(57, 17);
             this.cbuseserver.TabIndex = 8;
@@ -181,7 +185,7 @@ namespace zp8
             this.cbserver.DisplayMember = "url";
             this.cbserver.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbserver.FormattingEnabled = true;
-            this.cbserver.Location = new System.Drawing.Point(12, 155);
+            this.cbserver.Location = new System.Drawing.Point(12, 194);
             this.cbserver.Name = "cbserver";
             this.cbserver.Size = new System.Drawing.Size(182, 21);
             this.cbserver.TabIndex = 7;
@@ -200,7 +204,7 @@ namespace zp8
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 139);
+            this.label4.Location = new System.Drawing.Point(12, 178);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 13);
             this.label4.TabIndex = 6;
@@ -309,6 +313,22 @@ namespace zp8
             this.songView1.SongText = null;
             this.songView1.TabIndex = 0;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 139);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(57, 13);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "Poznámka";
+            // 
+            // tbremark
+            // 
+            this.tbremark.Location = new System.Drawing.Point(12, 155);
+            this.tbremark.Name = "tbremark";
+            this.tbremark.Size = new System.Drawing.Size(182, 20);
+            this.tbremark.TabIndex = 10;
+            // 
             // EditSongForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -366,5 +386,7 @@ namespace zp8
         private SongDb songDb;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox cbuseserver;
+        private System.Windows.Forms.TextBox tbremark;
+        private System.Windows.Forms.Label label5;
     }
 }
