@@ -61,11 +61,18 @@ namespace zp8
 
         private void wizardPage2_ShowFromNext(object sender, EventArgs e)
         {
-            ISongParser type = m_types[imptype.SelectedIndex];
-            m_xmldb = new InetSongDb();
-            using (IWaitDialog wait = WaitForm.Show("Import písní", true))
+            try
             {
-                type.Parse(m_dynamicProperties, m_xmldb, wait);
+                ISongParser type = m_types[imptype.SelectedIndex];
+                m_xmldb = new InetSongDb();
+                using (IWaitDialog wait = WaitForm.Show("Import písní", true))
+                {
+                    type.Parse(m_dynamicProperties, m_xmldb, wait);
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show("Pøi importu nastala chyba:\n" + err.Message, "Zpìvníkátor", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             songBindingSource.DataSource = m_xmldb.song;
         }

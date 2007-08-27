@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using System.IO.Compression;
 using System.Xml.Serialization;
 using System.Xml;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms;
 using System.Net;
+using System.Windows.Forms.Design;
 
 namespace zp8
 {
@@ -58,6 +60,41 @@ namespace zp8
         }
     }
 
+    public class OpenFileNameEditor : UITypeEditor
+    {
+        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
+        {
+            if (context != null && context.Instance != null)
+            {
+                if (!context.PropertyDescriptor.IsReadOnly)
+                {
+                    return UITypeEditorEditStyle.Modal;
+                }
+            }
+            return UITypeEditorEditStyle.None;
+        }
+
+        [RefreshProperties(RefreshProperties.All)]
+        public override object EditValue(ITypeDescriptorContext context, System.IServiceProvider provider, object value)
+        {
+            if (context == null || provider == null || context.Instance == null)
+            {
+                return base.EditValue(provider, value);
+            }
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = ((MultipleStreamImporterProperties)context.Instance).Importer.FileDialogFilter;
+            dlg.FileName = (string)value;
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                return dlg.FileName;
+            }
+            else
+            {
+                return value;
+            }
+        }
+    }
+
     public class MultipleStreamImporterProperties : PropertyPageBase
     {
         FileCollection m_fileNames = new FileCollection();
@@ -79,6 +116,7 @@ namespace zp8
         }
 
         [DisplayName("Importovaný soubor")]
+        [Editor(typeof(OpenFileNameEditor), typeof(UITypeEditor))]
         public string FileName
         {
             get { return m_fileName; }
@@ -133,7 +171,17 @@ namespace zp8
                 if (wait.Canceled) return;
                 using (FileStream fr = new FileStream(filename, FileMode.Open))
                 {
-                    Parse(fr, db, wait);
+                    if (filename.ToLower().EndsWith(".gz") || filename.ToLower().EndsWith(".xgz"))
+                    {
+                        using (GZipStream gr = new GZipStream(fr, CompressionMode.Decompress))
+                        {
+                            Parse(gr, db, wait);
+                        }
+                    }
+                    else
+                    {
+                        Parse(fr, db, wait);
+                    }
                 }
             }
             if (p.URL != "")

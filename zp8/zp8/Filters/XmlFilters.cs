@@ -41,7 +41,7 @@ namespace zp8
 
         public override string FileDialogFilter
         {
-            get { return "XML soubory (*.xml)|*.xml"; }
+            get { return "XML soubory (*.xml)|*.xml|Komprimované XML soubory (*.xgz)|*.xgz"; }
         }
 
         public override string Description
@@ -58,6 +58,7 @@ namespace zp8
             StringBuilder sb = new StringBuilder();
             XmlDocument zp6doc = new XmlDocument();
             zp6doc.Load(fr);
+            if (zp6doc.DocumentElement.LocalName != "zpevnik_data") throw new Exception("Špatný formát vstupního souboru");
             xslt.Transform(zp6doc, XmlWriter.Create(sb));
             using (StringReader sr = new StringReader(sb.ToString()))
             {

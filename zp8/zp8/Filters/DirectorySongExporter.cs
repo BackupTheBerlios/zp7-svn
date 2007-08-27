@@ -16,7 +16,7 @@ namespace zp8
         string m_folderName;
 
         [DisplayName("Výstupní složka")]
-        [Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
+        [Editor(typeof(FolderNameEditor), typeof(UITypeEditor))]
         public string FolderName
         {
             get { return m_folderName; }
