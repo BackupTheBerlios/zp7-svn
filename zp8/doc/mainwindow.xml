@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<help title="Hlavní obrazovka">
+<img src='img/scrshot1-marked.png'/>
+<ul>
+    <li>1 - přepne na seznam pínsí databáze</li>
+    <li>2 - vybere aktuální databíze (pokud je za jménem databáze hvězdička, databáze obsahuje změny neuložené na disk)</li>
+    <li>3 - přepne  na seznam písní zpěvníku</li>
+    <li>4 - vybere aktuální zpěvník</li>
+    <li>5 - rychlé hledání v písních (názvu, autoru i textu, stačí bez diakritiky)</li>
+    <li>6 - zrušení filtru (zobrazí se opět všechny písně) - Esc</li>
+    <li>7 - potvrzení filtru - Enter</li>
+    <li>8 - přepínání mezi pohledem na písně a na servery</li>
+    <li>9 - přepínání mezi tabulkovým pohledem na písne (jsou vidět všechny písně najednou) a zobrazením po skupinách</li>
+    <li>10 - tabulka písní</li>
+    <li>11 - text písně</li>
+    <li>12 - ovladač velikosti zobrazení písně</li>
+    <li>13 - transpozice písně (ukazuje se první akord)</li>
+    <li>14 - obnoví původní transpozici písně</li>
+    <li>15 - jméno aktuální databáze</li>
+    <li>16 - počet písní v aktuální databázi</li>
+    <li>17 - zda je aktuální databáze změněná</li>
+    <li>18 - počet listů A4 ve zpěvníku, počet nevyužitých stránek</li>
+</ul>
+</help>
+

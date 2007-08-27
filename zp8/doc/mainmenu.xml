@@ -34,6 +34,7 @@
         <menuitems>
             <menuitem><name>Nová píseň</name><description>přidá novou píseň do databáze/zpěvníku</description></menuitem>
             <menuitem><name>Upravit píseň</name><description>vyvolá dialog na úpravu vybrané písně</description></menuitem>
+            <menuitem><name>Smazat</name><description>smaže vybrané písně</description></menuitem>
             <menuitem><name>Tisk písně</name><description>vytiskne vybranou píseň</description></menuitem>
             <menuitem><name>Export písně do PDF</name><description>uloži vybranou píseň do PDF formátu</description></menuitem>
             <menuitem><name>Import písní</name><description>zobrazí průvodce importem písní</description></menuitem>

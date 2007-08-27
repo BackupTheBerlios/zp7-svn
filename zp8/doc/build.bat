@@ -8,6 +8,7 @@ xsltproc xml2html.xslt mainmenu.xml>%outputdir%\mainmenu.html
 xsltproc xml2html.xslt bookstyles.xml>%outputdir%\bookstyles.html
 xsltproc xml2html.xslt filters.xml>%outputdir%\filters.html
 xsltproc xml2html.xslt howtobook.xml>%outputdir%\howtobook.html
+xsltproc xml2html.xslt mainwindow.xml>%outputdir%\mainwindow.html
 
 xsltproc xml2hhc.xslt zp8-hhc.xml>%outputdir%\zp8.hhc
 copy zp8.hhp %outputdir%\zp8.hhp

@@ -2,6 +2,7 @@
 <contents>
 <item title="Zpěvníkátor" href="start">
     <item title="Hlavní menu" href="mainmenu"/>
+    <item title="Hlavní okno" href="mainwindow"/>
     <item title="Styly zpěvníku" href="bookstyles"/>
     <item title="Filtry" href="filters"/>
 </item>

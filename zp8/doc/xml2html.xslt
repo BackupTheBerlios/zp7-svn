@@ -39,6 +39,8 @@
     <xsl:template match="br"><br/></xsl:template>
     <xsl:template match="h1"><h1><xsl:value-of select="."/></h1></xsl:template>
     <xsl:template match="h2"><h2><xsl:value-of select="."/></h2></xsl:template>
+    <xsl:template match="tool"><xsl:value-of select="."/> (číslo <span style='color:red'><xsl:value-of select="@num"/></span> na 
+        obrázku)</xsl:template>
 
     <!-- Popis menu -->
     <xsl:template match="menuitem"><li><xsl:apply-templates/></li></xsl:template>
