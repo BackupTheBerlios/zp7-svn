@@ -52,6 +52,11 @@ namespace zp8
         {
             textBox1.SelectedText = "$[GROUPINDEX]";
         }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            textBox1.SelectedText = "$[REMARK]";
+        }
     }
 }
 

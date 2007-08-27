@@ -46,17 +46,18 @@ namespace zp8
             this.header3 = new Gui.Wizard.Header();
             this.wizard1 = new Gui.Wizard.Wizard();
             this.wizardPage2 = new Gui.Wizard.WizardPage();
+            this.header2 = new Gui.Wizard.Header();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.inetSongDb = new zp8.InetSongDb();
             this.songBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.inetSongDb = new zp8.InetSongDb();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.authorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.songtextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.langDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.publishedDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.header2 = new Gui.Wizard.Header();
             ((System.ComponentModel.ISupportInitialize)(this.serverBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.songDb)).BeginInit();
             this.wizardPage1.SuspendLayout();
@@ -64,8 +65,8 @@ namespace zp8
             this.wizard1.SuspendLayout();
             this.wizardPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.inetSongDb)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.songBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.inetSongDb)).BeginInit();
             this.SuspendLayout();
             // 
             // serverBindingSource
@@ -239,6 +240,19 @@ namespace zp8
             this.wizardPage2.TabIndex = 4;
             this.wizardPage2.ShowFromNext += new System.EventHandler(this.wizardPage2_ShowFromNext);
             // 
+            // header2
+            // 
+            this.header2.BackColor = System.Drawing.SystemColors.Control;
+            this.header2.CausesValidation = false;
+            this.header2.Description = "Prohlížení importovaných písní";
+            this.header2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.header2.Image = ((System.Drawing.Image)(resources.GetObject("header2.Image")));
+            this.header2.Location = new System.Drawing.Point(0, 0);
+            this.header2.Name = "header2";
+            this.header2.Size = new System.Drawing.Size(567, 64);
+            this.header2.TabIndex = 1;
+            this.header2.Title = "Import písní";
+            // 
             // dataGridView1
             // 
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -251,6 +265,7 @@ namespace zp8
             this.titleDataGridViewTextBoxColumn,
             this.authorDataGridViewTextBoxColumn,
             this.groupnameDataGridViewTextBoxColumn,
+            this.remark,
             this.songtextDataGridViewTextBoxColumn,
             this.langDataGridViewTextBoxColumn,
             this.publishedDataGridViewTextBoxColumn});
@@ -260,15 +275,15 @@ namespace zp8
             this.dataGridView1.Size = new System.Drawing.Size(557, 283);
             this.dataGridView1.TabIndex = 0;
             // 
-            // inetSongDb
-            // 
-            this.inetSongDb.DataSetName = "InetSongDb";
-            this.inetSongDb.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
             // songBindingSource
             // 
             this.songBindingSource.DataMember = "song";
             this.songBindingSource.DataSource = this.inetSongDb;
+            // 
+            // inetSongDb
+            // 
+            this.inetSongDb.DataSetName = "InetSongDb";
+            this.inetSongDb.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -294,6 +309,12 @@ namespace zp8
             this.groupnameDataGridViewTextBoxColumn.HeaderText = "Skupina";
             this.groupnameDataGridViewTextBoxColumn.Name = "groupnameDataGridViewTextBoxColumn";
             // 
+            // remark
+            // 
+            this.remark.DataPropertyName = "remark";
+            this.remark.HeaderText = "Poznámka";
+            this.remark.Name = "remark";
+            // 
             // songtextDataGridViewTextBoxColumn
             // 
             this.songtextDataGridViewTextBoxColumn.DataPropertyName = "songtext";
@@ -314,19 +335,6 @@ namespace zp8
             this.publishedDataGridViewTextBoxColumn.Name = "publishedDataGridViewTextBoxColumn";
             this.publishedDataGridViewTextBoxColumn.Visible = false;
             // 
-            // header2
-            // 
-            this.header2.BackColor = System.Drawing.SystemColors.Control;
-            this.header2.CausesValidation = false;
-            this.header2.Description = "Prohlížení importovaných písní";
-            this.header2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.header2.Image = ((System.Drawing.Image)(resources.GetObject("header2.Image")));
-            this.header2.Location = new System.Drawing.Point(0, 0);
-            this.header2.Name = "header2";
-            this.header2.Size = new System.Drawing.Size(567, 64);
-            this.header2.TabIndex = 1;
-            this.header2.Title = "Import písní";
-            // 
             // ImportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -343,8 +351,8 @@ namespace zp8
             this.wizard1.ResumeLayout(false);
             this.wizardPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.inetSongDb)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.songBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.inetSongDb)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -370,13 +378,14 @@ namespace zp8
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.BindingSource songBindingSource;
         private InetSongDb inetSongDb;
+        private Gui.Wizard.Header header2;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn titleDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn authorDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn groupnameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn remark;
         private System.Windows.Forms.DataGridViewTextBoxColumn songtextDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn langDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn publishedDataGridViewTextBoxColumn;
-        private Gui.Wizard.Header header2;
     }
 }

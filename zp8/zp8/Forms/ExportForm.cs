@@ -41,7 +41,7 @@ namespace zp8
             foreach (SongDb.songRow src in rows)
             {
                 InetSongDb.songRow dst = m_db.song.NewsongRow();
-                DbTools.LocalSongRowToInetSongRow(src, dst);
+                DbTools.CopySong(src, dst);
                 dst.published = DateTime.UtcNow;
                 m_db.song.AddsongRow(dst);
             }

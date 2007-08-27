@@ -17,6 +17,7 @@ namespace zp8
             tpl = tpl.Replace("$[TITLE]", song.title);
             tpl = tpl.Replace("$[AUTHOR]", song.author);
             tpl = tpl.Replace("$[GROUP]", song.groupname);
+            tpl = tpl.Replace("$[REMARK]", song.remark);
             return MakeTemplate(tpl);
         }
     }

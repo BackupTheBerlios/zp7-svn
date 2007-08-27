@@ -14,6 +14,9 @@ namespace zp8
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+#if (DEBUG)
+            Application.Run(new MainForm());
+#else
             try
             {
                 Application.Run(new MainForm());
@@ -22,6 +25,7 @@ namespace zp8
             {
                 MessageBox.Show(e.ToString());
             }
+#endif
         }
     }
 }

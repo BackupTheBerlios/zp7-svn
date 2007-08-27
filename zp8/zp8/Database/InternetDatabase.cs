@@ -46,7 +46,7 @@ namespace zp8
             foreach (InetSongDb.songRow row in xmldb.song.Rows)
             {
                 SongDb.songRow newrow = DataSet.song.NewsongRow();
-                DbTools.InetSongRowToLocalSongRow(row, newrow);
+                DbTools.CopySong(row, newrow);
                 if (serverid.HasValue) newrow.server_id = serverid.Value;
                 DataSet.song.AddsongRow(newrow);
             }
@@ -82,7 +82,7 @@ namespace zp8
                     SongDb.songRow locsong = locals[src.ID];
                     if (locsong.IslocalmodifiedNull() || !locsong.localmodified)
                     {
-                        DbTools.InetSongRowToLocalSongRow(src, locsong);
+                        DbTools.CopySong(src, locsong);
                         locsong.published = src.published;
                     }
                     locals.Remove(src.ID);
@@ -90,7 +90,7 @@ namespace zp8
                 else
                 {
                     SongDb.songRow newrow = DataSet.song.NewsongRow();
-                    DbTools.InetSongRowToLocalSongRow(src, newrow);
+                    DbTools.CopySong(src, newrow);
                     newrow.server_id = serverid;
                     newrow.netID = src.ID;
                     newrow.published = src.published;
@@ -147,7 +147,7 @@ namespace zp8
                 {
                     // nova pisen
                     InetSongDb.songRow newrow = xmldb.song.NewsongRow();
-                    DbTools.LocalSongRowToInetSongRow(local, newrow);
+                    DbTools.CopySong(local, newrow);
                     local.netID = newrow.ID;
                     local.published = DateTime.UtcNow;
                     local.localmodified = false;
@@ -157,7 +157,7 @@ namespace zp8
                 else
                 {
                     InetSongDb.songRow inet = xmldb.song.FindByID(local.netID);
-                    DbTools.LocalSongRowToInetSongRow(local, inet);
+                    DbTools.CopySong(local, inet);
                     local.localmodified = false;
                     local.published = DateTime.UtcNow;
                     inet.published = local.published;
@@ -191,7 +191,7 @@ namespace zp8
                 if (!local.Isserver_idNull() && local.server_id == serverid)
                 {
                     InetSongDb.songRow newrow = xmldb.song.NewsongRow();
-                    DbTools.LocalSongRowToInetSongRow(local, newrow);
+                    DbTools.CopySong(local, newrow);
                     local.netID = newrow.ID;
                     local.published = DateTime.UtcNow;
                     local.localmodified = false;

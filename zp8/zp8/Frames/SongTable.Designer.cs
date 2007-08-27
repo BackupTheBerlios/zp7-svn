@@ -39,6 +39,7 @@ namespace zp8
             this.titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.authorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.songtextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.langDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.server_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -78,6 +79,7 @@ namespace zp8
             this.titleDataGridViewTextBoxColumn,
             this.groupnameDataGridViewTextBoxColumn,
             this.authorDataGridViewTextBoxColumn,
+            this.remark,
             this.songtextDataGridViewTextBoxColumn,
             this.langDataGridViewTextBoxColumn,
             this.server_id,
@@ -133,6 +135,12 @@ namespace zp8
             this.authorDataGridViewTextBoxColumn.DataPropertyName = "author";
             this.authorDataGridViewTextBoxColumn.HeaderText = "Autor";
             this.authorDataGridViewTextBoxColumn.Name = "authorDataGridViewTextBoxColumn";
+            // 
+            // remark
+            // 
+            this.remark.DataPropertyName = "remark";
+            this.remark.HeaderText = "Poznámka";
+            this.remark.Name = "remark";
             // 
             // songtextDataGridViewTextBoxColumn
             // 
@@ -217,6 +225,7 @@ namespace zp8
         private System.Windows.Forms.DataGridViewTextBoxColumn titleDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn groupnameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn authorDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn remark;
         private System.Windows.Forms.DataGridViewTextBoxColumn songtextDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn langDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn server_id;

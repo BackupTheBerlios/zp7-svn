@@ -159,6 +159,7 @@
     </Compile>
     <Compile Include="InetSongDb.cs">
       <DependentUpon>InetSongDb.xsd</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Options\GlobalOpts.cs" />
     <Compile Include="Options\PropertyPageBase.cs" />
@@ -376,6 +377,7 @@
     </Compile>
     <Compile Include="SongDb.cs">
       <DependentUpon>SongDb.xsd</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="SongDb.Designer.cs">
       <AutoGen>True</AutoGen>
