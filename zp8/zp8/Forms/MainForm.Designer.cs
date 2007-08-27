@@ -82,6 +82,7 @@ namespace zp8
             this.písnìToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nováPíseòToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.upravitPíseòToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.smazatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.tisknoutAktuálníPíseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportPísnìDoPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -92,14 +93,15 @@ namespace zp8
             this.obecnéToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stylyZpìvníkuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filtryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nápovìdaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wWWStránkaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oProgramuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveZP = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
             this.savePDF = new System.Windows.Forms.SaveFileDialog();
-            this.nápovìdaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.wWWStránkaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.oProgramuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.obsahToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -581,6 +583,7 @@ namespace zp8
             this.písnìToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nováPíseòToolStripMenuItem,
             this.upravitPíseòToolStripMenuItem,
+            this.smazatToolStripMenuItem,
             this.toolStripMenuItem3,
             this.tisknoutAktuálníPíseToolStripMenuItem,
             this.exportPísnìDoPDFToolStripMenuItem,
@@ -605,6 +608,13 @@ namespace zp8
             this.upravitPíseòToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.upravitPíseòToolStripMenuItem.Text = "Upravit píseò";
             this.upravitPíseòToolStripMenuItem.Click += new System.EventHandler(this.upravitPíseòToolStripMenuItem_Click);
+            // 
+            // smazatToolStripMenuItem
+            // 
+            this.smazatToolStripMenuItem.Name = "smazatToolStripMenuItem";
+            this.smazatToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.smazatToolStripMenuItem.Text = "Smazat";
+            this.smazatToolStripMenuItem.Click += new System.EventHandler(this.smazatToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
@@ -676,26 +686,10 @@ namespace zp8
             this.filtryToolStripMenuItem.Text = "Filtry";
             this.filtryToolStripMenuItem.Click += new System.EventHandler(this.filtryToolStripMenuItem_Click);
             // 
-            // saveZP
-            // 
-            this.saveZP.Filter = "Zpìvníky (*.zp)|*.zp";
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            this.openFileDialog1.Filter = "Zpìvníky (*.zp)|*.zp";
-            // 
-            // printDialog1
-            // 
-            this.printDialog1.UseEXDialog = true;
-            // 
-            // savePDF
-            // 
-            this.savePDF.Filter = "PDF soubory (*.pdf)|*.pdf";
-            // 
             // nápovìdaToolStripMenuItem
             // 
             this.nápovìdaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.obsahToolStripMenuItem,
             this.wWWStránkaToolStripMenuItem,
             this.oProgramuToolStripMenuItem});
             this.nápovìdaToolStripMenuItem.Name = "nápovìdaToolStripMenuItem";
@@ -716,6 +710,31 @@ namespace zp8
             this.oProgramuToolStripMenuItem.Text = "O programu";
             this.oProgramuToolStripMenuItem.Click += new System.EventHandler(this.oProgramuToolStripMenuItem_Click);
             // 
+            // saveZP
+            // 
+            this.saveZP.Filter = "Zpìvníky (*.zp)|*.zp";
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Filter = "Zpìvníky (*.zp)|*.zp";
+            // 
+            // printDialog1
+            // 
+            this.printDialog1.UseEXDialog = true;
+            // 
+            // savePDF
+            // 
+            this.savePDF.Filter = "PDF soubory (*.pdf)|*.pdf";
+            // 
+            // obsahToolStripMenuItem
+            // 
+            this.obsahToolStripMenuItem.Name = "obsahToolStripMenuItem";
+            this.obsahToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
+            this.obsahToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.obsahToolStripMenuItem.Text = "Obsah";
+            this.obsahToolStripMenuItem.Click += new System.EventHandler(this.obsahToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -729,9 +748,9 @@ namespace zp8
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Zpìvníkátor 8.0";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.TabControl1.ResumeLayout(false);
@@ -824,6 +843,8 @@ namespace zp8
         private System.Windows.Forms.ToolStripMenuItem nápovìdaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem wWWStránkaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem oProgramuToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem smazatToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem obsahToolStripMenuItem;
     }
 }
 

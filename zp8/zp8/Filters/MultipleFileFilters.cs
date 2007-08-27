@@ -62,6 +62,7 @@ namespace zp8
     {
         FileCollection m_fileNames = new FileCollection();
         string m_URL = "";
+        string m_fileName = "";
 
         [Description("Internetová adresa, ze které se stáhne zdrojový soubor")]
         public string URL
@@ -70,12 +71,21 @@ namespace zp8
             set { m_URL = value; }
         }
 
-        [DisplayName("Importované soubory")]
+        [DisplayName("Importované soubory (více najednou)")]
         public FileCollection FileNames
         {
             get { return m_fileNames; }
             set { m_fileNames = value; }
         }
+
+        [DisplayName("Importovaný soubor")]
+        public string FileName
+        {
+            get { return m_fileName; }
+            set { m_fileName = value; }
+        }
+
+
         public readonly MultipleStreamImporter Importer;
         public MultipleStreamImporterProperties(MultipleStreamImporter importer)
         {
@@ -114,7 +124,10 @@ namespace zp8
         public void Parse(object props, InetSongDb db, IWaitDialog wait)
         {
             MultipleStreamImporterProperties p = (MultipleStreamImporterProperties)props;
-            foreach (string filename in p.FileNames.Files)
+            List<string> files = new List<string>();
+            files.AddRange(p.FileNames.Files);
+            if (p.FileName != "") files.Add(p.FileName);
+            foreach (string filename in files)
             {
                 wait.Message("Importuji soubor " + filename);
                 if (wait.Canceled) return;

@@ -422,18 +422,21 @@ namespace zp8
 
         private void pøidatVybranouPíseòDoZpìvníkuToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddSongToDb(songView1.Song, SelectedSongBook);
+            AddSelectedSongToDb(SelectedSongBook);
         }
 
-        private void AddSongToDb(SongDb.songRow song, AbstractSongDatabase db)
+        private void AddSelectedSongToDb(AbstractSongDatabase db)
         {
-            if (song == null || db == null) return;
-            DbTools.AddSongRow(song, db);
+            if (db == null) return;
+            foreach (SongDb.songRow song in songTable1.GetSelectedSongsOrFocused())
+            {
+                DbTools.AddSongRow(song, db);
+            }
         }
 
         private void pøidatVybranouPíseòDoDatabázeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddSongToDb(songView1.Song, SelectedDatabase);
+            AddSelectedSongToDb(SelectedDatabase);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -494,6 +497,21 @@ namespace zp8
             text += "(c) JenaSoft 1998-2007\r\n";
             text += "WWW: http://zpevnik.net";
             MessageBox.Show(text);
+        }
+
+        private void smazatToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<SongDb.songRow> songs = new List<SongDb.songRow>();
+            songs.AddRange(songTable1.GetSelectedSongsOrFocused());
+            if (MessageBox.Show(String.Format("Opravdu vymazat {0} písní ?", songs.Count), "Zpìvníkátor", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                foreach (SongDb.songRow song in songs) song.Delete();
+            }
+        }
+
+        private void obsahToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "zp8.chm"));
         }
     }
 }

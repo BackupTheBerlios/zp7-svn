@@ -106,6 +106,12 @@ namespace zp8
             }
         }
 
+        public IEnumerable<SongDb.songRow> GetSelectedSongsOrFocused()
+        {
+            if (dataGridView1.SelectedRows.Count > 0) return GetSelectedSongs();
+            else return new SongDb.songRow[] { m_dbwrap.SelectedSong };
+        }
+
         /*
         void m_dbwrap_ChangedSongDatabase(SongDatabase db)
         {
