@@ -14,7 +14,19 @@ namespace DatAdmin
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+#if (DEBUG)
             Application.Run(new MainForm());
+#else
+            try
+            {
+                Application.Run(new MainForm());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+#endif
+
         }
     }
 }
