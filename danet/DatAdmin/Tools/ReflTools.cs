@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 
-namespace DATools
+namespace DatAdmin
 {
     public struct MethodAttribute<T> where T : System.Attribute
     {

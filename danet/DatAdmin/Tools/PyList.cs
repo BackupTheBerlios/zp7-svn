@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DATools
+namespace DatAdmin
 {
     public static class PyList
     {
