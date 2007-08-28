@@ -99,9 +99,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\img_database.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\img_database.bmp" />
   </ItemGroup>
   <ItemGroup>
