@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatAdmin", "DatAdmin\DatAdmin.csproj", "{6DA08E77-8471-4AF8-8B3E-C3458DF17457}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAIntf", "DAIntf\DAIntf.csproj", "{1DCAE0C8-82B0-4E25-A157-574C2A9E6A8D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6DA08E77-8471-4AF8-8B3E-C3458DF17457}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DA08E77-8471-4AF8-8B3E-C3458DF17457}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DA08E77-8471-4AF8-8B3E-C3458DF17457}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DA08E77-8471-4AF8-8B3E-C3458DF17457}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DCAE0C8-82B0-4E25-A157-574C2A9E6A8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DCAE0C8-82B0-4E25-A157-574C2A9E6A8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DCAE0C8-82B0-4E25-A157-574C2A9E6A8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DCAE0C8-82B0-4E25-A157-574C2A9E6A8D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
