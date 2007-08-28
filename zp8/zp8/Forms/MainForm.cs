@@ -496,7 +496,7 @@ namespace zp8
             text += "Zpìvníkátor " + VersionInfo.Version + "\r\n";
             text += "(c) JenaSoft 1998-2007\r\n";
             text += "WWW: http://zpevnik.net";
-            MessageBox.Show(text);
+            MessageBox.Show(text, "O programu...");
         }
 
         private void smazatToolStripMenuItem_Click(object sender, EventArgs e)
