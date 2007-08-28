@@ -40,11 +40,46 @@ namespace zp8
 
         public static void CopySong(ISongRow src, ISongRow dst)
         {
-            dst.title = src.title;
-            dst.groupname = src.groupname;
-            dst.author = src.author;
-            dst.songtext = src.songtext;
-            dst.lang = src.lang;
+            try
+            {
+                dst.title = src.title;
+            }
+            catch (Exception)
+            {
+                dst.title = "";
+            }
+            try
+            {
+                dst.groupname = src.groupname;
+            }
+            catch (Exception)
+            {
+                dst.groupname = "";
+            }
+            try
+            {
+                dst.author = src.author;
+            }
+            catch (Exception)
+            {
+                dst.author = "";
+            }
+            try
+            {
+                dst.songtext = src.songtext;
+            }
+            catch (Exception)
+            {
+                dst.songtext = "";
+            }
+            try
+            {
+                dst.lang = src.lang;
+            }
+            catch (Exception)
+            {
+                dst.lang = "";
+            }
             try
             {
                 dst.remark = src.remark;
