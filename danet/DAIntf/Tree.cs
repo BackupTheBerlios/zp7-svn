@@ -4,8 +4,6 @@ using System.Text;
 
 namespace DAIntf
 {
-    public delegate ITreeNode CreateRootNodeDelegate();
-
     public interface IRealTreeNode
     {
         void RefreshChilds();

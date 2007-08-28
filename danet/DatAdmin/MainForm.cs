@@ -13,6 +13,8 @@ namespace DatAdmin
         public MainForm()
         {
             InitializeComponent();
+
+            daTreeView1.RootPath = "";
         }
     }
 }

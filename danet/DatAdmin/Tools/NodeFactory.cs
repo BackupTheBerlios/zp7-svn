@@ -8,7 +8,6 @@ namespace DatAdmin
     public delegate void NodeCallback(ITreeNode node);
     public static class NodeFactory
     {
-        private static CreateRootNodeDelegate m_createroot;
         private static List<INodeFactory> m_factories = new List<INodeFactory>();
         public static void RegisterNodeFactory(INodeFactory fact)
         {
@@ -23,13 +22,9 @@ namespace DatAdmin
             }
             return null;
         }
-        public static void RegisterRootCreator(CreateRootNodeDelegate createroot)
-        {
-            m_createroot = createroot;
-        }
         public static ITreeNode CreateRoot()
         {
-            return m_createroot();
+            return new RootTreeNode();
         }
         /// returns node, can wait to connect databases
         public static ITreeNode GetNodeFromPath(string path)
