@@ -45,7 +45,14 @@ namespace zp8
             dst.author = src.author;
             dst.songtext = src.songtext;
             dst.lang = src.lang;
-            dst.remark = src.remark;
+            try
+            {
+                dst.remark = src.remark;
+            }
+            catch (Exception)
+            {
+                dst.remark = "";
+            }
         }
 
         public static void AddSongRow(ISongRow src, InetSongDb db)

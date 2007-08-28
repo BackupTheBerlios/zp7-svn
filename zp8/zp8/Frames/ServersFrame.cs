@@ -56,17 +56,29 @@ namespace zp8
 
         private void DoServerAction(ServerActionDelegate callback)
         {
-            //try
-            //{
+#if (DEBUG)
+            DoServerAction2(callback);
+#else
+            try
+            {
+                DoServerAction2(callback);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Pøi kominukaci se severem nastala chyba:\n" + e.Message, "Zpìvníkátor", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+#endif
+        }
+
+        private void DoServerAction2(ServerActionDelegate callback)
+        {
+            using (IWaitDialog dlg = WaitForm.Show("Probíhá komunikace se serverem", false))
+            {
                 SongDb.serverRow row = m_dbwrap.SelectedServer;
                 ISongServer srv = SongServer.Load(row.servertype, row.config);
                 callback(m_dbwrap.Database, srv, row.ID);
-                MessageBox.Show("Akce probìhla úspìšnì");
-            //}
-            //catch (Exception e)
-            //{
-            //    MessageBox.Show(e.ToString(), "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
+            }
+            MessageBox.Show("Akce probìhla úspìšnì");
         }
 
         private void button3_Click(object sender, EventArgs e)
