@@ -56,8 +56,10 @@ namespace DatAdmin
             // 
             // DialogBase
             // 
+            this.AcceptButton = this.bt_ok;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.bt_cancel;
             this.ClientSize = new System.Drawing.Size(405, 161);
             this.Controls.Add(this.bt_cancel);
             this.Controls.Add(this.bt_ok);
