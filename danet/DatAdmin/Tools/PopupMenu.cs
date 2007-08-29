@@ -50,6 +50,7 @@ namespace DatAdmin
             PopupMenuItem popup = new PopupMenuItem();
             popup.m_parent = newitem.DropDownItems;
             popup.m_menu = newitem;
+            m_items[path[0]] = popup;
             return popup.FindOrCreate(PyList.SliceFrom(path, 1));
             // create new item
             //MenuItem newitem = m_parent.Add(Texts.Get(path[0]));

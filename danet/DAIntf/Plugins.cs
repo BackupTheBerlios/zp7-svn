@@ -9,6 +9,7 @@ namespace DAIntf
     {
         public static void AddAssembly(Assembly assembly)
         {
+            CreateFactory.AddAssembly(assembly);
         }
     }
 }

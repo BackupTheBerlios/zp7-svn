@@ -50,6 +50,7 @@ namespace DatAdmin
         {
             m_factoryClasses = DbProviderFactories.GetFactoryClasses();
             bindingSource1.DataSource = m_factoryClasses;
+            //MessageBox.Show(m_factoryClasses.Rows.Count.ToString());
             provider.DisplayMember = "Name";
         }
 
