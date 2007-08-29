@@ -40,6 +40,7 @@
     <Compile Include="CreateFactory.cs" />
     <Compile Include="DataSource.cs" />
     <Compile Include="DBStruct.cs" />
+    <Compile Include="GenericDbSource.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="NodeFactory.cs" />
     <Compile Include="Plugins.cs" />
@@ -47,6 +48,7 @@
     <Compile Include="Texts.cs" />
     <Compile Include="Tools\Async.cs" />
     <Compile Include="Tools\AsyncTool.cs" />
+    <Compile Include="Tools\DataSourceTree.cs" />
     <Compile Include="Tools\StdDialog.cs" />
     <Compile Include="Tools\TreeBase.cs" />
     <Compile Include="Tree.cs" />
