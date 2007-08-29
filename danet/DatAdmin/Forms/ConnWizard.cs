@@ -25,8 +25,8 @@ namespace DatAdmin
         {
             string invname;
             if (provider.SelectedIndex > 0)
-                invname = m_factoryClasses.Rows[bindingSource1.Position]["InvariantName"].ToString();
-            else 
+                invname = m_factoryClasses.Rows[provider.SelectedIndex]["InvariantName"].ToString();
+            else
                 invname = provider.Text;
             try
             {
@@ -49,9 +49,10 @@ namespace DatAdmin
         private void wizard1_Load(object sender, EventArgs e)
         {
             m_factoryClasses = DbProviderFactories.GetFactoryClasses();
-            bindingSource1.DataSource = m_factoryClasses;
-            //MessageBox.Show(m_factoryClasses.Rows.Count.ToString());
-            provider.DisplayMember = "Name";
+            foreach (DataRow row in m_factoryClasses.Rows)
+            {
+                provider.Items.Add(row["Name"]);
+            }
         }
 
         private void wpconnprops_CloseFromNext(object sender, Gui.Wizard.PageEventArgs e)

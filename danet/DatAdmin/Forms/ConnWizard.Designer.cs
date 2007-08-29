@@ -28,9 +28,12 @@ namespace DatAdmin
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConnWizard));
             this.wizard1 = new Gui.Wizard.Wizard();
+            this.wpprovider = new Gui.Wizard.WizardPage();
+            this.provider = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.header1 = new Gui.Wizard.Header();
             this.wpfinish = new Gui.Wizard.WizardPage();
             this.infoContainer1 = new Gui.Wizard.InfoContainer();
             this.wpselectdb = new Gui.Wizard.WizardPage();
@@ -38,25 +41,19 @@ namespace DatAdmin
             this.wpconnprops = new Gui.Wizard.WizardPage();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.header2 = new Gui.Wizard.Header();
-            this.wpprovider = new Gui.Wizard.WizardPage();
-            this.provider = new System.Windows.Forms.ComboBox();
-            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.header1 = new Gui.Wizard.Header();
             this.wizard1.SuspendLayout();
+            this.wpprovider.SuspendLayout();
             this.wpfinish.SuspendLayout();
             this.wpselectdb.SuspendLayout();
             this.wpconnprops.SuspendLayout();
-            this.wpprovider.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // wizard1
             // 
             this.wizard1.Controls.Add(this.wpprovider);
+            this.wizard1.Controls.Add(this.wpconnprops);
             this.wizard1.Controls.Add(this.wpfinish);
             this.wizard1.Controls.Add(this.wpselectdb);
-            this.wizard1.Controls.Add(this.wpconnprops);
             this.wizard1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.wizard1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.wizard1.Location = new System.Drawing.Point(0, 0);
@@ -69,6 +66,49 @@ namespace DatAdmin
             this.wizard1.Size = new System.Drawing.Size(587, 396);
             this.wizard1.TabIndex = 0;
             this.wizard1.Load += new System.EventHandler(this.wizard1_Load);
+            // 
+            // wpprovider
+            // 
+            this.wpprovider.Controls.Add(this.provider);
+            this.wpprovider.Controls.Add(this.label1);
+            this.wpprovider.Controls.Add(this.header1);
+            this.wpprovider.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.wpprovider.IsFinishPage = false;
+            this.wpprovider.Location = new System.Drawing.Point(0, 0);
+            this.wpprovider.Name = "wpprovider";
+            this.wpprovider.Size = new System.Drawing.Size(587, 348);
+            this.wpprovider.TabIndex = 1;
+            this.wpprovider.CloseFromNext += new Gui.Wizard.PageEventHandler(this.wpprovider_CloseFromNext);
+            // 
+            // provider
+            // 
+            this.provider.FormattingEnabled = true;
+            this.provider.Location = new System.Drawing.Point(176, 106);
+            this.provider.Name = "provider";
+            this.provider.Size = new System.Drawing.Size(322, 21);
+            this.provider.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(69, 106);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(92, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "s_select_provider";
+            // 
+            // header1
+            // 
+            this.header1.BackColor = System.Drawing.SystemColors.Control;
+            this.header1.CausesValidation = false;
+            this.header1.Description = "Description";
+            this.header1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.header1.Image = ((System.Drawing.Image)(resources.GetObject("header1.Image")));
+            this.header1.Location = new System.Drawing.Point(0, 0);
+            this.header1.Name = "header1";
+            this.header1.Size = new System.Drawing.Size(587, 64);
+            this.header1.TabIndex = 0;
+            this.header1.Title = "Title";
             // 
             // wpfinish
             // 
@@ -151,50 +191,6 @@ namespace DatAdmin
             this.header2.TabIndex = 0;
             this.header2.Title = "Title";
             // 
-            // wpprovider
-            // 
-            this.wpprovider.Controls.Add(this.provider);
-            this.wpprovider.Controls.Add(this.label1);
-            this.wpprovider.Controls.Add(this.header1);
-            this.wpprovider.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.wpprovider.IsFinishPage = false;
-            this.wpprovider.Location = new System.Drawing.Point(0, 0);
-            this.wpprovider.Name = "wpprovider";
-            this.wpprovider.Size = new System.Drawing.Size(587, 348);
-            this.wpprovider.TabIndex = 1;
-            this.wpprovider.CloseFromNext += new Gui.Wizard.PageEventHandler(this.wpprovider_CloseFromNext);
-            // 
-            // provider
-            // 
-            this.provider.DataSource = this.bindingSource1;
-            this.provider.FormattingEnabled = true;
-            this.provider.Location = new System.Drawing.Point(176, 106);
-            this.provider.Name = "provider";
-            this.provider.Size = new System.Drawing.Size(322, 21);
-            this.provider.TabIndex = 2;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(69, 106);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(92, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "s_select_provider";
-            // 
-            // header1
-            // 
-            this.header1.BackColor = System.Drawing.SystemColors.Control;
-            this.header1.CausesValidation = false;
-            this.header1.Description = "Description";
-            this.header1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.header1.Image = ((System.Drawing.Image)(resources.GetObject("header1.Image")));
-            this.header1.Location = new System.Drawing.Point(0, 0);
-            this.header1.Name = "header1";
-            this.header1.Size = new System.Drawing.Size(587, 64);
-            this.header1.TabIndex = 0;
-            this.header1.Title = "Title";
-            // 
             // ConnWizard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -204,12 +200,11 @@ namespace DatAdmin
             this.Name = "ConnWizard";
             this.Text = "ConnWizard";
             this.wizard1.ResumeLayout(false);
+            this.wpprovider.ResumeLayout(false);
+            this.wpprovider.PerformLayout();
             this.wpfinish.ResumeLayout(false);
             this.wpselectdb.ResumeLayout(false);
             this.wpconnprops.ResumeLayout(false);
-            this.wpprovider.ResumeLayout(false);
-            this.wpprovider.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -226,7 +221,6 @@ namespace DatAdmin
         private System.Windows.Forms.ComboBox provider;
         private System.Windows.Forms.Label label1;
         private Gui.Wizard.Header header1;
-        private System.Windows.Forms.BindingSource bindingSource1;
         private Gui.Wizard.Header header3;
         private Gui.Wizard.InfoContainer infoContainer1;
     }
