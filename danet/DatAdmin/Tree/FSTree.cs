@@ -102,6 +102,13 @@ namespace DatAdmin
             }
         }
 
+        [PopupMenu("s_new/s_connection")]
+        public void NewConnection()
+        {
+            CreateDialog dlg = new CreateDialog(null);
+            dlg.ShowDialog();
+        }
+
         [PopupMenu("s_delete")]
         public void Remove()
         {

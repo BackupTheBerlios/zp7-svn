@@ -36,6 +36,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\ConnWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ConnWizard.designer.cs">
+      <DependentUpon>ConnWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CreateDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CreateDialog.designer.cs">
+      <DependentUpon>CreateDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\DialogBase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -62,6 +74,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\ConnWizard.resx">
+      <DependentUpon>ConnWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CreateDialog.resx">
+      <DependentUpon>CreateDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\DialogBase.resx">
       <DependentUpon>DialogBase.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -101,6 +121,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Tools\Async.cs" />
+    <Compile Include="Tools\AsyncTool.cs" />
     <Compile Include="Tools\PyList.cs" />
     <Compile Include="Tools\ReflTools.cs" />
     <Compile Include="StdIcons.Designer.cs">
@@ -120,6 +142,10 @@
     <ProjectReference Include="..\DAIntf\DAIntf.csproj">
       <Project>{1DCAE0C8-82B0-4E25-A157-574C2A9E6A8D}</Project>
       <Name>DAIntf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAWizard\DAWizard.csproj">
+      <Project>{94955608-38E0-43BE-AE73-0C16012E7445}</Project>
+      <Name>DAWizard</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
