@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
+using System.Drawing;
 using DAIntf;
 
 namespace DatAdmin
@@ -71,10 +72,10 @@ namespace DatAdmin
 
         private void UpdateImageIndex()
         {
-            string imgname;
-            if (IsExpanded && m_node.ExpandedImageName != "") imgname = m_node.ExpandedImageName;
-            else imgname = m_node.ImageName;
-            int index = m_tree.GetImageIndex(imgname);
+            Bitmap img;
+            if (IsExpanded && m_node.ExpandedImage != null) img = m_node.ExpandedImage;
+            else img = m_node.Image;
+            int index = m_tree.GetImageIndex(img);
             ImageIndex = index;
             SelectedImageIndex = index;
         }

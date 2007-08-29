@@ -35,6 +35,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connection.cs" />
     <Compile Include="ConnWizard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -47,6 +48,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StdIcons.resx</DependentUpon>
     </Compile>
+    <Compile Include="TreeNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ConnWizard.resx">

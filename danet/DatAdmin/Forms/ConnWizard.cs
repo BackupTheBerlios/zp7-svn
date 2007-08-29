@@ -88,6 +88,7 @@ namespace DatAdmin
         }
     }
 
+    [CreateFactoryItem]
     public class ConnectionCreateWizard : ICreateFactoryItem
     {
 

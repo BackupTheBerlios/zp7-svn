@@ -1,17 +1,25 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Reflection;
 using DAIntf;
 
-namespace DatAdmin
+namespace DAIntf
 {
-    public delegate void NodeCallback(ITreeNode node);
+    //public delegate void NodeCallback(ITreeNode node);
+
     public static class NodeFactory
     {
         private static List<INodeFactory> m_factories = new List<INodeFactory>();
+        private static CreateRootNodeDelegate m_createroot;
+
         public static void RegisterNodeFactory(INodeFactory fact)
         {
             m_factories.Add(fact);
+        }
+        public static void RegisterRootCreator(CreateRootNodeDelegate createroot)
+        {
+            m_createroot = createroot;
         }
         public static ITreeNode FromFile(string file)
         {
@@ -24,7 +32,7 @@ namespace DatAdmin
         }
         public static ITreeNode CreateRoot()
         {
-            return new RootTreeNode();
+            return m_createroot();
         }
         /// returns node, can wait to connect databases
         public static ITreeNode GetNodeFromPath(string path)
@@ -39,8 +47,18 @@ namespace DatAdmin
             }
             return item;
         }
-        public static void InvokeNodeFromPath(string path, NodeCallback callback)
+        internal static void AddAssembly(Assembly assembly)
         {
+            foreach (Type type in assembly.GetTypes())
+            {
+                foreach (NodeFactoryAttribute attr in type.GetCustomAttributes(typeof(NodeFactoryAttribute), true))
+                {
+                    RegisterNodeFactory((INodeFactory)type.GetConstructor(new Type[] { }).Invoke(new object[] { }));
+                }
+            }
         }
+        //public static void InvokeNodeFromPath(string path, NodeCallback callback)
+        //{
+        //}
     }
 }

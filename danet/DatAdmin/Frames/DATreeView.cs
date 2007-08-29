@@ -14,7 +14,7 @@ namespace DatAdmin
     public partial class DATreeView : UserControl
     {
         NodeAdapter m_root = null;
-        Dictionary<string, int> m_images = new Dictionary<string, int>();
+        Dictionary<Bitmap, int> m_images = new Dictionary<Bitmap, int>();
 
         public ITreeNode Root { 
             get
@@ -63,13 +63,13 @@ namespace DatAdmin
             tree.Nodes.Add(m_root);
         }
 
-        public int GetImageIndex(string image_name)
+        public int GetImageIndex(Bitmap image)
         {
-            if (m_images.ContainsKey(image_name)) return m_images[image_name];
-            Bitmap bmp = (Bitmap)StdIcons.ResourceManager.GetObject(image_name);
+            if (m_images.ContainsKey(image)) return m_images[image];
+            //Bitmap bmp = (Bitmap)StdIcons.ResourceManager.GetObject(image_name);
             int res = imageList1.Images.Count;
-            imageList1.Images.Add(bmp);
-            m_images[image_name] = res;
+            imageList1.Images.Add(image);
+            m_images[image] = res;
             return res;
         }
 

@@ -17,7 +17,7 @@ namespace Plugin.mssql
             InitializeComponent();
         }
 
-        string GenerateConnectionString(bool includepwd)
+        internal string GenerateConnectionString(bool includepwd)
         {
             if (comboBox1.SelectedIndex == 1)
             {
@@ -26,23 +26,6 @@ namespace Plugin.mssql
             else
             {
                 return String.Format("Data Source={0};Integrated Security=SSPI", datasource.Text);
-            }
-        }
-
-        private void pgcreadentials_CloseFromNext(object sender, Gui.Wizard.PageEventArgs e)
-        {
-            string conns = GenerateConnectionString(true);
-            SqlConnection conn = new SqlConnection(conns);
-            IAsyncVoid res = Async.InvokeVoid(conn.Open);
-            try
-            {
-                res.Wait();
-            }
-            catch (Exception err)
-            {
-                StdDialog.ShowError(err);
-                e.Page = pgcreadentials;
-                return;
             }
         }
 
@@ -59,16 +42,38 @@ namespace Plugin.mssql
             datasource_TextChanged(sender, e);
         }
 
-        private void wizard1_Load(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string conns = GenerateConnectionString(true);
+            SqlConnection conn = new SqlConnection(conns);
+            IAsyncVoid res = Async.InvokeVoid(conn.Open);
+            try
+            {
+                res.Wait();
+            }
+            catch (Exception err)
+            {
+                StdDialog.ShowError(err);
+                Close();
+                return;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void ConnWizard_Load(object sender, EventArgs e)
         {
             comboBox1.SelectedIndex = 0;
             comboBox1_SelectedIndexChanged(sender, e);
         }
     }
 
+    [CreateFactoryItem]
     public class MsSqlCreateWizard : ICreateFactoryItem
     {
-
         #region ICreateFactoryItem Members
 
         public string Title
@@ -90,7 +95,12 @@ namespace Plugin.mssql
         {
             ConnWizard wiz = new ConnWizard();
             wiz.ShowDialog();
-            return wiz.DialogResult == System.Windows.Forms.DialogResult.OK;
+            if (wiz.DialogResult == System.Windows.Forms.DialogResult.OK)
+            {
+                string conns = wiz.GenerateConnectionString(true);
+                return true;
+            }
+            return false;
         }
 
         #endregion

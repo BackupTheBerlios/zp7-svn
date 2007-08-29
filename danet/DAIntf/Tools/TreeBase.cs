@@ -4,7 +4,7 @@ using System.Text;
 using System.Drawing;
 using DAIntf;
 
-namespace DatAdmin
+namespace DAIntf
 {
     public abstract class TreeNodeBase : ITreeNode
     {

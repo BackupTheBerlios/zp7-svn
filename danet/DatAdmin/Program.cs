@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Reflection;
 using DAIntf;
+using System.Threading;
 
 namespace DatAdmin
 {
@@ -16,8 +17,6 @@ namespace DatAdmin
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            DAIntf.Plugins.AddAssembly(Assembly.GetAssembly(typeof(Program)));
 
 #if (DEBUG)
             RunMain();
@@ -36,6 +35,13 @@ namespace DatAdmin
 
         static void RunMain()
         {
+            Core.IsGUIDatAdmin = true;
+            Async.MainThread = Thread.CurrentThread;
+            Async.WaitDialog = new WaitDialog();
+            NodeFactory.RegisterRootCreator(RootTreeNode.CreateRoot);
+
+            DAIntf.Plugins.AddAssembly(Assembly.GetAssembly(typeof(Program)));
+
             PluginTools.LoadPlugins();
             Application.Run(new MainForm());
         }

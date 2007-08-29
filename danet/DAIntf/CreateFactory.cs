@@ -6,12 +6,22 @@ using System.Reflection;
 
 namespace DAIntf
 {
+    [AttributeUsage(AttributeTargets.Class)]
+    public class CreateFactoryItemAttribute : Attribute
+    {
+    }
+
     public interface ICreateFactoryItem
     {
         string Title { get;}
         string Group { get;}
         Bitmap Bitmap { get;}
         bool Create(ITreeNode parent, string name);
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    public class CreateFactoryAttribute : Attribute
+    {
     }
 
     public interface ICreateFactory
@@ -50,10 +60,15 @@ namespace DAIntf
         {
             foreach (Type type in assembly.GetTypes())
             {
-                if (Array.IndexOf(type.GetInterfaces(), typeof(ICreateFactoryItem)) >= 0)
-                    RegisterFactory((ICreateFactoryItem) type.GetConstructor(new Type[] { }).Invoke(new object[] { }));
-                if (Array.IndexOf(type.GetInterfaces(), typeof(ICreateFactory)) >= 0)
+                foreach (CreateFactoryItemAttribute attr in type.GetCustomAttributes(typeof(CreateFactoryItemAttribute), false))
+                {
+                    RegisterFactory((ICreateFactoryItem)type.GetConstructor(new Type[] { }).Invoke(new object[] { }));
+                }
+
+                foreach (CreateFactoryAttribute attr in type.GetCustomAttributes(typeof(CreateFactoryAttribute), false))
+                {
                     RegisterFactory((ICreateFactory)type.GetConstructor(new Type[] { }).Invoke(new object[] { }));
+                }
             }
         }
     }

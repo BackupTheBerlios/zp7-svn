@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 
 namespace DAIntf
 {
+    public delegate ITreeNode CreateRootNodeDelegate();
+
     public interface IRealTreeNode
     {
         void RefreshChilds();
@@ -31,11 +34,11 @@ namespace DAIntf
         /// language independend node name, can be used for node pathing
         string Name { get;}
 
-        /// image name, loaded from resources
-        string ImageName { get;}
+        /// image
+        Bitmap Image { get;}
 
-        /// image name, loaded from resources
-        string ExpandedImageName { get;}
+        /// image
+        Bitmap ExpandedImage { get;}
 
         ITreeNode[] GetChildren();
 
@@ -58,6 +61,11 @@ namespace DAIntf
 
         /// gets file system path, throws, if node is not represented by file system object
         string FileSystemPath { get;}
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    public class NodeFactoryAttribute : Attribute
+    {
     }
 
     public interface INodeFactory

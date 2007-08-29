@@ -11,5 +11,9 @@ namespace DAIntf
         {
             MessageBox.Show(error.ToString(), "DatAdmin", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+        public static void ShowInfo(object info)
+        {
+            MessageBox.Show(info.ToString(), "DatAdmin", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }

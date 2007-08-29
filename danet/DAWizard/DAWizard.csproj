@@ -153,6 +153,7 @@
     <EmbeddedResource Include="Wizard.bmp" />
     <EmbeddedResource Include="Wizard.resx">
       <DependentUpon>Wizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="WizardPage.resx">
       <DependentUpon>WizardPage.cs</DependentUpon>

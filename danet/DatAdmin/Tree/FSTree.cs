@@ -4,6 +4,7 @@ using System.Text;
 using DAIntf;
 using System.IO;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace DatAdmin
 {
@@ -32,14 +33,14 @@ namespace DatAdmin
             get { return System.IO.Path.GetFileName(m_folder); }
         }
 
-        public override string ImageName
+        public override Bitmap Image
         {
-            get { return "img_folder"; }
+            get { return StdIcons.img_folder; }
         }
 
-        public override string ExpandedImageName
+        public override Bitmap ExpandedImage
         {
-            get { return "img_folder_expanded"; }
+            get { return StdIcons.img_folder_expanded; }
         }
 
         public override ITreeNode[] GetChildren()
@@ -122,11 +123,11 @@ namespace DatAdmin
 
     public class RootTreeNode : FolderTreeNode
     {
+        internal static ITreeNode CreateRoot() { return new RootTreeNode(); }
         public override string Title
         {
             get { return "Data"; }
         }
-
     }
 
 }
