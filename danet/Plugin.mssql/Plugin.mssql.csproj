@@ -4,17 +4,17 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1DCAE0C8-82B0-4E25-A157-574C2A9E6A8D}</ProjectGuid>
+    <ProjectGuid>{30670E31-E8BB-412C-A565-1F137FFE13BC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DAIntf</RootNamespace>
-    <AssemblyName>DAIntf</AssemblyName>
+    <RootNamespace>Plugin.mssql</RootNamespace>
+    <AssemblyName>Plugin.mssql</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\DatAdmin\bin\Debug\Plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -22,7 +22,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\DatAdmin\bin\Release\Plugins\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -35,19 +35,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Async.cs" />
-    <Compile Include="Core.cs" />
-    <Compile Include="CreateFactory.cs" />
-    <Compile Include="DataSource.cs" />
-    <Compile Include="DBStruct.cs" />
-    <Compile Include="Menu.cs" />
-    <Compile Include="Plugins.cs" />
+    <Compile Include="ConnWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConnWizard.designer.cs">
+      <DependentUpon>ConnWizard.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Texts.cs" />
-    <Compile Include="Tools\Async.cs" />
-    <Compile Include="Tools\AsyncTool.cs" />
-    <Compile Include="Tools\StdDialog.cs" />
-    <Compile Include="Tree.cs" />
+    <Compile Include="StdIcons.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StdIcons.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ConnWizard.resx">
+      <DependentUpon>ConnWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StdIcons.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StdIcons.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DAIntf\DAIntf.csproj">
+      <Project>{1DCAE0C8-82B0-4E25-A157-574C2A9E6A8D}</Project>
+      <Name>DAIntf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAWizard\DAWizard.csproj">
+      <Project>{94955608-38E0-43BE-AE73-0C16012E7445}</Project>
+      <Name>DAWizard</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img_database.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

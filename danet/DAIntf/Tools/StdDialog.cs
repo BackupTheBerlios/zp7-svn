@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-namespace DatAdmin
+namespace DAIntf
 {
     public static class StdDialog
     {

@@ -19,6 +19,7 @@ namespace DatAdmin
             InputBox dlg = new InputBox();
             dlg.label1.Text = label;
             dlg.textBox1.Text = defvalue;
+            dlg.textBox1.Select();
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 return dlg.textBox1.Text;

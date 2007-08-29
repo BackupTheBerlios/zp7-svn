@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using DAIntf;
 
-namespace DatAdmin
+namespace DAIntf
 {
     public delegate IAsyncResult BeginInvokeDelegate(Delegate proc);
 

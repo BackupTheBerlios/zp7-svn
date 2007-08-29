@@ -13,6 +13,8 @@ namespace DAIntf
             catch (Exception) { }
             try { Directory.CreateDirectory(DataDirectory); }
             catch (Exception) { }
+            try { Directory.CreateDirectory(PluginsDirectory); }
+            catch (Exception) { }
         }
         public static string BaseDirectory
         {
@@ -21,6 +23,10 @@ namespace DAIntf
         public static string DataDirectory
         {
             get { return Path.Combine(BaseDirectory, "data"); }
+        }
+        public static string PluginsDirectory
+        {
+            get { return Path.Combine(BaseDirectory, "Plugins"); }
         }
         public static string ConfigDirectory
         {

@@ -34,7 +34,8 @@ namespace DatAdmin
             }
             catch (Exception err)
             {
-                StdDialog.ShowError(err);
+                StdDialog.ShowError(String.Format(
+                    "{0}:{1}\n{2}", Texts.Get("s_cannot_create_provider"), invname, err.Message));
                 e.Page = wpprovider;
                 return;
             }
@@ -42,8 +43,15 @@ namespace DatAdmin
 
         private void wpconnprops_ShowFromNext(object sender, EventArgs e)
         {
-            m_builder = m_factory.CreateConnectionStringBuilder();
-            propertyGrid1.SelectedObject = m_builder;
+            try
+            {
+                m_builder = m_factory.CreateConnectionStringBuilder();
+                propertyGrid1.SelectedObject = m_builder;
+            }
+            catch (Exception err)
+            {
+                StdDialog.ShowError(err.Message);
+            }
         }
 
         private void wizard1_Load(object sender, EventArgs e)
@@ -51,7 +59,7 @@ namespace DatAdmin
             m_factoryClasses = DbProviderFactories.GetFactoryClasses();
             foreach (DataRow row in m_factoryClasses.Rows)
             {
-                provider.Items.Add(row["Name"]);
+                provider.Items.Add(row["InvariantName"]);
             }
         }
 

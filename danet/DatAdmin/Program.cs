@@ -20,11 +20,11 @@ namespace DatAdmin
             DAIntf.Plugins.AddAssembly(Assembly.GetAssembly(typeof(Program)));
 
 #if (DEBUG)
-            Application.Run(new MainForm());
+            RunMain();
 #else
             try
             {
-                Application.Run(new MainForm());
+                RunMain();
             }
             catch (Exception e)
             {
@@ -32,6 +32,12 @@ namespace DatAdmin
             }
 #endif
 
+        }
+
+        static void RunMain()
+        {
+            PluginTools.LoadPlugins();
+            Application.Run(new MainForm());
         }
     }
 }

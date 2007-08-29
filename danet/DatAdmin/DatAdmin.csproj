@@ -121,8 +121,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Tools\Async.cs" />
-    <Compile Include="Tools\AsyncTool.cs" />
+    <Compile Include="Tools\PluginTools.cs" />
     <Compile Include="Tools\PyList.cs" />
     <Compile Include="Tools\ReflTools.cs" />
     <Compile Include="StdIcons.Designer.cs">
@@ -133,7 +132,6 @@
     <Compile Include="Tools\NodeAdapter.cs" />
     <Compile Include="Tools\NodeFactory.cs" />
     <Compile Include="Tools\PopupMenu.cs" />
-    <Compile Include="Tools\StdDialog.cs" />
     <Compile Include="Tools\TextProvider.cs" />
     <Compile Include="Tree\FSTree.cs" />
     <Compile Include="Tree\TreeBase.cs" />
