@@ -29,50 +29,62 @@ namespace DatAdmin
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.lbcolname = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.lbcolname = new System.Windows.Forms.ComboBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.tbparams = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.tbparams);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.lbcolname);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(459, 31);
+            this.panel1.Size = new System.Drawing.Size(459, 25);
             this.panel1.TabIndex = 0;
+            // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button1.Location = new System.Drawing.Point(121, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 25);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "s_ok";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // lbcolname
+            // 
+            this.lbcolname.Dock = System.Windows.Forms.DockStyle.Left;
+            this.lbcolname.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.lbcolname.FormattingEnabled = true;
+            this.lbcolname.Location = new System.Drawing.Point(0, 0);
+            this.lbcolname.Name = "lbcolname";
+            this.lbcolname.Size = new System.Drawing.Size(121, 21);
+            this.lbcolname.TabIndex = 0;
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 31);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 25);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(459, 324);
+            this.dataGridView1.Size = new System.Drawing.Size(459, 330);
             this.dataGridView1.TabIndex = 1;
             // 
-            // lbschema
+            // tbparams
             // 
-            this.lbcolname.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.lbcolname.FormattingEnabled = true;
-            this.lbcolname.Location = new System.Drawing.Point(3, 3);
-            this.lbcolname.Name = "lbschema";
-            this.lbcolname.Size = new System.Drawing.Size(121, 21);
-            this.lbcolname.TabIndex = 0;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(130, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "s_ok";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.tbparams.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbparams.Location = new System.Drawing.Point(196, 0);
+            this.tbparams.Name = "tbparams";
+            this.tbparams.Size = new System.Drawing.Size(263, 20);
+            this.tbparams.TabIndex = 2;
             // 
             // SchemaFrame
             // 
@@ -82,6 +94,7 @@ namespace DatAdmin
             this.Name = "SchemaFrame";
             this.Size = new System.Drawing.Size(459, 355);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
@@ -93,5 +106,6 @@ namespace DatAdmin
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ComboBox lbcolname;
+        private System.Windows.Forms.TextBox tbparams;
     }
 }

@@ -49,9 +49,28 @@ namespace DatAdmin
         private void button1_Click(object sender, EventArgs e)
         {
             string colname = lbcolname.Items[lbcolname.SelectedIndex].ToString();
-            Async.InvokeVoid(delegate() { GetSchema(colname); }, this, ShowTable);
+            if (tbparams.Text != "")
+            {
+                string[] pars = tbparams.Text.Split(',');
+                List<string> ps = new List<string>();
+                foreach (string p in pars)
+                {
+                    if (p == "null") ps.Add(null);
+                    else ps.Add(p);
+                }
+                Async.InvokeVoid(delegate() { GetSchema(colname, ps.ToArray()); }, this, ShowTable);
+            }
+            else
+            {
+                Async.InvokeVoid(delegate() { GetSchema(colname); }, this, ShowTable);
+            }
         }
 
+        private void GetSchema(string colname, string []pars)
+        {
+            Logging.Info("Getting schema {0}, parameters {1}", colname, pars.Length);
+            m_table = m_conn.GetSchema(colname, pars);
+        }
         private void GetSchema(string colname)
         {
             Logging.Info("Getting schema {0}", colname);
