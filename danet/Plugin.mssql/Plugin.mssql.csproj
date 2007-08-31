@@ -48,7 +48,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StdIcons.resx</DependentUpon>
     </Compile>
-    <Compile Include="TreeNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ConnWizard.resx">

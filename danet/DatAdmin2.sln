@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAWizard", "DAWizard\DAWiza
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.mssql", "Plugin.mssql\Plugin.mssql.csproj", "{30670E31-E8BB-412C-A565-1F137FFE13BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.sqlite", "Plugin.sqlite\Plugin.sqlite.csproj", "{F15B591B-BCDF-47EF-B6D0-4382C7519514}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{30670E31-E8BB-412C-A565-1F137FFE13BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30670E31-E8BB-412C-A565-1F137FFE13BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30670E31-E8BB-412C-A565-1F137FFE13BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F15B591B-BCDF-47EF-B6D0-4382C7519514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F15B591B-BCDF-47EF-B6D0-4382C7519514}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F15B591B-BCDF-47EF-B6D0-4382C7519514}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F15B591B-BCDF-47EF-B6D0-4382C7519514}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

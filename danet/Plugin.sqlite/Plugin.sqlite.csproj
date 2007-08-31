@@ -4,17 +4,17 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1DCAE0C8-82B0-4E25-A157-574C2A9E6A8D}</ProjectGuid>
+    <ProjectGuid>{F15B591B-BCDF-47EF-B6D0-4382C7519514}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DAIntf</RootNamespace>
-    <AssemblyName>DAIntf</AssemblyName>
+    <RootNamespace>Plugin.sqlite</RootNamespace>
+    <AssemblyName>Plugin.sqlite</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\DatAdmin\bin\Debug\Plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -22,7 +22,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\DatAdmin\bin\Release\Plugins\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,44 +30,34 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.43.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\System.Data.SQLite.DLL</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Async.cs" />
-    <Compile Include="Core.cs" />
-    <Compile Include="CreateFactory.cs" />
-    <Compile Include="DataSource.cs" />
-    <Compile Include="DBStruct.cs" />
-    <Compile Include="Frames\ContentFrame.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="Connection.cs" />
+    <Compile Include="ConnWizard.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frames\ContentFrame.Designer.cs">
-      <DependentUpon>ContentFrame.cs</DependentUpon>
+    <Compile Include="ConnWizard.Designer.cs">
+      <DependentUpon>ConnWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="GenericDbSource.cs" />
-    <Compile Include="Menu.cs" />
-    <Compile Include="NodeFactory.cs" />
-    <Compile Include="Plugins.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StdIcons.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>StdIcons.resx</DependentUpon>
     </Compile>
-    <Compile Include="Texts.cs" />
-    <Compile Include="Toolkit.cs" />
-    <Compile Include="Tools\Async.cs" />
-    <Compile Include="Tools\AsyncTool.cs" />
-    <Compile Include="Tools\DataSourceTree.cs" />
-    <Compile Include="Tools\Logging.cs" />
-    <Compile Include="Tools\StdDialog.cs" />
-    <Compile Include="Tools\StoredConnection.cs" />
-    <Compile Include="Tools\TreeBase.cs" />
-    <Compile Include="Tree.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ConnWizard.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ConnWizard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="StdIcons.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
@@ -75,37 +65,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\dbserver_disconnected.bmp" />
+    <ProjectReference Include="..\DAIntf\DAIntf.csproj">
+      <Project>{1DCAE0C8-82B0-4E25-A157-574C2A9E6A8D}</Project>
+      <Name>DAIntf</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\database.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\database_disconnected.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\dbserver.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\table.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\column.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\primary_key.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\storedproc.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\view.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\foreign_key.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Forms\" />
+    <None Include="Resources\img_database.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

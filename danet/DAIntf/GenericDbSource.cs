@@ -99,12 +99,16 @@ namespace DAIntf
 
     public class GenericDatabaseConnection : GenericCommonConnection, IDatabaseConnection
     {
-        string m_dbname;
+        string m_dbname = null;
 
         public GenericDatabaseConnection(DbConnection conn, DbProviderFactory fact, string dbname)
             : base(conn, fact)
         {
             m_dbname = dbname;
+        }
+        public GenericDatabaseConnection(DbConnection conn, DbProviderFactory fact)
+            : base(conn, fact)
+        {
         }
 
         #region IDatabaseConnection Members

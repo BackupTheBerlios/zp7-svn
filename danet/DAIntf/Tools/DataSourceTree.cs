@@ -193,6 +193,47 @@ namespace DAIntf
         }
     }
 
+    public class DatabaseSourceConnectionTreeNode : ConnectionTreeNode
+    {
+        IDatabaseConnection m_conn;
+
+        public DatabaseSourceConnectionTreeNode(IDatabaseConnection conn, ITreeNode parent, string filepath)
+            : base(conn, parent, filepath)
+        {
+            m_conn = conn;
+        }
+
+        public override System.Drawing.Bitmap Image
+        {
+            get
+            {
+                if (m_conn.State == ConnectionStatus.Open) return StdIcons.database;
+                else return StdIcons.database_disconnected;
+            }
+        }
+        protected override void OnDisconnect()
+        {
+        }
+        public override void InvokeGetChildren(SimpleCallback callback)
+        {
+        }
+        public override bool PreparedChildren
+        {
+            get { return true; }
+        }
+        public override ITreeNode[] GetChildren()
+        {
+            if (m_conn.State == ConnectionStatus.Open)
+            {
+                return new ITreeNode[] { new TablesTreeNode(m_conn, this) };
+            }
+            else
+            {
+                return new ITreeNode[] { };
+            }
+        }
+    }
+
     public class TablesTreeNode : TreeNodeBase
     {
         ITreeNode[] m_children = null;

@@ -9,29 +9,10 @@ using DAIntf;
 
 namespace Plugin.mssql
 {
-    public class Connection
+    public class MsSqlStoredConnection : StoredConnection<MsSqlStoredConnection>
     {
         public string ConnectionString;
         public bool OneDatabase;
-
-        public void Save(string file)
-        {
-            XmlSerializer ser = new XmlSerializer(typeof(Connection));
-            using (FileStream fw = new FileStream(file, FileMode.Create))
-            {
-                ser.Serialize(fw, this);
-            }
-        }
-
-        public static Connection Load(string file)
-        {
-            XmlSerializer ser = new XmlSerializer(typeof(Connection));
-            using (FileStream fr = new FileStream(file, FileMode.Open))
-            {
-                Connection con = (Connection)ser.Deserialize(fr);
-                return con;
-            }
-        }
     }
 
     public class ServerConnectionHooks : HooksBase
@@ -55,29 +36,33 @@ namespace Plugin.mssql
 
         public ITreeNode FromFile(ITreeNode parent, string file)
         {
-            try
+            if (file.ToLower().EndsWith(".con"))
             {
-                Connection con = Connection.Load(file);
-                SqlConnection sql = new SqlConnection(con.ConnectionString);
-                DbProviderFactory fact = SqlClientFactory.Instance;
-                if (con.OneDatabase)
+                try
                 {
-                    throw new Exception("not implemented");
-                    //string dbname = "master";
-                    //return new DatabaseSourceTreeNode(new GenericDatabaseConnection(sql, dbname), parent, dbname);
+                    MsSqlStoredConnection con = MsSqlStoredConnection.Load(file);
+                    SqlConnection sql = new SqlConnection(con.ConnectionString);
+                    DbProviderFactory fact = SqlClientFactory.Instance;
+                    if (con.OneDatabase)
+                    {
+                        throw new Exception("not implemented");
+                        //string dbname = "master";
+                        //return new DatabaseSourceTreeNode(new GenericDatabaseConnection(sql, dbname), parent, dbname);
+                    }
+                    else
+                    {
+                        IServerConnection conn = new GenericServerConnection(sql, fact);
+                        ServerConnectionHooks hooks = new ServerConnectionHooks(conn);
+                        conn.Hooks = hooks;
+                        return new ServerSourceConnectionTreeNode(conn, parent, file);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    IServerConnection conn = new GenericServerConnection(sql, fact);
-                    ServerConnectionHooks hooks = new ServerConnectionHooks(conn);
-                    conn.Hooks = hooks;
-                    return new ServerSourceConnectionTreeNode(conn, parent, file);
+                    return null;
                 }
             }
-            catch (Exception)
-            {
-                return null;
-            }
+            return null;
         }
 
         #endregion

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DatAdmin {
+namespace Plugin.sqlite {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace DatAdmin {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DatAdmin.StdIcons", typeof(StdIcons).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Plugin.sqlite.StdIcons", typeof(StdIcons).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,27 +63,6 @@ namespace DatAdmin {
         internal static System.Drawing.Bitmap img_database {
             get {
                 object obj = ResourceManager.GetObject("img_database", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap img_folder {
-            get {
-                object obj = ResourceManager.GetObject("img_folder", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap img_folder_expanded {
-            get {
-                object obj = ResourceManager.GetObject("img_folder_expanded", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap treenode {
-            get {
-                object obj = ResourceManager.GetObject("treenode", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -101,7 +101,7 @@ namespace Plugin.mssql
             wiz.ShowDialog();
             if (wiz.DialogResult == System.Windows.Forms.DialogResult.OK)
             {
-                Connection con = new Connection();
+                MsSqlStoredConnection con = new MsSqlStoredConnection();
                 con.ConnectionString = wiz.GenerateConnectionString(true);
                 con.OneDatabase = wiz.OneDatabase;
                 con.Save(Path.Combine(parent.FileSystemPath, name + ".con"));
