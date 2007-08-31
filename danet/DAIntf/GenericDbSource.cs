@@ -6,12 +6,50 @@ using System.Data.Common;
 
 namespace DAIntf
 {
-    public class GenericServerConnection : IServerConnection
+    public class GenericCommonConnection : ICommonConnection
     {
-        DbConnection m_conn;
-        public GenericServerConnection(DbConnection conn)
+        protected DbConnection m_conn;
+
+        #region IServerConnection Members
+
+        public GenericCommonConnection(DbConnection conn)
         {
             m_conn = conn;
+        }
+
+        public void Open()
+        {
+            m_conn.Open();
+        }
+
+        public void Close()
+        {
+            m_conn.Close();
+        }
+
+        public ConnectionStatus State
+        {
+            get
+            {
+                ConnectionState state = m_conn.State;
+                if (state == ConnectionState.Open) return ConnectionStatus.Open;
+                else return ConnectionStatus.Closed;
+            }
+        }
+
+        public DbConnection SystemConnection
+        {
+            get { return m_conn; }
+        }
+
+        #endregion
+    }
+
+    public class GenericServerConnection : GenericCommonConnection, IServerConnection
+    {
+        public GenericServerConnection(DbConnection conn)
+            : base(conn)
+        {
         }
 
         #region IServerConnection Members
@@ -27,19 +65,19 @@ namespace DAIntf
 
         public IDatabaseConnection GetDatabase(string name)
         {
-            throw new Exception("The method or operation is not implemented.");
+            return new GenericDatabaseConnection(m_conn, name);
         }
 
         #endregion
     }
 
-    public class GenericDatabaseConnection : IDatabaseConnection
+    public class GenericDatabaseConnection : GenericCommonConnection, IDatabaseConnection
     {
-        DbConnection m_conn;
         string m_dbname;
+
         public GenericDatabaseConnection(DbConnection conn, string dbname)
+            : base(conn)
         {
-            m_conn = conn;
             m_dbname = dbname;
         }
 

@@ -37,8 +37,14 @@ namespace DatAdmin
             }
             set
             {
-
-                Root = NodeFactory.GetNodeFromPath(value);
+                if (value != null)
+                {
+                    Root = NodeFactory.GetNodeFromPath(value);
+                }
+                else
+                {
+                    Root = null;
+                }
             }
         }
 
@@ -58,13 +64,24 @@ namespace DatAdmin
 
         private void SetRoot(ITreeNode node)
         {
-            m_root = new NodeAdapter(node, this);
+            if (node != null)
+            {
+                m_root = new NodeAdapter(node, this);
+            }
+            else
+            {
+                m_root = null;
+            }
             tree.Nodes.Clear();
-            tree.Nodes.Add(m_root);
+            if (m_root != null)
+            {
+                tree.Nodes.Add(m_root);
+            }
         }
 
         public int GetImageIndex(Bitmap image)
         {
+            if (image == null) return -1;
             if (m_images.ContainsKey(image)) return m_images[image];
             //Bitmap bmp = (Bitmap)StdIcons.ResourceManager.GetObject(image_name);
             int res = imageList1.Images.Count;

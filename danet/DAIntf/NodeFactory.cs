@@ -21,11 +21,11 @@ namespace DAIntf
         {
             m_createroot = createroot;
         }
-        public static ITreeNode FromFile(string file)
+        public static ITreeNode FromFile(ITreeNode parent, string file)
         {
             foreach (INodeFactory fact in m_factories)
             {
-                ITreeNode node = fact.FromFile(file);
+                ITreeNode node = fact.FromFile(parent, file);
                 if (node != null) return node;
             }
             return null;

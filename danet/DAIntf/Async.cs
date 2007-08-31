@@ -34,6 +34,11 @@ namespace DAIntf
     {
     }
 
+    public interface IInvoker
+    {
+        void DoInvoke(SimpleCallback callback);
+    }
+
     public interface IAsyncValue<T> : IAsyncBase
     {
         /// gets result of call, if not finished, throws AsyncException

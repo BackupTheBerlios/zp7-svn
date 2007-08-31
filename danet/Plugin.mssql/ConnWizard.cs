@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.IO;
 using DAIntf;
 
 namespace Plugin.mssql
@@ -29,6 +30,8 @@ namespace Plugin.mssql
             }
         }
 
+        internal bool OneDatabase { get { return false; } }
+
         private void datasource_TextChanged(object sender, EventArgs e)
         {
             connectionstring.Text = GenerateConnectionString(false);
@@ -50,11 +53,12 @@ namespace Plugin.mssql
             try
             {
                 res.Wait();
+                DialogResult = DialogResult.OK;
+                Close();
             }
             catch (Exception err)
             {
                 StdDialog.ShowError(err);
-                Close();
                 return;
             }
         }
@@ -97,7 +101,10 @@ namespace Plugin.mssql
             wiz.ShowDialog();
             if (wiz.DialogResult == System.Windows.Forms.DialogResult.OK)
             {
-                string conns = wiz.GenerateConnectionString(true);
+                Connection con = new Connection();
+                con.ConnectionString = wiz.GenerateConnectionString(true);
+                con.OneDatabase = wiz.OneDatabase;
+                con.Save(Path.Combine(parent.FileSystemPath, name + ".con"));
                 return true;
             }
             return false;

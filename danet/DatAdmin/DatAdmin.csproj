@@ -72,6 +72,12 @@
     <Compile Include="Frames\DATreeView.designer.cs">
       <DependentUpon>DATreeView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Frames\SchemaFrame.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Frames\SchemaFrame.Designer.cs">
+      <DependentUpon>SchemaFrame.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,6 +109,10 @@
     <EmbeddedResource Include="Frames\DATreeView.resx">
       <DependentUpon>DATreeView.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frames\SchemaFrame.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SchemaFrame.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <SubType>Designer</SubType>
@@ -143,7 +153,6 @@
     <Compile Include="Tools\PopupMenu.cs" />
     <Compile Include="Tools\TextProvider.cs" />
     <Compile Include="Tree\FSTree.cs" />
-    <Compile Include="Tree\TreeBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAIntf\DAIntf.csproj">

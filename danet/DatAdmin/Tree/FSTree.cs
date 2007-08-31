@@ -56,7 +56,7 @@ namespace DatAdmin
             Array.Sort(files);
             foreach (string file in files)
             {
-                ITreeNode node = NodeFactory.FromFile(System.IO.Path.Combine(m_folder, System.IO.Path.GetFileName(file)));
+                ITreeNode node = NodeFactory.FromFile(this, System.IO.Path.Combine(FileSystemPath, System.IO.Path.GetFileName(file)));
                 if (node != null)
                 {
                     result.Add(node);
@@ -106,7 +106,7 @@ namespace DatAdmin
         [PopupMenu("s_new/s_connection")]
         public void NewConnection()
         {
-            CreateDialog dlg = new CreateDialog(null);
+            CreateDialog dlg = new CreateDialog(this);
             dlg.ShowDialog();
         }
 

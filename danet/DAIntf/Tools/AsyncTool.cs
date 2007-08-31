@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace DAIntf
 {
@@ -69,6 +70,16 @@ namespace DAIntf
         public static IAsyncVoid InvokeVoid(SimpleCallback proc)
         {
             AsyncAction res = new AsyncAction(proc);
+            return res.GetAsync();
+        }
+        public static IAsyncVoid InvokeVoid(SimpleCallback proc, IInvoker invoker, SimpleCallback finished)
+        {
+            SimpleCallback run = delegate()
+            {
+                proc();
+                invoker.DoInvoke(finished);
+            };
+            AsyncAction res = new AsyncAction(run);
             return res.GetAsync();
         }
         public static IAsyncValue<T> InvokeValue<T>(ReturnValueCallback<T> proc)

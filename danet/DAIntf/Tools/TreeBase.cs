@@ -20,6 +20,13 @@ namespace DAIntf
             m_fullpath = fullpath;
         }
 
+        protected TreeNodeBase(ITreeNode parent, string name)
+        {
+            m_name = name;
+            m_parent = parent;
+            m_fullpath = parent.Path + "/" + name;
+        }
+
         public static void CallRefreshChilds(ITreeNode node)
         {
             if (node.RealNode != null) node.RealNode.RefreshChilds();
@@ -34,6 +41,11 @@ namespace DAIntf
         {
             CallRefreshSelf(node);
             CallRefreshChilds(node);
+        }
+
+        public void CallRefresh()
+        {
+            TreeNodeBase.CallRefresh(this);
         }
 
         //public static string NodePath(ITreeNode node)

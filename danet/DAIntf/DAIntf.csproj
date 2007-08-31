@@ -40,18 +40,52 @@
     <Compile Include="CreateFactory.cs" />
     <Compile Include="DataSource.cs" />
     <Compile Include="DBStruct.cs" />
+    <Compile Include="Frames\ContentFrame.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Frames\ContentFrame.Designer.cs">
+      <DependentUpon>ContentFrame.cs</DependentUpon>
+    </Compile>
     <Compile Include="GenericDbSource.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="NodeFactory.cs" />
     <Compile Include="Plugins.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StdIcons.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StdIcons.resx</DependentUpon>
+    </Compile>
     <Compile Include="Texts.cs" />
+    <Compile Include="Toolkit.cs" />
     <Compile Include="Tools\Async.cs" />
     <Compile Include="Tools\AsyncTool.cs" />
     <Compile Include="Tools\DataSourceTree.cs" />
     <Compile Include="Tools\StdDialog.cs" />
     <Compile Include="Tools\TreeBase.cs" />
     <Compile Include="Tree.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StdIcons.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StdIcons.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dbserver_disconnected.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\database.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\database_disconnected.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dbserver.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Forms\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

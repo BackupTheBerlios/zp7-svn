@@ -20,6 +20,7 @@ namespace DatAdmin
         {
             m_tree = tree;
             m_node = node;
+            node.RealNode = this;
             Text = node.Title;
             Nodes.Add("__dummy__");
             UpdateImageIndex();
@@ -58,7 +59,9 @@ namespace DatAdmin
         {
             FillChildren();
             Expand();
+            RefreshSelf();
         }
+
         private void FillChildren()
         {
             if (m_filledChildren) return;
@@ -94,12 +97,25 @@ namespace DatAdmin
 
         public void RefreshChilds()
         {
+            Nodes.Clear();
+            m_filledChildren = false;
+            Nodes.Add("__dummy__");
+            Collapse();
         }
 
         public void RefreshSelf()
         {
             Text = m_node.Title;
             UpdateImageIndex();
+        }
+
+        #endregion
+
+        #region IInvoker Members
+
+        public void DoInvoke(SimpleCallback callback)
+        {
+            TreeView.Invoke(callback);
         }
 
         #endregion

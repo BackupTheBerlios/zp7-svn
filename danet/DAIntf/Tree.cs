@@ -7,7 +7,7 @@ namespace DAIntf
 {
     public delegate ITreeNode CreateRootNodeDelegate();
 
-    public interface IRealTreeNode
+    public interface IRealTreeNode : IInvoker
     {
         void RefreshChilds();
         void RefreshSelf();
@@ -72,6 +72,6 @@ namespace DAIntf
     {
         /// returns node or null, when node cannot be created; 
         /// file is relative to datadirectory
-        ITreeNode FromFile(string file);
+        ITreeNode FromFile(ITreeNode parent, string file);
     }
 }
