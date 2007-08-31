@@ -69,11 +69,52 @@ namespace DAIntf
 
     public class ServerSourceConnectionTreeNode : ConnectionTreeNode
     {
-        ITreeNode[] m_children = null;
         IServerConnection m_conn;
 
         public ServerSourceConnectionTreeNode(IServerConnection conn, ITreeNode parent, string filepath)
             : base(conn, parent, filepath)
+        {
+            m_conn = conn;
+        }
+
+        public override System.Drawing.Bitmap Image
+        {
+            get
+            {
+                if (m_conn.State == ConnectionStatus.Open) return StdIcons.dbserver;
+                else return StdIcons.dbserver_disconnected;
+            }
+        }
+        protected override void OnDisconnect()
+        {
+        }
+        public override void InvokeGetChildren(SimpleCallback callback)
+        {
+        }
+        public override bool PreparedChildren
+        {
+            get { return true; }
+        }
+        public override ITreeNode[] GetChildren()
+        {
+            if (m_conn.State == ConnectionStatus.Open)
+            {
+                return new ITreeNode[] { new DatabasesTreeNode(m_conn, this) };
+            }
+            else
+            {
+                return new ITreeNode[] { };
+            }
+        }
+    }
+
+    public class DatabasesTreeNode : TreeNodeBase
+    {
+        ITreeNode[] m_children = null;
+        IServerConnection m_conn;
+
+        public DatabasesTreeNode(IServerConnection conn, ITreeNode parent)
+            : base(parent, "databases")
         {
             m_conn = conn;
         }
@@ -108,17 +149,9 @@ namespace DAIntf
         {
             Async.InvokeVoid(DoGetChildren, RealNode, callback);
         }
-        public override System.Drawing.Bitmap Image
+        public override string Title
         {
-            get
-            {
-                if (m_conn.State == ConnectionStatus.Open) return StdIcons.dbserver;
-                else return StdIcons.dbserver_disconnected;
-            }
-        }
-        protected override void OnDisconnect()
-        {
-            m_children = null;
+            get { return Texts.Get("s_databases"); }
         }
     }
 
@@ -136,7 +169,7 @@ namespace DAIntf
 
         public override ITreeNode[] GetChildren()
         {
-            return new ITreeNode[] { };
+            return new ITreeNode[] { new TablesTreeNode(m_conn, this) };
         }
         public override void InvokeGetChildren(SimpleCallback callback)
         {
@@ -154,4 +187,86 @@ namespace DAIntf
             get { return StdIcons.database; }
         }
     }
+
+    public class TablesTreeNode : TreeNodeBase
+    {
+        ITreeNode[] m_children = null;
+        IDatabaseConnection m_conn;
+
+        public TablesTreeNode(IDatabaseConnection conn, ITreeNode parent)
+            : base(parent, "tables")
+        {
+            m_conn = conn;
+        }
+
+        public override System.Drawing.Bitmap Image
+        {
+            get { return StdIcons.table; }
+        }
+
+        public override ITreeNode[] GetChildren()
+        {
+            if (m_children == null) return new ITreeNode[] { };
+            return m_children;
+        }
+
+        private void DoGetChildren()
+        {
+            List<ITreeNode> res = new List<ITreeNode>();
+            foreach (string name in m_conn.Tables)
+            {
+                res.Add(new TableSourceTreeNode(m_conn.GetTable(name), this, name));
+            }
+            m_children = res.ToArray();
+        }
+        public override bool PreparedChildren
+        {
+            get
+            {
+                return m_children != null;
+            }
+        }
+        public override void InvokeGetChildren(SimpleCallback callback)
+        {
+            Async.InvokeVoid(DoGetChildren, RealNode, callback);
+        }
+        public override string Title
+        {
+            get { return Texts.Get("s_tables"); }
+        }
+    }
+
+    public class TableSourceTreeNode : TreeNodeBase
+    {
+        ITableConnection m_conn;
+        string m_tblname;
+
+        public TableSourceTreeNode(ITableConnection conn, ITreeNode parent, string tblname)
+            : base(parent, tblname)
+        {
+            m_conn = conn;
+            m_tblname = tblname;
+        }
+
+        public override ITreeNode[] GetChildren()
+        {
+            return new ITreeNode[] {  };
+        }
+        public override void InvokeGetChildren(SimpleCallback callback)
+        {
+        }
+        public override bool PreparedChildren
+        {
+            get { return true; }
+        }
+        public override string Title
+        {
+            get { return m_tblname; }
+        }
+        public override System.Drawing.Bitmap Image
+        {
+            get { return StdIcons.table; }
+        }
+    }
+
 }

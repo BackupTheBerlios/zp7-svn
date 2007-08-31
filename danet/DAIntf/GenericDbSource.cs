@@ -86,14 +86,32 @@ namespace DAIntf
 
         public IEnumerable<string> Tables
         {
-            get { throw new Exception("The method or operation is not implemented."); }
+            get
+            {
+                string[] restr = new string[] { m_dbname };
+                DataTable dbs = m_conn.GetSchema("Tables", restr);
+                foreach (DataRow row in dbs.Rows) yield return row[0].ToString();
+            }
         }
 
         public ITableConnection GetTable(string name)
         {
-            throw new Exception("The method or operation is not implemented.");
+            return new GenericTableConnection(m_conn, m_dbname, name);
         }
 
         #endregion
+    }
+
+    public class GenericTableConnection : GenericCommonConnection, ITableConnection
+    {
+        string m_dbname;
+        string m_tblname;
+
+        public GenericTableConnection(DbConnection conn, string dbname, string tblname)
+            : base(conn)
+        {
+            m_dbname = dbname;
+            m_tblname = tblname;
+        }
     }
 }
