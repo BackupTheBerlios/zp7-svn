@@ -20,10 +20,6 @@ namespace DatAdmin
 
             daTreeView1.RootPath = "";
         }
-        public void OpenSchemaWindow(DbConnection conn)
-        {
-            OpenContent(new SchemaFrame(conn));
-        }
 
         private void OpenContent(ContentFrame frame)
         {
@@ -51,5 +47,19 @@ namespace DatAdmin
             item.SubItems.Add(datetime.ToString("T"));
             item.SubItems.Add(message);
         }
+
+        #region IWindowToolkit Members
+
+        public void OpenSchemaWindow(DbConnection conn)
+        {
+            OpenContent(new SchemaFrame(conn));
+        }
+
+        public void OpenTable(ITableConnection conn)
+        {
+            OpenContent(new TableDataFrame(conn));
+        }
+
+        #endregion
     }
 }

@@ -4,6 +4,7 @@ using System.Text;
 using System.Xml.Serialization;
 using System.IO;
 using System.Data.SqlClient;
+using System.Data.Common;
 using DAIntf;
 
 namespace Plugin.mssql
@@ -33,6 +34,19 @@ namespace Plugin.mssql
         }
     }
 
+    public class ServerConnectionHooks : HooksBase
+    {
+        IServerConnection m_conn;
+        public ServerConnectionHooks(IServerConnection conn)
+        {
+            m_conn = conn;
+        }
+        public override void AfterOpen()
+        {
+            m_conn.SystemConnection.ChangeDatabase("master");
+        }
+    }
+
     [NodeFactory]
     public class ConnectionFactory : INodeFactory
     {
@@ -45,6 +59,7 @@ namespace Plugin.mssql
             {
                 Connection con = Connection.Load(file);
                 SqlConnection sql = new SqlConnection(con.ConnectionString);
+                DbProviderFactory fact = SqlClientFactory.Instance;
                 if (con.OneDatabase)
                 {
                     throw new Exception("not implemented");
@@ -53,7 +68,10 @@ namespace Plugin.mssql
                 }
                 else
                 {
-                    return new ServerSourceConnectionTreeNode(new GenericServerConnection(sql), parent, file);
+                    IServerConnection conn = new GenericServerConnection(sql, fact);
+                    ServerConnectionHooks hooks = new ServerConnectionHooks(conn);
+                    conn.Hooks = hooks;
+                    return new ServerSourceConnectionTreeNode(conn, parent, file);
                 }
             }
             catch (Exception)

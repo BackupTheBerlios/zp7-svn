@@ -78,6 +78,12 @@
     <Compile Include="Frames\SchemaFrame.Designer.cs">
       <DependentUpon>SchemaFrame.cs</DependentUpon>
     </Compile>
+    <Compile Include="Frames\TableDataFrame.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Frames\TableDataFrame.Designer.cs">
+      <DependentUpon>TableDataFrame.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,6 +119,10 @@
     <EmbeddedResource Include="Frames\SchemaFrame.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SchemaFrame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frames\TableDataFrame.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TableDataFrame.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <SubType>Designer</SubType>
@@ -172,6 +182,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\img_folder.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\treenode.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

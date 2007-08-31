@@ -60,6 +60,13 @@ namespace DAIntf {
             }
         }
         
+        internal static System.Drawing.Bitmap column {
+            get {
+                object obj = ResourceManager.GetObject("column", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap database {
             get {
                 object obj = ResourceManager.GetObject("database", resourceCulture);
@@ -84,6 +91,41 @@ namespace DAIntf {
         internal static System.Drawing.Bitmap dbserver_disconnected {
             get {
                 object obj = ResourceManager.GetObject("dbserver_disconnected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap foreign_key {
+            get {
+                object obj = ResourceManager.GetObject("foreign_key", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap primary_key {
+            get {
+                object obj = ResourceManager.GetObject("primary_key", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap storedproc {
+            get {
+                object obj = ResourceManager.GetObject("storedproc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap table {
+            get {
+                object obj = ResourceManager.GetObject("table", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap view {
+            get {
+                object obj = ResourceManager.GetObject("view", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

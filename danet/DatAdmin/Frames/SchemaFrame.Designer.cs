@@ -29,10 +29,10 @@ namespace DatAdmin
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.tbparams = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.lbcolname = new System.Windows.Forms.ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.tbparams = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -47,6 +47,14 @@ namespace DatAdmin
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(459, 25);
             this.panel1.TabIndex = 0;
+            // 
+            // tbparams
+            // 
+            this.tbparams.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbparams.Location = new System.Drawing.Point(196, 0);
+            this.tbparams.Name = "tbparams";
+            this.tbparams.Size = new System.Drawing.Size(263, 20);
+            this.tbparams.TabIndex = 2;
             // 
             // button1
             // 
@@ -77,14 +85,6 @@ namespace DatAdmin
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(459, 330);
             this.dataGridView1.TabIndex = 1;
-            // 
-            // tbparams
-            // 
-            this.tbparams.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbparams.Location = new System.Drawing.Point(196, 0);
-            this.tbparams.Name = "tbparams";
-            this.tbparams.Size = new System.Drawing.Size(263, 20);
-            this.tbparams.TabIndex = 2;
             // 
             // SchemaFrame
             // 

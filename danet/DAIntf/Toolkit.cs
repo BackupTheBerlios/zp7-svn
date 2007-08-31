@@ -8,6 +8,7 @@ namespace DAIntf
     public interface IWindowToolkit
     {
         void OpenSchemaWindow(DbConnection conn);
+        void OpenTable(ITableConnection conn);
     }
     public interface ILogToolkit
     {

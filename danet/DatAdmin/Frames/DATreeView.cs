@@ -81,7 +81,7 @@ namespace DatAdmin
 
         public int GetImageIndex(Bitmap image)
         {
-            if (image == null) return -1;
+            if (image == null) image = StdIcons.treenode;
             if (m_images.ContainsKey(image)) return m_images[image];
             //Bitmap bmp = (Bitmap)StdIcons.ResourceManager.GetObject(image_name);
             int res = imageList1.Images.Count;

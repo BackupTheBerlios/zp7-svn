@@ -128,6 +128,7 @@ namespace DAIntf
         private void DoGetChildren()
         {
             List<ITreeNode> res = new List<ITreeNode>();
+
             foreach (string name in m_conn.Databases)
             {
                 res.Add(new DatabaseSourceTreeNode(m_conn.GetDatabase(name), this, name));
@@ -152,6 +153,10 @@ namespace DAIntf
         public override string Title
         {
             get { return Texts.Get("s_databases"); }
+        }
+        public override System.Drawing.Bitmap Image
+        {
+            get { return StdIcons.database; }
         }
     }
 
@@ -267,6 +272,13 @@ namespace DAIntf
         {
             get { return StdIcons.table; }
         }
+
+        [PopupMenu("s_open_table")]
+        public void OpenTable()
+        {
+            Toolkit.WindowToolkit.OpenTable(m_conn);
+        }
+
     }
 
 }

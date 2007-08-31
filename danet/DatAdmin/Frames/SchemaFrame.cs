@@ -10,7 +10,7 @@ using DAIntf;
 
 namespace DatAdmin
 {
-    public partial class SchemaFrame : DAIntf.ContentFrame, IInvoker
+    public partial class SchemaFrame : DAIntf.ContentFrame
     {
         DbConnection m_conn;
         DataTable m_table = null;
@@ -76,15 +76,6 @@ namespace DatAdmin
             Logging.Info("Getting schema {0}", colname);
             m_table = m_conn.GetSchema(colname);
         }
-
-        #region IInvoker Members
-
-        public void DoInvoke(SimpleCallback callback)
-        {
-            Invoke(callback);
-        }
-
-        #endregion
     }
 }
 
