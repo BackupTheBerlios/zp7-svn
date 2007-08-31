@@ -19,6 +19,7 @@ namespace DAIntf
 
         public void Open()
         {
+            Logging.Info("Opening connection {0}", m_conn.ConnectionString);
             m_conn.Open();
         }
 

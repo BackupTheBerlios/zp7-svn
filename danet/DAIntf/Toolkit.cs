@@ -9,8 +9,13 @@ namespace DAIntf
     {
         void OpenSchemaWindow(DbConnection conn);
     }
+    public interface ILogToolkit
+    {
+        void LogMessage(string type, string message);
+    }
     public static class Toolkit
     {
         public static IWindowToolkit WindowToolkit;
+        public static ILogToolkit LogToolkit;
     }
 }

@@ -76,8 +76,15 @@ namespace DAIntf
         {
             SimpleCallback run = delegate()
             {
-                proc();
-                invoker.DoInvoke(finished);
+                try
+                {
+                    proc();
+                    invoker.DoInvoke(finished);
+                }
+                catch (Exception e)
+                {
+                    Logging.Error("Error when executing async action:{0}", e.Message);
+                }
             };
             AsyncAction res = new AsyncAction(run);
             return res.GetAsync();

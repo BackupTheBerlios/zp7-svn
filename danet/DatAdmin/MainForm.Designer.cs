@@ -30,10 +30,19 @@ namespace DatAdmin
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.daTreeView1 = new DatAdmin.DATreeView();
             this.contentTabs = new System.Windows.Forms.TabControl();
+            this.logTabs = new System.Windows.Forms.TabControl();
+            this.s_log = new System.Windows.Forms.TabPage();
+            this.logListView = new System.Windows.Forms.ListView();
+            this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
+            this.daTreeView1 = new DatAdmin.DATreeView();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.logTabs.SuspendLayout();
+            this.s_log.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -43,7 +52,7 @@ namespace DatAdmin
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(220, 414);
+            this.tabControl1.Size = new System.Drawing.Size(220, 330);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -52,10 +61,74 @@ namespace DatAdmin
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(212, 388);
+            this.tabPage1.Size = new System.Drawing.Size(212, 304);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Tree";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // contentTabs
+            // 
+            this.contentTabs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.contentTabs.Location = new System.Drawing.Point(220, 0);
+            this.contentTabs.Name = "contentTabs";
+            this.contentTabs.SelectedIndex = 0;
+            this.contentTabs.Size = new System.Drawing.Size(398, 330);
+            this.contentTabs.TabIndex = 1;
+            // 
+            // logTabs
+            // 
+            this.logTabs.Controls.Add(this.s_log);
+            this.logTabs.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.logTabs.Location = new System.Drawing.Point(0, 330);
+            this.logTabs.Name = "logTabs";
+            this.logTabs.SelectedIndex = 0;
+            this.logTabs.Size = new System.Drawing.Size(618, 138);
+            this.logTabs.TabIndex = 2;
+            // 
+            // s_log
+            // 
+            this.s_log.Controls.Add(this.logListView);
+            this.s_log.Location = new System.Drawing.Point(4, 22);
+            this.s_log.Name = "s_log";
+            this.s_log.Padding = new System.Windows.Forms.Padding(3);
+            this.s_log.Size = new System.Drawing.Size(610, 112);
+            this.s_log.TabIndex = 0;
+            this.s_log.Text = "s-log";
+            this.s_log.UseVisualStyleBackColor = true;
+            // 
+            // logListView
+            // 
+            this.logListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3,
+            this.columnHeader4});
+            this.logListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.logListView.Location = new System.Drawing.Point(3, 3);
+            this.logListView.Name = "logListView";
+            this.logListView.Size = new System.Drawing.Size(604, 106);
+            this.logListView.TabIndex = 0;
+            this.logListView.UseCompatibleStateImageBehavior = false;
+            this.logListView.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Type";
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Date";
+            this.columnHeader2.Width = 80;
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "Time";
+            this.columnHeader3.Width = 80;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Message";
+            this.columnHeader4.Width = 400;
             // 
             // daTreeView1
             // 
@@ -64,29 +137,23 @@ namespace DatAdmin
             this.daTreeView1.Name = "daTreeView1";
             this.daTreeView1.Root = null;
             this.daTreeView1.RootPath = null;
-            this.daTreeView1.Size = new System.Drawing.Size(206, 382);
+            this.daTreeView1.Size = new System.Drawing.Size(206, 298);
             this.daTreeView1.TabIndex = 0;
-            // 
-            // contentTabs
-            // 
-            this.contentTabs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.contentTabs.Location = new System.Drawing.Point(220, 0);
-            this.contentTabs.Name = "contentTabs";
-            this.contentTabs.SelectedIndex = 0;
-            this.contentTabs.Size = new System.Drawing.Size(372, 414);
-            this.contentTabs.TabIndex = 1;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(592, 414);
+            this.ClientSize = new System.Drawing.Size(618, 468);
             this.Controls.Add(this.contentTabs);
             this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.logTabs);
             this.Name = "MainForm";
             this.Text = "DatAdmin 2.0";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.logTabs.ResumeLayout(false);
+            this.s_log.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -97,6 +164,13 @@ namespace DatAdmin
         private System.Windows.Forms.TabPage tabPage1;
         private DATreeView daTreeView1;
         private System.Windows.Forms.TabControl contentTabs;
+        private System.Windows.Forms.TabControl logTabs;
+        private System.Windows.Forms.TabPage s_log;
+        private System.Windows.Forms.ListView logListView;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
     }
 }
 

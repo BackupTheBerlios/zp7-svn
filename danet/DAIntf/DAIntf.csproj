@@ -61,6 +61,7 @@
     <Compile Include="Tools\Async.cs" />
     <Compile Include="Tools\AsyncTool.cs" />
     <Compile Include="Tools\DataSourceTree.cs" />
+    <Compile Include="Tools\Logging.cs" />
     <Compile Include="Tools\StdDialog.cs" />
     <Compile Include="Tools\TreeBase.cs" />
     <Compile Include="Tree.cs" />

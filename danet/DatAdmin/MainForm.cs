@@ -10,12 +10,13 @@ using System.Data.Common;
 
 namespace DatAdmin
 {
-    public partial class MainForm : Form, IWindowToolkit
+    public partial class MainForm : Form, IWindowToolkit, ILogToolkit
     {
         public MainForm()
         {
             InitializeComponent();
             Toolkit.WindowToolkit = this;
+            Toolkit.LogToolkit = this;
 
             daTreeView1.RootPath = "";
         }
@@ -30,6 +31,25 @@ namespace DatAdmin
             frame.Parent = page;
             frame.Dock = DockStyle.Fill;
             contentTabs.TabPages.Add(page);
+        }
+
+        #region ILogToolkit Members
+
+        public void LogMessage(string type, string message)
+        {
+            DateTime now = DateTime.Now;
+            SimpleCallback callback = delegate() { AddLogMessage(DateTime.Now, type, message); };
+            Invoke(callback);
+        }
+
+        #endregion
+
+        private void AddLogMessage(DateTime datetime, string type, string message)
+        {
+            ListViewItem item = logListView.Items.Add(type);
+            item.SubItems.Add(datetime.ToString("d"));
+            item.SubItems.Add(datetime.ToString("T"));
+            item.SubItems.Add(message);
         }
     }
 }
