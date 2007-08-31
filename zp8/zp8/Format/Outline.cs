@@ -139,7 +139,7 @@ namespace zp8
             float acty = 0;
             foreach (SongDb.songRow song in m_songs)
             {
-                float hi = MeasureWrappedTextHeight(m_options.InfoContext, song.title, m_options.ColumnWidthForText, m_options.TitleFont);
+                float hi = MeasureWrappedTextHeight(m_options.InfoContext, song.Title, m_options.ColumnWidthForText, m_options.TitleFont);
                 if (acty + hi > m_options.PageHeight)
                 {
                     actcol++;
@@ -156,7 +156,7 @@ namespace zp8
                 WrapText(
                     m_options.InfoContext,
                     delegate(string txt, PointF pt) { m_actpane.DrawText(txt, new PointF(pt.X + x0, pt.Y + acty)); },
-                    song.title,
+                    song.Title,
                     m_options.ColumnWidthForText,
                     m_options.TitleFont);
                 m_actpane.DrawNumber(song.ID, new PointF(m_options.NumberLeft + x0, acty + hi - m_options.NumberHeight));

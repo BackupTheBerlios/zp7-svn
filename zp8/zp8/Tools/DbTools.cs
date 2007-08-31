@@ -40,54 +40,12 @@ namespace zp8
 
         public static void CopySong(ISongRow src, ISongRow dst)
         {
-            try
-            {
-                dst.title = src.title;
-            }
-            catch (Exception)
-            {
-                dst.title = "";
-            }
-            try
-            {
-                dst.groupname = src.groupname;
-            }
-            catch (Exception)
-            {
-                dst.groupname = "";
-            }
-            try
-            {
-                dst.author = src.author;
-            }
-            catch (Exception)
-            {
-                dst.author = "";
-            }
-            try
-            {
-                dst.songtext = src.songtext;
-            }
-            catch (Exception)
-            {
-                dst.songtext = "";
-            }
-            try
-            {
-                dst.lang = src.lang;
-            }
-            catch (Exception)
-            {
-                dst.lang = "";
-            }
-            try
-            {
-                dst.remark = src.remark;
-            }
-            catch (Exception)
-            {
-                dst.remark = "";
-            }
+            dst.Title = src.Title;
+            dst.GroupName = src.GroupName;
+            dst.Author = src.Author;
+            dst.SongText = src.SongText;
+            dst.Lang = src.Lang;
+            dst.Remark = src.Remark;
         }
 
         public static void AddSongRow(ISongRow src, InetSongDb db)

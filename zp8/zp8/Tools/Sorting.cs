@@ -8,17 +8,17 @@ namespace zp8
     {
         public static int CompareTitleGroup(ISongRow a, ISongRow b)
         {
-            int rt = String.Compare(a.title, b.title, true);
+            int rt = String.Compare(a.Title, b.Title, true);
             if (rt != 0) return rt;
-            int rg = String.Compare(a.groupname, b.groupname, true);
+            int rg = String.Compare(a.GroupName, b.GroupName, true);
             if (rg != 0) return rg;
             return a.ID - b.ID;
         }
         public static int CompareGroupTitle(ISongRow a, ISongRow b)
         {
-            int rg = String.Compare(a.groupname, b.groupname, true);
+            int rg = String.Compare(a.GroupName, b.GroupName, true);
             if (rg != 0) return rg;
-            int rt = String.Compare(a.title, b.title, true);
+            int rt = String.Compare(a.Title, b.Title, true);
             if (rt != 0) return rt;
             return a.ID - b.ID;
         }

@@ -44,9 +44,9 @@ namespace zp8
             {
                 foreach (zp8.SongDb.songRow song in m_dbwrap.EnumVisibleSongs())
                 {
-                    if (!groups.ContainsKey(song.groupname))
+                    if (!groups.ContainsKey(song.GroupName))
                     {
-                        groups[song.groupname] = true;
+                        groups[song.GroupName] = true;
                     }
                 }
                 List<string> grps = new List<string>();
@@ -56,7 +56,7 @@ namespace zp8
                 int index = m_dbwrap.SongBindingSource.Position;
                 if (index >= 0)
                 {
-                    string grp = m_dbwrap.SongByIndex(index).groupname;
+                    string grp = m_dbwrap.SongByIndex(index).GroupName;
                     lbgroups.SelectedIndex = grps.IndexOf(grp);
                 }
             }
@@ -86,11 +86,11 @@ namespace zp8
             {
                 string grp = (string)lbgroups.Items[gindex];
                 foreach (zp8.SongDb.songRow song in m_dbwrap.EnumVisibleSongs())
-                    if (song.groupname == grp)
+                    if (song.GroupName == grp)
                         m_loadedSongs.Add(song);
                 Sorting.Sort(m_loadedSongs, SongOrder.TitleGroup);
                 foreach (zp8.SongDb.songRow song in m_loadedSongs)
-                    lbsongs.Items.Add(song.title);
+                    lbsongs.Items.Add(song.Title);
                 if (m_dbwrap.SongBindingSource.Position >= 0)
                 {
                     int relindex = m_loadedSongs.IndexOf(m_dbwrap.SongByIndex(m_dbwrap.SongBindingSource.Position));

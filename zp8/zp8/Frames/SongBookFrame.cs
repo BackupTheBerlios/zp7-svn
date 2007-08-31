@@ -39,7 +39,7 @@ namespace zp8
             {
                 foreach (SongDb.songRow row in m_book.EnumSongs())
                 {
-                    lbsequence.Items.Add(row.title);
+                    lbsequence.Items.Add(row.Title);
                 }
             }
         }

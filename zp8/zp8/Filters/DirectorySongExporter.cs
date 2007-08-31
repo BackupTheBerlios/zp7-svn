@@ -38,16 +38,16 @@ namespace zp8
             int songindex = 0;
             foreach (ISongRow song in songs)
             {
-                if (!Groups.ContainsKey(song.groupname))
+                if (!Groups.ContainsKey(song.GroupName))
                 {
-                    Groups[song.groupname] = new GroupOfSongs();
-                    Groups[song.groupname].Index = Groups.Count;
-                    Groups[song.groupname].Name = song.groupname;
+                    Groups[song.GroupName] = new GroupOfSongs();
+                    Groups[song.GroupName].Index = Groups.Count;
+                    Groups[song.GroupName].Name = song.GroupName;
                 }
-                Groups[song.groupname].Songs.Add(song);
+                Groups[song.GroupName].Songs.Add(song);
                 Songs.Add(song);
                 SongIndexes[song] = ++songindex;
-                SongGroups[song] = Groups[song.groupname];
+                SongGroups[song] = Groups[song.GroupName];
             }
             foreach (GroupOfSongs grp in Groups.Values) grp.Songs.Sort(Sorting.GetComparison(SongOrder.GroupTitle));
             Songs.Sort(Sorting.GetComparison(SongOrder.GroupTitle));

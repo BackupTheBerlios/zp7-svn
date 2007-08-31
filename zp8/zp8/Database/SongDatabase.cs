@@ -14,12 +14,12 @@ namespace zp8
     public interface ISongRow
     {
         int ID { get;set;}
-        string title { get;set;}
-        string author { get;set;}
-        string groupname { get;set;}
-        string songtext { get;set;}
-        string lang { get;set;}
-        string remark { get;set;}
+        string Title { get;set;}
+        string Author { get;set;}
+        string GroupName { get;set;}
+        string SongText { get;set;}
+        string Lang { get;set;}
+        string Remark { get;set;}
     }
 
     public class SongData : ISongRow
@@ -32,42 +32,42 @@ namespace zp8
         }
 
         string m_title = "";
-        public string title
+        public string Title
         {
             get { return m_title; }
             set { m_title = value; }
         }
 
         string m_author = "";
-        public string author
+        public string Author
         {
             get { return m_author; }
             set { m_author = value; }
         }
 
         string m_groupname = "";
-        public string groupname
+        public string GroupName
         {
             get { return m_groupname; }
             set { m_groupname = value; }
         }
 
         string m_songtext = "";
-        public string songtext
+        public string SongText
         {
             get { return m_songtext; }
             set { m_songtext = value; }
         }
 
         string m_lang = "";
-        public string lang
+        public string Lang
         {
             get { return m_lang; }
             set { m_lang = value; }
         }
 
         string m_remark = "";
-        public string remark
+        public string Remark
         {
             get { return m_remark; }
             set { m_remark = value; }
@@ -108,10 +108,10 @@ namespace zp8
         private static string MakeSearchText(SongDb.songRow row)
         {
             string stext = "";
-            stext += Searching.MakeSearchText(row.title);
-            stext += Searching.MakeSearchText(row.author);
-            stext += Searching.MakeSearchText(row.groupname);
-            stext += Searching.MakeSearchText(SongTool.RemoveChords(row.songtext));
+            stext += Searching.MakeSearchText(row.Title);
+            stext += Searching.MakeSearchText(row.Author);
+            stext += Searching.MakeSearchText(row.GroupName);
+            stext += Searching.MakeSearchText(SongTool.RemoveChords(row.SongText));
             return stext;
         }
 
@@ -148,10 +148,10 @@ namespace zp8
         public SongDb.songRow CreateSong()
         {
             SongDb.songRow song = DataSet.song.NewsongRow();
-            song.title = "Nová píseò";
-            song.groupname = "";
-            song.author = "";
-            song.songtext = "";
+            song.Title = "Nová píseò";
+            song.GroupName = "";
+            song.Author = "";
+            song.SongText = "";
             DataSet.song.AddsongRow(song);
             return song;
         }

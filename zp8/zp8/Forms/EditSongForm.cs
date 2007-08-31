@@ -16,12 +16,12 @@ namespace zp8
         {
             InitializeComponent();
             m_song = song;
-            tbtitle.Text = song.title;
-            tbauthor.Text = song.author;
-            tbgroup.Text = song.groupname;
-            tbtext.Text = song.songtext.Replace("\r", "").Replace("\n", "\r\n");
-            tbremark.Text = song.remark;
-            songView1.SongText = song.songtext;
+            tbtitle.Text = song.Title;
+            tbauthor.Text = song.Author;
+            tbgroup.Text = song.GroupName;
+            tbtext.Text = song.SongText.Replace("\r", "").Replace("\n", "\r\n");
+            tbremark.Text = song.Remark;
+            songView1.SongText = song.SongText;
 
             if (songdb != null)
             {
@@ -72,11 +72,11 @@ namespace zp8
 
         private void uložitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            m_song.title = tbtitle.Text;
-            m_song.author = tbauthor.Text;
-            m_song.groupname = tbgroup.Text;
-            m_song.songtext = tbtext.Text.Replace("\r", "");
-            m_song.remark = tbremark.Text;
+            m_song.Title = tbtitle.Text;
+            m_song.Author = tbauthor.Text;
+            m_song.GroupName = tbgroup.Text;
+            m_song.SongText = tbtext.Text.Replace("\r", "");
+            m_song.Remark = tbremark.Text;
             if (cbuseserver.Checked)
             {
                 m_song.server_id = (int)cbserver.SelectedValue;

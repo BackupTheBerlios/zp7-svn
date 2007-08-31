@@ -153,14 +153,14 @@ namespace zp8
                 List<string> lines = new List<string>();
                 lines.AddRange(fulltext.Split('\n'));
                 AnalyseSongHeaderLines(lines, res);
-                res.songtext = String.Join("\n", lines.ToArray());
+                res.SongText = String.Join("\n", lines.ToArray());
             }
             else
             {
-                res.title = props.SearchTitle.Search(fulltext);
-                res.author = props.SearchAuthor.Search(fulltext);
-                res.groupname = props.SearchGroup.Search(fulltext);
-                res.songtext = props.SearchText.Search(fulltext);
+                res.Title = props.SearchTitle.Search(fulltext);
+                res.Author = props.SearchAuthor.Search(fulltext);
+                res.GroupName = props.SearchGroup.Search(fulltext);
+                res.SongText = props.SearchText.Search(fulltext);
             }
             return res;
         }
@@ -172,20 +172,20 @@ namespace zp8
             if (line0.IndexOf(" - ") >= 0)
             {
                 int i = line0.IndexOf(" - ");
-                song.title = line0.Substring(0, i).Trim();
-                song.author = line0.Substring(i + 3).Trim();
+                song.Title = line0.Substring(0, i).Trim();
+                song.Author = line0.Substring(i + 3).Trim();
                 songlines.RemoveAt(0);
             }
             else if (line0.IndexOf("    ") >= 0)
             {
                 int i = line0.IndexOf("    ");
-                song.title = line0.Substring(0, i).Trim();
-                song.author = line0.Substring(i + 4).Trim();
+                song.Title = line0.Substring(0, i).Trim();
+                song.Author = line0.Substring(i + 4).Trim();
                 songlines.RemoveAt(0);
             }
             else
             {
-                song.title = line0.Trim();
+                song.Title = line0.Trim();
                 songlines.RemoveAt(0);
                 if (songlines.Count == 0) return;
                 line0 = songlines[0];
@@ -195,7 +195,7 @@ namespace zp8
                     return;
                 }
                 if (LooksLikeTextLine(line0)) return;
-                song.author = line0.Trim();
+                song.Author = line0.Trim();
                 songlines.RemoveAt(0);
             }
         }

@@ -215,8 +215,8 @@ namespace zp8
             resp.Close();
             foreach (ISongRow row in tmp.song.Rows)
             {
-                if (defsongname != null && row.title == "") row.title = defsongname;
-                if (defgroupname != null && row.groupname == "") row.groupname = defgroupname;
+                if (defsongname != null && row.Title == "") row.Title = defsongname;
+                if (defgroupname != null && row.GroupName == "") row.GroupName = defgroupname;
                 DbTools.AddSongRow(row, db);
             }
         }

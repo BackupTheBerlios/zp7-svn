@@ -14,10 +14,10 @@ namespace zp8
 
         public static string MakeTemplate(string tpl, ISongRow song)
         {
-            tpl = tpl.Replace("$[TITLE]", song.title);
-            tpl = tpl.Replace("$[AUTHOR]", song.author);
-            tpl = tpl.Replace("$[GROUP]", song.groupname);
-            tpl = tpl.Replace("$[REMARK]", song.remark);
+            tpl = tpl.Replace("$[TITLE]", song.Title);
+            tpl = tpl.Replace("$[AUTHOR]", song.Author);
+            tpl = tpl.Replace("$[GROUP]", song.GroupName);
+            tpl = tpl.Replace("$[REMARK]", song.Remark);
             return MakeTemplate(tpl);
         }
     }

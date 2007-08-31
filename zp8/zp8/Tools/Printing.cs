@@ -46,10 +46,10 @@ namespace zp8
         public static LogPages FormatSongForPrinting(SongDb.songRow song, float pgwi, XGraphics infoContext, float pghi)
         {
             SongPrintFormatOptions opt = CfgTools.CreateSongPrintFormatOptions(pgwi, infoContext);
-            SongFormatter fmt = new SongFormatter(song.songtext, opt.SongOptions);
+            SongFormatter fmt = new SongFormatter(song.SongText, opt.SongOptions);
             fmt.Run();
             PaneGrp grp = fmt.Result;
-            grp.Insert(new SongHeaderPane(opt, song.title, song.author));
+            grp.Insert(new SongHeaderPane(opt, song.Title, song.Author));
 
             LogPages pages = new LogPages(pghi);
             pages.AddPaneGrp(grp);

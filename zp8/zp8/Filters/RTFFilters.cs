@@ -73,11 +73,11 @@ namespace zp8
         protected override void DumpSongBegin(InetSongDb.songRow song, TextWriter fw)
         {
             RtfTools.SetFont(fw, Fonts.TitleFont, 4);
-            fw.Write(song.title);
+            fw.Write(song.Title);
             fw.Write("\\par ");
 
             RtfTools.SetFont(fw, Fonts.AuthorFont, 5);
-            fw.Write(song.author);
+            fw.Write(song.Author);
             fw.Write("\\par ");
         }
 

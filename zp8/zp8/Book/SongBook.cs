@@ -276,10 +276,10 @@ namespace zp8
             if (m_formatted.ContainsKey(songid)) return m_formatted[songid];
             SongDb.songRow row = DataSet.song.FindByID(songid);
 
-            SongFormatter fmt = new SongFormatter(row.songtext, SongFormatOptions);
+            SongFormatter fmt = new SongFormatter(row.SongText, SongFormatOptions);
             fmt.Run();
             PaneGrp grp = fmt.Result;
-            grp.Insert(new SongHeaderPane(BookFormatOptions, row.title, row.author));
+            grp.Insert(new SongHeaderPane(BookFormatOptions, row.Title, row.Author));
             grp.Add(new SongSeparatorPane(BookFormatOptions));
             m_formatted[songid] = grp;
 

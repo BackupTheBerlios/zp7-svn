@@ -202,7 +202,7 @@ namespace zp8
                 {
                     if (wassong) DumpSongSeparator(sw);
                     DumpSongBegin(row, sw);
-                    RunTextFormatting(row.songtext, sw);
+                    RunTextFormatting(row.SongText, sw);
                     DumpSongEnd(row, sw);
                     wassong = true;
                 }

@@ -116,7 +116,7 @@ namespace zp8
         private void SetSong(SongDb.songRow song)
         {
             m_song = song;
-            SetText(song != null ? song.songtext : null);
+            SetText(song != null ? song.SongText : null);
         }
 
         private void src_PositionChanged(object sender, EventArgs e)
