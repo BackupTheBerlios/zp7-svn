@@ -32,6 +32,10 @@ namespace DAIntf
         {
             get { return Path.Combine(BaseDirectory, "cfg"); }
         }
+        public static string LangDirectory
+        {
+            get { return Path.Combine(BaseDirectory, "lang"); }
+        }
         public static bool IsGUIDatAdmin;
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 using DAIntf;
 using System.IO;
 
-namespace DatAdmin.Tools
+namespace DatAdmin
 {
     public class FileTextProvider : ITextProvider
     {
@@ -37,5 +37,17 @@ namespace DatAdmin.Tools
         }
 
         #endregion
+
+        public static void LoadStdTexts()
+        {
+            FileTextProvider provider = new FileTextProvider();
+            foreach (string file in Directory.GetFiles(Core.LangDirectory))
+            {
+                string ext = Path.GetExtension(file).ToLower();
+                if (ext.StartsWith(".")) ext = ext.Substring(1);
+                provider.AddFile(file, ext);
+            }
+            Texts.RegisterTextProvider(provider);
+        }
     }
 }

@@ -45,7 +45,7 @@ namespace DatAdmin
             }
             ToolStripMenuItem newitem = new ToolStripMenuItem();
             m_parent.Add(newitem);
-            newitem.Text = path[0];
+            newitem.Text = Texts.Get(path[0]);
 
             PopupMenuItem popup = new PopupMenuItem();
             popup.m_parent = newitem.DropDownItems;

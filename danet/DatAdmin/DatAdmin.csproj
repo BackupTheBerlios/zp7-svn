@@ -184,6 +184,8 @@
     <None Include="Resources\img_folder.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="lang\base.cz" />
+    <None Include="lang\base.en" />
     <None Include="Resources\treenode.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -194,4 +196,11 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>mkdir $(TargetDir)lang
+copy $(ProjectDir)lang\base.cz $(TargetDir)lang
+copy $(ProjectDir)lang\base.en $(TargetDir)lang
+
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -39,6 +39,7 @@ namespace DatAdmin
             Async.MainThread = Thread.CurrentThread;
             Async.WaitDialog = new WaitDialog();
             NodeFactory.RegisterRootCreator(RootTreeNode.CreateRoot);
+            FileTextProvider.LoadStdTexts();
 
             DAIntf.Plugins.AddAssembly(Assembly.GetAssembly(typeof(Program)));
 

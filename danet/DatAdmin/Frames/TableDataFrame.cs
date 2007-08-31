@@ -37,6 +37,11 @@ namespace DatAdmin
         {
             dataGridView1.DataSource = m_table;
         }
+
+        private void dataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            Logging.Warning("Data error, row={0}, col={1}, error={2}", e.RowIndex, e.ColumnIndex, e.Exception.Message);
+        }
     }
 }
 
