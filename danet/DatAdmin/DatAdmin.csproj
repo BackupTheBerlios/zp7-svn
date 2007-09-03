@@ -36,54 +36,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\ConnWizard.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ConnWizard.designer.cs">
-      <DependentUpon>ConnWizard.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\CreateDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\CreateDialog.designer.cs">
-      <DependentUpon>CreateDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\DialogBase.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\DialogBase.designer.cs">
-      <DependentUpon>DialogBase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\InputBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\InputBox.Designer.cs">
-      <DependentUpon>InputBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\WaitDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\WaitDialog.designer.cs">
-      <DependentUpon>WaitDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frames\DATreeView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Frames\DATreeView.designer.cs">
-      <DependentUpon>DATreeView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frames\SchemaFrame.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Frames\SchemaFrame.Designer.cs">
-      <DependentUpon>SchemaFrame.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Frames\TableDataFrame.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Frames\TableDataFrame.Designer.cs">
-      <DependentUpon>TableDataFrame.cs</DependentUpon>
-    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,38 +44,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Forms\ConnWizard.resx">
-      <DependentUpon>ConnWizard.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\CreateDialog.resx">
-      <DependentUpon>CreateDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\DialogBase.resx">
-      <DependentUpon>DialogBase.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\InputBox.resx">
-      <DependentUpon>InputBox.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\WaitDialog.resx">
-      <DependentUpon>WaitDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frames\DATreeView.resx">
-      <DependentUpon>DATreeView.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frames\SchemaFrame.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>SchemaFrame.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frames\TableDataFrame.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>TableDataFrame.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -132,11 +52,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StdIcons.resx">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>StdIcons.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -151,23 +66,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Tools\PluginTools.cs" />
-    <Compile Include="Tools\PyList.cs" />
-    <Compile Include="Tools\ReflTools.cs" />
-    <Compile Include="StdIcons.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StdIcons.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Tools\NodeAdapter.cs" />
-    <Compile Include="Tools\PopupMenu.cs" />
-    <Compile Include="Tools\TextProvider.cs" />
-    <Compile Include="Tree\FSTree.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DatAdmin.Common\DatAdmin.Common.csproj">
       <Project>{1DCAE0C8-82B0-4E25-A157-574C2A9E6A8D}</Project>
       <Name>DatAdmin.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DatAdmin.Core\DatAdmin.Core.csproj">
+      <Project>{547419E9-1B72-4961-B69F-2B4242CDEF7C}</Project>
+      <Name>DatAdmin.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\DatAdmin.Wizard\DatAdmin.Wizard.csproj">
       <Project>{94955608-38E0-43BE-AE73-0C16012E7445}</Project>
@@ -184,8 +91,6 @@
     <None Include="Resources\img_folder.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="lang\base.cz" />
-    <None Include="lang\base.en" />
     <None Include="Resources\treenode.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
