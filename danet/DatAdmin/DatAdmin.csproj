@@ -56,6 +56,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -82,16 +83,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\img_database.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\img_folder_expanded.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\img_folder.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\treenode.bmp" />
+    <None Include="lang\base.cz" />
+    <None Include="lang\base.en" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -143,10 +143,6 @@
     <Content Include="Resources\treenode.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="lang\base.cz" />
-    <None Include="lang\base.en" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\DatAdmin.Common\DatAdmin.Common.csproj">
       <Project>{1DCAE0C8-82B0-4E25-A157-574C2A9E6A8D}</Project>
       <Name>DatAdmin.Common</Name>

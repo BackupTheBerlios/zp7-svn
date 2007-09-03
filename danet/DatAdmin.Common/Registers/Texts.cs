@@ -4,11 +4,6 @@ using System.Text;
 
 namespace DatAdmin
 {
-    public interface ITextProvider
-    {
-        string GetText(string name, string lang);
-    }
-
     public static class Texts
     {
         static List<ITextProvider> m_textProviders = new List<ITextProvider>();
