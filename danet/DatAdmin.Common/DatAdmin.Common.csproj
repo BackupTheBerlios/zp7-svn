@@ -38,7 +38,7 @@
     <Compile Include="Interfaces\Async.cs" />
     <Compile Include="Classes\ConnectionThread.cs" />
     <Compile Include="Core.cs" />
-    <Compile Include="CreateFactory.cs" />
+    <Compile Include="Interfaces\CreateFactory.cs" />
     <Compile Include="Interfaces\DataSource.cs" />
     <Compile Include="Interfaces\DBStruct.cs" />
     <Compile Include="Frames\ContentFrame.cs">
