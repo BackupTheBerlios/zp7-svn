@@ -7,8 +7,8 @@
     <ProjectGuid>{1DCAE0C8-82B0-4E25-A157-574C2A9E6A8D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DAIntf</RootNamespace>
-    <AssemblyName>DAIntf</AssemblyName>
+    <RootNamespace>DatAdmin</RootNamespace>
+    <AssemblyName>DatAdmin.Common</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
