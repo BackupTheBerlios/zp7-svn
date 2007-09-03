@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SQLite;
 using System.IO;
-using DAIntf;
+using DatAdmin;
 
 namespace Plugin.sqlite
 {

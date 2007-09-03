@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace DAIntf
+namespace DatAdmin
 {
     internal class AsyncAction
     {

@@ -1,4 +1,4 @@
-namespace DAIntf
+namespace DatAdmin
 {
     partial class ContentFrame
     {

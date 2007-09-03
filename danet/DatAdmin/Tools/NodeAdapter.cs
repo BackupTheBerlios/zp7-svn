@@ -4,7 +4,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Drawing;
-using DAIntf;
 
 namespace DatAdmin
 {

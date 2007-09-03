@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
-using DAIntf;
 
-namespace DAIntf
+namespace DatAdmin
 {
     //public delegate void NodeCallback(ITreeNode node);
 

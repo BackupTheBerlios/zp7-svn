@@ -4,7 +4,7 @@ using System.Text;
 using System.Data.Common;
 using System.Data;
 
-namespace DAIntf
+namespace DatAdmin
 {
     public enum ConnectionStatus { Closed, Open };
 

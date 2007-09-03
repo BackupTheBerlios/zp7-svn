@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-using DAIntf;
 
-namespace DAIntf
+namespace DatAdmin
 {
     public abstract class TreeNodeBase : ITreeNode
     {

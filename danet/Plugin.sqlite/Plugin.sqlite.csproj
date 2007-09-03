@@ -65,7 +65,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DAIntf\DatAdmin.Common.csproj">
+    <ProjectReference Include="..\DatAdmin.Common\DatAdmin.Common.csproj">
       <Project>{1DCAE0C8-82B0-4E25-A157-574C2A9E6A8D}</Project>
       <Name>DatAdmin.Common</Name>
     </ProjectReference>

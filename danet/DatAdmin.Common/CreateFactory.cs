@@ -4,7 +4,7 @@ using System.Text;
 using System.Drawing;
 using System.Reflection;
 
-namespace DAIntf
+namespace DatAdmin
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class CreateFactoryItemAttribute : Attribute

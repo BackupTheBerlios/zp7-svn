@@ -6,11 +6,10 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.Common;
-using DAIntf;
 
 namespace DatAdmin
 {
-    public partial class SchemaFrame : DAIntf.ContentFrame
+    public partial class SchemaFrame : ContentFrame
     {
         DbConnection m_conn;
         DataTable m_table = null;

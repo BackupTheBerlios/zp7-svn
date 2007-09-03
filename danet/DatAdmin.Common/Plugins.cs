@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 
-namespace DAIntf
+namespace DatAdmin
 {
     public static class Plugins
     {

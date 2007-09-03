@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Data.SqlClient;
 using System.Data.Common;
-using DAIntf;
+using DatAdmin;
 
 namespace Plugin.mssql
 {

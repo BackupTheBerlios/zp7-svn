@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DAIntf
+namespace DatAdmin
 {
     public static class Logging
     {

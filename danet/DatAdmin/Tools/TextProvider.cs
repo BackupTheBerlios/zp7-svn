@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using DAIntf;
 using System.IO;
 
 namespace DatAdmin

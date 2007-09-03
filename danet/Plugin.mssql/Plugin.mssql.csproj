@@ -61,11 +61,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DAIntf\DatAdmin.Common.csproj">
+    <ProjectReference Include="..\DatAdmin.Common\DatAdmin.Common.csproj">
       <Project>{1DCAE0C8-82B0-4E25-A157-574C2A9E6A8D}</Project>
       <Name>DatAdmin.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DAWizard\DAWizard.csproj">
+    <ProjectReference Include="..\DatAdmin.Wizard\DatAdmin.Wizard.csproj">
       <Project>{94955608-38E0-43BE-AE73-0C16012E7445}</Project>
       <Name>DAWizard</Name>
     </ProjectReference>

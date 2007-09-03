@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Reflection;
-using DAIntf;
 using System.Threading;
 
 namespace DatAdmin
@@ -41,7 +40,7 @@ namespace DatAdmin
             NodeFactory.RegisterRootCreator(RootTreeNode.CreateRoot);
             FileTextProvider.LoadStdTexts();
 
-            DAIntf.Plugins.AddAssembly(Assembly.GetAssembly(typeof(Program)));
+            DatAdmin.Plugins.AddAssembly(Assembly.GetAssembly(typeof(Program)));
 
             PluginTools.LoadPlugins();
             Application.Run(new MainForm());

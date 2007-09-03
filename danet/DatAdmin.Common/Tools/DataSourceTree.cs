@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading;
 using System.IO;
 
-namespace DAIntf
+namespace DatAdmin
 {
     public abstract class ConnectionTreeNode : TreeNodeBase
     {

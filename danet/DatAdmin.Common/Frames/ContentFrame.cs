@@ -6,7 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace DAIntf
+namespace DatAdmin
 {
     public partial class ContentFrame : UserControl, IInvoker
     {

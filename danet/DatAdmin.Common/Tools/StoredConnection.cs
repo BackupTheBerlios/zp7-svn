@@ -4,7 +4,7 @@ using System.Text;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace DAIntf
+namespace DatAdmin
 {
     public class StoredConnection<T> where T : class
     {
