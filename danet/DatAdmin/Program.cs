@@ -29,6 +29,7 @@ namespace DatAdmin
                 MessageBox.Show(e.ToString());
             }
 #endif
+            ThreadRegister.QuitAllThreads();
 
         }
 

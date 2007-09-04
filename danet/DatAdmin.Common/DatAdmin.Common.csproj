@@ -55,6 +55,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registers\CreateFactory.cs" />
     <Compile Include="Registers\Texts.cs" />
+    <Compile Include="Registers\ThreadRegister.cs" />
     <Compile Include="StdIcons.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

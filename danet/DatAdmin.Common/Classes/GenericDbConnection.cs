@@ -30,13 +30,21 @@ namespace DatAdmin
 
         private void Run()
         {
-            for (; ; )
+            try
             {
-                object obj = m_queue.Get();
-                if (obj == ENDMARK) break;
-                ((SimpleCallback)obj)();
+                ThreadRegister.RegisterThread(m_thread);
+                for (; ; )
+                {
+                    object obj = m_queue.Get();
+                    if (obj == ENDMARK) break;
+                    ((SimpleCallback)obj)();
+                }
             }
-            m_thread = null;
+            finally
+            {
+                ThreadRegister.UnregisterThread(m_thread);
+                m_thread = null;
+            }
 
             //for (; ; )
             //{
