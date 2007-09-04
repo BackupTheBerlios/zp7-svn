@@ -36,14 +36,15 @@ namespace DatAdmin
         {
             Core.IsGUIDatAdmin = true;
             Async.MainThread = Thread.CurrentThread;
-            Async.WaitDialog = new WaitDialog();
             NodeFactory.RegisterRootCreator(RootTreeNode.CreateRoot);
             FileTextProvider.LoadStdTexts();
 
             DatAdmin.Plugins.AddAssembly(Assembly.GetAssembly(typeof(Program)));
 
             PluginTools.LoadPlugins();
-            Application.Run(new MainForm());
+            MainForm win = new MainForm();
+            Async.WaitDialog = new WaitDialog();
+            Application.Run(win);
         }
     }
 }

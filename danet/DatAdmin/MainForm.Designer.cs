@@ -30,6 +30,7 @@ namespace DatAdmin
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.daTreeView1 = new DatAdmin.DATreeView();
             this.contentTabs = new System.Windows.Forms.TabControl();
             this.logTabs = new System.Windows.Forms.TabControl();
             this.s_log = new System.Windows.Forms.TabPage();
@@ -38,7 +39,6 @@ namespace DatAdmin
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
-            this.daTreeView1 = new DatAdmin.DATreeView();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.logTabs.SuspendLayout();
@@ -63,8 +63,18 @@ namespace DatAdmin
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(212, 304);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Tree";
+            this.tabPage1.Text = "s_tree";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // daTreeView1
+            // 
+            this.daTreeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.daTreeView1.Location = new System.Drawing.Point(3, 3);
+            this.daTreeView1.Name = "daTreeView1";
+            this.daTreeView1.Root = null;
+            this.daTreeView1.RootPath = null;
+            this.daTreeView1.Size = new System.Drawing.Size(206, 298);
+            this.daTreeView1.TabIndex = 0;
             // 
             // contentTabs
             // 
@@ -93,7 +103,7 @@ namespace DatAdmin
             this.s_log.Padding = new System.Windows.Forms.Padding(3);
             this.s_log.Size = new System.Drawing.Size(610, 112);
             this.s_log.TabIndex = 0;
-            this.s_log.Text = "s-log";
+            this.s_log.Text = "s_log";
             this.s_log.UseVisualStyleBackColor = true;
             // 
             // logListView
@@ -113,32 +123,22 @@ namespace DatAdmin
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Text = "Type";
+            this.columnHeader1.Text = "s_type";
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Text = "Date";
+            this.columnHeader2.Text = "s_date";
             this.columnHeader2.Width = 80;
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = "Time";
+            this.columnHeader3.Text = "s_time";
             this.columnHeader3.Width = 80;
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "Message";
+            this.columnHeader4.Text = "s_message";
             this.columnHeader4.Width = 400;
-            // 
-            // daTreeView1
-            // 
-            this.daTreeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.daTreeView1.Location = new System.Drawing.Point(3, 3);
-            this.daTreeView1.Name = "daTreeView1";
-            this.daTreeView1.Root = null;
-            this.daTreeView1.RootPath = null;
-            this.daTreeView1.Size = new System.Drawing.Size(206, 298);
-            this.daTreeView1.TabIndex = 0;
             // 
             // MainForm
             // 

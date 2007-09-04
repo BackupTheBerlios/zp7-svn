@@ -18,14 +18,10 @@ namespace DatAdmin
         }
         public virtual string PageTitle { get { return "content"; } }
 
-        #region IInvoker Members
-
-        public void DoInvoke(SimpleCallback callback)
+        private void ContentFrame_Load(object sender, EventArgs e)
         {
-            Invoke(callback);
+            Toolkit.WindowToolkit.TranslateControl(this);
         }
-
-        #endregion
 
     }
 }

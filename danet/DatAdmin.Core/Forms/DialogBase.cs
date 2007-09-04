@@ -21,6 +21,7 @@ namespace DatAdmin
             bt_cancel.Left = ClientSize.Width - bt_cancel.Width - 20;
             bt_ok.Top = ClientSize.Height - bt_ok.Height - 25;
             bt_cancel.Top = ClientSize.Height - bt_cancel.Height - 25;
+            Toolkit.WindowToolkit.TranslateControl(this);
         }
     }
 }

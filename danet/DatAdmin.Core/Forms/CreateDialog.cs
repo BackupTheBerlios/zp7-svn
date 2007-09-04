@@ -18,6 +18,7 @@ namespace DatAdmin
         {
             m_parent = parent;
             InitializeComponent();
+            Toolkit.WindowToolkit.TranslateControl(this);
         }
 
         private void CreateDialog_Load(object sender, EventArgs e)

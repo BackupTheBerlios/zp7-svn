@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data.Common;
+using System.Windows.Forms;
 
 namespace DatAdmin
 {
@@ -9,6 +10,7 @@ namespace DatAdmin
     {
         void OpenSchemaWindow(IPhysicalConnection conn);
         void OpenTable(ITableSource conn);
+        void TranslateControl(Control ctrl);
     }
     public interface ILogToolkit
     {

@@ -14,6 +14,7 @@ namespace DatAdmin
         public WaitDialog()
         {
             InitializeComponent();
+            Toolkit.WindowToolkit.TranslateControl(this);
         }
 
         private void button1_Click(object sender, EventArgs e)

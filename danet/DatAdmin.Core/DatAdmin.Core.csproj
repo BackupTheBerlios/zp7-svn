@@ -95,6 +95,7 @@
     <Compile Include="Tools\PyList.cs" />
     <Compile Include="Tools\ReflTools.cs" />
     <Compile Include="Tools\TextProvider.cs" />
+    <Compile Include="Tools\Translating.cs" />
     <Compile Include="Tree\FSTree.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -76,6 +76,10 @@
     <Compile Include="Tools\WaitQueue.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Frames\ContentFrame.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ContentFrame.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="StdIcons.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>

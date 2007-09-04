@@ -18,6 +18,7 @@ namespace DatAdmin
             Toolkit.LogToolkit = this;
 
             daTreeView1.RootPath = "";
+            TranslateControl(this);
         }
 
         private void OpenContent(ContentFrame frame)
@@ -57,6 +58,11 @@ namespace DatAdmin
         public void OpenTable(ITableSource conn)
         {
             OpenContent(new TableDataFrame(conn));
+        }
+
+        public void TranslateControl(Control ctrl)
+        {
+            Translating.TranslateControl(ctrl);
         }
 
         #endregion
