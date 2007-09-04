@@ -6,28 +6,12 @@ using System.Windows.Forms;
 
 namespace DatAdmin
 {
-    /*
-    public delegate IAsyncResult BeginInvokeDelegate(Delegate proc);
-
-    public static partial class Async
-    {
-        public static Thread MainThread;
-        public static BeginInvokeDelegate MainThreadInvoke;
-        public static IWaitDialog WaitDialog;
-        public static bool IsMainThread
-        {
-            get
-            {
-                return Thread.CurrentThread == MainThread;
-            }
-        }
-    }
-
     public class AsyncBase : IAsyncBase
     {
         bool m_completed;
         SimpleCallback m_simpleCallback;
-        Thread m_simpleDestThread;
+        //Thread m_simpleDestThread;
+        protected IInvoker m_invoker;
         AutoResetEvent m_event = new AutoResetEvent(false);
         Exception m_error;
 
@@ -67,17 +51,17 @@ namespace DatAdmin
             get { return false; }
         }
 
-        public void OnFinish(SimpleCallback callback)
+        public void OnFinish(SimpleCallback callback, IInvoker invoker)
         {
+            m_invoker = invoker;
             lock (this)
             {
                 if (IsCompleted)
                 {
-                    callback();
+                    m_invoker.InvokeVoid(callback);
                 }
                 else
                 {
-                    m_simpleDestThread = Thread.CurrentThread;
                     m_simpleCallback = callback;
                 }
             }
@@ -85,21 +69,9 @@ namespace DatAdmin
 
         #endregion
 
-        protected void DoCallback(SimpleCallback callback, Thread dstthread)
-        {
-            if (dstthread == Async.MainThread)
-            {
-                Async.MainThreadInvoke(callback);
-            }
-            else
-            {
-                callback();
-            }
-        }
-
         protected virtual void PerformCallbacks()
         {
-            if (m_simpleCallback != null) DoCallback(m_simpleCallback, m_simpleDestThread);
+            if (m_simpleCallback != null) m_invoker.InvokeVoid(m_simpleCallback);
         }
 
         /// called from any thread, call callback from apropriate thread
@@ -136,7 +108,6 @@ namespace DatAdmin
     {
         T m_value;
         ValueCallback<T> m_valueCallback;
-        Thread m_valueDestThread;
 
         #region IAsyncValue<T> Members
 
@@ -149,8 +120,9 @@ namespace DatAdmin
             }
         }
 
-        public void OnFinish(ValueCallback<T> callback)
+        public void OnFinish(ValueCallback<T> callback, IInvoker invoker)
         {
+            m_invoker = invoker;
             lock (this)
             {
                 if (IsCompleted)
@@ -159,7 +131,6 @@ namespace DatAdmin
                 }
                 else
                 {
-                    m_valueDestThread = Thread.CurrentThread;
                     m_valueCallback = callback;
                 }
             }
@@ -175,7 +146,7 @@ namespace DatAdmin
         protected override void PerformCallbacks()
         {
             base.PerformCallbacks();
-            if (m_valueCallback != null) DoCallback(DoValueCall, m_valueDestThread);
+            if (m_valueCallback != null) m_invoker.InvokeVoid(DoValueCall);
         }
 
         ///  call this when finished
@@ -185,5 +156,61 @@ namespace DatAdmin
             DoDispatchFinished();
         }
     }
-    */
+    public class AsyncAction
+    {
+        SimpleCallback m_callback;
+        AsyncVoid m_async;
+
+        public void DoRun()
+        {
+            try
+            {
+                m_callback();
+                m_async.DispatchFinished();
+            }
+            catch (Exception e)
+            {
+                m_async.DispatchException(e);
+            }
+        }
+        public AsyncAction(SimpleCallback callback)
+        {
+            m_callback = callback;
+            m_async = new AsyncVoid();
+        }
+
+        public IAsyncVoid Async { get { return m_async; } }
+
+        //public IAsyncVoid GetAsync()
+        //{
+        //    m_async = new AsyncVoid();
+        //    new Thread(DoRun).Start();
+        //    return m_async;
+        //}
+    }
+
+    public class AsyncResultAction<T>
+    {
+        ReturnValueCallback<T> m_callback;
+        AsyncValue<T> m_async;
+
+        public void DoRun()
+        {
+            try
+            {
+                T result = m_callback();
+                m_async.DispatchFinished(result);
+            }
+            catch (Exception e)
+            {
+                m_async.DispatchException(e);
+            }
+        }
+        public AsyncResultAction(ReturnValueCallback<T> callback)
+        {
+            m_callback = callback;
+            m_async = new AsyncValue<T>();
+        }
+        public IAsyncValue<T> Async { get { return m_async; } }
+    }
 }

@@ -7,8 +7,8 @@ namespace DatAdmin
 {
     public interface IWindowToolkit
     {
-        void OpenSchemaWindow(DbConnection conn);
-        void OpenTable(ITableConnection conn);
+        void OpenSchemaWindow(IPhysicalConnection conn);
+        void OpenTable(ITableSource conn);
     }
     public interface ILogToolkit
     {

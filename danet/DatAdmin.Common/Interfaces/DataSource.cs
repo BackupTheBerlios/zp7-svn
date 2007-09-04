@@ -6,69 +6,93 @@ using System.Data;
 
 namespace DatAdmin
 {
-    public enum ConnectionStatus { Closed, Open };
-
-    public interface IConnectionHooks
+    public class ConnectionException : Exception
     {
-        void BeforeOpen();
-        void AfterOpen();
-        void BeforeClose();
-        void AfterClose();
+        public ConnectionException(string message)
+            : base(message)
+        {
+        }
     }
+
+    public delegate void PhysicalConnectionDelegate(IPhysicalConnection conn);
+    //public enum ConnectionStatus { Closed, Open };
+
+    //public interface IConnectionHooks
+    //{
+    //    void BeforeOpen();
+    //    void AfterOpen();
+    //    void BeforeClose();
+    //    void AfterClose();
+    //}
 
     public class TableDataProperties
     {
     }
 
-    public interface ICommonConnection
+    /// connection, should autamatically open/close/reopen connection, when needed
+    public interface IPhysicalConnection
     {
-        void Open();
-        void Close();
-        ConnectionStatus State { get;}
-        IConnectionHooks Hooks { get;set;}
+        IAsyncVoid Open();
+        IAsyncVoid Close();
+        //ConnectionStatus State { get;}
+        //public IInvoker EventsInvoker { get;set;}
+        event PhysicalConnectionDelegate BeforeOpen;
+        event PhysicalConnectionDelegate AfterOpen;
+        event PhysicalConnectionDelegate BeforeClose;
+        event PhysicalConnectionDelegate AfterClose;
+        //IAsyncVoid InvokeVoid(SimpleCallback func);
+        //IAsyncValue<T> InvokeValue(ReturnValueCallback<T> func);
+        bool IsOpened { get;}
+        IInvoker Invoker { get;}
+        //IConnectionHooks Hooks { get;set;}
 
         DbConnection SystemConnection { get;}
         DbProviderFactory DbFactory { get;}
     }
 
-    public interface IServerConnection : ICommonConnection
+    public interface ICommonSource
+    {
+        IPhysicalConnection Connection { get;}
+    }
+
+    public interface IServerSource : ICommonSource
     {
         IEnumerable<string> Databases { get;}
-        IDatabaseConnection GetDatabase(string name);
+        IDatabaseSource GetDatabase(string name);
     }
 
-    public interface IDatabaseConnection : ICommonConnection
+    public interface IDatabaseSource : ICommonSource
     {
         IEnumerable<string> Tables { get;}
-        ITableConnection GetTable(string name);
+        ITableSource GetTable(string name);
     }
 
-    public interface ITableConnection : ICommonConnection
+    public interface ITableSource : ICommonSource
     {
         string TableName { get;}
         DataTable GetTabularData(TableDataProperties props);
     }
 
-    public class HooksBase : IConnectionHooks
-    {
-        #region IConnectionHooks Members
+    //public class HooksBase : IConnectionHooks
+    //{
+    //    #region IConnectionHooks Members
 
-        public virtual void BeforeOpen()
-        {
-        }
+    //    public virtual void BeforeOpen()
+    //    {
+    //    }
 
-        public virtual void AfterOpen()
-        {
-        }
+    //    public virtual void AfterOpen()
+    //    {
+    //    }
 
-        public virtual void BeforeClose()
-        {
-        }
+    //    public virtual void BeforeClose()
+    //    {
+    //    }
 
-        public virtual void AfterClose()
-        {
-        }
+    //    public virtual void AfterClose()
+    //    {
+    //    }
 
-        #endregion
-    }
+    //    #endregion
+    //}
 }

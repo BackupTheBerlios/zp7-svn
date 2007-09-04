@@ -108,15 +108,12 @@ namespace DatAdmin
             UpdateImageIndex();
         }
 
-        #endregion
-
-        #region IInvoker Members
-
-        public void DoInvoke(SimpleCallback callback)
+        public IInvoker Invoker
         {
-            TreeView.Invoke(callback);
+            get { return m_tree.m_invoker; }
         }
 
         #endregion
+
     }
 }

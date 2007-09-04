@@ -11,14 +11,16 @@ namespace DatAdmin
 {
     public partial class SchemaFrame : ContentFrame
     {
+        IPhysicalConnection m_pconn;
         DbConnection m_conn;
         DataTable m_table = null;
 
-        public SchemaFrame(DbConnection conn)
+        public SchemaFrame(IPhysicalConnection conn)
         {
             InitializeComponent();
-            m_conn = conn;
-            Async.InvokeVoid(GetSchemas, this, ShowTableSchemas);
+            m_pconn = conn;
+            m_conn = conn.SystemConnection;
+            ConnTools.InvokeVoid(m_pconn, GetSchemas, m_invoker, ShowTableSchemas);
         }
         private void GetSchemas()
         {
@@ -57,11 +59,11 @@ namespace DatAdmin
                     if (p == "null") ps.Add(null);
                     else ps.Add(p);
                 }
-                Async.InvokeVoid(delegate() { GetSchema(colname, ps.ToArray()); }, this, ShowTable);
+                ConnTools.InvokeVoid(m_pconn, delegate() { GetSchema(colname, ps.ToArray()); }, m_invoker, ShowTable);
             }
             else
             {
-                Async.InvokeVoid(delegate() { GetSchema(colname); }, this, ShowTable);
+                ConnTools.InvokeVoid(m_pconn, delegate() { GetSchema(colname); }, m_invoker, ShowTable);
             }
         }
 

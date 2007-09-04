@@ -49,12 +49,12 @@ namespace DatAdmin
 
         #region IWindowToolkit Members
 
-        public void OpenSchemaWindow(DbConnection conn)
+        public void OpenSchemaWindow(IPhysicalConnection conn)
         {
             OpenContent(new SchemaFrame(conn));
         }
 
-        public void OpenTable(ITableConnection conn)
+        public void OpenTable(ITableSource conn)
         {
             OpenContent(new TableDataFrame(conn));
         }

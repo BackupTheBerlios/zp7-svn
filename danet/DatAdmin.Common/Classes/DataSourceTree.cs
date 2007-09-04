@@ -8,11 +8,11 @@ namespace DatAdmin
 {
     public abstract class ConnectionTreeNode : TreeNodeBase
     {
-        ICommonConnection m_conn;
+        IPhysicalConnection m_conn;
         string m_filepath;
         bool m_connecting = false;
 
-        public ConnectionTreeNode(ICommonConnection conn, ITreeNode parent, string filepath)
+        public ConnectionTreeNode(IPhysicalConnection conn, ITreeNode parent, string filepath)
             : base(parent, System.IO.Path.GetFileName(filepath).ToLower())
         {
             m_conn = conn;
@@ -32,36 +32,46 @@ namespace DatAdmin
         {
             m_connecting = true;
             CallRefresh();
-            Async.InvokeVoid(DoConnect, RealNode, CallRefresh);
+            m_conn.Open().OnFinish(delegate()
+            {
+                OnConnect();
+                m_connecting = false; 
+                CallRefresh();
+            }, RealNode.Invoker);
+            //Async.InvokeVoid(DoConnect, RealNode, CallRefresh);
         }
         [PopupMenu("s_disconnect")]
         public void Disconnect()
         {
-            Async.InvokeVoid(DoDisconnect, RealNode, CallRefresh);
+            m_conn.Close().OnFinish(delegate()
+            {
+                OnDisconnect();
+                CallRefresh();
+            }, RealNode.Invoker);
         }
         [PopupMenu("s_show_schema")]
         public void ShowSchema()
         {
-            Toolkit.WindowToolkit.OpenSchemaWindow(m_conn.SystemConnection);
+            Toolkit.WindowToolkit.OpenSchemaWindow(m_conn);
         }
 
-        private void DoConnect()
-        {
-            try
-            {
-                m_conn.Open();
-                OnConnect();
-            }
-            finally
-            {
-                m_connecting = false;
-            }
-        }
-        private void DoDisconnect()
-        {
-            m_conn.Close();
-            OnDisconnect();
-        }
+        //private void DoConnect()
+        //{
+        //    try
+        //    {
+        //        m_conn.Open();
+        //        OnConnect();
+        //    }
+        //    finally
+        //    {
+        //        m_connecting = false;
+        //    }
+        //}
+        //private void DoDisconnect()
+        //{
+        //    m_conn.Close();
+        //    OnDisconnect();
+        //}
 
         protected virtual void OnConnect() { }
         protected virtual void OnDisconnect() { }
@@ -69,10 +79,10 @@ namespace DatAdmin
 
     public class ServerSourceConnectionTreeNode : ConnectionTreeNode
     {
-        IServerConnection m_conn;
+        IServerSource m_conn;
 
-        public ServerSourceConnectionTreeNode(IServerConnection conn, ITreeNode parent, string filepath)
-            : base(conn, parent, filepath)
+        public ServerSourceConnectionTreeNode(IServerSource conn, ITreeNode parent, string filepath)
+            : base(conn.Connection, parent, filepath)
         {
             m_conn = conn;
         }
@@ -81,7 +91,7 @@ namespace DatAdmin
         {
             get
             {
-                if (m_conn.State == ConnectionStatus.Open) return StdIcons.dbserver;
+                if (m_conn.Connection.IsOpened) return StdIcons.dbserver;
                 else return StdIcons.dbserver_disconnected;
             }
         }
@@ -97,7 +107,7 @@ namespace DatAdmin
         }
         public override ITreeNode[] GetChildren()
         {
-            if (m_conn.State == ConnectionStatus.Open)
+            if (m_conn.Connection.IsOpened)
             {
                 return new ITreeNode[] { new DatabasesTreeNode(m_conn, this) };
             }
@@ -111,9 +121,9 @@ namespace DatAdmin
     public class DatabasesTreeNode : TreeNodeBase
     {
         ITreeNode[] m_children = null;
-        IServerConnection m_conn;
+        IServerSource m_conn;
 
-        public DatabasesTreeNode(IServerConnection conn, ITreeNode parent)
+        public DatabasesTreeNode(IServerSource conn, ITreeNode parent)
             : base(parent, "databases")
         {
             m_conn = conn;
@@ -139,7 +149,7 @@ namespace DatAdmin
         {
             get
             {
-                if (m_conn.State == ConnectionStatus.Open)
+                if (m_conn.Connection.IsOpened)
                 {
                     return m_children != null;
                 }
@@ -148,7 +158,7 @@ namespace DatAdmin
         }
         public override void InvokeGetChildren(SimpleCallback callback)
         {
-            Async.InvokeVoid(DoGetChildren, RealNode, callback);
+            ConnTools.InvokeVoid(m_conn, DoGetChildren, RealNode.Invoker, callback);
         }
         public override string Title
         {
@@ -162,10 +172,10 @@ namespace DatAdmin
 
     public class DatabaseSourceTreeNode : TreeNodeBase
     {
-        IDatabaseConnection m_conn;
+        IDatabaseSource m_conn;
         string m_dbname;
 
-        public DatabaseSourceTreeNode(IDatabaseConnection conn, ITreeNode parent, string dbname)
+        public DatabaseSourceTreeNode(IDatabaseSource conn, ITreeNode parent, string dbname)
             : base(parent, dbname)
         {
             m_conn = conn;
@@ -195,10 +205,10 @@ namespace DatAdmin
 
     public class DatabaseSourceConnectionTreeNode : ConnectionTreeNode
     {
-        IDatabaseConnection m_conn;
+        IDatabaseSource m_conn;
 
-        public DatabaseSourceConnectionTreeNode(IDatabaseConnection conn, ITreeNode parent, string filepath)
-            : base(conn, parent, filepath)
+        public DatabaseSourceConnectionTreeNode(IDatabaseSource conn, ITreeNode parent, string filepath)
+            : base(conn.Connection, parent, filepath)
         {
             m_conn = conn;
         }
@@ -207,7 +217,7 @@ namespace DatAdmin
         {
             get
             {
-                if (m_conn.State == ConnectionStatus.Open) return StdIcons.database;
+                if (m_conn.Connection.IsOpened) return StdIcons.database;
                 else return StdIcons.database_disconnected;
             }
         }
@@ -223,7 +233,7 @@ namespace DatAdmin
         }
         public override ITreeNode[] GetChildren()
         {
-            if (m_conn.State == ConnectionStatus.Open)
+            if (m_conn.Connection.IsOpened)
             {
                 return new ITreeNode[] { new TablesTreeNode(m_conn, this) };
             }
@@ -237,9 +247,9 @@ namespace DatAdmin
     public class TablesTreeNode : TreeNodeBase
     {
         ITreeNode[] m_children = null;
-        IDatabaseConnection m_conn;
+        IDatabaseSource m_conn;
 
-        public TablesTreeNode(IDatabaseConnection conn, ITreeNode parent)
+        public TablesTreeNode(IDatabaseSource conn, ITreeNode parent)
             : base(parent, "tables")
         {
             m_conn = conn;
@@ -274,7 +284,7 @@ namespace DatAdmin
         }
         public override void InvokeGetChildren(SimpleCallback callback)
         {
-            Async.InvokeVoid(DoGetChildren, RealNode, callback);
+            ConnTools.InvokeVoid(m_conn, DoGetChildren, RealNode.Invoker, callback);
         }
         public override string Title
         {
@@ -284,10 +294,10 @@ namespace DatAdmin
 
     public class TableSourceTreeNode : TreeNodeBase
     {
-        ITableConnection m_conn;
+        ITableSource m_conn;
         string m_tblname;
 
-        public TableSourceTreeNode(ITableConnection conn, ITreeNode parent, string tblname)
+        public TableSourceTreeNode(ITableSource conn, ITreeNode parent, string tblname)
             : base(parent, tblname)
         {
             m_conn = conn;

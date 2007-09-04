@@ -11,10 +11,10 @@ namespace DatAdmin
 {
     public partial class TableDataFrame : ContentFrame
     {
-        ITableConnection m_conn;
+        ITableSource m_conn;
         DataTable m_table;
 
-        public TableDataFrame(ITableConnection conn)
+        public TableDataFrame(ITableSource conn)
         {
             InitializeComponent();
             m_conn = conn;
@@ -26,7 +26,7 @@ namespace DatAdmin
         }
         public void LoadData()
         {
-            Async.InvokeVoid(DoLoadData, this, LoadedData);
+            ConnTools.InvokeVoid(m_conn, DoLoadData, m_invoker, LoadedData);
         }
         void DoLoadData()
         {

@@ -6,72 +6,89 @@ using System.Data.Common;
 
 namespace DatAdmin
 {
-    public class GenericCommonConnection : ICommonConnection
+    public class GenericCommonSource : ICommonSource
     {
         protected DbConnection m_conn;
-        protected DbProviderFactory m_fact;
-        private IConnectionHooks m_hooks = new HooksBase();
+        protected IPhysicalConnection m_pconn;
+        //private IConnectionHooks m_hooks = new HooksBase();
 
+        public GenericCommonSource(IPhysicalConnection conn)
+        {
+            m_pconn = conn;
+            m_conn = m_pconn.SystemConnection;
+        }
+
+        /*
         public GenericCommonConnection(DbConnection conn, DbProviderFactory fact)
         {
             m_conn = conn;
             m_fact = fact;
         }
+        */
 
-        #region IServerConnection Members
+        //#region IServerConnection Members
 
-        public void Open()
+        //public void Open()
+        //{
+        //    m_hooks.BeforeOpen();
+        //    Logging.Info("Opening connection {0}", m_conn.ConnectionString);
+        //    m_conn.Open();
+        //    m_hooks.AfterOpen();
+        //}
+
+        //public void Close()
+        //{
+        //    m_hooks.BeforeClose();
+        //    m_conn.Close();
+        //    m_hooks.AfterClose();
+        //}
+
+        //public ConnectionStatus State
+        //{
+        //    get
+        //    {
+        //        ConnectionState state = m_conn.State;
+        //        if (state == ConnectionState.Open) return ConnectionStatus.Open;
+        //        else return ConnectionStatus.Closed;
+        //    }
+        //}
+
+        //public DbConnection SystemConnection
+        //{
+        //    get { return m_conn; }
+        //}
+
+        //public IConnectionHooks Hooks
+        //{
+        //    get { return m_hooks; }
+        //    set
+        //    {
+        //        m_hooks = value;
+        //        if (m_hooks == null) m_hooks = new HooksBase();
+        //    }
+        //}
+
+        //public DbProviderFactory DbFactory
+        //{
+        //    get { return m_fact; }
+        //}
+
+        //#endregion
+
+        #region ICommonSource Members
+
+        public IPhysicalConnection Connection
         {
-            m_hooks.BeforeOpen();
-            Logging.Info("Opening connection {0}", m_conn.ConnectionString);
-            m_conn.Open();
-            m_hooks.AfterOpen();
-        }
-
-        public void Close()
-        {
-            m_hooks.BeforeClose();
-            m_conn.Close();
-            m_hooks.AfterClose();
-        }
-
-        public ConnectionStatus State
-        {
-            get
-            {
-                ConnectionState state = m_conn.State;
-                if (state == ConnectionState.Open) return ConnectionStatus.Open;
-                else return ConnectionStatus.Closed;
-            }
-        }
-
-        public DbConnection SystemConnection
-        {
-            get { return m_conn; }
-        }
-
-        public IConnectionHooks Hooks
-        {
-            get { return m_hooks; }
-            set
-            {
-                m_hooks = value;
-                if (m_hooks == null) m_hooks = new HooksBase();
-            }
-        }
-
-        public DbProviderFactory DbFactory
-        {
-            get { return m_fact; }
+            get { return m_pconn; }
         }
 
         #endregion
     }
 
-    public class GenericServerConnection : GenericCommonConnection, IServerConnection
+    public class GenericServerSource : GenericCommonSource, IServerSource
     {
-        public GenericServerConnection(DbConnection conn, DbProviderFactory fact)
-            : base(conn, fact)
+        public GenericServerSource(IPhysicalConnection conn)
+            : base(conn)
         {
         }
 
@@ -89,25 +106,25 @@ namespace DatAdmin
             }
         }
 
-        public IDatabaseConnection GetDatabase(string name)
+        public IDatabaseSource GetDatabase(string name)
         {
-            return new GenericDatabaseConnection(m_conn, m_fact, name);
+            return new GenericDatabaseSource(m_pconn, name);
         }
 
         #endregion
     }
 
-    public class GenericDatabaseConnection : GenericCommonConnection, IDatabaseConnection
+    public class GenericDatabaseSource : GenericCommonSource, IDatabaseSource
     {
         string m_dbname = null;
 
-        public GenericDatabaseConnection(DbConnection conn, DbProviderFactory fact, string dbname)
-            : base(conn, fact)
+        public GenericDatabaseSource(IPhysicalConnection conn, string dbname)
+            : base(conn)
         {
             m_dbname = dbname;
         }
-        public GenericDatabaseConnection(DbConnection conn, DbProviderFactory fact)
-            : base(conn, fact)
+        public GenericDatabaseSource(IPhysicalConnection conn)
+            : base(conn)
         {
         }
 
@@ -128,21 +145,21 @@ namespace DatAdmin
             }
         }
 
-        public ITableConnection GetTable(string name)
+        public ITableSource GetTable(string name)
         {
-            return new GenericTableConnection(m_conn, m_fact, m_dbname, name);
+            return new GenericTableSource(m_pconn, m_dbname, name);
         }
 
         #endregion
     }
 
-    public class GenericTableConnection : GenericCommonConnection, ITableConnection
+    public class GenericTableSource : GenericCommonSource, ITableSource
     {
         string m_dbname;
         string m_tblname;
 
-        public GenericTableConnection(DbConnection conn, DbProviderFactory fact, string dbname, string tblname)
-            : base(conn, fact)
+        public GenericTableSource(IPhysicalConnection conn, string dbname, string tblname)
+            : base(conn)
         {
             m_dbname = dbname;
             m_tblname = tblname;
@@ -150,9 +167,9 @@ namespace DatAdmin
 
         public DataTable GetTabularData(TableDataProperties props)
         {
-            DbDataAdapter ada = m_fact.CreateDataAdapter();
+            DbDataAdapter ada = m_pconn.DbFactory.CreateDataAdapter();
             //DbCommandBuilder bld = m_fact.CreateCommandBuilder();
-            DbCommand cmd = m_fact.CreateCommand();
+            DbCommand cmd = m_pconn.DbFactory.CreateCommand();
             cmd.CommandText = "SELECT * FROM " + m_tblname;
             cmd.Connection = m_conn;
             ada.SelectCommand = cmd;

@@ -8,10 +8,12 @@ using System.Windows.Forms;
 
 namespace DatAdmin
 {
-    public partial class ContentFrame : UserControl, IInvoker
+    public partial class ContentFrame : UserControl
     {
+        protected ControlInvoker m_invoker;
         public ContentFrame()
         {
+            m_invoker = new ControlInvoker(this);
             InitializeComponent();
         }
         public virtual string PageTitle { get { return "content"; } }

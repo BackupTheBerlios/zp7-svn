@@ -26,8 +26,9 @@ namespace Plugin.sqlite
                 {
                     SQLiteStoredConnection con = SQLiteStoredConnection.Load(file);
                     SQLiteConnection sql = new SQLiteConnection(con.ConnectionString);
+                    GenericDbConnection physconn = new GenericDbConnection(sql, fact);
 
-                    IDatabaseConnection conn = new GenericDatabaseConnection(sql, fact);
+                    IDatabaseSource conn = new GenericDatabaseSource(physconn);
                     //ServerConnectionHooks hooks = new ServerConnectionHooks(conn);
                     //conn.Hooks = hooks;
                     return new DatabaseSourceConnectionTreeNode(conn, parent, file);
@@ -40,7 +41,8 @@ namespace Plugin.sqlite
             if (file.ToLower().EndsWith(".db3"))
             {
                 SQLiteConnection sql = new SQLiteConnection(String.Format("Data Source={0}", file));
-                IDatabaseConnection conn = new GenericDatabaseConnection(sql, fact);
+                GenericDbConnection physconn = new GenericDbConnection(sql, fact);
+                IDatabaseSource conn = new GenericDatabaseSource(physconn);
                 return new DatabaseSourceConnectionTreeNode(conn, parent, file);
             }
             return null;

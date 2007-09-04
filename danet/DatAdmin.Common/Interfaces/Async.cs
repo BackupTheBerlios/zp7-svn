@@ -25,9 +25,8 @@ namespace DatAdmin
         /// returns whether is completed synchonously, true eg. when small IO reads
         bool CompletedSynchronously { get;}
         /// registers calls callback, when finished, 
-        /// callback is sent to called thread, when possible
-        /// (if it is GUI thread)
-        void OnFinish(SimpleCallback callback);
+        /// callback is sent to invoker
+        void OnFinish(SimpleCallback callback, IInvoker invoker);
     }
 
     public interface IAsyncVoid : IAsyncBase
@@ -36,14 +35,16 @@ namespace DatAdmin
 
     public interface IInvoker
     {
-        void DoInvoke(SimpleCallback callback);
+        IAsyncVoid InvokeVoid(SimpleCallback callback);
+        IAsyncValue<T> InvokeValue<T>(ReturnValueCallback<T> callback);
+        //void DoInvoke(SimpleCallback callback);
     }
 
     public interface IAsyncValue<T> : IAsyncBase
     {
         /// gets result of call, if not finished, throws AsyncException
         T Result { get;}
-        void OnFinish(ValueCallback<T> callback);
+        void OnFinish(ValueCallback<T> callback, IInvoker invoker);
     }
 
     public interface IWaitDialog

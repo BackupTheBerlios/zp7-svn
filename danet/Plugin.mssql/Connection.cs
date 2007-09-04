@@ -15,18 +15,18 @@ namespace Plugin.mssql
         public bool OneDatabase;
     }
 
-    public class ServerConnectionHooks : HooksBase
-    {
-        IServerConnection m_conn;
-        public ServerConnectionHooks(IServerConnection conn)
-        {
-            m_conn = conn;
-        }
-        public override void AfterOpen()
-        {
-            m_conn.SystemConnection.ChangeDatabase("master");
-        }
-    }
+    //public class ServerConnectionHooks : HooksBase
+    //{
+    //    IServerSource m_conn;
+    //    public ServerConnectionHooks(IServerSource conn)
+    //    {
+    //        m_conn = conn;
+    //    }
+    //    public override void AfterOpen()
+    //    {
+    //        m_conn.SystemConnection.ChangeDatabase("master");
+    //    }
+    //}
 
     [NodeFactory]
     public class ConnectionFactory : INodeFactory
@@ -43,6 +43,7 @@ namespace Plugin.mssql
                     MsSqlStoredConnection con = MsSqlStoredConnection.Load(file);
                     SqlConnection sql = new SqlConnection(con.ConnectionString);
                     DbProviderFactory fact = SqlClientFactory.Instance;
+                    GenericDbConnection phys = new GenericDbConnection(sql, fact);
                     if (con.OneDatabase)
                     {
                         throw new Exception("not implemented");
@@ -51,9 +52,9 @@ namespace Plugin.mssql
                     }
                     else
                     {
-                        IServerConnection conn = new GenericServerConnection(sql, fact);
-                        ServerConnectionHooks hooks = new ServerConnectionHooks(conn);
-                        conn.Hooks = hooks;
+                        IServerSource conn = new GenericServerSource(phys);
+                        //ServerConnectionHooks hooks = new ServerConnectionHooks(conn);
+                        //conn.Hooks = hooks;
                         return new ServerSourceConnectionTreeNode(conn, parent, file);
                     }
                 }

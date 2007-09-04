@@ -7,10 +7,11 @@ namespace DatAdmin
 {
     public delegate ITreeNode CreateRootNodeDelegate();
 
-    public interface IRealTreeNode : IInvoker
+    public interface IRealTreeNode
     {
         void RefreshChilds();
         void RefreshSelf();
+        IInvoker Invoker { get;}
     }
 
 

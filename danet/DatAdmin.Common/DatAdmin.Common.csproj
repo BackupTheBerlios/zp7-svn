@@ -35,8 +35,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\AsyncBase.cs" />
     <Compile Include="Interfaces\Async.cs" />
-    <Compile Include="Classes\ConnectionThread.cs" />
+    <Compile Include="Classes\GenericDbConnection.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Interfaces\CreateFactory.cs" />
     <Compile Include="Interfaces\DataSource.cs" />
@@ -64,11 +65,15 @@
     <Compile Include="Tools\Async.cs" />
     <Compile Include="Tools\AsyncTool.cs" />
     <Compile Include="Classes\DataSourceTree.cs" />
+    <Compile Include="Tools\ConnTools.cs" />
+    <Compile Include="Tools\ControlInvoker.cs" />
     <Compile Include="Tools\Logging.cs" />
     <Compile Include="Tools\StdDialog.cs" />
     <Compile Include="Classes\StoredConnection.cs" />
     <Compile Include="Classes\TreeBase.cs" />
     <Compile Include="Interfaces\Tree.cs" />
+    <Compile Include="Tools\ThreadPool.cs" />
+    <Compile Include="Tools\WaitQueue.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="StdIcons.resx">

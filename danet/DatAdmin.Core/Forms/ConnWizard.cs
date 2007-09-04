@@ -64,21 +64,21 @@ namespace DatAdmin
 
         private void wpconnprops_CloseFromNext(object sender, Gui.Wizard.PageEventArgs e)
         {
-            string conns = m_builder.ConnectionString;
-            DbConnection conn = m_factory.CreateConnection();
-            conn.ConnectionString = conns;
-            IAsyncVoid res = Async.InvokeVoid(conn.Open);
-            try
-            {
-                res.Wait();
-            }
-            catch (Exception err)
-            {
-                StdDialog.ShowError(err);
-                e.Page = wpconnprops;
-                return;
-            }
-            e.Page = wpfinish;
+            //string conns = m_builder.ConnectionString;
+            //DbConnection conn = m_factory.CreateConnection();
+            //conn.ConnectionString = conns;
+            //IAsyncVoid res = Async.InvokeVoid(conn.Open);
+            //try
+            //{
+            //    res.Wait();
+            //}
+            //catch (Exception err)
+            //{
+            //    StdDialog.ShowError(err);
+            //    e.Page = wpconnprops;
+            //    return;
+            //}
+            //e.Page = wpfinish;
         }
 
         private void wpfinish_CloseFromNext(object sender, Gui.Wizard.PageEventArgs e)

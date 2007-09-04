@@ -13,6 +13,7 @@ namespace DatAdmin
     public partial class DATreeView : UserControl
     {
         NodeAdapter m_root = null;
+        internal ControlInvoker m_invoker;
         Dictionary<Bitmap, int> m_images = new Dictionary<Bitmap, int>();
 
         public ITreeNode Root { 
@@ -49,6 +50,7 @@ namespace DatAdmin
 
         public DATreeView()
         {
+            m_invoker = new ControlInvoker(this);
             InitializeComponent();
             //m_manager = new ResourceManager("StdIcons", typeof(DATreeView).Assembly);
         }
