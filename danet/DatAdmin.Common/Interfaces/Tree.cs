@@ -12,6 +12,9 @@ namespace DatAdmin
         void RefreshChilds();
         void RefreshSelf();
         IInvoker Invoker { get;}
+        void Expand();
+        void Collapse();
+        IRealTreeNode ChildByName(string name);
     }
 
 

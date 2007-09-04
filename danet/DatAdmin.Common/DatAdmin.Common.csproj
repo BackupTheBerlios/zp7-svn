@@ -63,7 +63,6 @@
     </Compile>
     <Compile Include="Interfaces\Texts.cs" />
     <Compile Include="Interfaces\Toolkit.cs" />
-    <Compile Include="Tools\Async.cs" />
     <Compile Include="Tools\AsyncTool.cs" />
     <Compile Include="Classes\DataSourceTree.cs" />
     <Compile Include="Tools\ConnTools.cs" />

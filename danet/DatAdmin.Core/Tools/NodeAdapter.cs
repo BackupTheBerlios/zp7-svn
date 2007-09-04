@@ -113,6 +113,15 @@ namespace DatAdmin
             get { return m_tree.m_invoker; }
         }
 
+        public IRealTreeNode ChildByName(string name)
+        {
+            foreach (NodeAdapter child in Nodes)
+            {
+                if (child.m_node.Name == name) return child;
+            }
+            return null;
+        }
+
         #endregion
 
     }

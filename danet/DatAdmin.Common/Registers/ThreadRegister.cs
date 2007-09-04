@@ -21,27 +21,41 @@ namespace DatAdmin
 
         public static void RegisterThread(Thread thread, SimpleCallback onquit)
         {
-            m_items.Add(new Item(thread, onquit));
+            lock (m_items)
+            {
+                m_items.Add(new Item(thread, onquit));
+            }
         }
         public static void RegisterThread(Thread thread)
         {
-            m_items.Add(new Item(thread, null));
+            lock (m_items)
+            {
+                m_items.Add(new Item(thread, null));
+            }
         }
         public static void UnregisterThread(Thread thread)
         {
-            Item remove = null;
-            foreach (Item item in m_items)
+            lock (m_items)
             {
-                if (item.m_thread == thread)
+                Item remove = null;
+                foreach (Item item in m_items)
                 {
-                    remove = item;
+                    if (item.m_thread == thread)
+                    {
+                        remove = item;
+                    }
                 }
+                m_items.Remove(remove);
             }
-            m_items.Remove(remove);
         }
         public static void QuitAllThreads()
         {
-            foreach (Item item in m_items)
+            Item[] items;
+            lock (m_items)
+            {
+                items = m_items.ToArray();
+            }
+            foreach (Item item in items)
             {
                 if (item.m_onquit != null) item.m_onquit();
                 if (item.m_thread.IsAlive) item.m_thread.Abort();

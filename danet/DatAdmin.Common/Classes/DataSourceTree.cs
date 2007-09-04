@@ -34,9 +34,9 @@ namespace DatAdmin
             CallRefresh();
             m_conn.Open().OnFinish(delegate()
             {
-                OnConnect();
                 m_connecting = false; 
                 CallRefresh();
+                OnConnect();
             }, RealNode.Invoker);
             //Async.InvokeVoid(DoConnect, RealNode, CallRefresh);
         }
@@ -97,6 +97,11 @@ namespace DatAdmin
         }
         protected override void OnDisconnect()
         {
+        }
+        protected override void OnConnect()
+        {
+            RealNode.Expand();
+            RealNode.ChildByName("databases").Expand();
         }
         public override void InvokeGetChildren(SimpleCallback callback)
         {
