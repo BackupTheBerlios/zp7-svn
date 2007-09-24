@@ -162,5 +162,10 @@ namespace zp8
                 }
             }
         }
+
+        public void ScrollPage(int dpage)
+        {
+            ((PreviewFrame)tabControl1.SelectedTab.Controls[0]).ScrollPage(dpage);
+        }
     }
 }

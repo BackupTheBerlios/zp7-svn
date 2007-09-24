@@ -63,6 +63,11 @@ namespace zp8
 
         private void tbpage_Scroll(object sender, EventArgs e)
         {
+            ChangedPage();
+        }
+
+        private void ChangedPage()
+        {
             lbpage.Text = m_source.PageTitle(tbpage.Value);
             Redraw();
         }
@@ -76,6 +81,16 @@ namespace zp8
                 XSize size = new XSize(plpage.Width * zoomControl1.Zoom, plpage.Height * zoomControl1.Zoom);
                 m_source.DrawPage(XGraphics.FromGraphics(e.Graphics, size), tbpage.Value);
                 e.Graphics.Restore(state);
+            }
+        }
+
+        public void ScrollPage(int dpage)
+        {
+            int newval = tbpage.Value + dpage;
+            if (newval >= tbpage.Minimum && newval <= tbpage.Maximum)
+            {
+                tbpage.Value = newval;
+                ChangedPage();
             }
         }
     }

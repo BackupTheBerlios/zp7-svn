@@ -5,7 +5,7 @@
     xmlns:sdb="http://zpevnik.net/InetSongDb.xsd" >
   <xsl:template match="/">
     <sdb:SongDb>
-      <xsl:apply-templates select='/zpevnik_data/database/song' mode='song'/>
+      <xsl:apply-templates select='/zpevnik_data/database/song|/zpevnik/items/song' mode='song'/>
     </sdb:SongDb>
   </xsl:template>
 

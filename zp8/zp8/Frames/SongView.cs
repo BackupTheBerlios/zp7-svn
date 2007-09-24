@@ -26,6 +26,9 @@ namespace zp8
         string m_drawtext;
         int m_basetone;
         SongDb.songRow m_song;
+        int m_colwidth = 0, m_colheight = 0; //no resized sizes
+        List<List<Pane>> m_cols = new List<List<Pane>>();
+        int m_colhspace = 20;
 
         public SongView()
         {
@@ -76,10 +79,47 @@ namespace zp8
         {
             if (m_drawtext != null)
             {
-                SongFormatter fmt = new SongFormatter(m_drawtext, CfgTools.CreateSongViewFormatOptions(panel1.Width / ViewScale));
-                fmt.Run();
-                m_panegrp = fmt.Result;
-                panel1.Height = (int)(m_panegrp.FullHeight * ViewScale);
+                if (edcolumns.Value == 1)
+                {
+                    SongFormatter fmt = new SongFormatter(m_drawtext, CfgTools.CreateSongViewFormatOptions(panel1.Width / ViewScale));
+                    fmt.Run();
+                    m_panegrp = fmt.Result;
+                    panel1.Height = (int)(m_panegrp.FullHeight * ViewScale);
+                    m_colheight = m_colwidth = 0;
+                }
+                else
+                {
+                    SongFormatter fmt = new SongFormatter(m_drawtext, CfgTools.CreateSongViewFormatOptions(panel1.Width / ViewScale / (int)edcolumns.Value));
+                    fmt.Run();
+                    m_panegrp = fmt.Result;
+                    int colcnt = (int)edcolumns.Value;
+                    m_colwidth = (ClientSize.Width - 8 - m_colhspace * (colcnt - 1)) / colcnt;
+                    m_colheight = ClientSize.Height - 8 - panel2.Height;
+                    m_cols.Clear();
+                    m_cols.Add(new List<Pane>());
+                    float colhi = 0;
+                    foreach (Pane pane in m_panegrp.Panes)
+                    {
+                        if (colhi + pane.Height * ViewScale > m_colheight)
+                        {
+                            m_cols.Add(new List<Pane>());
+                            colhi = 0;
+                        }
+
+                        List<Pane> lastpanes = m_cols[m_cols.Count - 1];
+                        if (lastpanes.Count == 0 && pane.IsDelimiter)
+                        {
+                            // preskocime delimitery na zacatku
+                        }
+                        else
+                        {
+                            colhi += pane.Height * ViewScale;
+                            lastpanes.Add(pane);
+                        }
+                    }
+                    panel1.Height = m_colheight;
+                    panel1.Width = m_cols.Count * m_colwidth + (m_cols.Count - 1) * m_colhspace;
+                }
             }
             else
             {
@@ -121,6 +161,11 @@ namespace zp8
 
         private void src_PositionChanged(object sender, EventArgs e)
         {
+            LoadSong();
+        }
+
+        public void LoadSong()
+        {
             try
             {
                 SetSong(m_dbwrap.SelectedSong);
@@ -137,7 +182,26 @@ namespace zp8
             {
                 GraphicsState state = e.Graphics.Save();
                 e.Graphics.ScaleTransform(ViewScale, ViewScale);
-                m_panegrp.Draw(XGraphics.FromGraphics(e.Graphics, new XSize(panel1.Width * ViewScale, panel1.Height * ViewScale)));
+                if (m_colwidth > 0)
+                {
+                    XGraphics gfx = XGraphics.FromGraphics(e.Graphics, new XSize(panel1.Width * ViewScale, panel1.Height * ViewScale));
+                    float x = 0;
+                    foreach (List<Pane> panes in m_cols)
+                    {
+                        float y = 0;
+                        foreach (Pane pane in panes)
+                        {
+                            pane.Draw(gfx, new PointF(x, y), true);
+                            y += pane.Height;
+                        }
+                        x += m_colwidth / ViewScale + m_colhspace / ViewScale;
+                        gfx.DrawLine(XPens.Black, x - m_colhspace / ViewScale / 2, 0, x - m_colhspace / ViewScale / 2, m_colheight / ViewScale);
+                    }
+                }
+                else
+                {
+                    m_panegrp.Draw(XGraphics.FromGraphics(e.Graphics, new XSize(panel1.Width * ViewScale, panel1.Height * ViewScale)));
+                }
                 e.Graphics.Restore(state);
             }
         }
@@ -187,6 +251,11 @@ namespace zp8
         {
             get { return m_origtext; }
             set { SetText(value); }
+        }
+
+        private void edcolumns_ValueChanged(object sender, EventArgs e)
+        {
+            Redraw();
         }
     }
 }

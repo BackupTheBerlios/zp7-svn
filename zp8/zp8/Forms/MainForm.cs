@@ -170,6 +170,7 @@ namespace zp8
             }
             songDatabaseWrapper1.Database = SelectedDbOrSb;
             UpdateDbState();
+            songView1.LoadSong();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -455,6 +456,7 @@ namespace zp8
                 songDatabaseWrapper1.SongBindingSource.Filter = null;
             }
             songsByGroupFrame1.Reload();
+            songView1.LoadSong();
         }
 
         private void tbfilter_KeyDown(object sender, KeyEventArgs e)
@@ -512,6 +514,20 @@ namespace zp8
         private void obsahToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "zp8.chm"));
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (TabControl1.SelectedTab == tbsongbook)
+            {
+                if (e.KeyCode == Keys.PageUp) songBookFrame1.ScrollPage(-1);
+                if (e.KeyCode == Keys.PageDown) songBookFrame1.ScrollPage(1);
+            }
+        }
+
+        private void kinoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (songView1.Song != null) ViewSongForm.ShowSong(songView1.Song);
         }
     }
 }

@@ -121,6 +121,12 @@
     <Compile Include="Forms\TemplateTextForm.Designer.cs">
       <DependentUpon>TemplateTextForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ViewSongForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ViewSongForm.Designer.cs">
+      <DependentUpon>ViewSongForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\VisibleColumnsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -264,6 +270,10 @@
     <EmbeddedResource Include="Forms\TemplateTextForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>TemplateTextForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ViewSongForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ViewSongForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\VisibleColumnsForm.resx">
       <SubType>Designer</SubType>
@@ -430,6 +440,7 @@
   <ItemGroup>
     <Content Include="..\zp6_to_zp8.xsl" />
     <Content Include="favicon.ico" />
+    <Content Include="todo.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

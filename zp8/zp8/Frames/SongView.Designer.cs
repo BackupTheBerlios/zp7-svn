@@ -33,8 +33,11 @@ namespace zp8
             this.btreset = new System.Windows.Forms.Button();
             this.cbtransp = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.edcolumns = new System.Windows.Forms.NumericUpDown();
             this.zczoom = new zp8.ZoomControl();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.edcolumns)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -49,6 +52,8 @@ namespace zp8
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.Control;
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Controls.Add(this.edcolumns);
             this.panel2.Controls.Add(this.zczoom);
             this.panel2.Controls.Add(this.btreset);
             this.panel2.Controls.Add(this.cbtransp);
@@ -56,7 +61,7 @@ namespace zp8
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(461, 42);
+            this.panel2.Size = new System.Drawing.Size(573, 42);
             this.panel2.TabIndex = 1;
             // 
             // btreset
@@ -102,6 +107,38 @@ namespace zp8
             this.label2.TabIndex = 2;
             this.label2.Text = "Transpozice";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(385, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(46, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Sloupce";
+            // 
+            // edcolumns
+            // 
+            this.edcolumns.Location = new System.Drawing.Point(437, 13);
+            this.edcolumns.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.edcolumns.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.edcolumns.Name = "edcolumns";
+            this.edcolumns.Size = new System.Drawing.Size(45, 20);
+            this.edcolumns.TabIndex = 8;
+            this.edcolumns.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.edcolumns.ValueChanged += new System.EventHandler(this.edcolumns_ValueChanged);
+            // 
             // zczoom
             // 
             this.zczoom.Location = new System.Drawing.Point(3, 2);
@@ -119,10 +156,11 @@ namespace zp8
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "SongView";
-            this.Size = new System.Drawing.Size(461, 488);
+            this.Size = new System.Drawing.Size(573, 488);
             this.Resize += new System.EventHandler(this.SongView_Resize);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.edcolumns)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -135,6 +173,8 @@ namespace zp8
         private System.Windows.Forms.ComboBox cbtransp;
         private System.Windows.Forms.Button btreset;
         private zp8.ZoomControl zczoom;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown edcolumns;
 
     }
 }
