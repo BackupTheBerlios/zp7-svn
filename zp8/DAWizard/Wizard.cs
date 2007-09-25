@@ -106,7 +106,7 @@ namespace Gui.Wizard
 			this.btnCancel.Location = new System.Drawing.Point(356, 12);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.TabIndex = 5;
-			this.btnCancel.Text = "Cancel";
+			this.btnCancel.Text = "Storno";
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			// 
 			// btnNext
@@ -116,7 +116,7 @@ namespace Gui.Wizard
 			this.btnNext.Location = new System.Drawing.Point(272, 12);
 			this.btnNext.Name = "btnNext";
 			this.btnNext.TabIndex = 4;
-			this.btnNext.Text = "&Next >";
+			this.btnNext.Text = "&Další >";
 			this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
 			this.btnNext.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnNext_MouseDown);
 			// 
@@ -127,7 +127,7 @@ namespace Gui.Wizard
 			this.btnBack.Location = new System.Drawing.Point(196, 12);
 			this.btnBack.Name = "btnBack";
 			this.btnBack.TabIndex = 3;
-			this.btnBack.Text = "< &Back";
+			this.btnBack.Text = "< &Pøedchozí";
 			this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
 			this.btnBack.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnBack_MouseDown);
 			// 
@@ -286,14 +286,14 @@ namespace Gui.Wizard
 			if (vPages.IndexOf(vActivePage) < vPages.Count-1
 				&& vActivePage.IsFinishPage == false)
 			{
-				btnNext.Text = "&Next >";
+				btnNext.Text = "&Další >";
 				btnNext.Enabled = true;
 				//Don't close the wizard :)
 				btnNext.DialogResult = DialogResult.None;
 			}
 			else
 			{
-				btnNext.Text = "Fi&nish";
+				btnNext.Text = "Do&konèit";
 				//Dont allow a finish in designer
 				if (DesignMode == true
 					&& vPages.IndexOf(vActivePage) == vPages.Count-1)
