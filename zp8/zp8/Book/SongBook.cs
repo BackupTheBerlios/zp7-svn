@@ -234,8 +234,11 @@ namespace zp8
             {
                 if (m_fbook == null)
                 {
-                    LogPages pages = Sequence.CreateLogPages(this);
-                    m_fbook = new FormattedBook(pages, Layout, PageDrawOptions);
+                    using (IWaitDialog wait = WaitForm.Show("Formátuji zpìvník", false))
+                    {
+                        LogPages pages = Sequence.CreateLogPages(this);
+                        m_fbook = new FormattedBook(pages, Layout, PageDrawOptions);
+                    }
                 }
                 return m_fbook;
             }
@@ -318,6 +321,7 @@ namespace zp8
 
             XmlNode songs = doc.DocumentElement.SelectSingleNode("sb:Songs", mgr);
             m_dataset.ReadXml(new XmlNodeReader(songs.FirstChild));
+            m_dataset.AcceptChanges();
 
             XmlNode options = doc.DocumentElement.SelectSingleNode("opt:Options", mgr);
             Options.LoadOptions((XmlElement)options, this);
