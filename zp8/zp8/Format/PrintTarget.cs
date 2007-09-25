@@ -14,6 +14,8 @@ namespace zp8
     {
         SizeF GetPageSize(PageOrientation orientation);
         XGraphics GetInfoContext(PageOrientation orientation);
+        float mmkx { get;} // milimeters * mmkx = page coords
+        float mmky { get;} // milimeters * mmkx = page coords
         //float Width { get;}
         //float Height { get;}
     }
@@ -24,6 +26,8 @@ namespace zp8
         static PdfPage m_page;
         static XGraphics m_info;
         static Size m_size;
+        static float m_mmkx;
+        static float m_mmky;
 
         public static XGraphics InfoContext { get { return m_info; } }
 
@@ -33,6 +37,8 @@ namespace zp8
             m_page = m_doc.AddPage();
             m_info = XGraphics.FromPdfPage(m_page);
             m_size = PageSizeConverter.ToSize(m_page.Size);
+            m_mmkx = m_size.Width / 210.0f;
+            m_mmky = m_size.Height / 297.0f;
         }
         //PdfPage m_page;
         //public PdfPrintTarget(PdfPage page)
@@ -75,6 +81,16 @@ namespace zp8
             return m_info;
         }
 
+        public float mmkx
+        {
+            get { return m_mmkx; }
+        }
+
+        public float mmky
+        {
+            get { return m_mmky; }
+        }
+
         #endregion
 
         #region IDisposable Members
@@ -90,6 +106,8 @@ namespace zp8
         Graphics m_infoDC;
         XGraphics m_info;
         float m_w0, m_h0;
+        float m_mmkx;
+        float m_mmky;
 
         public PrinterPrintTarget(PrinterSettings settings)
         {
@@ -99,6 +117,8 @@ namespace zp8
             m_w0 = m_infoDC.VisibleClipBounds.Width;
             m_h0 = m_infoDC.VisibleClipBounds.Height;
             m_info = XGraphics.FromGraphics(m_infoDC, new XSize(m_w0, m_h0));
+            m_mmkx = m_w0 / 210.0f;
+            m_mmky = m_h0 / 297.0f;
         }
 
         #region IPrintTarget Members
@@ -118,6 +138,16 @@ namespace zp8
         public XGraphics GetInfoContext(PageOrientation orientation)
         {
             return m_info;
+        }
+
+        public float mmkx
+        {
+            get { return m_mmkx; }
+        }
+
+        public float mmky
+        {
+            get { return m_mmky; }
         }
 
         #endregion

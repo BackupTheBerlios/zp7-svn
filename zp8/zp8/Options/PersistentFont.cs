@@ -154,7 +154,15 @@ namespace zp8
             XFont res = new XFont(FontName, worldSize, ToXFontStyle(this), XFontOptions);
             return res;
         }
-        public bool Bold { 
+        //public XFont ToXFont(float mmkx)
+        //{
+        //    //float worldSize = FontSize * MainForm.MainGraphics.DpiX / 72.0f;
+        //    float worldSize = FontSize * MainForm.MainGraphics.DpiX / 72.0f;
+        //    XFont res = new XFont(FontName, worldSize, ToXFontStyle(this), XFontOptions);
+        //    return res;
+        //}
+        public bool Bold
+        { 
             get { return (m_fontStyle & FontStyle.Bold) == FontStyle.Bold; }
             set { if (value) m_fontStyle |= FontStyle.Bold; else m_fontStyle &= ~FontStyle.Bold; }
         }

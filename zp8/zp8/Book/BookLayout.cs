@@ -26,6 +26,9 @@ namespace zp8
         float? m_bigWidth;
         float? m_bigHeight;
 
+        float m_mmkx;
+        float m_mmky;
+
         PageOrientation m_orientation;
 
         DistribType m_dtype = DistribType.Book;
@@ -74,9 +77,11 @@ namespace zp8
                 SizeF size = m_printTarget.GetPageSize(m_orientation);
                 m_bigWidth = size.Width;
                 m_bigHeight = size.Height;
+                m_mmkx = m_printTarget.mmkx;
+                m_mmky = m_printTarget.mmky;
 
-                m_smallWidth = m_bigWidth.Value / m_hcnt - m_dleft - m_dright;
-                m_smallHeight = m_bigHeight.Value / m_vcnt - m_dtop - m_dbottom;
+                m_smallWidth = m_bigWidth.Value / m_hcnt - m_dleft * m_mmkx - m_dright * m_mmkx;
+                m_smallHeight = m_bigHeight.Value / m_vcnt - m_dtop * m_mmky - m_dbottom * m_mmky;
             }
             else
             {
@@ -117,7 +122,7 @@ namespace zp8
         {
             float w0 = m_bigWidth.Value / m_hcnt;
             float h0 = m_bigHeight.Value / m_vcnt;
-            return new PointF(x * w0 + m_dleft, y * h0 + m_dtop);
+            return new PointF(x * w0 + m_dleft * m_mmkx, y * h0 + m_dtop * m_mmky);
         }
 
     }
