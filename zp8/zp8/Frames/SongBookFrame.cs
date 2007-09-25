@@ -56,7 +56,9 @@ namespace zp8
             }
             if (m_fbook != null)
             {
+                previewFrame1.mmky = m_book.PrintTarget.mmky;
                 previewFrame1.Source = m_fbook.GetPreview();
+                previewFrame2.mmky = m_book.PrintTarget.mmky;
                 previewFrame2.Source = m_fbook.GetLogicalPreview();
             }
             else

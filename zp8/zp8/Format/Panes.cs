@@ -27,9 +27,9 @@ namespace zp8
             PageWidth = pgwi;
         }
 
-        public static void ConvertFont(PersistentFont pfont, out XFont xfont, out XBrush xcolor)
+        public static void ConvertFont(PersistentFont pfont, out XFont xfont, out XBrush xcolor, float mmky)
         {
-            xfont = pfont.ToXFont();
+            xfont = pfont.ToXFont(mmky);
             using (Brush br = new SolidBrush(pfont.FontColor)) xcolor = (XBrush)br;
         }
     }

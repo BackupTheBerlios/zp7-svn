@@ -13,6 +13,9 @@ namespace zp8
     public partial class PreviewFrame : UserControl
     {
         IPreviewSource m_source;
+        float m_mmky;
+        float m_zoomFactor = 1;
+
         public PreviewFrame()
         {
             InitializeComponent();
@@ -45,8 +48,9 @@ namespace zp8
         {
             if (m_source != null)
             {
-                plpage.Width = (int)(m_source.PageWidth * zoomControl1.Zoom);
-                plpage.Height = (int)(m_source.PageHeight * zoomControl1.Zoom);
+                float zoom = zoomControl1.Zoom * m_zoomFactor;
+                plpage.Width = (int)(m_source.PageWidth * zoom);
+                plpage.Height = (int)(m_source.PageHeight * zoom);
                 plpage.Invalidate();
             }
             else
@@ -76,9 +80,10 @@ namespace zp8
         {
             if (m_source != null)
             {
+                float zoom = zoomControl1.Zoom * m_zoomFactor;
                 GraphicsState state = e.Graphics.Save();
-                e.Graphics.ScaleTransform(zoomControl1.Zoom, zoomControl1.Zoom);
-                XSize size = new XSize(plpage.Width * zoomControl1.Zoom, plpage.Height * zoomControl1.Zoom);
+                e.Graphics.ScaleTransform(zoom, zoom);
+                XSize size = new XSize(plpage.Width * zoom, plpage.Height * zoom);
                 m_source.DrawPage(XGraphics.FromGraphics(e.Graphics, size), tbpage.Value);
                 e.Graphics.Restore(state);
             }
@@ -91,6 +96,16 @@ namespace zp8
             {
                 tbpage.Value = newval;
                 ChangedPage();
+            }
+        }
+
+        public float mmky
+        {
+            get { return m_mmky; }
+            set
+            {
+                m_mmky = value;
+                m_zoomFactor = 2.834f / m_mmky;
             }
         }
     }

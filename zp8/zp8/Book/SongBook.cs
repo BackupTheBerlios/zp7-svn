@@ -255,7 +255,7 @@ namespace zp8
         {
             get
             {
-                if (m_songFormatOptions == null) m_songFormatOptions = new SongFormatOptions(m_layout.SmallPageWidth, PrintTarget.GetInfoContext(Layout.Orientation), m_fonts.TextFont, m_fonts.ChordFont, m_fonts.LabelFont);
+                if (m_songFormatOptions == null) m_songFormatOptions = new SongFormatOptions(m_layout.SmallPageWidth, PrintTarget.GetInfoContext(Layout.Orientation), m_fonts.TextFont, m_fonts.ChordFont, m_fonts.LabelFont, PrintTarget.mmky);
                 return m_songFormatOptions;
             }
         }
@@ -263,7 +263,7 @@ namespace zp8
         {
             get
             {
-                if (m_bookFormatOptions == null) m_bookFormatOptions = new BookFormatOptions(m_layout.SmallPageWidth, PrintTarget.GetInfoContext(Layout.Orientation), Fonts, Formatting, SongFormatOptions);
+                if (m_bookFormatOptions == null) m_bookFormatOptions = new BookFormatOptions(m_layout.SmallPageWidth, PrintTarget.GetInfoContext(Layout.Orientation), Fonts, Formatting, SongFormatOptions, PrintTarget.mmky);
                 return m_bookFormatOptions;
             }
         }
@@ -271,7 +271,7 @@ namespace zp8
         {
             get
             {
-                if (m_pageDrawOptions == null) m_pageDrawOptions = new PageDrawOptions(Layout.SmallPageWidth, Layout.SmallPageHeight, Fonts.HeaderFont, Fonts.FooterFont, Formatting.Header, Formatting.Footer);
+                if (m_pageDrawOptions == null) m_pageDrawOptions = new PageDrawOptions(Layout.SmallPageWidth, Layout.SmallPageHeight, Fonts.HeaderFont, Fonts.FooterFont, Formatting.Header, Formatting.Footer, PrintTarget.mmky);
                 return m_pageDrawOptions;
             }
         }
@@ -400,7 +400,8 @@ namespace zp8
                 Fonts.OutlineTitleFont, 
                 Fonts.PageNumberFont, 
                 OutlineProperties.Columns, 
-                this);
+                this,
+                PrintTarget.mmky);
             OutlineFormatter fmt = new OutlineFormatter(opt, GetSongs(OutlineProperties.Order));
             fmt.Run();
             return fmt.Result;

@@ -28,12 +28,13 @@ namespace zp8
         public readonly float ChordHeight;
         public readonly float LabelHeight;
 
-        public SongFormatOptions(float pgwi, XGraphics infoContext, PersistentFont textFont, PersistentFont chordFont, PersistentFont labelFont)
+        public SongFormatOptions(float pgwi, XGraphics infoContext, PersistentFont textFont, PersistentFont chordFont, PersistentFont labelFont, float mmky)
             : base(pgwi, infoContext)
         {
-            ConvertFont(textFont, out TextFont, out TextColor);
-            ConvertFont(chordFont, out ChordFont, out ChordColor);
-            ConvertFont(labelFont, out LabelFont, out LabelColor);
+            //float mmky = CfgTools.Getmmky(infoContext);
+            ConvertFont(textFont, out TextFont, out TextColor, mmky);
+            ConvertFont(chordFont, out ChordFont, out ChordColor, mmky);
+            ConvertFont(labelFont, out LabelFont, out LabelColor, mmky);
 
             HTextSpace = (float)InfoContext.MeasureString("i", TextFont).Width;
             HChordSpace = (float)InfoContext.MeasureString("i", ChordFont).Width;

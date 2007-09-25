@@ -17,10 +17,10 @@ namespace zp8
         public readonly float PageWidth;
         public readonly float PageHeight;
 
-        public PageDrawOptions(float pgwi, float pghi, PersistentFont headerFont, PersistentFont footerFont, string header, string footer)
+        public PageDrawOptions(float pgwi, float pghi, PersistentFont headerFont, PersistentFont footerFont, string header, string footer, float mmky)
         {
-            FormatOptions.ConvertFont(headerFont, out HeaderFont, out HeaderColor);
-            FormatOptions.ConvertFont(footerFont, out FooterFont, out FooterColor);
+            FormatOptions.ConvertFont(headerFont, out HeaderFont, out HeaderColor, mmky);
+            FormatOptions.ConvertFont(footerFont, out FooterFont, out FooterColor, mmky);
             Header = header;
             Footer = footer;
             PageWidth = pgwi;

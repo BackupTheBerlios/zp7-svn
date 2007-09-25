@@ -148,9 +148,11 @@ namespace zp8
             return new Font(FontName, FontSize, FontStyle);
         }
 
-        public XFont ToXFont()
+        public XFont ToXFont(float mmky)
         {
-            float worldSize = FontSize * MainForm.MainGraphics.DpiX / 72.0f;
+            //float worldSize = FontSize * MainForm.MainGraphics.DpiX / 72.0f;
+            //float worldSize = FontSize * (mmky / 2.834f) * 96.0f / 72.0f;
+            float worldSize = FontSize * (mmky / 2.834f);
             XFont res = new XFont(FontName, worldSize, ToXFontStyle(this), XFontOptions);
             return res;
         }

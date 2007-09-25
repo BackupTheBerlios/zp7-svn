@@ -15,11 +15,13 @@ namespace zp8
         SongDb.songRow m_song;
         IEnumerator<LogPage> m_actpage;
         PrinterSettings m_settings;
+        PrinterPrintTarget m_target;
 
         public SongPrinter(SongDb.songRow song, PrinterSettings settings)
         {
             m_song = song;
             m_settings = settings;
+            m_target = new PrinterPrintTarget(m_settings);
         }
 
         public void Run()
@@ -35,7 +37,7 @@ namespace zp8
             XGraphics gfx = XGraphics.FromGraphics(e.Graphics, new XSize(e.PageBounds.Width, e.PageBounds.Height));
             if (m_actpage == null)
             {
-                LogPages pages = FormatSongForPrinting(m_song, e.PageBounds.Width, gfx, e.PageBounds.Height);
+                LogPages pages = FormatSongForPrinting(m_song, e.PageBounds.Width, gfx, e.PageBounds.Height, m_target.mmky);
                 m_actpage = pages.Pages.GetEnumerator();
                 m_actpage.MoveNext();
             }
@@ -43,9 +45,10 @@ namespace zp8
             e.HasMorePages = m_actpage.MoveNext();
         }
 
-        public static LogPages FormatSongForPrinting(SongDb.songRow song, float pgwi, XGraphics infoContext, float pghi)
+        public static LogPages FormatSongForPrinting(SongDb.songRow song, float pgwi, XGraphics infoContext, float pghi, float mmky)
         {
-            SongPrintFormatOptions opt = CfgTools.CreateSongPrintFormatOptions(pgwi, infoContext);
+            //PrinterPrintTarget target=new PrinterPrintTarget(
+            SongPrintFormatOptions opt = CfgTools.CreateSongPrintFormatOptions(pgwi, infoContext, mmky);
             SongFormatter fmt = new SongFormatter(song.SongText, opt.SongOptions);
             fmt.Run();
             PaneGrp grp = fmt.Result;
@@ -63,7 +66,7 @@ namespace zp8
         {
             PdfDocument doc = new PdfDocument();
             PdfPage page = doc.AddPage();
-            LogPages pages = SongPrinter.FormatSongForPrinting(song, PageSizeConverter.ToSize(page.Size).Width, PdfPrintTarget.InfoContext, PageSizeConverter.ToSize(page.Size).Height);
+            LogPages pages = SongPrinter.FormatSongForPrinting(song, PageSizeConverter.ToSize(page.Size).Width, PdfPrintTarget.InfoContext, PageSizeConverter.ToSize(page.Size).Height, PdfPrintTarget.getmmky());
             foreach (LogPage lp in pages.Pages)
             {
                 lp.DrawPage(XGraphics.FromPdfPage(page), new PointF(0, 0), null);

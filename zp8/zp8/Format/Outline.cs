@@ -22,11 +22,11 @@ namespace zp8
         public readonly float NumberHeight;
         public readonly SongBook SongBook;
 
-        public OutlineFormatOptions(float pgwi, float pghi, XGraphics infoContex, PersistentFont titleFont, PersistentFont numberFont, int columns, SongBook songBook)
-            : base(pgwi, infoContex)
+        public OutlineFormatOptions(float pgwi, float pghi, XGraphics infoContext, PersistentFont titleFont, PersistentFont numberFont, int columns, SongBook songBook, float mmky)
+            : base(pgwi, infoContext)
         {
-            ConvertFont(titleFont, out TitleFont, out TitleColor);
-            ConvertFont(numberFont, out NumberFont, out NumberColor);
+            ConvertFont(titleFont, out TitleFont, out TitleColor, mmky);
+            ConvertFont(numberFont, out NumberFont, out NumberColor, mmky);
             PageHeight = pghi;
             Columns = columns;
 

@@ -40,6 +40,9 @@ namespace zp8
             m_mmkx = m_size.Width / 210.0f;
             m_mmky = m_size.Height / 297.0f;
         }
+        public static float getmmkx() { return m_mmkx; }
+        public static float getmmky() { return m_mmky; }
+
         //PdfPage m_page;
         //public PdfPrintTarget(PdfPage page)
         //{
