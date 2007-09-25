@@ -175,6 +175,37 @@ namespace zp8
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            foreach (SongBook book in SongBook.Manager.SongBooks)
+            {
+                if (book.Modified)
+                {
+                    DialogResult res = MessageBox.Show("Zpìvník " + book.Title + " zmìnìn, uložit?", "Zpìvníkátor", MessageBoxButtons.YesNoCancel);
+                    if (res == DialogResult.No) continue;
+                    if (res == DialogResult.Cancel)
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
+                    if (book.FileName != null && book.FileName != "")
+                    {
+                        book.Save();
+                    }
+                    else
+                    {
+                        if (saveZP.ShowDialog() == DialogResult.OK)
+                        {
+                            book.FileName = saveZP.FileName;
+                        }
+                        else
+                        {
+                            e.Cancel = true;
+                            return;
+                        }
+                        book.Save();
+                    }
+                }
+            }
+
             string dbs = "";
             foreach (SongDatabase db in DbManager.Manager.GetDatabases())
             {
@@ -200,7 +231,6 @@ namespace zp8
                             db.Commit();
                 }
             }
-            
         }
 
         private void mnuSaveDb_Click(object sender, EventArgs e)

@@ -74,6 +74,7 @@ namespace zp8
             {
                 OptionsForm.Run(m_book);
                 m_book.ClearCaches();
+                m_book.SetModifyFlag();
                 Format();
             }
         }
@@ -94,6 +95,7 @@ namespace zp8
             {
                 m_book.SetBookStyle(newstyle);
                 m_book.ClearCaches();
+                m_book.SetModifyFlag();
                 Format();
             }
         }

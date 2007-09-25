@@ -52,6 +52,7 @@ namespace zp8
             this.Name = "ViewSongForm";
             this.Text = "Kino";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ViewSongForm_FormClosing);
             this.ResumeLayout(false);
 
         }

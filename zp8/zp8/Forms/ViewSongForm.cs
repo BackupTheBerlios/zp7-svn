@@ -41,5 +41,11 @@ namespace zp8
             }
 
         }
+
+        private void ViewSongForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            Hide();
+        }
     }
 }

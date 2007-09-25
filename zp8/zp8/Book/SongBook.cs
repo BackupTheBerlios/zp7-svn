@@ -141,6 +141,7 @@ namespace zp8
     {
         public static readonly SongBookManager Manager = new SongBookManager();
         string m_filename;
+        bool m_modifyFlag;
         BookLayout m_layout = new BookLayout();
         SongBookFormatting m_formatting = new SongBookFormatting();
         //BookSequence m_sequence;
@@ -197,7 +198,7 @@ namespace zp8
         {
             get
             {
-                return m_dataset.HasChanges();
+                return m_dataset.HasChanges() || m_modifyFlag;
             }
         }
         public string FileName { get { return m_filename; } set { m_filename = value; } }
@@ -212,6 +213,7 @@ namespace zp8
                 Options.SaveOptions(xw, this);
                 xw.WriteEndElement();
             }
+            m_modifyFlag = false;
         }
 
         [PropertyPage(Name = "fonts", Title = "Fonty")]
@@ -398,6 +400,11 @@ namespace zp8
             OutlineFormatter fmt = new OutlineFormatter(opt, GetSongs(OutlineProperties.Order));
             fmt.Run();
             return fmt.Result;
+        }
+
+        public void SetModifyFlag()
+        {
+            m_modifyFlag = true;
         }
     }
 }
