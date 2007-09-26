@@ -608,7 +608,7 @@ namespace zp8
             this.kinoToolStripMenuItem.Name = "kinoToolStripMenuItem";
             this.kinoToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
             this.kinoToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.kinoToolStripMenuItem.Text = "Kino";
+            this.kinoToolStripMenuItem.Text = "Prohlížet";
             this.kinoToolStripMenuItem.Click += new System.EventHandler(this.kinoToolStripMenuItem_Click);
             // 
             // upravitPíseòToolStripMenuItem
@@ -616,7 +616,7 @@ namespace zp8
             this.upravitPíseòToolStripMenuItem.Name = "upravitPíseòToolStripMenuItem";
             this.upravitPíseòToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
             this.upravitPíseòToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.upravitPíseòToolStripMenuItem.Text = "Upravit píseò";
+            this.upravitPíseòToolStripMenuItem.Text = "Upravit";
             this.upravitPíseòToolStripMenuItem.Click += new System.EventHandler(this.upravitPíseòToolStripMenuItem_Click);
             // 
             // smazatToolStripMenuItem

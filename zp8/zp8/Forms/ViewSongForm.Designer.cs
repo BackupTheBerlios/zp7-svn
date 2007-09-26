@@ -50,7 +50,7 @@ namespace zp8
             this.ClientSize = new System.Drawing.Size(499, 420);
             this.Controls.Add(this.songView1);
             this.Name = "ViewSongForm";
-            this.Text = "Kino";
+            this.Text = "Prohlížení písnì";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ViewSongForm_FormClosing);
             this.ResumeLayout(false);
