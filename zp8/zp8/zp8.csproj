@@ -49,6 +49,7 @@
     <Compile Include="Filters\HtmlFilters.cs" />
     <Compile Include="Filters\FilterIntf.cs" />
     <Compile Include="Filters\MultipleFileFilters.cs" />
+    <Compile Include="Filters\PocketFilters.cs" />
     <Compile Include="Filters\RTFFilters.cs" />
     <Compile Include="Filters\SingleFileFilters.cs" />
     <Compile Include="Filters\SongDataAnalyser.cs" />
@@ -403,6 +404,7 @@
     </Compile>
     <Compile Include="Options\PersistentFont.cs" />
     <Compile Include="Tools\DbTools.cs" />
+    <Compile Include="Tools\IOTools.cs" />
     <Compile Include="Tools\Logging.cs" />
     <Compile Include="Tools\Printing.cs" />
     <Compile Include="Tools\Searching.cs" />
