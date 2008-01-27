@@ -40,12 +40,15 @@ namespace pocketzp
     public class PaneGrp
     {
         List<Pane> m_panes = new List<Pane>();
-        public void Draw(Graphics gfx)
+        public void Draw(Graphics gfx, float y0, float drawheight)
         {
             float y = 0;
             foreach (Pane pane in m_panes)
             {
-                pane.Draw(gfx, new PointF(0, y), true);
+                if (y + pane.Height > y0 && y < y0 + drawheight)
+                {
+                    pane.Draw(gfx, new PointF(0, y), true);
+                }
                 y += pane.Height;
             }
         }

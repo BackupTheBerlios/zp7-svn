@@ -33,6 +33,7 @@ namespace pocketzp
             {
                 lbgroups.EndUpdate();
             }
+            if (lbgroups.Items.Count >= 0) lbgroups.SelectedIndex = 0;
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -41,6 +42,12 @@ namespace pocketzp
         }
 
         private void lbgroups_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            tmloadsongs.Enabled = false;
+            tmloadsongs.Enabled = true;
+        }
+
+        private void LoadSongs()
         {
             if (lbgroups.SelectedIndex >= 0)
             {
@@ -59,6 +66,7 @@ namespace pocketzp
                     lbsongs.EndUpdate();
                 }
             }
+            if (lbsongs.Items.Count >= 0) lbsongs.SelectedIndex = 0;
         }
 
         private void menuItem2_Click(object sender, EventArgs e)
@@ -67,6 +75,11 @@ namespace pocketzp
         }
 
         private void menuItem1_Click(object sender, EventArgs e)
+        {
+            ViewSong();
+        }
+
+        private void ViewSong()
         {
             if (lbsongs.SelectedIndex >= 0)
             {
@@ -91,6 +104,16 @@ namespace pocketzp
                 lbgroups.Focus();
                 e.Handled = true;
             }
+            if (e.KeyCode == Keys.Enter)
+            {
+                ViewSong();
+            }
+        }
+
+        private void tmloadsongs_Tick(object sender, EventArgs e)
+        {
+            tmloadsongs.Enabled = false;
+            LoadSongs();
         }
     }
 }

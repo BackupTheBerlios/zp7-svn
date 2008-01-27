@@ -30,16 +30,27 @@ namespace pocketzp
         private void InitializeComponent()
         {
             this.mainMenu1 = new System.Windows.Forms.MainMenu();
-            this.lbgroups = new System.Windows.Forms.ListBox();
-            this.lbsongs = new System.Windows.Forms.ListBox();
             this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.menuItem2 = new System.Windows.Forms.MenuItem();
+            this.lbgroups = new System.Windows.Forms.ListBox();
+            this.lbsongs = new System.Windows.Forms.ListBox();
+            this.tmloadsongs = new System.Windows.Forms.Timer();
             this.SuspendLayout();
             // 
             // mainMenu1
             // 
             this.mainMenu1.MenuItems.Add(this.menuItem1);
             this.mainMenu1.MenuItems.Add(this.menuItem2);
+            // 
+            // menuItem1
+            // 
+            this.menuItem1.Text = "Prohlížet";
+            this.menuItem1.Click += new System.EventHandler(this.menuItem1_Click);
+            // 
+            // menuItem2
+            // 
+            this.menuItem2.Text = "Konec";
+            this.menuItem2.Click += new System.EventHandler(this.menuItem2_Click);
             // 
             // lbgroups
             // 
@@ -60,15 +71,10 @@ namespace pocketzp
             this.lbsongs.TabIndex = 1;
             this.lbsongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbsongs_KeyDown);
             // 
-            // menuItem1
+            // tmloadsongs
             // 
-            this.menuItem1.Text = "Prohlížet";
-            this.menuItem1.Click += new System.EventHandler(this.menuItem1_Click);
-            // 
-            // menuItem2
-            // 
-            this.menuItem2.Text = "Konec";
-            this.menuItem2.Click += new System.EventHandler(this.menuItem2_Click);
+            this.tmloadsongs.Interval = 300;
+            this.tmloadsongs.Tick += new System.EventHandler(this.tmloadsongs_Tick);
             // 
             // MainForm
             // 
@@ -92,6 +98,7 @@ namespace pocketzp
         private System.Windows.Forms.ListBox lbsongs;
         private System.Windows.Forms.MenuItem menuItem1;
         private System.Windows.Forms.MenuItem menuItem2;
+        private System.Windows.Forms.Timer tmloadsongs;
     }
 }
 

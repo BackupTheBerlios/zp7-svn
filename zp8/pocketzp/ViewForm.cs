@@ -35,7 +35,7 @@ namespace pocketzp
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
             if (m_panegrp == null) Reformat(e.Graphics);
-            if (m_panegrp != null) m_panegrp.Draw(e.Graphics);
+            if (m_panegrp != null) m_panegrp.Draw(e.Graphics, -AutoScrollPosition.Y, ClientSize.Height - 16);
         }
 
         private void ViewForm_Resize(object sender, EventArgs e)
@@ -66,17 +66,17 @@ namespace pocketzp
 
         private void ViewForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Up)
-            {
-                Point pos = AutoScrollPosition;
-                pos.Y -= 100;
-                AutoScrollPosition = pos;
-                e.Handled = true;
-            }
             if (e.KeyCode == Keys.Down)
             {
                 Point pos = AutoScrollPosition;
-                pos.Y += 100;
+                pos.Y = -pos.Y + 100;
+                AutoScrollPosition = pos;
+                e.Handled = true;
+            }
+            if (e.KeyCode == Keys.Up)
+            {
+                Point pos = AutoScrollPosition;
+                pos.Y = -pos.Y - 100;
                 AutoScrollPosition = pos;
                 e.Handled = true;
             }
