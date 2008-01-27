@@ -49,6 +49,7 @@ namespace pocketzp
             this.lbgroups.Size = new System.Drawing.Size(122, 268);
             this.lbgroups.TabIndex = 0;
             this.lbgroups.SelectedIndexChanged += new System.EventHandler(this.lbgroups_SelectedIndexChanged);
+            this.lbgroups.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbgroups_KeyDown);
             // 
             // lbsongs
             // 
@@ -57,6 +58,7 @@ namespace pocketzp
             this.lbsongs.Name = "lbsongs";
             this.lbsongs.Size = new System.Drawing.Size(118, 268);
             this.lbsongs.TabIndex = 1;
+            this.lbsongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbsongs_KeyDown);
             // 
             // menuItem1
             // 

@@ -12,6 +12,7 @@ namespace pocketzp
     {
         DbSong m_song;
         PaneGrp m_panegrp;
+        int m_transp = 0;
 
         public ViewForm(DbSong song)
         {
@@ -23,7 +24,9 @@ namespace pocketzp
         private void Reformat(Graphics g)
         {
             panel1.Width = ClientSize.Width;
-            SongFormatter fmt = new SongFormatter(m_song.Text, new SongFormatOptions(panel1.Width - 8, g));
+            string text = m_song.Text;
+            if (m_transp != 0) text = Chords.Transpose(text, m_transp);
+            SongFormatter fmt = new SongFormatter(text, new SongFormatOptions(panel1.Width - 8, g));
             fmt.Run();
             m_panegrp = fmt.Result;
             panel1.Height = (int)m_panegrp.FullHeight + 1;
@@ -43,6 +46,40 @@ namespace pocketzp
         private void ClearFormat()
         {
             m_panegrp = null;
+        }
+
+        private void menuItem1_Click(object sender, EventArgs e)
+        {
+            m_transp -= 1;
+            if (m_transp < 0) m_transp += 12;
+            ClearFormat();
+            panel1.Refresh();
+        }
+
+        private void menuItem2_Click(object sender, EventArgs e)
+        {
+            m_transp += 1;
+            if (m_transp >= 12) m_transp -= 12;
+            ClearFormat();
+            panel1.Refresh();
+        }
+
+        private void ViewForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Up)
+            {
+                Point pos = AutoScrollPosition;
+                pos.Y -= 100;
+                AutoScrollPosition = pos;
+                e.Handled = true;
+            }
+            if (e.KeyCode == Keys.Down)
+            {
+                Point pos = AutoScrollPosition;
+                pos.Y += 100;
+                AutoScrollPosition = pos;
+                e.Handled = true;
+            }
         }
     }
 }

@@ -74,5 +74,23 @@ namespace pocketzp
                 frm.ShowDialog();
             }
         }
+
+        private void lbgroups_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Right)
+            {
+                lbsongs.Focus();
+                e.Handled = true;
+            }
+        }
+
+        private void lbsongs_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Left)
+            {
+                lbgroups.Focus();
+                e.Handled = true;
+            }
+        }
     }
 }
