@@ -97,7 +97,9 @@ namespace pocketzp
 
         public DbConnection(string dbname)
         {
-            m_filename = dbname + ".db3";
+            string basepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Programs), "PocketZp");
+            m_filename = Path.Combine(Path.Combine(basepath, "db"), dbname + ".db3");
+            System.Windows.Forms.MessageBox.Show(m_filename);
             m_conn = new SQLiteConnection(String.Format("Data Source={0};Version=3", m_filename));
             m_conn.Open();
             m_selectSongs = new SQLiteCommand("SELECT id, songname FROM songnames WHERE groupname=@group ORDER BY songname", m_conn);

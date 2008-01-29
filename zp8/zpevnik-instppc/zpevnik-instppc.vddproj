@@ -44,6 +44,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_7F782056D46F90E272E532193C0021C3"
+        "OwnerKey" = "8:_814BF4BB2438E068009A70314CDF4DC7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_814BF4BB2438E068009A70314CDF4DC7"
+        "OwnerKey" = "8:_44B6C69236B6485E9FDFA1F1BABA8AF7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_B0877E9A4BF09B93F585CD34F6F86426"
         "OwnerKey" = "8:_44B6C69236B6485E9FDFA1F1BABA8AF7"
         "MsmSig" = "8:_UNDEFINED"
@@ -58,6 +70,12 @@
         {
         "MsmKey" = "8:_CE64CF20CD6D334FBE5613F7915B17EC"
         "OwnerKey" = "8:_7F782056D46F90E272E532193C0021C3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CE64CF20CD6D334FBE5613F7915B17EC"
+        "OwnerKey" = "8:_814BF4BB2438E068009A70314CDF4DC7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -80,8 +98,20 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_DC03620D7BC543F0B16AEFB2D23DAB0D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_FBF7956569E35A35DCF89DA5A42DB7C6"
         "OwnerKey" = "8:_44B6C69236B6485E9FDFA1F1BABA8AF7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FBF7956569E35A35DCF89DA5A42DB7C6"
+        "OwnerKey" = "8:_814BF4BB2438E068009A70314CDF4DC7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -230,6 +260,34 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_814BF4BB2438E068009A70314CDF4DC7"
+            {
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Data.SQLite, Version=1.0.48.0, Culture=neutral, PublicKeyToken=1fdb50b1b62b4c84"
+                "ScatterAssemblies"
+                {
+                    "_814BF4BB2438E068009A70314CDF4DC7"
+                    {
+                    "Name" = "8:System.Data.SQLite.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Data.SQLite.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_B7F736EDB4B64E6391A3BB7572C37B8D"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_B0877E9A4BF09B93F585CD34F6F86426"
             {
             "AssemblyIsInGAC" = "11:FALSE"
@@ -286,6 +344,24 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_DC03620D7BC543F0B16AEFB2D23DAB0D"
+            {
+            "SourcePath" = "8:distrib\\songs.db3"
+            "TargetName" = "8:songs.db3"
+            "Tag" = "8:"
+            "Folder" = "8:_CAE0DF5C9418442FB934439D6E7A809B"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_FBF7956569E35A35DCF89DA5A42DB7C6"
             {
             "AssemblyIsInGAC" = "11:FALSE"
@@ -334,6 +410,15 @@
             "Property" = "8:%InstallDir%"
                 "Folders"
                 {
+                    "{5943FCFD-5B64-4EE4-96C9-4618EC95352A}:_CAE0DF5C9418442FB934439D6E7A809B"
+                    {
+                    "Name" = "8:db"
+                    "Condition" = "8:"
+                    "Property" = "8:_8985A475E49445D78E0595D0DF05889F"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
         }
@@ -352,7 +437,7 @@
         {
             "{605BE39E-5046-48BD-AEC0-63C3A46626D5}:_44B6C69236B6485E9FDFA1F1BABA8AF7"
             {
-            "SourcePath" = "8:..\\pocketzp\\obj\\Debug\\pocketzp.exe"
+            "SourcePath" = "8:..\\pocketzp\\obj\\Release\\pocketzp.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B7F736EDB4B64E6391A3BB7572C37B8D"
