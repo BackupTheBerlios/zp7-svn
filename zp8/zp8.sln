@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfSharp", "PdfSharp\PdfSha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropertyGridEx", "PropertyGridEx\PropertyGridEx.csproj", "{B0BB47F2-21C4-41FC-B6E6-40757ADFC4A1}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "zpevnik-instpc", "zpevnik-instpc\zpevnik-instpc.vdproj", "{A3DC4B6D-A68C-4D95-A180-35D4C43CB6A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,8 @@ Global
 		{B0BB47F2-21C4-41FC-B6E6-40757ADFC4A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0BB47F2-21C4-41FC-B6E6-40757ADFC4A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0BB47F2-21C4-41FC-B6E6-40757ADFC4A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3DC4B6D-A68C-4D95-A180-35D4C43CB6A4}.Debug|Any CPU.ActiveCfg = Debug
+		{A3DC4B6D-A68C-4D95-A180-35D4C43CB6A4}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

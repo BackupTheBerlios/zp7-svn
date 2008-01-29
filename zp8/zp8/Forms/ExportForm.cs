@@ -40,6 +40,7 @@ namespace zp8
         {
             foreach (SongDb.songRow src in rows)
             {
+                if (src.RowState == DataRowState.Deleted || src.RowState == DataRowState.Detached) continue;
                 InetSongDb.songRow dst = m_db.song.NewsongRow();
                 DbTools.CopySong(src, dst);
                 dst.published = DateTime.UtcNow;
