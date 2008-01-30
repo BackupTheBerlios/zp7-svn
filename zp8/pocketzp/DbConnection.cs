@@ -97,7 +97,9 @@ namespace pocketzp
 
         public DbConnection(string dbname)
         {
-            string basepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Programs), "PocketZp");
+            System.Reflection.Module[] modules = System.Reflection.Assembly.GetExecutingAssembly().GetModules();
+            string basepath = Path.GetDirectoryName(modules[0].FullyQualifiedName);
+            //string basepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Zpevnikator");
             m_filename = Path.Combine(Path.Combine(basepath, "db"), dbname + ".db3");
             System.Windows.Forms.MessageBox.Show(m_filename);
             m_conn = new SQLiteConnection(String.Format("Data Source={0};Version=3", m_filename));

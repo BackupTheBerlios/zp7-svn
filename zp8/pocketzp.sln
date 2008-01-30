@@ -1,9 +1,8 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pocketzp", "pocketzp.csproj", "{2BB16A45-A09F-4731-8322-B531F760AE7A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pocketzp", "pocketzp\pocketzp.csproj", "{2BB16A45-A09F-4731-8322-B531F760AE7A}"
 EndProject
-Project("{B900F1C2-3D47-4FEC-85B3-04AAF18C3634}") = "zpevnik-instppc", "..\zpevnik-instppc\zpevnik-instppc.vddproj", "{95F44761-F6A2-46CC-861B-8009869B387F}"
+Project("{B900F1C2-3D47-4FEC-85B3-04AAF18C3634}") = "zpevnik-instppc", "zpevnik-instppc\zpevnik-instppc.vddproj", "{95F44761-F6A2-46CC-861B-8009869B387F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
