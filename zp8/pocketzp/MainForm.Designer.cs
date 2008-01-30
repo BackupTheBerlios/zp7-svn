@@ -35,6 +35,8 @@ namespace pocketzp
             this.lbgroups = new System.Windows.Forms.ListBox();
             this.lbsongs = new System.Windows.Forms.ListBox();
             this.tmloadsongs = new System.Windows.Forms.Timer();
+            this.miselectdb = new System.Windows.Forms.MenuItem();
+            this.menuItem3 = new System.Windows.Forms.MenuItem();
             this.SuspendLayout();
             // 
             // mainMenu1
@@ -49,8 +51,9 @@ namespace pocketzp
             // 
             // menuItem2
             // 
-            this.menuItem2.Text = "Konec";
-            this.menuItem2.Click += new System.EventHandler(this.menuItem2_Click);
+            this.menuItem2.MenuItems.Add(this.miselectdb);
+            this.menuItem2.MenuItems.Add(this.menuItem3);
+            this.menuItem2.Text = "Menu";
             // 
             // lbgroups
             // 
@@ -76,6 +79,16 @@ namespace pocketzp
             this.tmloadsongs.Interval = 300;
             this.tmloadsongs.Tick += new System.EventHandler(this.tmloadsongs_Tick);
             // 
+            // miselectdb
+            // 
+            this.miselectdb.Text = "Vybrat databázi";
+            this.miselectdb.Popup += new System.EventHandler(this.miselectdb_Popup);
+            // 
+            // menuItem3
+            // 
+            this.menuItem3.Text = "Ukonèit program";
+            this.menuItem3.Click += new System.EventHandler(this.menuItem3_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -99,6 +112,8 @@ namespace pocketzp
         private System.Windows.Forms.MenuItem menuItem1;
         private System.Windows.Forms.MenuItem menuItem2;
         private System.Windows.Forms.Timer tmloadsongs;
+        private System.Windows.Forms.MenuItem miselectdb;
+        private System.Windows.Forms.MenuItem menuItem3;
     }
 }
 

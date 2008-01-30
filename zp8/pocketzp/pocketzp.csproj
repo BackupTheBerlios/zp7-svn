@@ -86,6 +86,7 @@
     </Compile>
     <Compile Include="SongFormat.cs" />
     <Compile Include="SongTool.cs" />
+    <Compile Include="Tools.cs" />
     <Compile Include="ViewForm.cs">
       <SubType>Form</SubType>
     </Compile>

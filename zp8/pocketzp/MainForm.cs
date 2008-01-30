@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace pocketzp
 {
@@ -17,6 +18,16 @@ namespace pocketzp
             InitializeComponent();
             m_conn = new DbConnection("songs");
             FillGroups();
+
+            miselectdb.MenuItems.Clear();
+            foreach (string fn in Directory.GetFiles(Tools.DbPath))
+            {
+                string name = Tools.PureName(fn);
+                MenuItem item = new MenuItem();
+                item.Text = name;
+                item.Click += new EventHandler(item_Click);
+                miselectdb.MenuItems.Add(item);
+            }
         }
 
         private void FillGroups()
@@ -24,6 +35,7 @@ namespace pocketzp
             try
             {
                 lbgroups.BeginUpdate();
+                lbgroups.Items.Clear();
                 foreach (DbGroup grp in m_conn.Groups)
                 {
                     lbgroups.Items.Add(grp);
@@ -69,11 +81,6 @@ namespace pocketzp
             if (lbsongs.Items.Count >= 0) lbsongs.SelectedIndex = 0;
         }
 
-        private void menuItem2_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
         private void menuItem1_Click(object sender, EventArgs e)
         {
             ViewSong();
@@ -114,6 +121,26 @@ namespace pocketzp
         {
             tmloadsongs.Enabled = false;
             LoadSongs();
+        }
+
+        private void miselectdb_Popup(object sender, EventArgs e)
+        {
+        }
+
+        void item_Click(object sender, EventArgs e)
+        {
+            SelectDb(((MenuItem)sender).Text);
+        }
+
+        private void SelectDb(string name)
+        {
+            m_conn = new DbConnection(name);
+            FillGroups();
+        }
+
+        private void menuItem3_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
