@@ -4,9 +4,9 @@
 "ProjectType" = "8:{978C614F-708E-4E1A-B201-565925725DBA}"
 "IsWebType" = "8:FALSE"
 "ProjectName" = "8:zpevnik-instpc"
-"LanguageId" = "3:1033"
+"LanguageId" = "3:0"
 "CodePage" = "3:1252"
-"UILanguageId" = "3:1033"
+"UILanguageId" = "3:0"
 "SccProjectName" = "8:"
 "SccLocalPath" = "8:"
 "SccAuxPath" = "8:"
@@ -15,13 +15,31 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_26F245E9640538CBDBA95A3598A310C1"
+        "MsmKey" = "8:_1F46FAF70F4F4924A98B5B8E45CA707E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5F5DD89A8187AD50A7C32B025C5CBB0B"
         "OwnerKey" = "8:_EE9D286C47BB45C99B03DFAE1D36D37C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_698F4F9B964B6BF5B546913058B3C0D7"
+        "MsmKey" = "8:_652E6A796AF8457EA4EC82BD65D55E82"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_87612FC398554C83B8A065A3DEF8D91F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_AFBD109194615DCAD93E5A830D46FEEE"
         "OwnerKey" = "8:_EE9D286C47BB45C99B03DFAE1D36D37C"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -39,14 +57,44 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_CBC5426B8DD44B51B4A645BD1F085980"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E0D458B8BA864A2E8F0FDF09E8A1CBBE"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E0DE74CD40344829ACB022222D627C77"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E4471841265F471C9E20E24CEBF955CF"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E4B9E61BEA274FE6BA8F75A7ACB9715D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_EE9D286C47BB45C99B03DFAE1D36D37C"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_698F4F9B964B6BF5B546913058B3C0D7"
+        "MsmKey" = "8:_F5F21D3542FB492087CAA16D34F60375"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -58,7 +106,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_26F245E9640538CBDBA95A3598A310C1"
+        "OwnerKey" = "8:_5F5DD89A8187AD50A7C32B025C5CBB0B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_AFBD109194615DCAD93E5A830D46FEEE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -91,13 +145,24 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                }
+            }
         }
         "Release"
         {
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\zpevnik-instpc.msi"
+        "OutputFilename" = "8:Release\\zp8.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -107,6 +172,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Net.Framework.2.0"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 2.0"
+                    "ProductCode" = "8:Microsoft.Net.Framework.2.0"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -136,14 +217,34 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_26F245E9640538CBDBA95A3598A310C1"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1F46FAF70F4F4924A98B5B8E45CA707E"
+            {
+            "SourcePath" = "8:..\\zp8\\bin\\Debug\\cfg\\bookstyles\\A5.bs"
+            "TargetName" = "8:A5.bs"
+            "Tag" = "8:"
+            "Folder" = "8:_9E2E53E062674D21A43D91AB94CDFAF6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5F5DD89A8187AD50A7C32B025C5CBB0B"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:PropertyGridEx, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_26F245E9640538CBDBA95A3598A310C1"
+                    "_5F5DD89A8187AD50A7C32B025C5CBB0B"
                     {
                     "Name" = "8:PropertyGridEx.dll"
                     "Attributes" = "3:512"
@@ -167,14 +268,54 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_698F4F9B964B6BF5B546913058B3C0D7"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_652E6A796AF8457EA4EC82BD65D55E82"
+            {
+            "SourcePath" = "8:..\\zp8\\bin\\Debug\\cfg\\bookstyles\\A4.bs"
+            "TargetName" = "8:A4.bs"
+            "Tag" = "8:"
+            "Folder" = "8:_9E2E53E062674D21A43D91AB94CDFAF6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_87612FC398554C83B8A065A3DEF8D91F"
+            {
+            "SourcePath" = "8:..\\zp8\\bin\\Debug\\cfg\\filters\\import-html-pisen.flt"
+            "TargetName" = "8:import-html-pisen.flt"
+            "Tag" = "8:"
+            "Folder" = "8:_D1C023FA09DF4354AC55A8012A69CC68"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AFBD109194615DCAD93E5A830D46FEEE"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:DAWizard, Version=1.1.2825.21405, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:DAWizard, Version=1.1.2824.18255, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_698F4F9B964B6BF5B546913058B3C0D7"
+                    "_AFBD109194615DCAD93E5A830D46FEEE"
                     {
                     "Name" = "8:DAWizard.dll"
                     "Attributes" = "3:512"
@@ -260,6 +401,126 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CBC5426B8DD44B51B4A645BD1F085980"
+            {
+            "SourcePath" = "8:..\\zp8\\bin\\Debug\\cfg\\bookstyles\\A6.bs"
+            "TargetName" = "8:A6.bs"
+            "Tag" = "8:"
+            "Folder" = "8:_9E2E53E062674D21A43D91AB94CDFAF6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E0D458B8BA864A2E8F0FDF09E8A1CBBE"
+            {
+            "SourcePath" = "8:..\\zp8\\bin\\Debug\\cfg\\filters\\ukazka-html-zpevnik.flt"
+            "TargetName" = "8:ukazka-html-zpevnik.flt"
+            "Tag" = "8:"
+            "Folder" = "8:_D1C023FA09DF4354AC55A8012A69CC68"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E0DE74CD40344829ACB022222D627C77"
+            {
+            "SourcePath" = "8:..\\zp8\\bin\\Debug\\cfg\\bookstyles\\Kapela.bs"
+            "TargetName" = "8:Kapela.bs"
+            "Tag" = "8:"
+            "Folder" = "8:_9E2E53E062674D21A43D91AB94CDFAF6"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E4471841265F471C9E20E24CEBF955CF"
+            {
+            "SourcePath" = "8:..\\zp8\\bin\\Debug\\zp8.chm"
+            "TargetName" = "8:zp8.chm"
+            "Tag" = "8:"
+            "Folder" = "8:_7619B79C753246A9B5610D83E036F37C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E4B9E61BEA274FE6BA8F75A7ACB9715D"
+            {
+            "SourcePath" = "8:..\\zp8\\bin\\Debug\\cfg\\options.xml"
+            "TargetName" = "8:options.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_6604CB8443E94925A045792EDA49A0AD"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F5F21D3542FB492087CAA16D34F60375"
+            {
+            "SourcePath" = "8:..\\zp8\\bin\\Debug\\cfg\\filters\\import-html-zpevnik.flt"
+            "TargetName" = "8:import-html-zpevnik.flt"
+            "Tag" = "8:"
+            "Folder" = "8:_D1C023FA09DF4354AC55A8012A69CC68"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -286,6 +547,17 @@
             "Property" = "8:ProgramMenuFolder"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_34A519F49E39403187C9CA341A6CC761"
+                    {
+                    "Name" = "8:Zpěvníkátor"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_9D29DAE4B6304AD6A84CD1F1E4360F8A"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_7619B79C753246A9B5610D83E036F37C"
@@ -307,6 +579,28 @@
                     "Property" = "8:_A140635B43BE4DEF9CC6FC70354DCCF7"
                         "Folders"
                         {
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_9E2E53E062674D21A43D91AB94CDFAF6"
+                            {
+                            "Name" = "8:bookstyles"
+                            "AlwaysCreate" = "11:FALSE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_C31C21283BF14495A32B477DD48434E1"
+                                "Folders"
+                                {
+                                }
+                            }
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_D1C023FA09DF4354AC55A8012A69CC68"
+                            {
+                            "Name" = "8:filters"
+                            "AlwaysCreate" = "11:FALSE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_1B8CF671480E46A5A2D903AD8B2F7925"
+                                "Folders"
+                                {
+                                }
+                            }
                         }
                     }
                 }
@@ -320,14 +614,14 @@
         }
         "MsiBootstrapper"
         {
-        "LangId" = "3:1033"
+        "LangId" = "3:0"
         }
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:zpevnik-instpc"
+        "ProductName" = "8:Zpevnikator"
         "ProductCode" = "8:{06F9A009-1DDD-4CFC-87A6-8D970B0F0B99}"
-        "PackageCode" = "8:{5FEC6165-11F0-4C19-BCFB-0033F5475359}"
+        "PackageCode" = "8:{525FFCCF-BD01-4AA2-8425-B9922EFF8432}"
         "UpgradeCode" = "8:{EED4CF7C-8BCB-4017-BC21-6856603E8250}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
@@ -337,7 +631,7 @@
         "Manufacturer" = "8:u-turn"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:zpevnik-instpc"
+        "Title" = "8:Zpevnikator"
         "Subject" = "8:"
         "ARPCONTACT" = "8:u-turn"
         "Keywords" = "8:"
@@ -446,6 +740,34 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_0D545225C87E436687A2DD7662FEE39F"
+            {
+            "Name" = "8:Zpěvníkátor"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_EE9D286C47BB45C99B03DFAE1D36D37C"
+            "Folder" = "8:_34A519F49E39403187C9CA341A6CC761"
+            "WorkingFolder" = "8:_7619B79C753246A9B5610D83E036F37C"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_983EFA5895E242A18B04DA1C376E4E36"
+            {
+            "Name" = "8:Nápověda"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_E4471841265F471C9E20E24CEBF955CF"
+            "Folder" = "8:_34A519F49E39403187C9CA341A6CC761"
+            "WorkingFolder" = "8:_7619B79C753246A9B5610D83E036F37C"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
@@ -847,7 +1169,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_EE9D286C47BB45C99B03DFAE1D36D37C"
             {
-            "SourcePath" = "8:..\\zp8\\obj\\Debug\\zp8.exe"
+            "SourcePath" = "8:..\\zp8\\obj\\Release\\zp8.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_7619B79C753246A9B5610D83E036F37C"
