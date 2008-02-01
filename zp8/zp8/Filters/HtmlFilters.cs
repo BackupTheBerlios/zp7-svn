@@ -100,8 +100,8 @@ namespace zp8
 
         protected override void DumpSongBegin(InetSongDb.songRow song, TextWriter fw)
         {
-            HtmlTools.WriteDiv(song.title, "title", fw);
-            HtmlTools.WriteDiv(song.author, "author", fw);
+            HtmlTools.WriteDiv(song.Title, "title", fw);
+            HtmlTools.WriteDiv(song.Author != "" ? song.Author : song.GroupName, "author", fw);
 
             if (UsePre) fw.Write("<pre>");
         }

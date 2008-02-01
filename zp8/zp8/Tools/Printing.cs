@@ -52,7 +52,7 @@ namespace zp8
             SongFormatter fmt = new SongFormatter(song.SongText, opt.SongOptions);
             fmt.Run();
             PaneGrp grp = fmt.Result;
-            grp.Insert(new SongHeaderPane(opt, song.Title, song.Author));
+            grp.Insert(new SongHeaderPane(opt, song.Title, song.Author != "" ? song.Author : song.GroupName));
 
             LogPages pages = new LogPages(pghi);
             pages.AddPaneGrp(grp);

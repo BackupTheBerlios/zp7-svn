@@ -38,6 +38,13 @@ namespace zp8
         }
     }
 
+    public class TextFileDynamicProperties : SingleFileDynamicProperties
+    {
+        [DisplayName("Poøadí písní")]
+        [Description("TitleGroup - nejdøív podle názvu, pak podle skupiny, GroupTitle - nejdøív podle skupiny, pak podle názvu, Database - jak je uloženo v databázi")]
+        public SongOrder Order { get { return m_order; } set { m_order = value; } }
+    }
+
     public abstract class TextFormatter : SingleFileExporter
     {
         bool m_waslabel;
@@ -208,6 +215,11 @@ namespace zp8
                 }
                 DumpFileEnd(sw);
             }
+        }
+
+        public override object CreateDynamicProperties()
+        {
+            return new TextFileDynamicProperties();
         }
 
         protected virtual void DumpFileBegin(TextWriter fw) { }

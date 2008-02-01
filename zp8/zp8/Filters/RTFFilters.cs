@@ -77,7 +77,7 @@ namespace zp8
             fw.Write("\\par ");
 
             RtfTools.SetFont(fw, Fonts.AuthorFont, 5);
-            fw.Write(song.Author);
+            fw.Write(song.Author != "" ? song.Author : song.GroupName);
             fw.Write("\\par ");
         }
 

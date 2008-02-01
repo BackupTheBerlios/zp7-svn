@@ -19,7 +19,7 @@ namespace zp8
         protected override void DumpSongBegin(InetSongDb.songRow song, TextWriter fw)
         {
             fw.WriteLine(song.Title);
-            fw.WriteLine(song.Author);
+            fw.WriteLine(song.Author != "" ? song.Author : song.GroupName);
         }
 
         protected override void DumpSongSeparator(TextWriter fw)
