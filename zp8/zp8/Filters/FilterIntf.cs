@@ -42,7 +42,7 @@ namespace zp8
     public interface IStreamSongFormatter
     {
         //void Format(IEnumerable<SongData> songs, Stream fw);
-        void Format(InetSongDb db, Stream fw, IWaitDialog wait);
+        void Format(InetSongDb db, Stream fw, IWaitDialog wait, object props);
     }
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]

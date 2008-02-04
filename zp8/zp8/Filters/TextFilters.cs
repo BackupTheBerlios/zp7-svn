@@ -16,7 +16,7 @@ namespace zp8
             if (m_textProps.ChordsInText) fw.Write(']');
         }
 
-        protected override void DumpSongBegin(InetSongDb.songRow song, TextWriter fw)
+        protected override void DumpSongBegin(ISongRow song, TextWriter fw)
         {
             fw.WriteLine(song.Title);
             fw.WriteLine(song.Author != "" ? song.Author : song.GroupName);

@@ -40,6 +40,8 @@ namespace zp8
 
     public class TextFileDynamicProperties : SingleFileDynamicProperties
     {
+        public TextFileDynamicProperties(AbstractSongsTextFormatter exp) : base(exp) { }
+        SongOrder m_order = SongOrder.GroupTitle;
         [DisplayName("Poøadí písní")]
         [Description("TitleGroup - nejdøív podle názvu, pak podle skupiny, GroupTitle - nejdøív podle skupiny, pak podle názvu, Database - jak je uloženo v databázi")]
         public SongOrder Order { get { return m_order; } set { m_order = value; } }
@@ -199,13 +201,21 @@ namespace zp8
             set { m_textProps = value; }
         }
 
-        public override void Format(InetSongDb db, Stream fw, IWaitDialog wait)
+        public override void Format(InetSongDb db, Stream fw, IWaitDialog wait, object props)
         {
+            TextFileDynamicProperties p = (TextFileDynamicProperties)props;
+            List<ISongRow> songs = new List<ISongRow>();
+            foreach (ISongRow row in db.song.Rows)
+            {
+                songs.Add(row);
+            }
+            songs.Sort(Sorting.GetComparison(p.Order));
+
             using (StreamWriter sw = new StreamWriter(fw, m_encoding))
             {
                 DumpFileBegin(sw);
                 bool wassong = false;
-                foreach (InetSongDb.songRow row in db.song.Rows)
+                foreach (InetSongDb.songRow row in songs)
                 {
                     if (wassong) DumpSongSeparator(sw);
                     DumpSongBegin(row, sw);
@@ -219,13 +229,13 @@ namespace zp8
 
         public override object CreateDynamicProperties()
         {
-            return new TextFileDynamicProperties();
+            return new TextFileDynamicProperties(this);
         }
 
         protected virtual void DumpFileBegin(TextWriter fw) { }
         protected virtual void DumpFileEnd(TextWriter fw) { }
         protected virtual void DumpSongSeparator(TextWriter fw) { }
-        protected virtual void DumpSongBegin(InetSongDb.songRow song, TextWriter fw) { }
-        protected virtual void DumpSongEnd(InetSongDb.songRow song, TextWriter fw) { }
+        protected virtual void DumpSongBegin(ISongRow song, TextWriter fw) { }
+        protected virtual void DumpSongEnd(ISongRow song, TextWriter fw) { }
     }
 }

@@ -70,7 +70,7 @@ namespace zp8
             set { m_fonts = value; }
         }
 
-        protected override void DumpSongBegin(InetSongDb.songRow song, TextWriter fw)
+        protected override void DumpSongBegin(ISongRow song, TextWriter fw)
         {
             RtfTools.SetFont(fw, Fonts.TitleFont, 4);
             fw.Write(song.Title);

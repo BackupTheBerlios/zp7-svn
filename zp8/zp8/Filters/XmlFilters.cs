@@ -25,7 +25,7 @@ namespace zp8
             get { return "XML soubory (*.xml)|*.xml"; }
         }
 
-        public override void Format(InetSongDb xmldb, Stream fw, IWaitDialog wait)
+        public override void Format(InetSongDb xmldb, Stream fw, IWaitDialog wait, object props)
         {
             xmldb.song.WriteXml(fw);
         }

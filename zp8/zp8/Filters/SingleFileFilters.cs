@@ -97,13 +97,13 @@ namespace zp8
             string filename = ((SingleFileDynamicProperties)props).FileName;
             using (FileStream fw = new FileStream(filename, FileMode.Create))
             {
-                Format(db, fw, wait);
+                Format(db, fw, wait, props);
             }
         }
 
         #endregion
 
-        public abstract void Format(InetSongDb db, Stream fw, IWaitDialog wait);
+        public abstract void Format(InetSongDb db, Stream fw, IWaitDialog wait, object props);
     }
 
 }

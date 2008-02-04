@@ -28,7 +28,7 @@ namespace zp8
             get { return "DB3 soubory (*.db3)|*.db3"; }
         }
 
-        public override void Format(InetSongDb xmldb, Stream fw, IWaitDialog wait)
+        public override void Format(InetSongDb xmldb, Stream fw, IWaitDialog wait, object props)
         {
             using (PocketPCExporter exp = new PocketPCExporter(xmldb, fw, wait))
             {

@@ -360,7 +360,7 @@ namespace zp8
                     }
                     using (FileStream fw = new FileStream(path, FileMode.Create))
                     {
-                        songfmt.Format(tmp, fw, wait);
+                        songfmt.Format(tmp, fw, wait, props);
                     }
                 }
             }
@@ -381,7 +381,7 @@ namespace zp8
                     DbTools.AddSongRow(song, tmp);
                     using (FileStream fw = new FileStream(path, FileMode.Create))
                     {
-                        songfmt.Format(tmp, fw, wait);
+                        songfmt.Format(tmp, fw, wait, props);
                     }
                 }
             }
