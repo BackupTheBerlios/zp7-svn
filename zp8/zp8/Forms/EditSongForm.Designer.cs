@@ -40,6 +40,14 @@ namespace zp8
             this.dolùOKvintuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nahoruOKvintuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.tblink_2 = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tblink_1 = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tbremark = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.cbuseserver = new System.Windows.Forms.CheckBox();
             this.cbserver = new System.Windows.Forms.ComboBox();
             this.serverBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -56,8 +64,7 @@ namespace zp8
             this.tbtext = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.songView1 = new zp8.SongView();
-            this.label5 = new System.Windows.Forms.Label();
-            this.tbremark = new System.Windows.Forms.TextBox();
+            this.openLinkDialog = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.serverBindingSource)).BeginInit();
@@ -151,6 +158,12 @@ namespace zp8
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button2);
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.tblink_2);
+            this.panel1.Controls.Add(this.label7);
+            this.panel1.Controls.Add(this.tblink_1);
+            this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.tbremark);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.cbuseserver);
@@ -167,6 +180,74 @@ namespace zp8
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(209, 492);
             this.panel1.TabIndex = 3;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(159, 270);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(35, 23);
+            this.button2.TabIndex = 16;
+            this.button2.Text = "...";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(157, 231);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(37, 23);
+            this.button1.TabIndex = 15;
+            this.button1.Text = "...";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // tblink_2
+            // 
+            this.tblink_2.Location = new System.Drawing.Point(12, 273);
+            this.tblink_2.Name = "tblink_2";
+            this.tblink_2.Size = new System.Drawing.Size(141, 20);
+            this.tblink_2.TabIndex = 14;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 257);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(36, 13);
+            this.label7.TabIndex = 13;
+            this.label7.Text = "Link 2";
+            // 
+            // tblink_1
+            // 
+            this.tblink_1.Location = new System.Drawing.Point(12, 234);
+            this.tblink_1.Name = "tblink_1";
+            this.tblink_1.Size = new System.Drawing.Size(141, 20);
+            this.tblink_1.TabIndex = 12;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 218);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(36, 13);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "Link 1";
+            // 
+            // tbremark
+            // 
+            this.tbremark.Location = new System.Drawing.Point(12, 155);
+            this.tbremark.Name = "tbremark";
+            this.tbremark.Size = new System.Drawing.Size(182, 20);
+            this.tbremark.TabIndex = 10;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 139);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(57, 13);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "Poznámka";
             // 
             // cbuseserver
             // 
@@ -313,21 +394,9 @@ namespace zp8
             this.songView1.SongText = null;
             this.songView1.TabIndex = 0;
             // 
-            // label5
+            // openLinkDialog
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 139);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(57, 13);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "Poznámka";
-            // 
-            // tbremark
-            // 
-            this.tbremark.Location = new System.Drawing.Point(12, 155);
-            this.tbremark.Name = "tbremark";
-            this.tbremark.Size = new System.Drawing.Size(182, 20);
-            this.tbremark.TabIndex = 10;
+            this.openLinkDialog.Filter = "MP3 soubory|*.mp3|Všechny soubory|*.*";
             // 
             // EditSongForm
             // 
@@ -388,5 +457,12 @@ namespace zp8
         private System.Windows.Forms.CheckBox cbuseserver;
         private System.Windows.Forms.TextBox tbremark;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox tblink_2;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox tblink_1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.OpenFileDialog openLinkDialog;
     }
 }

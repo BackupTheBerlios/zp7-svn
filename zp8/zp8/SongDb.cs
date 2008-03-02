@@ -116,6 +116,42 @@
                     remark = value;
                 }
             }
+            public string Link_1
+            {
+                get
+                {
+                    try
+                    {
+                        return link_1;
+                    }
+                    catch (System.Data.StrongTypingException)
+                    {
+                        return "";
+                    }
+                }
+                set
+                {
+                    link_1 = value;
+                }
+            }
+            public string Link_2
+            {
+                get
+                {
+                    try
+                    {
+                        return link_2;
+                    }
+                    catch (System.Data.StrongTypingException)
+                    {
+                        return "";
+                    }
+                }
+                set
+                {
+                    link_2 = value;
+                }
+            }
         }
     }
 }

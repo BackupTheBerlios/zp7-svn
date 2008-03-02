@@ -48,6 +48,8 @@ namespace zp8
             this.searchtext = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.published = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.localmodified = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.link_1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.link_2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.songBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.songDb)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -87,7 +89,9 @@ namespace zp8
             this.transp,
             this.searchtext,
             this.published,
-            this.localmodified});
+            this.localmodified,
+            this.link_1,
+            this.link_2});
             this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
             this.dataGridView1.DataSource = this.songBindingSource;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -198,6 +202,19 @@ namespace zp8
             this.localmodified.Name = "localmodified";
             this.localmodified.Visible = false;
             // 
+            // mp3_1
+            // 
+            this.link_1.DataPropertyName = "link_1";
+            this.link_1.HeaderText = "Link 1";
+            this.link_1.Name = "link_1";
+            // 
+            // mp3_2
+            // 
+            this.link_2.DataPropertyName = "link_2";
+            this.link_2.HeaderText = "Link 2";
+            this.link_2.Name = "link_2";
+            this.link_2.Visible = false;
+            // 
             // SongTable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -234,5 +251,7 @@ namespace zp8
         private System.Windows.Forms.DataGridViewTextBoxColumn searchtext;
         private System.Windows.Forms.DataGridViewTextBoxColumn published;
         private System.Windows.Forms.DataGridViewCheckBoxColumn localmodified;
+        private System.Windows.Forms.DataGridViewTextBoxColumn link_1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn link_2;
     }
 }

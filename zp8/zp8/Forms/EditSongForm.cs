@@ -21,6 +21,8 @@ namespace zp8
             tbgroup.Text = song.GroupName;
             tbtext.Text = song.SongText.Replace("\r", "").Replace("\n", "\r\n");
             tbremark.Text = song.Remark;
+            tblink_1.Text = m_song.Link_1;
+            tblink_2.Text = m_song.Link_2;
             songView1.SongText = song.SongText;
 
             if (songdb != null)
@@ -77,6 +79,8 @@ namespace zp8
             m_song.GroupName = tbgroup.Text;
             m_song.SongText = tbtext.Text.Replace("\r", "");
             m_song.Remark = tbremark.Text;
+            m_song.link_1 = tblink_1.Text;
+            m_song.link_2 = tblink_2.Text;
             if (cbuseserver.Checked)
             {
                 m_song.server_id = (int)cbserver.SelectedValue;
@@ -121,6 +125,24 @@ namespace zp8
         private void cbuseserver_CheckedChanged(object sender, EventArgs e)
         {
             cbserver.Enabled = cbuseserver.Checked;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            openLinkDialog.FileName = tblink_1.Text;
+            if (openLinkDialog.ShowDialog() == DialogResult.OK)
+            {
+                tblink_1.Text = openLinkDialog.FileName;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            openLinkDialog.FileName = tblink_2.Text;
+            if (openLinkDialog.ShowDialog() == DialogResult.OK)
+            {
+                tblink_2.Text = openLinkDialog.FileName;
+            }
         }
     }
 }

@@ -388,7 +388,6 @@
     </Compile>
     <Compile Include="SongDb.cs">
       <DependentUpon>SongDb.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="SongDb.Designer.cs">
       <AutoGen>True</AutoGen>

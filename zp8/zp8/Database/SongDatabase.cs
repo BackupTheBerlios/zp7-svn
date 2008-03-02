@@ -227,6 +227,12 @@ namespace zp8
                 ExecuteSql("CREATE TABLE info (name VARCHAR PRIMARY KEY, value TEXT)");
                 SetInfo("dbversion", "1");
             }
+            if (version < 2)
+            {
+                ExecuteSql("ALTER TABLE song ADD link_1 VARCHAR");
+                ExecuteSql("ALTER TABLE song ADD link_2 VARCHAR");
+                SetInfo("dbversion", "2");
+            }
         }
         protected override void WantOpen()
         {
@@ -244,7 +250,7 @@ namespace zp8
                 {
                     m_conn = new SQLiteConnection(String.Format("Data Source={0};New=True;Version=3", m_filename));
                     m_conn.Open();
-                    ExecuteSql("CREATE TABLE song (ID INTEGER PRIMARY KEY, title VARCHAR, groupname VARCHAR, author VARCHAR, songtext TEXT, lang VARCHAR, server_id INT NULL, netID INT NULL, transp INT, searchtext VARCHAR, published DATETIME, localmodified INT, remark VARCHAR)");
+                    ExecuteSql("CREATE TABLE song (ID INTEGER PRIMARY KEY, title VARCHAR, groupname VARCHAR, author VARCHAR, songtext TEXT, lang VARCHAR, server_id INT NULL, netID INT NULL, transp INT, searchtext VARCHAR, published DATETIME, localmodified INT, remark VARCHAR, link_1 VARCHAR, link_2 VARCHAR)");
                     ExecuteSql("CREATE TABLE server (ID INTEGER PRIMARY KEY, url VARCHAR, servertype VARCHAR, config TEXT, isreadonly INT)");
                     ExecuteSql("CREATE TABLE deletedsong (ID INTEGER PRIMARY KEY, song_netID INT, server_id INT)");
                     ExecuteSql("CREATE TABLE info (name VARCHAR PRIMARY KEY, value TEXT)");
