@@ -68,7 +68,22 @@ namespace zp8
         [Browsable(false)]
         public System.Windows.Forms.BindingSource ServerBindingSource { get { return serverbindingSource; } }
         [Browsable(false)]
-        public SongDb.songRow SelectedSong { get { return SongByIndex(songbindingSource.Position); } }
+        public SongDb.songRow SelectedSong { 
+            get { return SongByIndex(songbindingSource.Position); }
+            set
+            {
+                int index=0;
+                foreach (DataRowView row in songbindingSource.List)
+                {
+                    if (row.Row == value)
+                    {
+                        songbindingSource.Position = index;
+                        return;
+                    }
+                    index++;
+                }
+            }
+        }
         [Browsable(false)]
         public SongDb.serverRow SelectedServer { get { return (zp8.SongDb.serverRow)ServerByIndex(serverbindingSource.Position); } }
 

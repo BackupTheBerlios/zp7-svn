@@ -33,8 +33,6 @@ namespace zp8
             this.songDb = new zp8.SongDb();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.viditelnéSloupceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iDDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,6 +48,8 @@ namespace zp8
             this.localmodified = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.link_1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.link_2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.viditelnéSloupceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.songBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.songDb)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -100,21 +100,9 @@ namespace zp8
             this.dataGridView1.Size = new System.Drawing.Size(603, 507);
             this.dataGridView1.TabIndex = 5;
             this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView1.Sorted += new System.EventHandler(this.dataGridView1_Sorted);
             this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.viditelnéSloupceToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(165, 26);
-            // 
-            // viditelnéSloupceToolStripMenuItem
-            // 
-            this.viditelnéSloupceToolStripMenuItem.Name = "viditelnéSloupceToolStripMenuItem";
-            this.viditelnéSloupceToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.viditelnéSloupceToolStripMenuItem.Text = "Viditelné sloupce";
-            this.viditelnéSloupceToolStripMenuItem.Click += new System.EventHandler(this.viditelnéSloupceToolStripMenuItem_Click);
             // 
             // iDDataGridViewTextBoxColumn1
             // 
@@ -202,18 +190,32 @@ namespace zp8
             this.localmodified.Name = "localmodified";
             this.localmodified.Visible = false;
             // 
-            // mp3_1
+            // link_1
             // 
             this.link_1.DataPropertyName = "link_1";
             this.link_1.HeaderText = "Link 1";
             this.link_1.Name = "link_1";
             // 
-            // mp3_2
+            // link_2
             // 
             this.link_2.DataPropertyName = "link_2";
             this.link_2.HeaderText = "Link 2";
             this.link_2.Name = "link_2";
             this.link_2.Visible = false;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viditelnéSloupceToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(165, 26);
+            // 
+            // viditelnéSloupceToolStripMenuItem
+            // 
+            this.viditelnéSloupceToolStripMenuItem.Name = "viditelnéSloupceToolStripMenuItem";
+            this.viditelnéSloupceToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.viditelnéSloupceToolStripMenuItem.Text = "Viditelné sloupce";
+            this.viditelnéSloupceToolStripMenuItem.Click += new System.EventHandler(this.viditelnéSloupceToolStripMenuItem_Click);
             // 
             // SongTable
             // 

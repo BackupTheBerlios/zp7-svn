@@ -12,6 +12,7 @@ namespace zp8
     {
         //SongDatabase m_dataset;
         SongDatabaseWrapper m_dbwrap;
+        SongDb.songRow m_sortPreserveRow;
         //ContextMenuStrip m_strip;
         //int? m_selectedRow;
         //int? m_returningRow;
@@ -34,11 +35,16 @@ namespace zp8
             get { return m_dbwrap; }
             set
             {
-                //if (m_dbwrap != null) m_dbwrap.ChangedSongDatabase -= m_dbwrap_ChangedSongDatabase;
+                if (m_dbwrap != null)
+                {
+                    //m_dbwrap.SongBindingSource.CurrentChanged -= SongBindingSource_CurrentChanged;
+                    //m_dbwrap.ChangedSongDatabase -= m_dbwrap_ChangedSongDatabase;
+                }
                 m_dbwrap = value;
                 if (m_dbwrap != null)
                 {
                     dataGridView1.DataSource = m_dbwrap.SongBindingSource;
+                    //m_dbwrap.SongBindingSource.CurrentChanged += SongBindingSource_CurrentChanged;
                 }
                 //m_dbwrap.ChangedSongDatabase += m_dbwrap_ChangedSongDatabase;
             }
@@ -110,6 +116,19 @@ namespace zp8
         {
             if (dataGridView1.SelectedRows.Count > 0) return GetSelectedSongs();
             else return new SongDb.songRow[] { m_dbwrap.SelectedSong };
+        }
+
+        private void dataGridView1_Sorted(object sender, EventArgs e)
+        {
+            if (m_sortPreserveRow != null)
+            {
+                m_dbwrap.SelectedSong = m_sortPreserveRow;
+            }
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            m_sortPreserveRow = m_dbwrap.SelectedSong;
         }
 
         /*

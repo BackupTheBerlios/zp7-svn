@@ -477,6 +477,7 @@ namespace zp8
 
         private void ApplyFilter()
         {
+            SongDb.songRow cursong = songDatabaseWrapper1.SelectedSong;
             if (tbfilter.Text != "")
             {
                 songDatabaseWrapper1.SongBindingSource.Filter = String.Format("searchtext LIKE '%{0}%'", Searching.MakeSearchText(tbfilter.Text));
@@ -487,6 +488,7 @@ namespace zp8
             }
             songsByGroupFrame1.Reload();
             songView1.LoadSong();
+            songDatabaseWrapper1.SelectedSong = cursong;
         }
 
         private void tbfilter_KeyDown(object sender, KeyEventArgs e)
@@ -558,6 +560,15 @@ namespace zp8
         private void kinoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (songView1.Song != null) ViewSongForm.ShowSong(songView1.Song);
+        }
+
+        private void tabControl2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl2.SelectedIndex == 0)
+            {
+                //SongDb.songRow song = songsByGroupFrame1.SongDb.SelectedSong;
+                //songTable1.
+            }
         }
     }
 }

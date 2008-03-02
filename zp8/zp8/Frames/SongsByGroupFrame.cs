@@ -29,11 +29,24 @@ namespace zp8
             get { return m_dbwrap; }
             set
             {
-                if (m_dbwrap != null) m_dbwrap.ChangedSongDatabase -= m_dbwrap_ChangedSongDatabase;
+                if (m_dbwrap != null)
+                {
+                    m_dbwrap.ChangedSongDatabase -= m_dbwrap_ChangedSongDatabase;
+                    m_dbwrap.SongBindingSource.CurrentChanged -= SongBindingSource_CurrentChanged;
+                }
                 m_dbwrap = value;
                 Reload();
-                m_dbwrap.ChangedSongDatabase += m_dbwrap_ChangedSongDatabase;
+                if (m_dbwrap != null)
+                {
+                    m_dbwrap.ChangedSongDatabase += m_dbwrap_ChangedSongDatabase;
+                    m_dbwrap.SongBindingSource.CurrentChanged += SongBindingSource_CurrentChanged;
+                }
             }
+        }
+
+        void SongBindingSource_CurrentChanged(object sender, EventArgs e)
+        {
+            SelectCurrentSong();
         }
         public void Reload()
         {
@@ -53,12 +66,18 @@ namespace zp8
                 grps.AddRange(groups.Keys);
                 grps.Sort();
                 foreach (string grp in grps) lbgroups.Items.Add(grp);
-                int index = m_dbwrap.SongBindingSource.Position;
-                if (index >= 0)
-                {
-                    string grp = m_dbwrap.SongByIndex(index).GroupName;
-                    lbgroups.SelectedIndex = grps.IndexOf(grp);
-                }
+                SelectCurrentSong();
+            }
+        }
+
+        private void SelectCurrentSong()
+        {
+            int index = m_dbwrap.SongBindingSource.Position;
+            if (index >= 0)
+            {
+                zp8.SongDb.songRow song = m_dbwrap.SongByIndex(index);
+                lbgroups.SelectedIndex = lbgroups.Items.IndexOf(song.GroupName);
+                lbsongs.SelectedIndex = lbsongs.Items.IndexOf(song.Title);
             }
         }
         
@@ -101,6 +120,7 @@ namespace zp8
 
         private void lbsongs_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (lbsongs.SelectedIndex == -1) return;
             if (m_dbwrap.SongByIndex(m_dbwrap.SongBindingSource.Position) != m_loadedSongs[lbsongs.SelectedIndex])
             {
                 m_dbwrap.SongBindingSource.Position = m_dbwrap.SongIndex(m_loadedSongs[lbsongs.SelectedIndex]);
