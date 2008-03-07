@@ -157,6 +157,8 @@ namespace zp8
         {
             m_song = song;
             SetText(song != null ? song.SongText : null);
+            button1.Enabled = song != null ? song.Link_1 != "" : false;
+            button2.Enabled = song != null ? song.Link_2 != "" : false;
         }
 
         private void src_PositionChanged(object sender, EventArgs e)
@@ -260,12 +262,18 @@ namespace zp8
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(m_song.link_1);
+            if (m_song != null && m_song.Link_1 != "")
+            {
+                System.Diagnostics.Process.Start(m_song.Link_1);
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(m_song.link_2);
+            if (m_song != null && m_song.Link_2 != "")
+            {
+                System.Diagnostics.Process.Start(m_song.Link_2);
+            }
         }
     }
 }
