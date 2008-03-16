@@ -254,7 +254,7 @@ namespace zp8
                     ExecuteSql("CREATE TABLE server (ID INTEGER PRIMARY KEY, url VARCHAR, servertype VARCHAR, config TEXT, isreadonly INT)");
                     ExecuteSql("CREATE TABLE deletedsong (ID INTEGER PRIMARY KEY, song_netID INT, server_id INT)");
                     ExecuteSql("CREATE TABLE info (name VARCHAR PRIMARY KEY, value TEXT)");
-                    SetInfo("dbversion", "1");
+                    SetInfo("dbversion", "2");
                 }
                 m_song_adapter = new SQLiteDataAdapter("SELECT * FROM song", m_conn);
                 m_server_adapter = new SQLiteDataAdapter("SELECT * FROM server", m_conn);
