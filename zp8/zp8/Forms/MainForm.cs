@@ -488,7 +488,7 @@ namespace zp8
             }
             songsByGroupFrame1.Reload();
             songView1.LoadSong();
-            songDatabaseWrapper1.SelectedSong = cursong;
+            if (cursong != null) songDatabaseWrapper1.SelectedSong = cursong;
         }
 
         private void tbfilter_KeyDown(object sender, KeyEventArgs e)
