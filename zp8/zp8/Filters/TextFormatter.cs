@@ -11,7 +11,7 @@ namespace zp8
     
     //[Editor("zp8.TextFormatPropsEditor", typeof(UITypeEditor))]
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class TextFormatProps : PropertyPageBase
+    public class TextFormatProps : DatAdmin.PropertyPageBase
     {
         bool m_textLabels = true; // navesti je az pred textem (tj. nevola se DumpLabel, ale BeginLine s label!="")
         bool m_chordsInText = false; // akordy uvnitr textu
@@ -19,13 +19,16 @@ namespace zp8
 
         [DisplayName("Návìští v textu")]
         [Description("Návìští je na stejné øádce jako text")]
+        [TypeConverter(typeof(DatAdmin.YesNoTypeConverter))]
         public bool TextLabels { get { return m_textLabels; } set { m_textLabels = value; } }
 
         [DisplayName("Vyhodit akordy")]
+        [TypeConverter(typeof(DatAdmin.YesNoTypeConverter))]
         public bool ChordsOut { get { return m_chordsOut; } set { m_chordsOut = value; } }
 
         [DisplayName("Akordy uvnitø textu")]
         [Description("Akordy uvnitø textu v hranatých závorkách")]
+        [TypeConverter(typeof(DatAdmin.YesNoTypeConverter))]
         public bool ChordsInText { get { return m_chordsInText; } set { m_chordsInText = value; } }
 
         public override string ToString()
@@ -43,7 +46,7 @@ namespace zp8
         public TextFileDynamicProperties(AbstractSongsTextFormatter exp) : base(exp) { }
         SongOrder m_order = SongOrder.GroupTitle;
         [DisplayName("Poøadí písní")]
-        [Description("TitleGroup - nejdøív podle názvu, pak podle skupiny, GroupTitle - nejdøív podle skupiny, pak podle názvu, Database - jak je uloženo v databázi")]
+        [TypeConverter(typeof(DatAdmin.EnumDescConverter))]
         public SongOrder Order { get { return m_order; } set { m_order = value; } }
     }
 

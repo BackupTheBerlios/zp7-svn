@@ -17,7 +17,7 @@ namespace zp8
     }
     */
 
-    public abstract class SongFontsPropertyPage : PropertyPageBase
+    public abstract class SongFontsPropertyPage : DatAdmin.PropertyPageBase
     {
         PersistentFont m_textFont = new PersistentFont();
         PersistentFont m_chordFont = new PersistentFont();

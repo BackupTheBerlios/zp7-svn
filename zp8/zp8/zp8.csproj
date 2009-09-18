@@ -178,6 +178,10 @@
     <Compile Include="Frames\ZoomControl.Designer.cs">
       <DependentUpon>ZoomControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="FromDatAdmin\EnumDescConverter.cs" />
+    <Compile Include="FromDatAdmin\Errors.cs" />
+    <Compile Include="FromDatAdmin\PropertyPageBase.cs" />
+    <Compile Include="FromDatAdmin\YesNoTypeConverter.cs" />
     <Compile Include="GlobalCfg.cs" />
     <Compile Include="GlobalCfg.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -189,8 +193,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Options\GlobalOpts.cs" />
-    <Compile Include="Options\PropertyPageBase.cs" />
     <Compile Include="Filters\SongTextAnalyser.cs" />
+    <Compile Include="FromDatAdmin\Texts.cs" />
     <Compile Include="StdResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

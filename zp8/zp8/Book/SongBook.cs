@@ -36,7 +36,7 @@ namespace zp8
         }
     }
 
-    public class SongBookFonts : PropertyPageBase
+    public class SongBookFonts : DatAdmin.PropertyPageBase
     {
         PersistentFont m_textFont = new PersistentFont();
         PersistentFont m_chordFont = new PersistentFont();
@@ -83,7 +83,7 @@ namespace zp8
         public PersistentFont FooterFont { get { return m_footerFont; } set { m_footerFont = value; } }
     }
 
-    public class SongBookFormatting : PropertyPageBase
+    public class SongBookFormatting : DatAdmin.PropertyPageBase
     {
         int m_songSpaceHeight = 100;
         bool m_printSongDividers = true;
@@ -93,6 +93,7 @@ namespace zp8
 
         [DisplayName("Èáry mezi písnìmi")]
         [Description("Tisknout èáry mezi písnìmi")]
+        [TypeConverter(typeof(DatAdmin.YesNoTypeConverter))]
         public bool PrintSongDividers { get { return m_printSongDividers; } set { m_printSongDividers = value; } }
 
         [DisplayName("Výška mezery")]
@@ -100,7 +101,7 @@ namespace zp8
         public int SongSpaceHeight { get { return m_songSpaceHeight; } set { m_songSpaceHeight = value; } }
 
         [DisplayName("Poøadí písní")]
-        [Description("TitleGroup - nejdøív podle názvu, pak podle skupiny, GroupTitle - nejdøív podle skupiny, pak podle názvu, Database - jak je uloženo v databázi")]
+        [TypeConverter(typeof(DatAdmin.EnumDescConverter))]
         public SongOrder Order { get { return m_order; } set { m_order = value; } }
 
         [DisplayName("Text záhlaví")]
@@ -112,10 +113,24 @@ namespace zp8
         public string Footer { get { return m_footer; } set { m_footer = value; } }
     }
 
-    public enum OutlinePosition { Begin, End };
-    public enum SongOrder { TitleGroup, GroupTitle, Database };
+    public enum OutlinePosition 
+    { 
+        [Description("Na zaèátku")]
+        Begin,
+        [Description("Na konci")]
+        End
+    };
+    public enum SongOrder 
+    {
+        [Description("Podle názvu, pak skupiny")]
+        TitleGroup,
+        [Description("Podle skupiny, pak názvu")]
+        GroupTitle,
+        [Description("Stejné jako v databázi")]
+        Database 
+    };
 
-    public class OutlineProperties : PropertyPageBase
+    public class OutlineProperties : DatAdmin.PropertyPageBase
     {
         bool m_printOutline = false;
         int m_columns = 2;
@@ -123,17 +138,18 @@ namespace zp8
         SongOrder m_order = SongOrder.TitleGroup;
 
         [DisplayName("Tisknout obsah")]
+        [TypeConverter(typeof(DatAdmin.YesNoTypeConverter))]
         public bool PrintOutline { get { return m_printOutline; } set { m_printOutline = value; } }
 
         [DisplayName("Poèet sloupcù")]
         public int Columns { get { return m_columns; } set { m_columns = value; } }
 
         [DisplayName("Umístìní obsahu")]
-        [Description("Begin - na zaèátku, End - na konci")]
+        [TypeConverter(typeof(DatAdmin.EnumDescConverter))]
         public OutlinePosition Position { get { return m_position; } set { m_position = value; } }
 
         [DisplayName("Poøadí písní")]
-        [Description("TitleGroup - nejdøív podle názvu, pak podle skupiny, GroupTitle - nejdøív podle skupiny, pak podle názvu, Database - jak je uloženo v databázi")]
+        [TypeConverter(typeof(DatAdmin.EnumDescConverter))]
         public SongOrder Order { get { return m_order; } set { m_order = value; } }
     }
 

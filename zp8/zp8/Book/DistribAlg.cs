@@ -4,10 +4,16 @@ using System.Text;
 
 using PdfSharp.Drawing;
 using System.Drawing;
+using System.ComponentModel;
 
 namespace zp8
 {
-    public enum DistribAlg { Complex, Simple };
+    public enum DistribAlg {
+        [Description("Nedìlit písnì")]
+        Complex,
+        [Description("Jednoduché")]
+        Simple,
+    };
 
     public interface IDistribAlg
     {

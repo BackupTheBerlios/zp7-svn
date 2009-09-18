@@ -95,7 +95,7 @@ namespace zp8
         }
     }
 
-    public class MultipleStreamImporterProperties : PropertyPageBase
+    public class MultipleStreamImporterProperties : DatAdmin.PropertyPageBase
     {
         FileCollection m_fileNames = new FileCollection();
         string m_URL = "";
@@ -131,7 +131,7 @@ namespace zp8
         }
     }
 
-    public abstract class MultipleStreamImporter : PropertyPageBase, ISongParser, IStreamSongParser
+    public abstract class MultipleStreamImporter : DatAdmin.PropertyPageBase, ISongParser, IStreamSongParser
     {
         #region ISongFilter Members
 

@@ -7,9 +7,23 @@ using PdfSharp;
 
 namespace zp8
 {
-    public enum DistribType { Book, Lines };
+    public enum DistribType
+    {
+        [Description("Kníka")]
+        Book,
+        [Description("Øádky")]
+        Lines
+    }
 
-    public class BookLayout : PropertyPageBase
+    public enum MyPageOrientation
+    {
+        [Description("Na vıšku")]
+        Portrait,
+        [Description("Na šíøku")]
+        Landscape
+    }
+
+    public class BookLayout : DatAdmin.PropertyPageBase
     {
         IPrintTarget m_printTarget;
         int m_hcnt = 1;
@@ -39,23 +53,33 @@ namespace zp8
         [DisplayName("Poèet malıch stránek vertikálnì")]
         public int VerticalCount { get { return m_vcnt; } set { m_vcnt = value; } }
         [DisplayName("Zpùsob rozmístìní na stránky")]
-        [Description("Book - rozmísuje stránky pro tisk kníek, Lines - rozmisuje stránky vodorovnì do øádek (napø. styl zpìvníku \"Kapela\")")]
+        [Description("Kníka - rozmísuje stránky pro tisk kníek, Øádky - rozmisuje stránky vodorovnì do øádek (napø. styl zpìvníku \"Kapela\")")]
+        [TypeConverter(typeof(DatAdmin.EnumDescConverter))]
         public DistribType DistribType { get { return m_dtype; } set { m_dtype = value; } }
 
-        [DisplayName("Rozmísovací algoritmus")]
-        [Description("Simple - jednduchı, Complex - sloitı, snaí se, aby píseò nebyla pøes více stránek")]
+        [DisplayName("Rozmístìní písní")]
+        [Description("Nedìlit písnì - snaí se, aby píseò nebyla pøes více stránek")]
+        [TypeConverter(typeof(DatAdmin.EnumDescConverter))]
         public DistribAlg DistribAlg { get { return m_distribAlg; } set { m_distribAlg = value; } }
 
+        [System.Xml.Serialization.XmlIgnore]
         [DisplayName("Orientace stránky")]
-        [Description("Portrait - na vıšku, Landscape - na šíøku")]
+        [TypeConverter(typeof(DatAdmin.EnumDescConverter))]
+        public MyPageOrientation OrientationForEditing
+        {
+            get { return Orientation == PageOrientation.Landscape ? MyPageOrientation.Landscape : MyPageOrientation.Portrait; }
+            set
+            {
+                m_orientation = value == MyPageOrientation.Landscape ? PageOrientation.Landscape : PageOrientation.Portrait;
+                RecountPageSizes();
+            }
+        }
+
+        [Browsable(false)]
         public PageOrientation Orientation
         {
             get { return m_orientation; }
-            set
-            {
-                m_orientation = value;
-                RecountPageSizes();
-            }
+            set { m_orientation = value; }
         }
 
         [System.Xml.Serialization.XmlIgnore]

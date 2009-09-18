@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 
 namespace zp8
 {
-    public class WebSongImporterProperties : PropertyPageBase
+    public class WebSongImporterProperties : DatAdmin.PropertyPageBase
     {
         string m_URL;
 
@@ -37,7 +37,7 @@ namespace zp8
     }
 
     [ConfigurableSongFilter(Name = "Import webu")]
-    public class WebSongImporter : PropertyPageBase, ISongParser, ICustomSongFilter
+    public class WebSongImporter : DatAdmin.PropertyPageBase, ISongParser, ICustomSongFilter
     {
         Encoding m_encoding = System.Text.Encoding.UTF8;
         [DisplayName("Kódování")]

@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace zp8
 {
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class StringSearchDefinition : PropertyPageBase
+    public class StringSearchDefinition : DatAdmin.PropertyPageBase
     {
         bool m_useRegex = false;
         [DisplayName("Použít regulární výraz")]
@@ -81,7 +81,7 @@ namespace zp8
     }
 
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class SongDataAnalyseProperties : PropertyPageBase
+    public class SongDataAnalyseProperties : DatAdmin.PropertyPageBase
     {
         bool m_lineAnalysing = true;
         [DisplayName("Analyzovat po øádcích")]

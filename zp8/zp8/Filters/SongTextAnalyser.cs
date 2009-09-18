@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace zp8
 {
-    public class ReplacementProperties : PropertyPageBase
+    public class ReplacementProperties : DatAdmin.PropertyPageBase
     {
         string m_pattern;
         [DisplayName("Co hledat")]
@@ -47,7 +47,7 @@ namespace zp8
     }
 
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class SongTextAnalyseProperties : PropertyPageBase
+    public class SongTextAnalyseProperties : DatAdmin.PropertyPageBase
     {
         bool m_convertChords = true;
         [Category("Text písnì")]

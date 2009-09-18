@@ -46,7 +46,7 @@ namespace zp8
         }
     }
 
-    public class SingleFileDynamicProperties : PropertyPageBase
+    public class SingleFileDynamicProperties : DatAdmin.PropertyPageBase
     {
         string m_fileName;
 
@@ -64,7 +64,7 @@ namespace zp8
         }
     }
 
-    public abstract class SingleFileExporter : PropertyPageBase, ISongFormatter, IStreamSongFormatter
+    public abstract class SingleFileExporter : DatAdmin.PropertyPageBase, ISongFormatter, IStreamSongFormatter
     {
         #region ISongFilter Members
 

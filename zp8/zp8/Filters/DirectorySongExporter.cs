@@ -11,7 +11,7 @@ using System.IO;
 
 namespace zp8
 {
-    public class DirectorySongExporterProperties : PropertyPageBase
+    public class DirectorySongExporterProperties : DatAdmin.PropertyPageBase
     {
         string m_folderName;
 
@@ -63,7 +63,7 @@ namespace zp8
     }
 
     [ConfigurableSongFilter(Name = "Výstup do složky")]
-    public class DirectorySongExporter : PropertyPageBase, ISongFormatter, ICustomSongFilter
+    public class DirectorySongExporter : DatAdmin.PropertyPageBase, ISongFormatter, ICustomSongFilter
     {
         string m_name;
         [Browsable(false)]

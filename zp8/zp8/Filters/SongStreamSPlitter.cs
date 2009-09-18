@@ -7,7 +7,7 @@ using System.IO;
 namespace zp8
 {
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class SongStreamSplitProperties : PropertyPageBase
+    public class SongStreamSplitProperties : DatAdmin.PropertyPageBase
     {
         bool m_performSplit = true;
         [Category("Rozsekání na písnì")]

@@ -54,7 +54,7 @@ namespace zp8
         //void Load(SongServerInfo src);
     }
 
-    public abstract class BaseSongServer : zp8.PropertyPageBase, ISongServer
+    public abstract class BaseSongServer : DatAdmin.PropertyPageBase, ISongServer
     {
         #region ISongServer Members
 
