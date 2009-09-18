@@ -22,14 +22,14 @@ namespace zp8 {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class xsls {
+    internal class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal xsls() {
+        internal Resources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace zp8 {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("zp8.xsls", typeof(xsls).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("zp8.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -60,28 +60,45 @@ namespace zp8 {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-        ///&lt;xsl:stylesheet 
-        ///    version=&quot;1.0&quot; 
-        ///    xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;
-        ///    xmlns:sdb=&quot;http://zpevnik.net/InetSongDb.xsd&quot; &gt;
-        ///  &lt;xsl:template match=&quot;/&quot;&gt;
-        ///    &lt;sdb:SongDb&gt;
-        ///      &lt;xsl:apply-templates select=&apos;/zpevnik_data/database/song|/zpevnik/items/song&apos; mode=&apos;song&apos;/&gt;
-        ///    &lt;/sdb:SongDb&gt;
-        ///  &lt;/xsl:template&gt;
-        ///
-        ///  &lt;xsl:template match=&quot;song&quot; mode=&apos;song&apos;&gt;
-        ///    &lt;sdb:song&gt;
-        ///      &lt;sdb:title&gt;
-        ///        &lt;xsl:value-of select=&apos;@title&apos;/&gt;
-        ///      &lt;/sdb:title&gt;
-        ///    [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string zp6_to_zp8 {
+        internal static System.Drawing.Bitmap group {
             get {
-                return ResourceManager.GetString("zp6_to_zp8", resourceCulture);
+                object obj = ResourceManager.GetObject("group", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap server {
+            get {
+                object obj = ResourceManager.GetObject("server", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap song {
+            get {
+                object obj = ResourceManager.GetObject("song", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap songbook {
+            get {
+                object obj = ResourceManager.GetObject("songbook", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap table {
+            get {
+                object obj = ResourceManager.GetObject("table", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap waiticon {
+            get {
+                object obj = ResourceManager.GetObject("waiticon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

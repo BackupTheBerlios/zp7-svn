@@ -39,8 +39,7 @@ namespace zp8
 
         public void Message(string msg)
         {
-            txaction.Text = msg;
-            txlog.AppendText(String.Format("{0}: {1}\r\n", DateTime.Now, msg));
+            labCurWork.Text = msg;
             Update();
             Application.DoEvents();
         }

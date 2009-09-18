@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zp8", "zp8\zp8.csproj", "{8547BF5A-7C84-41F4-AFDB-F039A6F557DD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAWizard", "DAWizard\DAWizard.csproj", "{94955608-38E0-43BE-AE73-0C16012E7445}"
