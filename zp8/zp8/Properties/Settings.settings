@@ -6,7 +6,7 @@
       <Value Profile="(Default)">Maximized</Value>
     </Setting>
     <Setting Name="LeftPanelSize" Type="System.Drawing.Size" Scope="User">
-      <Value Profile="(Default)">417, 405</Value>
+      <Value Profile="(Default)">417, 358</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -191,10 +191,10 @@
     <Compile Include="Options\GlobalOpts.cs" />
     <Compile Include="Options\PropertyPageBase.cs" />
     <Compile Include="Filters\SongTextAnalyser.cs" />
-    <Compile Include="Resources.Designer.cs">
+    <Compile Include="StdResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>StdResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Tools\CfgTools.cs" />
     <Compile Include="Tools\Chords.cs" />
@@ -346,9 +346,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>SongView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources.resx">
+    <EmbeddedResource Include="StdResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>StdResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="xsls.resx">
       <SubType>Designer</SubType>
@@ -477,6 +477,10 @@
     <None Include="Resources\song.png" />
     <None Include="Resources\songbook.png" />
     <None Include="Resources\table.png" />
+    <None Include="Resources\new.png" />
+    <None Include="Resources\open.png" />
+    <None Include="Resources\print.png" />
+    <None Include="Resources\save.png" />
     <Content Include="todo.txt" />
   </ItemGroup>
   <ItemGroup>

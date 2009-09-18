@@ -37,7 +37,7 @@ namespace zp8.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("417, 405")]
+        [global::System.Configuration.DefaultSettingValueAttribute("417, 358")]
         public global::System.Drawing.Size LeftPanelSize {
             get {
                 return ((global::System.Drawing.Size)(this["LeftPanelSize"]));

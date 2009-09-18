@@ -53,7 +53,7 @@ namespace zp8
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::zp8.Resources.waiticon;
+            this.pictureBox1.Image = global::zp8.StdResources.waiticon;
             this.pictureBox1.Location = new System.Drawing.Point(11, 11);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(110, 101);

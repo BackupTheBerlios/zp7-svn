@@ -262,7 +262,7 @@ namespace zp8
             }
         }
 
-        private void novýToolStripMenuItem_Click(object sender, EventArgs e)
+        private void newSongList_Click(object sender, EventArgs e)
         {
             SongBook newsb = SongBook.Manager.CreateNew();
             LoadSbList();
@@ -315,7 +315,7 @@ namespace zp8
         }
         */
 
-        private void uložitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void saveSongList_Click(object sender, EventArgs e)
         {
             SongBook sb = SelectedSongBook;
             if (sb == null) return;
@@ -373,7 +373,7 @@ namespace zp8
             if (SelectedSongBook != null) songBookFrame1.PropertiesDialog();
         }
 
-        private void naèístToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void open_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -402,7 +402,7 @@ namespace zp8
             songBookFrame1.ChangeBookStyle();
         }
 
-        private void tisknoutAktuálníPíseToolStripMenuItem_Click(object sender, EventArgs e)
+        private void printSong_Click(object sender, EventArgs e)
         {
             SongDb.songRow song = songView1.Song;
             if (song != null && printDialog1.ShowDialog() == DialogResult.OK)
@@ -442,7 +442,7 @@ namespace zp8
             if (songView1.Song != null) EditSongForm.Run(songView1.Song, SelectedDbOrSb.DataSet);
         }
 
-        private void nováPíseòToolStripMenuItem_Click(object sender, EventArgs e)
+        private void newSong_Click(object sender, EventArgs e)
         {
             if (SelectedDbOrSb != null)
             {
