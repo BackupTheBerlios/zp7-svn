@@ -213,7 +213,7 @@ namespace zp8
                 parser.Parse(fr, tmp, wait);
             }
             resp.Close();
-            foreach (ISongRow row in tmp.song.Rows)
+            foreach (SongData row in tmp.Songs)
             {
                 if (defsongname != null && row.Title == "") row.Title = defsongname;
                 if (defgroupname != null && row.GroupName == "") row.GroupName = defgroupname;

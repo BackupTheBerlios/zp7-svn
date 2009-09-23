@@ -30,35 +30,35 @@ namespace zp8
         //}
 
 
-        public static void AddSongRow(SongDb.songRow src, AbstractSongDatabase db)
+        //public static void AddSongRow(SongDb.songRow src, SongDatabase db)
+        //{
+        //    //SongDb.songRow dst = db.DataSet.song.NewsongRow();
+        //    //CopySong(src, dst);
+        //    //if (!src.IstranspNull()) dst.transp = src.transp;
+        //    //db.DataSet.song.AddsongRow(dst);
+        //}
+
+        public static void CopySong(SongData src, SongData dst)
         {
-            SongDb.songRow dst = db.DataSet.song.NewsongRow();
-            CopySong(src, dst);
-            if (!src.IstranspNull()) dst.transp = src.transp;
-            db.DataSet.song.AddsongRow(dst);
+            //dst.Title = src.Title;
+            //dst.GroupName = src.GroupName;
+            //dst.Author = src.Author;
+            //dst.SongText = src.SongText;
+            //dst.Lang = src.Lang;
+            //dst.Remark = src.Remark;
         }
 
-        public static void CopySong(ISongRow src, ISongRow dst)
+        public static void AddSongRow(SongData src, InetSongDb db)
         {
-            dst.Title = src.Title;
-            dst.GroupName = src.GroupName;
-            dst.Author = src.Author;
-            dst.SongText = src.SongText;
-            dst.Lang = src.Lang;
-            dst.Remark = src.Remark;
-        }
-
-        public static void AddSongRow(ISongRow src, InetSongDb db)
-        {
-            InetSongDb.songRow dst = db.song.NewsongRow();
-            CopySong(src, dst);
+            //InetSongDb.songRow dst = db.song.NewsongRow();
+            //CopySong(src, dst);
             //dst.title = src.title;
             //dst.groupname = src.groupname;
             //dst.author = src.author;
             //dst.songtext = src.songtext;
             //dst.lang = src.lang;
             //dst.remark = src.remark;
-            db.song.AddsongRow(dst);
+            //db.song.AddsongRow(dst);
         }
     }
 }

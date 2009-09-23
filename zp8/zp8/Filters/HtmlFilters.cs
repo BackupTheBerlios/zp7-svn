@@ -98,7 +98,7 @@ namespace zp8
             set { m_fonts = value; }
         }
 
-        protected override void DumpSongBegin(ISongRow song, TextWriter fw)
+        protected override void DumpSongBegin(SongData song, TextWriter fw)
         {
             HtmlTools.WriteDiv(song.Title, "title", fw);
             HtmlTools.WriteDiv(song.Author != "" ? song.Author : song.GroupName, "author", fw);
@@ -106,7 +106,7 @@ namespace zp8
             if (UsePre) fw.Write("<pre>");
         }
 
-        protected override void DumpSongEnd(ISongRow song, TextWriter fw)
+        protected override void DumpSongEnd(SongData song, TextWriter fw)
         {
             if (UsePre) fw.Write("</pre>");
         }

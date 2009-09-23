@@ -12,15 +12,15 @@ namespace zp8
     public partial class ImportForm : Form
     {
         List<ISongParser> m_types = new List<ISongParser>();
-        AbstractSongDatabase m_db;
+        SongDatabase m_db;
         object m_dynamicProperties;
         InetSongDb m_xmldb;
 
-        public ImportForm(AbstractSongDatabase db)
+        public ImportForm(SongDatabase db)
         {
             InitializeComponent();
             m_db = db;
-            serverBindingSource.DataSource = m_db.DataSet.server;
+            //serverBindingSource.DataSource = m_db.DataSet.server;
             foreach (ISongParser type in SongFilters.EnumFilters<ISongParser>())
             {
                 m_types.Add(type);
@@ -40,10 +40,10 @@ namespace zp8
         {
             int? serverid = null;
             if (cbserver.Checked) serverid = (int)lbserver.SelectedValue;
-            m_db.ImportSongs(m_xmldb, serverid);
+            //m_db.ImportSongs(m_xmldb, serverid);
         }
 
-        public static bool Run(AbstractSongDatabase db)
+        public static bool Run(SongDatabase db)
         {
             ImportForm frm = new ImportForm(db);
             if (frm.ShowDialog() == DialogResult.OK)
@@ -64,7 +64,7 @@ namespace zp8
             try
             {
                 ISongParser type = m_types[imptype.SelectedIndex];
-                m_xmldb = new InetSongDb();
+                //m_xmldb = new InetSongDb();
                 using (IWaitDialog wait = WaitForm.Show("Import písní", true))
                 {
                     type.Parse(m_dynamicProperties, m_xmldb, wait);
@@ -74,7 +74,7 @@ namespace zp8
             {
                 MessageBox.Show("Pøi importu nastala chyba:\n" + err.Message, "Zpìvníkátor", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            songBindingSource.DataSource = m_xmldb.song;
+            //songBindingSource.DataSource = m_xmldb.song;
         }
     }
 }

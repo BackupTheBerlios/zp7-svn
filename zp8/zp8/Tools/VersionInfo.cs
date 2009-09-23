@@ -6,6 +6,6 @@ namespace zp8
 {
     public static class VersionInfo
     {
-        public static string Version = "8.0.5";
+        public static string Version = "8.5.0";
     }
 }

@@ -6,27 +6,27 @@ namespace zp8
 {
     public static class Sorting
     {
-        public static int CompareTitleGroup(ISongRow a, ISongRow b)
+        public static int CompareTitleGroup(SongData a, SongData b)
         {
             int rt = String.Compare(a.Title, b.Title, true);
             if (rt != 0) return rt;
             int rg = String.Compare(a.GroupName, b.GroupName, true);
             if (rg != 0) return rg;
-            return a.ID - b.ID;
+            return a.LocalID - b.LocalID;
         }
-        public static int CompareGroupTitle(ISongRow a, ISongRow b)
+        public static int CompareGroupTitle(SongData a, SongData b)
         {
             int rg = String.Compare(a.GroupName, b.GroupName, true);
             if (rg != 0) return rg;
             int rt = String.Compare(a.Title, b.Title, true);
             if (rt != 0) return rt;
-            return a.ID - b.ID;
+            return a.LocalID - b.LocalID;
         }
-        public static int CompareDatabase(ISongRow a, ISongRow b)
+        public static int CompareDatabase(SongData a, SongData b)
         {
-            return a.ID - b.ID;
+            return a.LocalID - b.LocalID;
         }
-        public static Comparison<ISongRow> GetComparison(SongOrder order)
+        public static Comparison<SongData> GetComparison(SongOrder order)
         {
             switch (order)
             {
@@ -39,13 +39,13 @@ namespace zp8
             }
             throw new Exception("Unsupported order:" + order.ToString());
         }
-        public static void Sort(List<SongDb.songRow> rows, SongOrder order)
+        public static void Sort(List<SongData> rows, SongOrder order)
         {
-            List<ISongRow> irows = new List<ISongRow>();
-            foreach (ISongRow row in rows) irows.Add(row);
+            List<SongData> irows = new List<SongData>();
+            foreach (SongData row in rows) irows.Add(row);
             irows.Sort(GetComparison(order));
             rows.Clear();
-            foreach (SongDb.songRow row in irows) rows.Add(row);
+            foreach (SongData row in irows) rows.Add(row);
         }
     }
 }

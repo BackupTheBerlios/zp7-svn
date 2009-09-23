@@ -37,7 +37,7 @@ namespace zp8
             lbsequence.Items.Clear();
             if (m_book != null)
             {
-                foreach (SongDb.songRow row in m_book.EnumSongs())
+                foreach (SongData row in m_book.EnumSongs())
                 {
                     lbsequence.Items.Add(row.Title);
                 }
@@ -76,7 +76,7 @@ namespace zp8
             {
                 OptionsForm.Run(m_book);
                 m_book.ClearCaches();
-                m_book.SetModifyFlag();
+                m_book.Modified();
                 Format();
             }
         }
@@ -97,7 +97,7 @@ namespace zp8
             {
                 m_book.SetBookStyle(newstyle);
                 m_book.ClearCaches();
-                m_book.SetModifyFlag();
+                m_book.Modified();
                 Format();
             }
         }

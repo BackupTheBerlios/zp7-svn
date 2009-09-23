@@ -11,28 +11,13 @@ using PdfSharp.Drawing;
 
 namespace zp8
 {
-    public class SongBookManager
+    public class SongBookHolder
     {
-        List<SongBook> m_books = new List<SongBook>();
-
-        public List<SongBook> SongBooks
+        public int ID;
+        public string Name;
+        public override string ToString()
         {
-            get { return m_books; }
-        }
-
-        public SongBook CreateNew()
-        {
-            SongBook book = new SongBook();
-            m_books.Add(book);
-            return book;
-        }
-
-        public SongBook LoadExisting(string filename)
-        {
-            SongBook book = new SongBook();
-            m_books.Add(book);
-            book.Load(filename);
-            return book;
+            return Name;
         }
     }
 
@@ -153,11 +138,14 @@ namespace zp8
         public SongOrder Order { get { return m_order; } set { m_order = value; } }
     }
 
-    public class SongBook : AbstractSongDatabase
+    public class SongBook
     {
-        public static readonly SongBookManager Manager = new SongBookManager();
-        string m_filename;
-        bool m_modifyFlag;
+        //public static readonly SongBookManager Manager = new SongBookManager();
+        //string m_filename;
+        //bool m_modifyFlag;
+        int m_id;
+        string m_name;
+        SongDatabase m_db;
         BookLayout m_layout = new BookLayout();
         SongBookFormatting m_formatting = new SongBookFormatting();
         //BookSequence m_sequence;
@@ -170,28 +158,19 @@ namespace zp8
         PageDrawOptions m_pageDrawOptions;
         FormattedBook m_fbook;
         
-        protected override void WantOpen() { }
-
-        public SongBook()
+        public SongBook(SongDatabase db, int id)
         {
-            m_dataset = new SongDb();
-            //m_dataset.song.TableNewRow += song_TableNewRow;
-            m_dataset.song.songRowDeleted += song_songRowChanged;
-            m_dataset.song.songRowChanged += song_songRowChanged;
-
-            //m_sequence = new BookSequence();
-            //m_sequence.Items.Add(new AllSongsSequenceItem());
-
-            //PdfDocument doc = new PdfDocument();
-            //PdfPage page = doc.AddPage();
             PrintTarget = new PdfPrintTarget();
-            InstallTriggers();
+            m_db = db;
+            m_name = m_db.ExecuteScalar("select name from songlist where id=@id", "id", id).ToString();
         }
 
-        void song_songRowChanged(object sender, SongDb.songRowChangeEvent e)
+        public int ID { get { return m_id; } }
+
+        void DispatchRowChanged()
         {
             m_fbook = null;
-            if (BookChanged != null) BookChanged(sender, e);
+            if (BookChanged != null) BookChanged(this, EventArgs.Empty);
         }
 
         /*
@@ -203,33 +182,27 @@ namespace zp8
 
         public string Title
         {
-            get
-            {
-                if (m_filename == null) return "[Beze jména]";
-                return Path.GetFileName(m_filename);
-            }
+            get { return m_name; }
         }
 
-        public bool Modified
+        //public bool Modified
+        //{
+        //    get
+        //    {
+        //        return m_dataset.HasChanges() || m_modifyFlag;
+        //    }
+        //}
+        //public string FileName { get { return m_filename; } set { m_filename = value; } }
+
+        private void SaveOptions()
         {
-            get
+            StringWriter sw = new StringWriter();
+            using (XmlWriter xw = XmlWriter.Create(sw))
             {
-                return m_dataset.HasChanges() || m_modifyFlag;
-            }
-        }
-        public string FileName { get { return m_filename; } set { m_filename = value; } }
-        public void Save()
-        {
-            using (XmlWriter xw = XmlWriter.Create(m_filename))
-            {
-                xw.WriteStartElement(XmlNamespaces.SongBook_Prefix, "SongBook", XmlNamespaces.SongBook);
-                xw.WriteStartElement(XmlNamespaces.SongBook_Prefix, "Songs", XmlNamespaces.SongBook);
-                m_dataset.WriteXml(xw);
-                xw.WriteEndElement();
                 Options.SaveOptions(xw, this);
-                xw.WriteEndElement();
+                xw.Flush();
             }
-            m_modifyFlag = false;
+            m_db.ExecuteNonQuery("update songlist set options=@opt where id=@id", "opt", sw.ToString(), "id", m_id);
         }
 
         [PropertyPage(Name = "fonts", Title = "Fonty")]
@@ -292,19 +265,18 @@ namespace zp8
             }
         }
 
-        public PaneGrp FormatSong(int songid)
+        public PaneGrp FormatSong(SongData song)
         {
-            if (m_formatted.ContainsKey(songid)) return m_formatted[songid];
-            SongDb.songRow row = DataSet.song.FindByID(songid);
+            if (m_formatted.ContainsKey(song.LocalID)) return m_formatted[song.LocalID];
 
-            SongFormatter fmt = new SongFormatter(row.SongText, SongFormatOptions);
+            SongFormatter fmt = new SongFormatter(song.SongText, SongFormatOptions);
             fmt.Run();
             PaneGrp grp = fmt.Result;
-            grp.Insert(new SongHeaderPane(BookFormatOptions, row.Title, row.Author));
+            grp.Insert(new SongHeaderPane(BookFormatOptions, song.Title, song.Author));
             grp.Add(new SongSeparatorPane(BookFormatOptions));
-            m_formatted[songid] = grp;
+            m_formatted[song.LocalID] = grp;
 
-            return m_formatted[songid];
+            return m_formatted[song.LocalID];
         }
         public void ClearCaches()
         {
@@ -328,24 +300,24 @@ namespace zp8
             ClearCaches();
             if (BookChanged != null) BookChanged(this, new EventArgs());
         }
-        public void Load(string filename)
-        {
-            UnInstallTriggers();
-            XmlDocument doc = new XmlDocument();
-            doc.Load(filename);
-            XmlNamespaceManager mgr = XmlNamespaces.CreateManager(doc.NameTable);
+        //public void Load(string filename)
+        //{
+        //    UnInstallTriggers();
+        //    XmlDocument doc = new XmlDocument();
+        //    doc.Load(filename);
+        //    XmlNamespaceManager mgr = XmlNamespaces.CreateManager(doc.NameTable);
 
-            XmlNode songs = doc.DocumentElement.SelectSingleNode("sb:Songs", mgr);
-            m_dataset.ReadXml(new XmlNodeReader(songs.FirstChild));
-            m_dataset.AcceptChanges();
+        //    XmlNode songs = doc.DocumentElement.SelectSingleNode("sb:Songs", mgr);
+        //    m_dataset.ReadXml(new XmlNodeReader(songs.FirstChild));
+        //    m_dataset.AcceptChanges();
 
-            XmlNode options = doc.DocumentElement.SelectSingleNode("opt:Options", mgr);
-            Options.LoadOptions((XmlElement)options, this);
+        //    XmlNode options = doc.DocumentElement.SelectSingleNode("opt:Options", mgr);
+        //    Options.LoadOptions((XmlElement)options, this);
 
-            m_filename = filename;
-            PrintTarget = m_printTarget;
-            InstallTriggers();
-        }
+        //    //m_filename = filename;
+        //    PrintTarget = m_printTarget;
+        //    //InstallTriggers();
+        //}
 
         public void ExportAsPDF(string filename)
         {
@@ -396,10 +368,15 @@ namespace zp8
             }
         }
 
-        public IEnumerable<ISongRow> GetSongs(SongOrder order)
+        public IEnumerable<SongData> EnumSongs()
         {
-            List<ISongRow> rows = new List<ISongRow>();
-            foreach (ISongRow row in EnumSongs())
+            return m_db.LoadSongList(m_id);
+        }
+
+        public IEnumerable<SongData> GetSongs(SongOrder order)
+        {
+            List<SongData> rows = new List<SongData>();
+            foreach (SongData row in EnumSongs())
             {
                 rows.Add(row);
             }
@@ -423,9 +400,9 @@ namespace zp8
             return fmt.Result;
         }
 
-        public void SetModifyFlag()
+        public void Modified()
         {
-            m_modifyFlag = true;
+            SaveOptions();
         }
     }
 }

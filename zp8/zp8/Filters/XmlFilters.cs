@@ -27,7 +27,7 @@ namespace zp8
 
         public override void Format(InetSongDb xmldb, Stream fw, IWaitDialog wait, object props)
         {
-            xmldb.song.WriteXml(fw);
+            //xmldb.song.WriteXml(fw);
         }
     }
 
@@ -49,7 +49,7 @@ namespace zp8
             get { return "Databáze zpìvníkátoru 6.0 ve formátu XML"; }
         }
 
-        //public void Run(AbstractSongDatabase db, string filename, int? serverid)
+        //public void Run(SongDatabase db, string filename, int? serverid)
         public override void Parse(Stream fr, InetSongDb xmldb, IWaitDialog wait)
         {
             XslCompiledTransform xslt = new XslCompiledTransform();
@@ -62,7 +62,7 @@ namespace zp8
             xslt.Transform(zp6doc, XmlWriter.Create(sb));
             using (StringReader sr = new StringReader(sb.ToString()))
             {
-                xmldb.song.ReadXml(sr);
+                //xmldb.song.ReadXml(sr);
             }
             //db.ImportSongs(sr, serverid);
         }
@@ -88,7 +88,7 @@ namespace zp8
 
         public override void Parse(Stream fr, InetSongDb xmldb, IWaitDialog wait)
         {
-            xmldb.ReadXml(fr);
+            //xmldb.ReadXml(fr);
         }
     }
 

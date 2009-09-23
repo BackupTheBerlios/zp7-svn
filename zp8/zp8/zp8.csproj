@@ -49,6 +49,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LinqBridge, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c2b14eb747628076, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\extbin\LinqBridge.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite, Version=1.0.43.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
@@ -63,8 +67,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Book\DistribAlg.cs" />
+    <Compile Include="Database\DbCreator.cs" />
+    <Compile Include="Database\InetSongDb.cs" />
     <Compile Include="Database\InternetDatabase.cs" />
+    <Compile Include="Database\SearchIndex.cs" />
+    <Compile Include="Database\SongAccessor.cs" />
+    <Compile Include="Database\SongData.cs" />
+    <Compile Include="Database\SongDatabaseWrapper.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Database\SongDatabaseWrapper.Designer.cs">
+      <DependentUpon>SongDatabaseWrapper.cs</DependentUpon>
+    </Compile>
     <Compile Include="Database\SongServer.cs" />
+    <Compile Include="Extensions\DataReaderExetension.cs" />
+    <Compile Include="Extensions\DataRowExtension.cs" />
     <Compile Include="Filters\DirectorySongExporter.cs" />
     <Compile Include="Filters\HtmlFilters.cs" />
     <Compile Include="Filters\FilterIntf.cs" />
@@ -130,6 +147,12 @@
     <Compile Include="Forms\ExportForm.Designer.cs">
       <DependentUpon>ExportForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\InputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InputBox.Designer.cs">
+      <DependentUpon>InputBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\PropertiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -188,10 +211,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>GlobalCfg.settings</DependentUpon>
     </Compile>
-    <Compile Include="InetSongDb.cs">
-      <DependentUpon>InetSongDb.xsd</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Options\GlobalOpts.cs" />
     <Compile Include="Filters\SongTextAnalyser.cs" />
     <Compile Include="FromDatAdmin\Texts.cs" />
@@ -216,11 +235,6 @@
     </Compile>
     <Compile Include="Forms\ImportForm.Designer.cs">
       <DependentUpon>ImportForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="InetSongDb.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>InetSongDb.xsd</DependentUpon>
     </Compile>
     <Compile Include="Book\LogPage.cs" />
     <Compile Include="Forms\MainForm.cs">
@@ -281,6 +295,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>ImportForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\InputBox.resx">
+      <DependentUpon>InputBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -338,10 +355,6 @@
       <SubType>Designer</SubType>
       <DependentUpon>SongBookFrame.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Database\SongDatabaseWrapper.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>SongDatabaseWrapper.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Frames\SongTable.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SongTable.cs</DependentUpon>
@@ -369,31 +382,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>GlobalCfg.Designer.cs</LastGenOutput>
     </None>
-    <None Include="InetSongDb.xsc">
-      <DependentUpon>InetSongDb.xsd</DependentUpon>
-    </None>
-    <None Include="InetSongDb.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>InetSongDb.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="InetSongDb.xss">
-      <DependentUpon>InetSongDb.xsd</DependentUpon>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="SongDb.xsc">
-      <DependentUpon>SongDb.xsd</DependentUpon>
-    </None>
-    <None Include="SongDb.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>SongDb.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="SongDb.xss">
-      <DependentUpon>SongDb.xsd</DependentUpon>
     </None>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -412,21 +403,6 @@
     </Compile>
     <Compile Include="Frames\SongBookFrame.Designer.cs">
       <DependentUpon>SongBookFrame.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Database\SongDatabaseWrapper.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Database\SongDatabaseWrapper.Designer.cs">
-      <DependentUpon>SongDatabaseWrapper.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SongDb.cs">
-      <DependentUpon>SongDb.xsd</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="SongDb.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SongDb.xsd</DependentUpon>
     </Compile>
     <Compile Include="Database\SongDatabase.cs" />
     <Compile Include="Frames\SongTable.cs">

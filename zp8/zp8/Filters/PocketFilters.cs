@@ -87,20 +87,20 @@ namespace zp8
             ExecuteSql("CREATE TABLE songnames (id INTEGER PRIMARY KEY, songname VARCHAR, groupname VARCHAR)");
             ExecuteSql("CREATE TABLE songdetails (id INTEGER PRIMARY KEY, songtext TEXT, author VARCHAR, remark VARCHAR)");
             ExecuteSql("CREATE INDEX songnames_group ON songnames (groupname, id)");
-            DirectorySongHolder dsh = new DirectorySongHolder(m_xmldb.song.Rows);
+            DirectorySongHolder dsh = new DirectorySongHolder(m_xmldb.Songs);
             foreach (GroupOfSongs grp in dsh.SortedGroups)
             {
                 m_insertGroup.Parameters[0].Value = grp.Name;
                 m_insertGroup.ExecuteNonQuery();
 
-                foreach (ISongRow song in grp.Songs)
+                foreach (SongData song in grp.Songs)
                 {
-                    m_insertSongName.Parameters[0].Value = song.ID;
+                    m_insertSongName.Parameters[0].Value = song.LocalID;
                     m_insertSongName.Parameters[1].Value = song.Title;
                     m_insertSongName.Parameters[2].Value = song.GroupName;
                     m_insertSongName.ExecuteNonQuery();
 
-                    m_insertSongDetail.Parameters[0].Value = song.ID;
+                    m_insertSongDetail.Parameters[0].Value = song.LocalID;
                     m_insertSongDetail.Parameters[1].Value = song.SongText;
                     m_insertSongDetail.Parameters[2].Value = song.Author;
                     m_insertSongDetail.Parameters[3].Value = song.Remark;

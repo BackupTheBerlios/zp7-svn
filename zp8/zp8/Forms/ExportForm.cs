@@ -12,17 +12,17 @@ namespace zp8
 {
     public partial class ExportForm : Form
     {
-        InetSongDb m_db;
-        SongDatabaseWrapper m_dbwrap;
-        IEnumerable<SongDb.songRow> m_selected;
+        //InetSongDb m_db;
+        //SongDatabaseWrapper m_dbwrap;
+        //IEnumerable<SongDb.songRow> m_selected;
         List<ISongFormatter> m_types = new List<ISongFormatter>();
         object m_dynamciProperties;
 
-        public ExportForm(SongDatabaseWrapper dbwrap, IEnumerable<SongDb.songRow> selected)
+        public ExportForm(SongDatabase dbwrap, IEnumerable<SongData> selected)
         {
             InitializeComponent();
-            m_dbwrap = dbwrap;
-            m_selected = selected;
+            //m_dbwrap = dbwrap;
+            //m_selected = selected;
             foreach (ISongFormatter exp in SongFilters.EnumFilters<ISongFormatter>())
             {
                 m_types.Add(exp);
@@ -38,27 +38,27 @@ namespace zp8
 
         private void AddSongs(IEnumerable rows)
         {
-            foreach (SongDb.songRow src in rows)
-            {
-                if (src.RowState == DataRowState.Deleted || src.RowState == DataRowState.Detached) continue;
-                InetSongDb.songRow dst = m_db.song.NewsongRow();
-                DbTools.CopySong(src, dst);
-                dst.published = DateTime.UtcNow;
-                m_db.song.AddsongRow(dst);
-            }
+            //foreach (SongDb.songRow src in rows)
+            //{
+            //    if (src.RowState == DataRowState.Deleted || src.RowState == DataRowState.Detached) continue;
+            //    InetSongDb.songRow dst = m_db.song.NewsongRow();
+            //    DbTools.CopySong(src, dst);
+            //    dst.published = DateTime.UtcNow;
+            //    m_db.song.AddsongRow(dst);
+            //}
         }
 
         private void wizardPage2_ShowFromNext(object sender, EventArgs e)
         {
-            m_db = new InetSongDb();
-            if (rbcurrentsong.Checked) AddSongs(new SongDb.songRow[] { m_dbwrap.SelectedSong });
-            if (rbselectedsongs.Checked) AddSongs(m_selected);
-            if (rbwholedb.Checked) AddSongs(m_dbwrap.Database.DataSet.song);
-            if (rbcondition.Checked) AddSongs(m_dbwrap.Database.DataSet.song.Select(tbcondition.Text));
-            songBindingSource.DataSource = m_db.song;
+            //m_db = new InetSongDb();
+            //if (rbcurrentsong.Checked) AddSongs(new SongDb.songRow[] { m_dbwrap.SelectedSong });
+            //if (rbselectedsongs.Checked) AddSongs(m_selected);
+            //if (rbwholedb.Checked) AddSongs(m_dbwrap.Database.DataSet.song);
+            //if (rbcondition.Checked) AddSongs(m_dbwrap.Database.DataSet.song.Select(tbcondition.Text));
+            //songBindingSource.DataSource = m_db.song;
         }
 
-        public static void Run(SongDatabaseWrapper dbwrap, IEnumerable<SongDb.songRow> selected)
+        public static void Run(SongDatabase dbwrap, IEnumerable<SongData> selected)
         {
             ExportForm frm = new ExportForm(dbwrap, selected);
             if (frm.ShowDialog() == DialogResult.OK)
@@ -66,7 +66,7 @@ namespace zp8
                 using (IWaitDialog wait = WaitForm.Show("Exportování písní", true))
                 {
                     ISongFormatter exp = frm.m_types[frm.lbformat.SelectedIndex];
-                    exp.Format(frm.m_db, frm.m_dynamciProperties, wait);
+                    //exp.Format(frm.m_db, frm.m_dynamciProperties, wait);
                 }
             }
         }

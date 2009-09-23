@@ -17,15 +17,19 @@ namespace zp8
     public partial class SongView : UserControl
     {
         //ISongSource m_source;
-
-        BindingSource m_bsrc;
         SongDatabaseWrapper m_dbwrap;
-        AbstractSongDatabase m_db;
+        //BindingSource m_bsrc;
+        SongDatabase m_db;
+        //int m_songId;
+        //SongDatabaseWrapper m_dbwrap;
+        //SongDatabase m_db;
         PaneGrp m_panegrp;
         string m_origtext;
         string m_drawtext;
         int m_basetone;
-        SongDb.songRow m_song;
+        SongData m_song;
+        bool m_changing;
+        //SongDb.songRow m_song;
         int m_colwidth = 0, m_colheight = 0; //no resized sizes
         List<List<Pane>> m_cols = new List<List<Pane>>();
         int m_colhspace = 20;
@@ -41,25 +45,27 @@ namespace zp8
             set
             {
                 if (m_dbwrap != null) m_dbwrap.ChangedSongDatabase -= m_dbwrap_ChangedSongDatabase;
-                if (m_bsrc != null) m_bsrc.PositionChanged -= src_PositionChanged;
+                if (m_dbwrap != null) m_dbwrap.SongChanged -= m_dbwrap_SongChanged;
+
                 m_dbwrap = value;
-                if (m_dbwrap != null)
-                {
-                    m_dbwrap.ChangedSongDatabase += m_dbwrap_ChangedSongDatabase;
-                    m_bsrc = m_dbwrap.SongBindingSource;
-                    m_bsrc.PositionChanged += src_PositionChanged;
-                }
+
+                if (m_dbwrap != null) m_dbwrap.ChangedSongDatabase += m_dbwrap_ChangedSongDatabase;
+                if (m_dbwrap != null) m_dbwrap.SongChanged += m_dbwrap_SongChanged;
+
+                m_db = null;
+                if (m_dbwrap != null) m_db = m_dbwrap.Database;
+                if (m_db != null) SetSong(m_dbwrap.CurrentSong);
+                else SetSong(null);
             }
         }
 
         public float ViewScale { get { return zczoom.Zoom; } }
 
-        void m_dbwrap_ChangedSongDatabase(AbstractSongDatabase db)
+        void m_dbwrap_ChangedSongDatabase(object sender, EventArgs e)
         {
-            m_db = db;
+            m_db = m_dbwrap.Database;
             m_panegrp = null;
             panel1.Invalidate();
-            //textBox1.Text = "";
         }
 
         /*
@@ -130,8 +136,18 @@ namespace zp8
             panel1.Invalidate();
         }
 
+        public int SongID
+        {
+            get
+            {
+                if (m_song != null) return m_song.LocalID;
+                return 0;
+            }
+        }
+
         private void SetText(string text)
         {
+            m_changing = true;
             m_origtext = text;
             if (m_origtext != null) m_basetone = Chords.GetBaseTone(m_origtext);
             else m_basetone = -1;
@@ -142,8 +158,9 @@ namespace zp8
             {
                 btreset.Enabled = cbtransp.Enabled = true;
                 int d = 0;
-                if (m_song != null && !m_song.IstranspNull()) d = m_song.transp;
+                if (m_song != null) d = m_song.Transp;
                 cbtransp.SelectedIndex = (m_basetone + d) % 12;
+                m_drawtext = Chords.Transpose(m_origtext, d);
             }
             else
             {
@@ -151,17 +168,18 @@ namespace zp8
                 btreset.Enabled = cbtransp.Enabled = false;
             }
             Redraw();
+            m_changing = false;
         }
 
-        private void SetSong(SongDb.songRow song)
+        private void SetSong(SongData song)
         {
             m_song = song;
-            SetText(song != null ? song.SongText : null);
-            button1.Enabled = song != null ? song.Link_1 != "" : false;
-            button2.Enabled = song != null ? song.Link_2 != "" : false;
+            SetText(song != null ? song.OrigText : null);
+            //button1.Enabled = song != null ? song.Link_1 != "" : false;
+            //button2.Enabled = song != null ? song.Link_2 != "" : false;
         }
 
-        private void src_PositionChanged(object sender, EventArgs e)
+        private void m_dbwrap_SongChanged(object sender, EventArgs e)
         {
             LoadSong();
         }
@@ -170,7 +188,7 @@ namespace zp8
         {
             try
             {
-                SetSong(m_dbwrap.SelectedSong);
+                SetSong(m_dbwrap.CurrentSong);
             }
             catch (Exception)
             {
@@ -216,21 +234,13 @@ namespace zp8
 
         private void cbtransp_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (m_changing) return;
             int d = cbtransp.SelectedIndex - m_basetone;
             if (d < 0) d += 12;
             m_drawtext = Chords.Transpose(m_origtext, d);
-            if (m_song != null && m_dbwrap.Database.CanEditSong(m_song))
+            if (m_song != null && m_db.CanEditSong(m_song.LocalID))
             {
-                if (d == 0)
-                {
-                    if (!m_song.IstranspNull() && m_song.transp != 0)
-                        m_song.transp = d;
-                }
-                else
-                {
-                    if (m_song.IstranspNull() || m_song.transp != d)
-                        m_song.transp = d;
-                }
+                m_db.ExecuteNonQuery("update song set transp=@d where id=@id", "d", d, "id", m_song.LocalID);
             }
             Redraw();
         }
@@ -239,7 +249,7 @@ namespace zp8
         {
             cbtransp.SelectedIndex = m_basetone;
             m_drawtext = m_origtext;
-            if (m_song != null) m_song.transp = 0;
+            //if (m_song != null) m_song.transp = 0;
             Redraw();
         }
 
@@ -248,7 +258,7 @@ namespace zp8
             Redraw();
         }
 
-        public SongDb.songRow Song { get { return m_song; } }
+        public SongData Song { get { return m_song; } }
         public string SongText
         {
             get { return m_origtext; }
@@ -262,18 +272,18 @@ namespace zp8
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            if (m_song != null && m_song.Link_1 != "")
-            {
-                System.Diagnostics.Process.Start(m_song.Link_1);
-            }
+            //if (m_song != null && m_song.Link_1 != "")
+            //{
+            //    System.Diagnostics.Process.Start(m_song.Link_1);
+            //}
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (m_song != null && m_song.Link_2 != "")
-            {
-                System.Diagnostics.Process.Start(m_song.Link_2);
-            }
+            //if (m_song != null && m_song.Link_2 != "")
+            //{
+            //    System.Diagnostics.Process.Start(m_song.Link_2);
+            //}
         }
     }
 }

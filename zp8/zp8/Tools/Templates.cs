@@ -12,7 +12,7 @@ namespace zp8
             return tpl;
         }
 
-        public static string MakeTemplate(string tpl, ISongRow song)
+        public static string MakeTemplate(string tpl, SongData song)
         {
             tpl = tpl.Replace("$[TITLE]", song.Title);
             tpl = tpl.Replace("$[AUTHOR]", song.Author);

@@ -12,14 +12,14 @@ namespace zp8
     {
         static ViewSongForm Instance;
 
-        ISongRow m_song;
+        SongData m_song;
 
         public ViewSongForm()
         {
             InitializeComponent();
         }
 
-        public static void ShowSong(ISongRow song)
+        public static void ShowSong(SongData song)
         {
             if (Instance == null)
             {
@@ -30,7 +30,7 @@ namespace zp8
             Instance.BringToFront();
         }
 
-        public ISongRow Song
+        public SongData Song
         {
             get { return m_song; }
             set

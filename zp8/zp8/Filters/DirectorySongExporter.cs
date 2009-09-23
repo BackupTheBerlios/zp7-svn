@@ -26,7 +26,7 @@ namespace zp8
 
     public class GroupOfSongs
     {
-        public List<ISongRow> Songs = new List<ISongRow>();
+        public List<SongData> Songs = new List<SongData>();
         public int Index;
         public string Name;
     }
@@ -36,7 +36,7 @@ namespace zp8
         public DirectorySongHolder(IEnumerable songs)
         {
             int songindex = 0;
-            foreach (ISongRow song in songs)
+            foreach (SongData song in songs)
             {
                 if (!Groups.ContainsKey(song.GroupName))
                 {
@@ -56,9 +56,9 @@ namespace zp8
         }
 
         public Dictionary<string, GroupOfSongs> Groups = new Dictionary<string,GroupOfSongs>();
-        public List<ISongRow> Songs = new List<ISongRow>();
-        public Dictionary<ISongRow, int> SongIndexes = new Dictionary<ISongRow, int>();
-        public Dictionary<ISongRow, GroupOfSongs> SongGroups = new Dictionary<ISongRow, GroupOfSongs>();
+        public List<SongData> Songs = new List<SongData>();
+        public Dictionary<SongData, int> SongIndexes = new Dictionary<SongData, int>();
+        public Dictionary<SongData, GroupOfSongs> SongGroups = new Dictionary<SongData, GroupOfSongs>();
         public List<GroupOfSongs> SortedGroups = new List<GroupOfSongs>();
     }
 
@@ -265,7 +265,7 @@ namespace zp8
             return tpl;
         }
 
-        private string MakeTemplate(string tpl, ISongRow song, DirectorySongHolder dsh)
+        private string MakeTemplate(string tpl, SongData song, DirectorySongHolder dsh)
         {
             tpl = tpl.Replace("$[SONGINDEX]", dsh.SongIndexes[song].ToString());
             tpl = Templates.MakeTemplate(tpl, song);
@@ -281,7 +281,7 @@ namespace zp8
                 fw.Write(MakeTemplate(m_indexGroupRepeat, grp));
             }
             fw.Write(m_indexBetweenGroupsAndSongs);
-            foreach (ISongRow song in dsh.Songs)
+            foreach (SongData song in dsh.Songs)
             {
                 fw.Write(MakeTemplate(m_indexSongRepeat, song, dsh));
             }
@@ -291,7 +291,7 @@ namespace zp8
         private void WriteGroupFile(StreamWriter fw, GroupOfSongs grp, DirectorySongHolder dsh)
         {
             fw.Write(MakeTemplate(m_groupHeader, grp));
-            foreach (ISongRow song in grp.Songs)
+            foreach (SongData song in grp.Songs)
             {
                 fw.Write(MakeTemplate(m_groupSongRepeat, song, dsh));
             }
@@ -305,7 +305,7 @@ namespace zp8
             DirectorySongExporterProperties p = (DirectorySongExporterProperties)props;
             IStreamSongFormatter songfmt = GetStreamFormatter();
             string directory = p.FolderName;
-            DirectorySongHolder dsh = new DirectorySongHolder(db.song.Rows);
+            DirectorySongHolder dsh = new DirectorySongHolder(db.Songs);
             // nejdrive zapiseme index
             wait.Message("Zapisuji " + m_indexFileName);
             if (m_writeIndex)
@@ -354,7 +354,7 @@ namespace zp8
                     if (wait.Canceled) return;
 
                     InetSongDb tmp = new InetSongDb();
-                    foreach (ISongRow song in grp.Songs)
+                    foreach (SongData song in grp.Songs)
                     {
                         DbTools.AddSongRow(song, tmp);
                     }
@@ -368,7 +368,7 @@ namespace zp8
             // pisne - po jedne
             if (m_writeSeparateSongs)
             {
-                foreach (ISongRow song in db.song.Rows)
+                foreach (SongData song in db.Songs)
                 {
                     string path = Path.Combine(directory, MakeTemplate(m_songFileMask, song, dsh));
                     try { Directory.CreateDirectory(Path.GetDirectoryName(path)); }

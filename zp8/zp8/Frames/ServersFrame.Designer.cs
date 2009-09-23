@@ -30,7 +30,6 @@ namespace zp8
         {
             this.components = new System.ComponentModel.Container();
             this.serverBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.songDb = new zp8.SongDb();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
@@ -47,20 +46,8 @@ namespace zp8
             this.openXML = new System.Windows.Forms.OpenFileDialog();
             this.button7 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.serverBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.songDb)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // serverBindingSource
-            // 
-            this.serverBindingSource.DataMember = "server";
-            this.serverBindingSource.DataSource = this.songDb;
-            // 
-            // songDb
-            // 
-            this.songDb.DataSetName = "SongDb";
-            this.songDb.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // panel1
             // 
@@ -210,7 +197,6 @@ namespace zp8
             this.Name = "ServersFrame";
             this.Size = new System.Drawing.Size(580, 441);
             ((System.ComponentModel.ISupportInitialize)(this.serverBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.songDb)).EndInit();
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -220,7 +206,6 @@ namespace zp8
         #endregion
 
         private System.Windows.Forms.BindingSource serverBindingSource;
-        private SongDb songDb;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridView dataGridView1;

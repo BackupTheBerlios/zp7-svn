@@ -47,9 +47,9 @@ namespace zp8
         //string URL { get;}
         //string Type { get;}
         //string Config { get;}
-        void DownloadNew(AbstractSongDatabase db, int serverid);
-        void UploadChanges(AbstractSongDatabase db, int serverid);
-        void UploadWhole(AbstractSongDatabase db, int serverid);
+        void DownloadNew(SongDatabase db, int serverid);
+        void UploadChanges(SongDatabase db, int serverid);
+        void UploadWhole(SongDatabase db, int serverid);
         //void Save(out SongServerInfo dst);
         //void Load(SongServerInfo src);
     }
@@ -58,17 +58,17 @@ namespace zp8
     {
         #region ISongServer Members
 
-        public virtual void DownloadNew(AbstractSongDatabase db, int serverid)
+        public virtual void DownloadNew(SongDatabase db, int serverid)
         {
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public virtual void UploadChanges(AbstractSongDatabase db, int serverid)
+        public virtual void UploadChanges(SongDatabase db, int serverid)
         {
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public virtual void UploadWhole(AbstractSongDatabase db, int serverid)
+        public virtual void UploadWhole(SongDatabase db, int serverid)
         {
             throw new Exception("The method or operation is not implemented.");
         }
@@ -81,13 +81,13 @@ namespace zp8
         protected abstract Stream Read(ref object request);
         protected virtual void CloseRead(object request) { }
 
-        public override void DownloadNew(AbstractSongDatabase db, int serverid)
+        public override void DownloadNew(SongDatabase db, int serverid)
         {
             //db.DeleteSongsFromServer(serverid);
             object request = null;
             using (Stream fr = Read(ref request))
             {
-                db.MergeInternetXml(serverid, fr);
+                //db.MergeInternetXml(serverid, fr);
             }
             CloseRead(request);
         }
@@ -98,28 +98,28 @@ namespace zp8
         protected abstract Stream Write(ref object request);
         protected virtual void CloseWrite(object request) { }
 
-        public override void UploadChanges(AbstractSongDatabase db, int serverid)
+        public override void UploadChanges(SongDatabase db, int serverid)
         {
-            InetSongDb xmldb = new InetSongDb();
-            object req1 = null;
-            using (Stream fr = Read(ref req1)) xmldb.ReadXml(fr);
-            CloseRead(req1);
+            //InetSongDb xmldb = new InetSongDb();
+            //object req1 = null;
+            //using (Stream fr = Read(ref req1)) xmldb.ReadXml(fr);
+            //CloseRead(req1);
 
-            db.UpdateInternetXml(serverid, xmldb);
+            //db.UpdateInternetXml(serverid, xmldb);
 
-            object req2 = null;
-            using (Stream fw = Write(ref req2))
-            {
-                xmldb.WriteXml(fw);
-            }
-            CloseWrite(req2);
+            //object req2 = null;
+            //using (Stream fw = Write(ref req2))
+            //{
+            //    xmldb.WriteXml(fw);
+            //}
+            //CloseWrite(req2);
         }
-        public override void UploadWhole(AbstractSongDatabase db, int serverid)
+        public override void UploadWhole(SongDatabase db, int serverid)
         {
             object request = null;
             using (Stream fw = Write(ref request))
             {
-                db.CreateInternetXml(serverid, fw);
+                //db.CreateInternetXml(serverid, fw);
             }
             CloseWrite(request);
         }

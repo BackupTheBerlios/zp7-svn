@@ -12,12 +12,12 @@ namespace zp8
 {
     public class SongPrinter
     {
-        SongDb.songRow m_song;
+        SongData m_song;
         IEnumerator<LogPage> m_actpage;
         PrinterSettings m_settings;
         PrinterPrintTarget m_target;
 
-        public SongPrinter(SongDb.songRow song, PrinterSettings settings)
+        public SongPrinter(SongData song, PrinterSettings settings)
         {
             m_song = song;
             m_settings = settings;
@@ -45,7 +45,7 @@ namespace zp8
             e.HasMorePages = m_actpage.MoveNext();
         }
 
-        public static LogPages FormatSongForPrinting(SongDb.songRow song, float pgwi, XGraphics infoContext, float pghi, float mmky)
+        public static LogPages FormatSongForPrinting(SongData song, float pgwi, XGraphics infoContext, float pghi, float mmky)
         {
             //PrinterPrintTarget target=new PrinterPrintTarget(
             SongPrintFormatOptions opt = CfgTools.CreateSongPrintFormatOptions(pgwi, infoContext, mmky);
@@ -62,7 +62,7 @@ namespace zp8
 
     public static class SongPDFPrinter
     {
-        public static void Print(SongDb.songRow song, string filename)
+        public static void Print(SongData song, string filename)
         {
             PdfDocument doc = new PdfDocument();
             PdfPage page = doc.AddPage();

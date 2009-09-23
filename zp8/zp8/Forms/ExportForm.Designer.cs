@@ -271,11 +271,6 @@ namespace zp8
             this.songBindingSource.DataMember = "song";
             this.songBindingSource.DataSource = this.inetSongDb;
             // 
-            // inetSongDb
-            // 
-            this.inetSongDb.DataSetName = "InetSongDb";
-            this.inetSongDb.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
             // header2
             // 
             this.header2.BackColor = System.Drawing.SystemColors.Control;

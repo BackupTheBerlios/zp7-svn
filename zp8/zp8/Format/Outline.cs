@@ -123,11 +123,11 @@ namespace zp8
     public class OutlineFormatter
     {
         OutlineFormatOptions m_options;
-        IEnumerable<ISongRow> m_songs;
+        IEnumerable<SongData> m_songs;
         OutlinePane m_actpane;
         public readonly PaneGrp Result;
 
-        public OutlineFormatter(OutlineFormatOptions options, IEnumerable<ISongRow> songs)
+        public OutlineFormatter(OutlineFormatOptions options, IEnumerable<SongData> songs)
         {
             m_options = options;
             m_songs = songs;
@@ -137,7 +137,7 @@ namespace zp8
         {
             int actcol = 0;
             float acty = 0;
-            foreach (SongDb.songRow song in m_songs)
+            foreach (SongData song in m_songs)
             {
                 float hi = MeasureWrappedTextHeight(m_options.InfoContext, song.Title, m_options.ColumnWidthForText, m_options.TitleFont);
                 if (acty + hi > m_options.PageHeight)
@@ -159,7 +159,7 @@ namespace zp8
                     song.Title,
                     m_options.ColumnWidthForText,
                     m_options.TitleFont);
-                m_actpane.DrawNumber(song.ID, new PointF(m_options.NumberLeft + x0, acty + hi - m_options.NumberHeight));
+                m_actpane.DrawNumber(song.LocalID, new PointF(m_options.NumberLeft + x0, acty + hi - m_options.NumberHeight));
                 acty += hi;
             }
         }

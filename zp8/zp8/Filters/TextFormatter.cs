@@ -207,8 +207,8 @@ namespace zp8
         public override void Format(InetSongDb db, Stream fw, IWaitDialog wait, object props)
         {
             TextFileDynamicProperties p = (TextFileDynamicProperties)props;
-            List<ISongRow> songs = new List<ISongRow>();
-            foreach (ISongRow row in db.song.Rows)
+            List<SongData> songs = new List<SongData>();
+            foreach (SongData row in db.Songs)
             {
                 songs.Add(row);
             }
@@ -218,7 +218,7 @@ namespace zp8
             {
                 DumpFileBegin(sw);
                 bool wassong = false;
-                foreach (InetSongDb.songRow row in songs)
+                foreach (SongData row in songs)
                 {
                     if (wassong) DumpSongSeparator(sw);
                     DumpSongBegin(row, sw);
@@ -238,7 +238,7 @@ namespace zp8
         protected virtual void DumpFileBegin(TextWriter fw) { }
         protected virtual void DumpFileEnd(TextWriter fw) { }
         protected virtual void DumpSongSeparator(TextWriter fw) { }
-        protected virtual void DumpSongBegin(ISongRow song, TextWriter fw) { }
-        protected virtual void DumpSongEnd(ISongRow song, TextWriter fw) { }
+        protected virtual void DumpSongBegin(SongData song, TextWriter fw) { }
+        protected virtual void DumpSongEnd(SongData song, TextWriter fw) { }
     }
 }

@@ -153,19 +153,19 @@ namespace zp8
                 List<string> lines = new List<string>();
                 lines.AddRange(fulltext.Split('\n'));
                 AnalyseSongHeaderLines(lines, res);
-                res.SongText = String.Join("\n", lines.ToArray());
+                res.OrigText = String.Join("\n", lines.ToArray());
             }
             else
             {
                 res.Title = props.SearchTitle.Search(fulltext);
                 res.Author = props.SearchAuthor.Search(fulltext);
                 res.GroupName = props.SearchGroup.Search(fulltext);
-                res.SongText = props.SearchText.Search(fulltext);
+                res.OrigText = props.SearchText.Search(fulltext);
             }
             return res;
         }
 
-        private static void AnalyseSongHeaderLines(List<string> songlines, ISongRow song)
+        private static void AnalyseSongHeaderLines(List<string> songlines, SongData song)
         {
             if (songlines.Count == 0) return;
             string line0 = songlines[0];

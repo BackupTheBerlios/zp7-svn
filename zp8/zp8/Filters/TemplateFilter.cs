@@ -241,17 +241,17 @@ namespace zp8
             return Templates.MakeTemplate(tpl);
         }
 
-        private static string MakeTemplate(string tpl, ISongRow song)
+        private static string MakeTemplate(string tpl, SongData song)
         {
             return Templates.MakeTemplate(tpl, song);
         }
 
-        protected override void DumpSongBegin(ISongRow song, TextWriter fw)
+        protected override void DumpSongBegin(SongData song, TextWriter fw)
         {
             fw.Write(MakeTemplate(m_songHeader, song));
         }
 
-        protected override void DumpSongEnd(ISongRow song, TextWriter fw)
+        protected override void DumpSongEnd(SongData song, TextWriter fw)
         {
             fw.Write(MakeTemplate(m_songFooter, song));
         }

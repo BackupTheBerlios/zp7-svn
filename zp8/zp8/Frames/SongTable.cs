@@ -12,7 +12,9 @@ namespace zp8
     {
         //SongDatabase m_dataset;
         SongDatabaseWrapper m_dbwrap;
-        SongDb.songRow m_sortPreserveRow;
+        int m_preserveRow;
+        bool m_sorting;
+        //SongDb.songRow m_sortPreserveRow;
         //ContextMenuStrip m_strip;
         //int? m_selectedRow;
         //int? m_returningRow;
@@ -37,16 +39,15 @@ namespace zp8
             {
                 if (m_dbwrap != null)
                 {
-                    //m_dbwrap.SongBindingSource.CurrentChanged -= SongBindingSource_CurrentChanged;
-                    //m_dbwrap.ChangedSongDatabase -= m_dbwrap_ChangedSongDatabase;
+                    m_dbwrap.ChangedSongDatabase -= m_dbwrap_ChangedSongDatabase;
                 }
                 m_dbwrap = value;
                 if (m_dbwrap != null)
                 {
-                    dataGridView1.DataSource = m_dbwrap.SongBindingSource;
+                    //dataGridView1.DataSource = m_dbwrap.SongBindingSource;
                     //m_dbwrap.SongBindingSource.CurrentChanged += SongBindingSource_CurrentChanged;
                 }
-                //m_dbwrap.ChangedSongDatabase += m_dbwrap_ChangedSongDatabase;
+                m_dbwrap.ChangedSongDatabase += m_dbwrap_ChangedSongDatabase;
             }
         }
 
@@ -92,53 +93,112 @@ namespace zp8
 
         private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            if (!m_dbwrap.CanEditSong(e.RowIndex)) e.Cancel = true;
+            //if (!m_dbwrap.CanEditSong(e.RowIndex)) e.Cancel = true;
         }
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            m_dbwrap.SongByIndex(e.RowIndex).localmodified = true;
+            //m_dbwrap.SongByIndex(e.RowIndex).localmodified = true;
         }
 
         private void viditelnéSloupceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             VisibleColumnsForm.Run(dataGridView1);
         }
-        public IEnumerable<SongDb.songRow> GetSelectedSongs()
+        public IEnumerable<SongData> GetSelectedSongs()
         {
-            foreach (DataGridViewRow row in dataGridView1.SelectedRows)
-            {
-                if (!row.IsNewRow) yield return m_dbwrap.SongByIndex(row.Index);
-            }
+            yield break;
+            //foreach (DataGridViewRow row in dataGridView1.SelectedRows)
+            //{
+            //    if (!row.IsNewRow) yield return m_dbwrap.SongByIndex(row.Index);
+            //}
         }
 
-        public IEnumerable<SongDb.songRow> GetSelectedSongsOrFocused()
+        public IEnumerable<SongData> GetSelectedSongsOrFocused()
         {
-            if (dataGridView1.SelectedRows.Count > 0) return GetSelectedSongs();
-            else return new SongDb.songRow[] { m_dbwrap.SelectedSong };
+            yield break;
+            //if (dataGridView1.SelectedRows.Count > 0) return GetSelectedSongs();
+            //else return new SongDb.songRow[] { m_dbwrap.SelectedSong };
+        }
+
+        private void SetCurrentSong(int songid)
+        {
+            using (IWaitDialog dlg = WaitForm.Show("Hledám aktuální píseò", false))
+            {
+                for (int row = 0; row < dataGridView1.Rows.Count; row++)
+                {
+                    if (GetSongID(row) == songid)
+                    {
+                        int col = 0;
+                        if (dataGridView1.CurrentCell != null) col = dataGridView1.CurrentCell.ColumnIndex;
+                        dataGridView1.CurrentCell = dataGridView1.Rows[row].Cells[col];
+                        m_dbwrap.SongID = songid;
+                        return;
+                    }
+                }
+            }
         }
 
         private void dataGridView1_Sorted(object sender, EventArgs e)
         {
-            if (m_sortPreserveRow != null)
+            try
             {
-                m_dbwrap.SelectedSong = m_sortPreserveRow;
+                if (m_preserveRow > 0)
+                {
+                    SetCurrentSong(m_preserveRow);
+                }
             }
+            finally
+            {
+                m_sorting = false;
+            }
+        }
+
+        private int GetSongID(int rowindex)
+        {
+            if (rowindex < 0 || rowindex >= dataGridView1.Rows.Count) return 0;
+            DataGridViewRow gridrow = dataGridView1.Rows[rowindex];
+            DataRow row = ((DataRowView)gridrow.DataBoundItem).Row;
+            return row.SafeInt(0);
+        }
+
+        private void SelectedRow(int rowindex)
+        {
+            if (rowindex < 0 || m_sorting) return;
+            m_preserveRow = GetSongID(rowindex);
+            m_dbwrap.SongID = m_preserveRow;
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            m_sortPreserveRow = m_dbwrap.SelectedSong;
+            if (e.RowIndex < 0) m_sorting = true;
+            else SelectedRow(e.RowIndex);
         }
 
-        /*
-        void m_dbwrap_ChangedSongDatabase(SongDatabase db)
+        void m_dbwrap_ChangedSongDatabase(object sender, EventArgs e)
         {
-            dataGridView1.DataSource = m_dbwrap.SongBindingSource;
+            Reload();
         }
-        */
+
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentCell != null)
+            {
+                SelectedRow(dataGridView1.CurrentCell.RowIndex);
+            }
+        }
 
         //public BindingSource GetBindingSource() { return songBindingSource; }
         //public SongDatabase GetDataSet() { return m_dataset; }
+
+        public void LoadCurrentSong()
+        {
+            SetCurrentSong(m_dbwrap.SongID);
+        }
+
+        public void Reload()
+        {
+            dataGridView1.DataSource = m_dbwrap.GetSongTable();
+        }
     }
 }

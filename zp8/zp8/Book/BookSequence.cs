@@ -22,9 +22,9 @@ namespace zp8
         public override void AddToPages(LogPages pages, SongBook book)
         {
             List<PaneGrp> grps = new List<PaneGrp>();
-            foreach (SongDb.songRow row in book.GetSongs(book.Formatting.Order))
+            foreach (var row in book.GetSongs(book.Formatting.Order))
             {
-                grps.Add(book.FormatSong(row.ID));
+                grps.Add(book.FormatSong(row));
             }
             IDistribAlg alg = DistribAlgs.FromEnum(book.Layout.DistribAlg);
             alg.Run(pages, grps, book.Layout);

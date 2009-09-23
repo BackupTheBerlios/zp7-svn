@@ -15,9 +15,9 @@ namespace zp8
     {
         Dictionary<int, SongDatabase> m_loaded_dbs = new Dictionary<int, SongDatabase>();
         Dictionary<string, int> m_loaded_dbs_name_to_index = new Dictionary<string, int>();
-        Dictionary<SongBook, int> m_loaded_songbooks = new Dictionary<SongBook, int>();
-        bool m_updating_state = false;
+        //bool m_updating_state = false;
         int? m_activeDbPage, m_activeSbPage;
+        SongBook m_currentBook;
 
         static MainForm m_form;
         static Graphics m_mainGraphics;
@@ -29,8 +29,6 @@ namespace zp8
 
             InitializeComponent();
             Text = "Zpìvníkátor " + VersionInfo.Version;
-            rbdatabase.Checked = true;
-
             WindowState = global::zp8.Properties.Settings.Default.MainWindowState;
         }
 
@@ -47,13 +45,13 @@ namespace zp8
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadDbList();
+            LoadSbList();
 
             string db = GlobalCfg.Default.currentdb;
             if (m_loaded_dbs_name_to_index.ContainsKey(db))
             {
                 cbdatabase.SelectedIndex = m_loaded_dbs_name_to_index[db];
             }
-            LoadCurrentDbOrSb();
         }
 
         private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -63,7 +61,8 @@ namespace zp8
 
         private static string GetDbTitle(SongDatabase db)
         {
-            return (db.Modified ? "*" : "") + db.Name;
+            return db.Name;
+            //return (db.Modified ? "*" : "") + db.Name;
         }
 
         private void LoadDbList()
@@ -82,16 +81,6 @@ namespace zp8
             if (lastdb != null) cbdatabase.SelectedIndex = m_loaded_dbs_name_to_index[lastdb.Name];
         }
 
-        private void mnuNewDb_Click(object sender, EventArgs e)
-        {
-            string dbname;
-            if (NewDbForm.Run(out dbname))
-            {
-                SongDatabase newdb = DbManager.Manager.CreateDatabase(dbname);
-                LoadDbList();
-                SelectedDatabase = newdb;
-            }
-        }
         public SongDatabase SelectedDatabase
         {
             get
@@ -101,198 +90,208 @@ namespace zp8
             }
             set
             {
-                if (m_loaded_dbs_name_to_index.ContainsKey(value.Name))
+                if (m_loaded_dbs_name_to_index.ContainsKey(value.Name) && SelectedDatabase != value)
                 {
                     cbdatabase.SelectedIndex = m_loaded_dbs_name_to_index[value.Name];
+                    songDatabaseWrapper1.Database = value;
                 }
             }
         }
 
+        int m_changingSb = 0;
         public SongBook SelectedSongBook
         {
             get
             {
-                try { return SongBook.Manager.SongBooks[cbsongbook.SelectedIndex]; }
-                catch (Exception) { return null; }
+                if (m_currentBook == null)
+                {
+                    SongBookHolder holder = cbsongbook.SelectedItem as SongBookHolder;
+                    if (holder != null) m_currentBook = new SongBook(SelectedDatabase, holder.ID);
+                }
+                return m_currentBook;
             }
             set
             {
-                if (m_loaded_songbooks.ContainsKey(value))
-                {
-                    cbsongbook.SelectedIndex = m_loaded_songbooks[value];
-                }
+                m_changingSb++;
+                LoadSbList();
+                SelectSongBookById(value.ID);
+                if (cbsongbook.SelectedIndex >= 0) m_currentBook = value;
+                else m_currentBook = null;
+                m_changingSb--;
             }
         }
 
-        public AbstractSongDatabase SelectedDbOrSb
+        private void SelectSongBookById(int id)
         {
-            get
+            int index = 0;
+            foreach (SongBookHolder hld in cbsongbook.Items)
             {
-                if (rbdatabase.Checked) return SelectedDatabase;
-                else return SelectedSongBook;
+                if (hld.ID == id) cbsongbook.SelectedIndex = index;
+                index++;
             }
         }
 
         private void dblist_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (m_updating_state) return;
+            //if (m_updating_state) return;
             //songTable1.Bind(SelectedDb);
             //serversFrame1.Bind(SelectedDb);
-            rbdatabase.Checked = true;
-            LoadCurrentDbOrSb();
+            //rbdatabase.Checked = true;
+            //LoadCurrentDbOrSb();
             if (SelectedDatabase != null) GlobalCfg.Default.currentdb = SelectedDatabase.Name;
+            songDatabaseWrapper1.Database = SelectedDatabase;
             //UpdateDbState();
         }
 
-        private void LoadCurrentDbOrSb()
-        {
-            if (rbsongbook.Checked)
-            {
-                if (!TabControl1.TabPages.Contains(tbsongbook))
-                {
-                    m_activeDbPage = TabControl1.SelectedIndex;
-                    TabControl1.TabPages.Add(tbsongbook);
-                    if (m_activeSbPage.HasValue) TabControl1.SelectedIndex = m_activeSbPage.Value;
-                }
-                cbdatabase.BackColor = SystemColors.Window;
-                cbsongbook.BackColor = Color.Yellow;
-            }
-            else
-            {
-                if (TabControl1.TabPages.Contains(tbsongbook))
-                {
-                    m_activeSbPage = TabControl1.SelectedIndex;
-                    TabControl1.TabPages.Remove(tbsongbook);
-                    if (m_activeDbPage.HasValue) TabControl1.SelectedIndex = m_activeDbPage.Value;
-                }
-                cbsongbook.BackColor = SystemColors.Window;
-                cbdatabase.BackColor = Color.Yellow;
-            }
-            songDatabaseWrapper1.Database = SelectedDbOrSb;
-            UpdateDbState();
-            songView1.LoadSong();
-        }
+        //private void LoadCurrentDbOrSb()
+        //{
+        //    if (rbsongbook.Checked)
+        //    {
+        //        if (!TabControl1.TabPages.Contains(tbsongbook))
+        //        {
+        //            m_activeDbPage = TabControl1.SelectedIndex;
+        //            TabControl1.TabPages.Add(tbsongbook);
+        //            if (m_activeSbPage.HasValue) TabControl1.SelectedIndex = m_activeSbPage.Value;
+        //        }
+        //        cbdatabase.BackColor = SystemColors.Window;
+        //        cbsongbook.BackColor = Color.Yellow;
+        //    }
+        //    else
+        //    {
+        //        if (TabControl1.TabPages.Contains(tbsongbook))
+        //        {
+        //            m_activeSbPage = TabControl1.SelectedIndex;
+        //            TabControl1.TabPages.Remove(tbsongbook);
+        //            if (m_activeDbPage.HasValue) TabControl1.SelectedIndex = m_activeDbPage.Value;
+        //        }
+        //        cbsongbook.BackColor = SystemColors.Window;
+        //        cbdatabase.BackColor = Color.Yellow;
+        //    }
+        //    songDatabaseWrapper1.Database = SelectedDbOrSb;
+        //    UpdateDbState();
+        //    songView1.LoadSong();
+        //}
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            foreach (SongBook book in SongBook.Manager.SongBooks)
-            {
-                if (book.Modified)
-                {
-                    DialogResult res = MessageBox.Show("Zpìvník " + book.Title + " zmìnìn, uložit?", "Zpìvníkátor", MessageBoxButtons.YesNoCancel);
-                    if (res == DialogResult.No) continue;
-                    if (res == DialogResult.Cancel)
-                    {
-                        e.Cancel = true;
-                        return;
-                    }
-                    if (book.FileName != null && book.FileName != "")
-                    {
-                        book.Save();
-                    }
-                    else
-                    {
-                        if (saveZP.ShowDialog() == DialogResult.OK)
-                        {
-                            book.FileName = saveZP.FileName;
-                        }
-                        else
-                        {
-                            e.Cancel = true;
-                            return;
-                        }
-                        book.Save();
-                    }
-                }
-            }
+            //foreach (SongBook book in SongBook.Manager.SongBooks)
+            //{
+            //    if (book.Modified)
+            //    {
+            //        DialogResult res = MessageBox.Show("Zpìvník " + book.Title + " zmìnìn, uložit?", "Zpìvníkátor", MessageBoxButtons.YesNoCancel);
+            //        if (res == DialogResult.No) continue;
+            //        if (res == DialogResult.Cancel)
+            //        {
+            //            e.Cancel = true;
+            //            return;
+            //        }
+            //        if (book.FileName != null && book.FileName != "")
+            //        {
+            //            book.Save();
+            //        }
+            //        else
+            //        {
+            //            if (saveZP.ShowDialog() == DialogResult.OK)
+            //            {
+            //                book.FileName = saveZP.FileName;
+            //            }
+            //            else
+            //            {
+            //                e.Cancel = true;
+            //                return;
+            //            }
+            //            book.Save();
+            //        }
+            //    }
+            //}
 
-            string dbs = "";
-            foreach (SongDatabase db in DbManager.Manager.GetDatabases())
-            {
-                if (db.Modified)
-                {
-                    if (dbs != "") dbs += ",";
-                    dbs += db.Name;
-                }
-            }
-            if (dbs != "")
-            {
-                DialogResult res= MessageBox.Show("Databáze " + dbs + " zmìnìny, uložit?", "Zpìvníkátor", MessageBoxButtons.YesNoCancel);
-                if (res == DialogResult.Cancel)
-                {
-                    e.Cancel = true;
-                    return;
-                }
-                if (res == DialogResult.No) return;
-                if (res == DialogResult.Yes)
-                {
-                    foreach (SongDatabase db in DbManager.Manager.GetDatabases())
-                        if (db.Modified)
-                            db.Commit();
-                }
-            }
+            //string dbs = "";
+            //foreach (SongDatabase db in DbManager.Manager.GetDatabases())
+            //{
+            //    if (db.Modified)
+            //    {
+            //        if (dbs != "") dbs += ",";
+            //        dbs += db.Name;
+            //    }
+            //}
+            //if (dbs != "")
+            //{
+            //    DialogResult res= MessageBox.Show("Databáze " + dbs + " zmìnìny, uložit?", "Zpìvníkátor", MessageBoxButtons.YesNoCancel);
+            //    if (res == DialogResult.Cancel)
+            //    {
+            //        e.Cancel = true;
+            //        return;
+            //    }
+            //    if (res == DialogResult.No) return;
+            //    if (res == DialogResult.Yes)
+            //    {
+            //        foreach (SongDatabase db in DbManager.Manager.GetDatabases())
+            //            if (db.Modified)
+            //                db.Commit();
+            //    }
+            //}
         }
 
-        private void mnuSaveDb_Click(object sender, EventArgs e)
-        {
-            SelectedDatabase.Commit();
-            UpdateDbState();
-        }
-
-        private void UpdateDbState()
-        {
-            try
-            {
-                if (SelectedDatabase != null)
-                {
-                    m_updating_state = true;
-                    cbdatabase.Items[cbdatabase.SelectedIndex] = GetDbTitle(SelectedDatabase);
-                    dbstatus.Text = SelectedDatabase.Modified ? "Zmìnìno" : "";
-                    dbsize.Text = String.Format("{0} písní", SelectedDatabase.DataSet.song.Rows.Count);
-                    dbname.Text = SelectedDatabase.Name;
-                }
-                else
-                {
-                    dbstatus.Text = dbsize.Text = dbname.Text = "";
-                }
-            }
-            finally
-            {
-                m_updating_state = false;
-            }
-        }
+        //private void UpdateDbState()
+        //{
+        //    try
+        //    {
+        //        if (SelectedDatabase != null)
+        //        {
+        //            m_updating_state = true;
+        //            cbdatabase.Items[cbdatabase.SelectedIndex] = GetDbTitle(SelectedDatabase);
+        //            dbstatus.Text = SelectedDatabase.Modified ? "Zmìnìno" : "";
+        //            dbsize.Text = String.Format("{0} písní", SelectedDatabase.DataSet.song.Rows.Count);
+        //            dbname.Text = SelectedDatabase.Name;
+        //        }
+        //        else
+        //        {
+        //            dbstatus.Text = dbsize.Text = dbname.Text = "";
+        //        }
+        //    }
+        //    finally
+        //    {
+        //        m_updating_state = false;
+        //    }
+        //}
 
         private void newSongList_Click(object sender, EventArgs e)
         {
-            SongBook newsb = SongBook.Manager.CreateNew();
-            LoadSbList();
-            SelectedSongBook = newsb;
+            string name = InputBox.Run("Zadejte prosím název nového zpìvníku", "Nový zpìvník");
+            if (name != null)
+            {
+                SelectedDatabase.ExecuteNonQuery("insert into songlist (name) values (@name)","name",name);
+                int id = SelectedDatabase.LastInsertId();
+                SongBook sb = new SongBook(SelectedDatabase, id);
+                SelectedSongBook = sb;
+            }
         }
 
         private void LoadSbList()
         {
-            SongBook lastsb = SelectedSongBook;
+            SongBookHolder lastsb = cbsongbook.SelectedItem as SongBookHolder;
             cbsongbook.Items.Clear();
-            m_loaded_songbooks.Clear();
-            foreach (SongBook sb in SongBook.Manager.SongBooks)
+            if (SelectedDatabase == null) return;
+            using (var reader = SelectedDatabase.ExecuteReader("select id, name from songlist"))
             {
-                m_loaded_songbooks[sb] = cbsongbook.Items.Count;
-                cbsongbook.Items.Add(sb.Title);
+                while (reader.Read())
+                {
+                    cbsongbook.Items.Add(new SongBookHolder { ID = reader.SafeInt(0), Name = reader.SafeString(1) });
+                }
             }
-            if (lastsb != null && m_loaded_songbooks.ContainsKey(lastsb)) cbsongbook.SelectedIndex = m_loaded_songbooks[lastsb];
+            if (lastsb != null) SelectSongBookById(lastsb.ID);
         }
 
         private void cbsongbook_SelectedIndexChanged(object sender, EventArgs e)
         {
-            rbsongbook.Checked = true;
-            LoadCurrentDbOrSb();
-            songBookFrame1.SongBook = SelectedSongBook;
+            if (m_changingSb > 0) return;
+            m_currentBook = null;
         }
 
-        private void rbsongbook_CheckedChanged(object sender, EventArgs e)
-        {
-            LoadCurrentDbOrSb();
-        }
+        //private void rbsongbook_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    LoadCurrentDbOrSb();
+        //}
 
         /*
         private void pøidatDoZpìvníkuToolStripMenuItem_Click(object sender, EventArgs e)
@@ -315,27 +314,6 @@ namespace zp8
         }
         */
 
-        private void saveSongList_Click(object sender, EventArgs e)
-        {
-            SongBook sb = SelectedSongBook;
-            if (sb == null) return;
-            if (sb.FileName == null) uložitNaToolStripMenuItem_Click(sender, e);
-            sb.Save();
-            LoadSbList();
-        }
-
-        private void uložitNaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SongBook sb = SelectedSongBook;
-            if (sb == null) return;
-            if (saveZP.ShowDialog() == DialogResult.OK)
-            {
-                sb.FileName = saveZP.FileName;
-                sb.Save();
-                LoadSbList();
-            }
-        }
-
         private void obecnéToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OptionsForm.Run(GlobalOpts.Default);
@@ -356,16 +334,16 @@ namespace zp8
 
         private void importPísníToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                songDatabaseWrapper1.Database = null;
-                ImportForm.Run(SelectedDbOrSb);
-                UpdateDbState();
-            }
-            finally
-            {
-                songDatabaseWrapper1.Database = SelectedDbOrSb;
-            }
+            //try
+            //{
+            //    songDatabaseWrapper1.Database = null;
+            //    ImportForm.Run(SelectedDbOrSb);
+            //    UpdateDbState();
+            //}
+            //finally
+            //{
+            //    songDatabaseWrapper1.Database = SelectedDbOrSb;
+            //}
         }
 
         private void vlastnostiToolStripMenuItem_Click(object sender, EventArgs e)
@@ -373,19 +351,19 @@ namespace zp8
             if (SelectedSongBook != null) songBookFrame1.PropertiesDialog();
         }
 
-        private void open_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                string ext = Path.GetExtension(openFileDialog1.FileName).ToLower();
-                if (ext == ".zp")
-                {
-                    SongBook newsb = SongBook.Manager.LoadExisting(openFileDialog1.FileName);
-                    LoadSbList();
-                    SelectedSongBook = newsb;
-                }
-            }
-        }
+        //private void open_Click(object sender, EventArgs e)
+        //{
+        //    if (openFileDialog1.ShowDialog() == DialogResult.OK)
+        //    {
+        //        string ext = Path.GetExtension(openFileDialog1.FileName).ToLower();
+        //        if (ext == ".zp")
+        //        {
+        //            SongBook newsb = SongBook.Manager.LoadExisting(openFileDialog1.FileName);
+        //            LoadSbList();
+        //            SelectedSongBook = newsb;
+        //        }
+        //    }
+        //}
 
         private void pdfExportToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -404,7 +382,7 @@ namespace zp8
 
         private void printSong_Click(object sender, EventArgs e)
         {
-            SongDb.songRow song = songView1.Song;
+            SongData song = songView1.Song;
             if (song != null && printDialog1.ShowDialog() == DialogResult.OK)
             {
                 SongPrinter sp = new SongPrinter(song, printDialog1.PrinterSettings);
@@ -414,7 +392,7 @@ namespace zp8
 
         private void exportPísnìDoPDFToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SongDb.songRow song = songView1.Song;
+            SongData song = songView1.Song;
             if (song != null && savePDF.ShowDialog() == DialogResult.OK)
             {
                 SongPDFPrinter.Print(song, savePDF.FileName);
@@ -439,35 +417,35 @@ namespace zp8
 
         private void upravitPíseòToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (songView1.Song != null) EditSongForm.Run(songView1.Song, SelectedDbOrSb.DataSet);
+            if (songView1.SongID > 0) EditSongForm.Run(SelectedDatabase, songView1.SongID);
         }
 
         private void newSong_Click(object sender, EventArgs e)
         {
-            if (SelectedDbOrSb != null)
+            if (SelectedDatabase != null)
             {
-                SongDb.songRow row = SelectedDbOrSb.CreateSong();
-                EditSongForm.Run(row, SelectedDbOrSb.DataSet);
+                SelectedDatabase.ExecuteNonQuery("insert into song (title) values ('Nova pisen')");
+                EditSongForm.Run(SelectedDatabase, SelectedDatabase.LastInsertId());
             }
         }
 
         private void pøidatVybranouPíseòDoZpìvníkuToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddSelectedSongToDb(SelectedSongBook);
+            //AddSelectedSongToDb(SelectedSongBook);
         }
 
-        private void AddSelectedSongToDb(AbstractSongDatabase db)
+        private void AddSelectedSongToDb(SongDatabase db)
         {
-            if (db == null) return;
-            foreach (SongDb.songRow song in songTable1.GetSelectedSongsOrFocused())
-            {
-                DbTools.AddSongRow(song, db);
-            }
+            //if (db == null) return;
+            //foreach (SongDb.songRow song in songTable1.GetSelectedSongsOrFocused())
+            //{
+            //    DbTools.AddSongRow(song, db);
+            //}
         }
 
         private void pøidatVybranouPíseòDoDatabázeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddSelectedSongToDb(SelectedDatabase);
+            //AddSelectedSongToDb(SelectedDatabase);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -477,18 +455,19 @@ namespace zp8
 
         private void ApplyFilter()
         {
-            SongDb.songRow cursong = songDatabaseWrapper1.SelectedSong;
-            if (tbfilter.Text != "")
-            {
-                songDatabaseWrapper1.SongBindingSource.Filter = String.Format("searchtext LIKE '%{0}%'", Searching.MakeSearchText(tbfilter.Text));
-            }
-            else
-            {
-                songDatabaseWrapper1.SongBindingSource.Filter = null;
-            }
-            songsByGroupFrame1.Reload();
-            songView1.LoadSong();
-            if (cursong != null) songDatabaseWrapper1.SelectedSong = cursong;
+            songDatabaseWrapper1.SearchText = tbfilter.Text;
+            //SongDb.songRow cursong = songDatabaseWrapper1.SelectedSong;
+            //if (tbfilter.Text != "")
+            //{
+            //    songDatabaseWrapper1.SongBindingSource.Filter = String.Format("searchtext LIKE '%{0}%'", Searching.MakeSearchText(tbfilter.Text));
+            //}
+            //else
+            //{
+            //    songDatabaseWrapper1.SongBindingSource.Filter = null;
+            //}
+            //songsByGroupFrame1.Reload();
+            //songView1.LoadSong();
+            //if (cursong != null) songDatabaseWrapper1.SelectedSong = cursong;
         }
 
         private void tbfilter_KeyDown(object sender, KeyEventArgs e)
@@ -506,12 +485,12 @@ namespace zp8
 
         private void songDatabaseWrapper1_SongChanged(object sender, EventArgs e)
         {
-            UpdateDbState();
+            //UpdateDbState();
         }
 
         private void exportPísníToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ExportForm.Run(songDatabaseWrapper1, songTable1.GetSelectedSongs());
+            //ExportForm.Run(songDatabaseWrapper1, songTable1.GetSelectedSongs());
         }
 
         private void filtryToolStripMenuItem_Click(object sender, EventArgs e)
@@ -535,12 +514,12 @@ namespace zp8
 
         private void smazatToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            List<SongDb.songRow> songs = new List<SongDb.songRow>();
-            songs.AddRange(songTable1.GetSelectedSongsOrFocused());
-            if (MessageBox.Show(String.Format("Opravdu vymazat {0} písní ?", songs.Count), "Zpìvníkátor", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                foreach (SongDb.songRow song in songs) song.Delete();
-            }
+            //List<SongDb.songRow> songs = new List<SongDb.songRow>();
+            //songs.AddRange(songTable1.GetSelectedSongsOrFocused());
+            //if (MessageBox.Show(String.Format("Opravdu vymazat {0} písní ?", songs.Count), "Zpìvníkátor", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            //{
+            //    foreach (SongDb.songRow song in songs) song.Delete();
+            //}
         }
 
         private void obsahToolStripMenuItem_Click(object sender, EventArgs e)
@@ -564,10 +543,30 @@ namespace zp8
 
         private void tabControl2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl2.SelectedIndex == 0)
+            switch (tabControl2.SelectedIndex)
             {
-                //SongDb.songRow song = songsByGroupFrame1.SongDb.SelectedSong;
-                //songTable1.
+                case 0:
+                    songTable1.LoadCurrentSong();
+                    break;
+                case 1:
+                    songsByGroupFrame1.LoadCurrentSong();
+                    break;
+            }
+            //if (tabControl2.SelectedIndex == 0)
+            //{
+            //    //SongDb.songRow song = songsByGroupFrame1.SongDb.SelectedSong;
+            //    //songTable1.
+            //}
+        }
+
+        private void mnuNewDatabase_Click(object sender, EventArgs e)
+        {
+            string dbname;
+            if (NewDbForm.Run(out dbname))
+            {
+                SongDatabase newdb = DbManager.Manager.CreateDatabase(dbname);
+                LoadDbList();
+                SelectedDatabase = newdb;
             }
         }
     }

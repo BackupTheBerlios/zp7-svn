@@ -31,7 +31,6 @@ namespace zp8
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImportForm));
             this.serverBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.songDb = new zp8.SongDb();
             this.wizardPage1 = new Gui.Wizard.WizardPage();
             this.lbserver = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -49,7 +48,6 @@ namespace zp8
             this.header2 = new Gui.Wizard.Header();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.songBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.inetSongDb = new zp8.InetSongDb();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.authorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -59,25 +57,17 @@ namespace zp8
             this.langDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.publishedDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.serverBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.songDb)).BeginInit();
             this.wizardPage1.SuspendLayout();
             this.wizardPage3.SuspendLayout();
             this.wizard1.SuspendLayout();
             this.wizardPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.songBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.inetSongDb)).BeginInit();
             this.SuspendLayout();
             // 
             // serverBindingSource
             // 
             this.serverBindingSource.DataMember = "server";
-            this.serverBindingSource.DataSource = this.songDb;
-            // 
-            // songDb
-            // 
-            this.songDb.DataSetName = "SongDb";
-            this.songDb.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // wizardPage1
             // 
@@ -278,12 +268,6 @@ namespace zp8
             // songBindingSource
             // 
             this.songBindingSource.DataMember = "song";
-            this.songBindingSource.DataSource = this.inetSongDb;
-            // 
-            // inetSongDb
-            // 
-            this.inetSongDb.DataSetName = "InetSongDb";
-            this.inetSongDb.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -344,7 +328,6 @@ namespace zp8
             this.Name = "ImportForm";
             this.Text = "Import písní";
             ((System.ComponentModel.ISupportInitialize)(this.serverBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.songDb)).EndInit();
             this.wizardPage1.ResumeLayout(false);
             this.wizardPage1.PerformLayout();
             this.wizardPage3.ResumeLayout(false);
@@ -360,7 +343,6 @@ namespace zp8
         #endregion
 
         private System.Windows.Forms.BindingSource serverBindingSource;
-        private SongDb songDb;
         private Gui.Wizard.WizardPage wizardPage1;
         private System.Windows.Forms.ComboBox lbserver;
         private System.Windows.Forms.Label label3;

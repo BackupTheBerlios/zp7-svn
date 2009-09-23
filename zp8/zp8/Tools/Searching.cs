@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Data.SQLite;
 
 namespace zp8
 {
@@ -28,4 +29,17 @@ namespace zp8
             return res.ToString();
         }
     }
+
+    //[SQLiteFunction(Arguments = 1, FuncType = FunctionType.Scalar, Name = "makesearchtext")]
+    //public class MakeSearchTextFunction : SQLiteFunction
+    //{
+    //    public MakeSearchTextFunction()
+    //    {
+    //    }
+    //    public override object Invoke(object[] args)
+    //    {
+    //        return Searching.MakeSearchText(args[0].ToString());
+    //    }
+    //}
 }
+

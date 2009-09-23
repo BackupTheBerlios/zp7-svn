@@ -48,7 +48,7 @@ namespace zp8
                 {
                     if (fulltext.Trim() == "") continue;
                     SongData song = SongDataAnalyser.AnalyseSongData(fulltext, m_dataProps);
-                    song.SongText = SongTextAnalyser.NormalizeSongText(song.SongText, m_textProps);
+                    song.OrigText = SongTextAnalyser.NormalizeSongText(song.SongText, m_textProps);
                     DbTools.AddSongRow(song, db);
                     if (wait.Canceled) return;
                     wait.Message("Zpracována píseò " + song.Title);

@@ -51,7 +51,6 @@ namespace zp8
             this.cbuseserver = new System.Windows.Forms.CheckBox();
             this.cbserver = new System.Windows.Forms.ComboBox();
             this.serverBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.songDb = new zp8.SongDb();
             this.label4 = new System.Windows.Forms.Label();
             this.tbgroup = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -68,7 +67,6 @@ namespace zp8
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.serverBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.songDb)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -275,12 +273,6 @@ namespace zp8
             // serverBindingSource
             // 
             this.serverBindingSource.DataMember = "server";
-            this.serverBindingSource.DataSource = this.songDb;
-            // 
-            // songDb
-            // 
-            this.songDb.DataSetName = "SongDb";
-            this.songDb.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // label4
             // 
@@ -390,7 +382,6 @@ namespace zp8
             this.songView1.Location = new System.Drawing.Point(3, 3);
             this.songView1.Name = "songView1";
             this.songView1.Size = new System.Drawing.Size(405, 460);
-            this.songView1.SongDb = null;
             this.songView1.SongText = null;
             this.songView1.TabIndex = 0;
             // 
@@ -416,7 +407,6 @@ namespace zp8
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.serverBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.songDb)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -452,7 +442,6 @@ namespace zp8
         private System.Windows.Forms.ToolStripMenuItem nahoruOKvintuToolStripMenuItem;
         private System.Windows.Forms.ComboBox cbserver;
         private System.Windows.Forms.BindingSource serverBindingSource;
-        private SongDb songDb;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox cbuseserver;
         private System.Windows.Forms.TextBox tbremark;
