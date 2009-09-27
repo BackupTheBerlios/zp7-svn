@@ -52,11 +52,6 @@ namespace zp8
             }
         }
 
-        void m_db_SongChanged(object sender, EventArgs e)
-        {
-            if (SongChanged != null) SongChanged(sender, e);
-        }
-
         public event EventHandler ChangedSongDatabase;
         public event EventHandler SongChanged;
         public event EventHandler SongSetChanged;
@@ -92,7 +87,11 @@ namespace zp8
         public string SearchText
         {
             get { return m_searchText; }
-            set { m_searchText = value; }
+            set
+            {
+                m_searchText = value;
+                if (SongSetChanged != null) SongSetChanged(this, EventArgs.Empty);
+            }
         }
     }
 

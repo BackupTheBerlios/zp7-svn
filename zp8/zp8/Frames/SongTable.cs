@@ -40,15 +40,29 @@ namespace zp8
                 if (m_dbwrap != null)
                 {
                     m_dbwrap.ChangedSongDatabase -= m_dbwrap_ChangedSongDatabase;
+                    m_dbwrap.SongSetChanged -= m_dbwrap_SongSetChanged;
                 }
                 m_dbwrap = value;
                 if (m_dbwrap != null)
                 {
-                    //dataGridView1.DataSource = m_dbwrap.SongBindingSource;
-                    //m_dbwrap.SongBindingSource.CurrentChanged += SongBindingSource_CurrentChanged;
+                    m_dbwrap.ChangedSongDatabase += m_dbwrap_ChangedSongDatabase;
+                    m_dbwrap.SongSetChanged += m_dbwrap_SongSetChanged;
                 }
-                m_dbwrap.ChangedSongDatabase += m_dbwrap_ChangedSongDatabase;
             }
+        }
+
+        int m_songSetChangedRowId;
+        void m_dbwrap_SongSetChanged(object sender, EventArgs e)
+        {
+            m_songSetChangedRowId = m_dbwrap.SongID;
+            Reload();
+            Application.Idle += Application_Idle_SongSetChanged;
+        }
+
+        void Application_Idle_SongSetChanged(object sender, EventArgs e)
+        {
+            SetCurrentSong(m_songSetChangedRowId);
+            Application.Idle -= Application_Idle_SongSetChanged;
         }
 
         /*
