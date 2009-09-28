@@ -30,6 +30,8 @@ namespace zp8
             InitializeComponent();
             Text = "Zpìvníkátor " + VersionInfo.Version;
             WindowState = global::zp8.Properties.Settings.Default.MainWindowState;
+
+            TabControl1.TabPages.Remove(tbsongbook);
         }
 
         public static IntPtr HDC
@@ -45,13 +47,14 @@ namespace zp8
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadDbList();
-            LoadSbList();
 
             string db = GlobalCfg.Default.currentdb;
             if (m_loaded_dbs_name_to_index.ContainsKey(db))
             {
                 cbdatabase.SelectedIndex = m_loaded_dbs_name_to_index[db];
             }
+
+            LoadSbList();
         }
 
         private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -124,8 +127,10 @@ namespace zp8
         private void SelectSongBookById(int id)
         {
             int index = 0;
-            foreach (SongBookHolder hld in cbsongbook.Items)
+            foreach (object ohld in cbsongbook.Items)
             {
+                var hld = ohld as SongBookHolder;
+                if (hld == null) continue;
                 if (hld.ID == id) cbsongbook.SelectedIndex = index;
                 index++;
             }
@@ -140,6 +145,8 @@ namespace zp8
             //LoadCurrentDbOrSb();
             if (SelectedDatabase != null) GlobalCfg.Default.currentdb = SelectedDatabase.Name;
             songDatabaseWrapper1.Database = SelectedDatabase;
+            LoadSbList();
+            cbsongbook_SelectedIndexChanged(sender, e);
             //UpdateDbState();
         }
 
@@ -271,6 +278,8 @@ namespace zp8
         {
             SongBookHolder lastsb = cbsongbook.SelectedItem as SongBookHolder;
             cbsongbook.Items.Clear();
+            cbsongbook.Items.Add("(Vyberte zpìvník)");
+            cbsongbook.SelectedIndex = 0;
             if (SelectedDatabase == null) return;
             using (var reader = SelectedDatabase.ExecuteReader("select id, name from songlist"))
             {
@@ -286,6 +295,15 @@ namespace zp8
         {
             if (m_changingSb > 0) return;
             m_currentBook = null;
+            if (cbsongbook.SelectedIndex > 0)
+            {
+                if (!TabControl1.TabPages.Contains(tbsongbook)) TabControl1.TabPages.Add(tbsongbook);
+            }
+            else
+            {
+                if (TabControl1.TabPages.Contains(tbsongbook)) TabControl1.TabPages.Remove(tbsongbook);
+            }
+            if (SelectedSongBook != null) songBookFrame1.SongBook = SelectedSongBook;
         }
 
         //private void rbsongbook_CheckedChanged(object sender, EventArgs e)
@@ -431,21 +449,19 @@ namespace zp8
 
         private void pøidatVybranouPíseòDoZpìvníkuToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //AddSelectedSongToDb(SelectedSongBook);
+            AddSelectedSongToDb();
         }
 
-        private void AddSelectedSongToDb(SongDatabase db)
+        private void AddSelectedSongToDb()
         {
-            //if (db == null) return;
-            //foreach (SongDb.songRow song in songTable1.GetSelectedSongsOrFocused())
-            //{
-            //    DbTools.AddSongRow(song, db);
-            //}
+            SelectedDatabase.ExecuteNonQuery("insert into songlistitem (song_id, songlist_id, transp) values (@song, @list, @transp)",
+                "song", songDatabaseWrapper1.SongID, "list", SelectedSongBook.ID, "transp", 0);
+            SelectedSongBook.DispatchBookChanged();
         }
 
         private void pøidatVybranouPíseòDoDatabázeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //AddSelectedSongToDb(SelectedDatabase);
+            AddSelectedSongToDb();
         }
 
         private void button2_Click(object sender, EventArgs e)

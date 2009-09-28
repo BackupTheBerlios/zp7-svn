@@ -297,6 +297,29 @@ namespace zp8
             }
         }
 
+        public object[] ExecuteOneRow(string sql, params object[] args)
+        {
+            WantOpen();
+            using (SQLiteCommand cmd = m_conn.CreateCommand())
+            {
+                cmd.CommandText = sql;
+                BindParams(cmd, args);
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        object[] res = new object[reader.FieldCount];
+                        reader.GetValues(res);
+                        return res;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+        }
+
         public object ExecuteScalar(string sql, params object[] args)
         {
             WantOpen();

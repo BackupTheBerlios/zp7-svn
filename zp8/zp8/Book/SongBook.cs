@@ -157,17 +157,25 @@ namespace zp8
         BookFormatOptions m_bookFormatOptions;
         PageDrawOptions m_pageDrawOptions;
         FormattedBook m_fbook;
-        
+
         public SongBook(SongDatabase db, int id)
         {
-            PrintTarget = new PdfPrintTarget();
             m_db = db;
-            m_name = m_db.ExecuteScalar("select name from songlist where id=@id", "id", id).ToString();
+            m_id = id;
+            var vals = m_db.ExecuteOneRow("select name, options from songlist where id=@id", "id", id);
+            m_name = vals[0].ToString();
+            if (vals[1] != null && vals[1] != DBNull.Value)
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(vals[1].ToString());
+                Options.LoadOptions(doc.DocumentElement, this);
+            }
+            PrintTarget = new PdfPrintTarget();
         }
 
         public int ID { get { return m_id; } }
 
-        void DispatchRowChanged()
+        public void DispatchBookChanged()
         {
             m_fbook = null;
             if (BookChanged != null) BookChanged(this, EventArgs.Empty);

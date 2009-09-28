@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using System.Data.Common;
 
 namespace zp8
@@ -19,7 +20,7 @@ namespace zp8
         public static IEnumerable<SongData> LoadSongList(this SongDatabase db, int id)
         {
             var res = new Dictionary<int, SongData>();
-            using (var reader = db.ExecuteReader("select id,songlistitem.transp," + String.Join(",", SONG_DATA_COLUMNS) + " from song "
+            using (var reader = db.ExecuteReader("select song.id,songlistitem.transp," + String.Join(",", (from s in SONG_DATA_COLUMNS select "song." + s).ToArray()) + " from song "
                 + "inner join songlistitem on songlistitem.song_id = song.id "
                 + "where songlistitem.songlist_id = @id", "id", id))
             {
@@ -32,7 +33,7 @@ namespace zp8
                     res[song.LocalID] = song;
                 }
             }
-            using (var reader = db.ExecuteReader("select song_id,datatype_id,label,textdata from songdata "
+            using (var reader = db.ExecuteReader("select songdata.song_id,datatype_id,label,textdata from songdata "
                 + "inner join songlistitem on songdata.song_id = songlistitem.song_id "
                 + "where songlistitem.songlist_id = @id", "id", id))
             {
