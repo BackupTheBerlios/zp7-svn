@@ -12,17 +12,18 @@ namespace zp8
 {
     public partial class ExportForm : Form
     {
-        //InetSongDb m_db;
-        //SongDatabaseWrapper m_dbwrap;
+        InetSongDb m_db;
+        SongDatabaseWrapper m_dbwrap;
+        List<int> m_selected;
         //IEnumerable<SongDb.songRow> m_selected;
         List<ISongFormatter> m_types = new List<ISongFormatter>();
         object m_dynamciProperties;
 
-        public ExportForm(SongDatabase dbwrap, IEnumerable<SongData> selected)
+        public ExportForm(SongDatabaseWrapper dbwrap, List<int> selected)
         {
             InitializeComponent();
-            //m_dbwrap = dbwrap;
-            //m_selected = selected;
+            m_dbwrap = dbwrap;
+            m_selected = selected;
             foreach (ISongFormatter exp in SongFilters.EnumFilters<ISongFormatter>())
             {
                 m_types.Add(exp);
@@ -36,8 +37,17 @@ namespace zp8
             tbcondition.Enabled = rbcondition.Checked;
         }
 
-        private void AddSongs(IEnumerable rows)
+        private void AddSongs(IEnumerable<SongData> songs)
         {
+            foreach (var song in songs)
+            {
+                m_db.Songs.Add(song);
+            }
+        }
+
+        private void AddSongs(List<int> rows)
+        {
+            AddSongs(m_dbwrap.Database.LoadSongs(rows));
             //foreach (SongDb.songRow src in rows)
             //{
             //    if (src.RowState == DataRowState.Deleted || src.RowState == DataRowState.Detached) continue;
@@ -50,15 +60,15 @@ namespace zp8
 
         private void wizardPage2_ShowFromNext(object sender, EventArgs e)
         {
-            //m_db = new InetSongDb();
-            //if (rbcurrentsong.Checked) AddSongs(new SongDb.songRow[] { m_dbwrap.SelectedSong });
-            //if (rbselectedsongs.Checked) AddSongs(m_selected);
-            //if (rbwholedb.Checked) AddSongs(m_dbwrap.Database.DataSet.song);
-            //if (rbcondition.Checked) AddSongs(m_dbwrap.Database.DataSet.song.Select(tbcondition.Text));
-            //songBindingSource.DataSource = m_db.song;
+            m_db = new InetSongDb();
+            if (rbcurrentsong.Checked) AddSongs(new List<int> { m_dbwrap.SongID });
+            if (rbselectedsongs.Checked) AddSongs(m_selected);
+            if (rbwholedb.Checked) AddSongs(m_dbwrap.Database.LoadSongs(null, "", "1=1"));
+            if (rbcondition.Checked) AddSongs(m_dbwrap.Database.LoadSongs(null, "", tbcondition.Text));
+            dataGridView1.DataSource = m_db.GetAsTable();
         }
 
-        public static void Run(SongDatabase dbwrap, IEnumerable<SongData> selected)
+        public static void Run(SongDatabaseWrapper dbwrap, List<int> selected)
         {
             ExportForm frm = new ExportForm(dbwrap, selected);
             if (frm.ShowDialog() == DialogResult.OK)
@@ -76,6 +86,5 @@ namespace zp8
             m_dynamciProperties = m_types[lbformat.SelectedIndex].CreateDynamicProperties();
             propertyGrid1.SelectedObject = m_dynamciProperties;
         }
-
     }
 }

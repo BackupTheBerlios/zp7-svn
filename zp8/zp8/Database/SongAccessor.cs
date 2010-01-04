@@ -17,25 +17,29 @@ namespace zp8
             null, "Poznámka"
         };
 
-        public static IEnumerable<SongData> LoadSongList(this SongDatabase db, int id)
+        public static IEnumerable<SongData> LoadSongs(this SongDatabase db, string[] extracols, string joins, string conds)
         {
+            if (extracols == null) extracols = new string[] { };
             var res = new Dictionary<int, SongData>();
-            using (var reader = db.ExecuteReader("select song.id,songlistitem.transp," + String.Join(",", (from s in SONG_DATA_COLUMNS select "song." + s).ToArray()) + " from song "
-                + "inner join songlistitem on songlistitem.song_id = song.id "
-                + "where songlistitem.songlist_id = @id", "id", id))
+            string query = "select song.id,";
+            foreach (string ec in extracols) query += ec + ",";
+            using (var reader = db.ExecuteReader(query + String.Join(",", (from s in SONG_DATA_COLUMNS select "song." + s).ToArray()) + " from song "
+                + joins.Replace("#SONGID#", "song.id") + " where " + conds.Replace("#SONGID#", "song.id")))
             {
                 while (reader.Read())
                 {
                     SongData song = new SongData();
-                    LoadSongDataColumns(song, reader, 2);
-                    if (!reader.IsDBNull(1)) song.Transp = reader.SafeInt(1);
+                    LoadSongDataColumns(song, reader, 1 + extracols.Length);
+                    if (extracols.Length > 0 && extracols[0].Contains("transp"))
+                    {
+                        if (!reader.IsDBNull(1)) song.Transp = reader.SafeInt(1);
+                    }
                     song.LocalID = reader.SafeInt(0);
                     res[song.LocalID] = song;
                 }
             }
-            using (var reader = db.ExecuteReader("select songdata.song_id,datatype_id,label,textdata from songdata "
-                + "inner join songlistitem on songdata.song_id = songlistitem.song_id "
-                + "where songlistitem.songlist_id = @id", "id", id))
+            using (var reader = db.ExecuteReader("select songdata.song_id,songdata.datatype_id,songdata.label,songdata.textdata from songdata "
+                + joins.Replace("#SONGID#", "songdata.song_id") + " where " + conds.Replace("#SONGID#", "songdata.song_id")))
             {
                 while (reader.Read())
                 {
@@ -49,6 +53,48 @@ namespace zp8
                 }
             }
             return res.Values;
+
+        }
+
+        public static IEnumerable<SongData> LoadSongList(this SongDatabase db, int id)
+        {
+            return LoadSongs(
+                db,
+                new string[] { "songlistitem.transp" },
+                "inner join songlistitem on songlistitem.song_id = #SONGID# ",
+                String.Format("songlistitem.songlist_id = {0}", id.ToString())
+                );
+                
+            //var res = new Dictionary<int, SongData>();
+            //using (var reader = db.ExecuteReader("select song.id,songlistitem.transp," + String.Join(",", (from s in SONG_DATA_COLUMNS select "song." + s).ToArray()) + " from song "
+            //    + "inner join songlistitem on songlistitem.song_id = song.id "
+            //    + "where songlistitem.songlist_id = @id", "id", id))
+            //{
+            //    while (reader.Read())
+            //    {
+            //        SongData song = new SongData();
+            //        LoadSongDataColumns(song, reader, 2);
+            //        if (!reader.IsDBNull(1)) song.Transp = reader.SafeInt(1);
+            //        song.LocalID = reader.SafeInt(0);
+            //        res[song.LocalID] = song;
+            //    }
+            //}
+            //using (var reader = db.ExecuteReader("select songdata.song_id,datatype_id,label,textdata from songdata "
+            //    + "inner join songlistitem on songdata.song_id = songlistitem.song_id "
+            //    + "where songlistitem.songlist_id = @id", "id", id))
+            //{
+            //    while (reader.Read())
+            //    {
+            //        SongData song = res[reader.SafeInt(0)];
+            //        song.Items.Add(new SongDataItem
+            //        {
+            //            DataType = (SongDataType)reader.SafeInt(1),
+            //            Label = reader.SafeString(2),
+            //            TextData = reader.SafeString(3)
+            //        });
+            //    }
+            //}
+            //return res.Values;
         }
 
         private static void LoadSongDataColumns(SongData song, DbDataReader reader, int ofs)
@@ -62,36 +108,47 @@ namespace zp8
             song.Remark = reader.SafeString(ofs + 6);
         }
 
+        public static IEnumerable<SongData> LoadSongs(this SongDatabase db, List<int> rows)
+        {
+            string cond = "#SONGID# IN (";
+            cond += String.Join(", ", (from r in rows select r.ToString()).ToArray());
+            cond += ")";
+            return LoadSongs(db, new string[] { "song.transp" }, "", cond);
+        }
+
         public static SongData LoadSong(this SongDatabase db, int id)
         {
-            var res = new SongData();
-            using (var reader = db.ExecuteReader("select id," + String.Join(",", SONG_DATA_COLUMNS) + " from song "
-                + "where ID = @id", "id", id))
-            {
-                if (reader.Read())
-                {
-                    LoadSongDataColumns(res, reader, 1);
-                    res.LocalID = reader.SafeInt(0);
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            using (var reader = db.ExecuteReader("select song_id,datatype_id,label,textdata from songdata "
-                + "where songdata.song_id = @id", "id", id))
-            {
-                while (reader.Read())
-                {
-                    res.Items.Add(new SongDataItem
-                    {
-                        DataType = (SongDataType)reader.SafeInt(1),
-                        Label = reader.SafeString(2),
-                        TextData = reader.SafeString(3)
-                    });
-                }
-            }
-            return res;
+            var res = new List<SongData>(db.LoadSongs(new string[] { "song.transp" }, "", "#SONGID#=" + id.ToString()));
+            if (res.Count > 0) return res[0];
+            return null;
+            //var res = new SongData();
+            //using (var reader = db.ExecuteReader("select id," + String.Join(",", SONG_DATA_COLUMNS) + " from song "
+            //    + "where ID = @id", "id", id))
+            //{
+            //    if (reader.Read())
+            //    {
+            //        LoadSongDataColumns(res, reader, 1);
+            //        res.LocalID = reader.SafeInt(0);
+            //    }
+            //    else
+            //    {
+            //        return null;
+            //    }
+            //}
+            //using (var reader = db.ExecuteReader("select song_id,datatype_id,label,textdata from songdata "
+            //    + "where songdata.song_id = @id", "id", id))
+            //{
+            //    while (reader.Read())
+            //    {
+            //        res.Items.Add(new SongDataItem
+            //        {
+            //            DataType = (SongDataType)reader.SafeInt(1),
+            //            Label = reader.SafeString(2),
+            //            TextData = reader.SafeString(3)
+            //        });
+            //    }
+            //}
+            //return res;
         }
 
         public static string GetSongFields(bool wantid)

@@ -119,20 +119,20 @@ namespace zp8
         {
             VisibleColumnsForm.Run(dataGridView1);
         }
-        public IEnumerable<SongData> GetSelectedSongs()
+        public List<int> GetSelectedSongs()
         {
-            yield break;
-            //foreach (DataGridViewRow row in dataGridView1.SelectedRows)
-            //{
-            //    if (!row.IsNewRow) yield return m_dbwrap.SongByIndex(row.Index);
-            //}
+            var res = new List<int>();
+            foreach (DataGridViewRow row in dataGridView1.SelectedRows)
+            {
+                if (!row.IsNewRow) res.Add(GetSongID(row.Index));
+            }
+            return res;
         }
 
-        public IEnumerable<SongData> GetSelectedSongsOrFocused()
+        public List<int> GetSelectedSongsOrFocused()
         {
-            yield break;
-            //if (dataGridView1.SelectedRows.Count > 0) return GetSelectedSongs();
-            //else return new SongDb.songRow[] { m_dbwrap.SelectedSong };
+            if (dataGridView1.SelectedRows.Count > 0) return GetSelectedSongs();
+            else return new List<int> { m_dbwrap.SongID };
         }
 
         private void SetCurrentSong(int songid)

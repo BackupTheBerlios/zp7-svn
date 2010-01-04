@@ -47,8 +47,6 @@ namespace zp8
             this.header3 = new Gui.Wizard.Header();
             this.wizardPage2 = new Gui.Wizard.WizardPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.songBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.inetSongDb = new zp8.InetSongDb();
             this.header2 = new Gui.Wizard.Header();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -64,8 +62,6 @@ namespace zp8
             this.wizardPage3.SuspendLayout();
             this.wizardPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.songBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.inetSongDb)).BeginInit();
             this.SuspendLayout();
             // 
             // wizard1
@@ -259,17 +255,11 @@ namespace zp8
             this.langDataGridViewTextBoxColumn,
             this.songtextDataGridViewTextBoxColumn,
             this.publishedDataGridViewTextBoxColumn});
-            this.dataGridView1.DataSource = this.songBindingSource;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 64);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(512, 317);
             this.dataGridView1.TabIndex = 1;
-            // 
-            // songBindingSource
-            // 
-            this.songBindingSource.DataMember = "song";
-            this.songBindingSource.DataSource = this.inetSongDb;
             // 
             // header2
             // 
@@ -350,8 +340,6 @@ namespace zp8
             this.wizardPage3.PerformLayout();
             this.wizardPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.songBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.inetSongDb)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -375,8 +363,6 @@ namespace zp8
         private System.Windows.Forms.DataGridView dataGridView1;
         private Gui.Wizard.Header header2;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.BindingSource songBindingSource;
-        private InetSongDb inetSongDb;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn remark;

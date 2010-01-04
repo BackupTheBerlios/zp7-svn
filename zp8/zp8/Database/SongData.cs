@@ -116,6 +116,24 @@ namespace zp8
             get { return m_remark; }
             set { m_remark = value; }
         }
+
+        public string this[string name]
+        {
+            get
+            {
+                switch (name)
+                {
+                    case "title": return Title;
+                    case "groupname": return GroupName;
+                    case "author": return Author;
+                    case "lang": return Lang;
+                    case "netID": return NetID;
+                    case "transp": return Transp.ToString();
+                    case "remark": return Remark;
+                }
+                return "";
+            }
+        }
     }
 
 }

@@ -506,7 +506,7 @@ namespace zp8
 
         private void exportPísníToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //ExportForm.Run(songDatabaseWrapper1, songTable1.GetSelectedSongs());
+            ExportForm.Run(songDatabaseWrapper1, songTable1.GetSelectedSongs());
         }
 
         private void filtryToolStripMenuItem_Click(object sender, EventArgs e)
