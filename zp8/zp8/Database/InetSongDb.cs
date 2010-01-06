@@ -45,5 +45,25 @@ namespace zp8
                 xw.WriteEndDocument();
             }
         }
+
+        public void Load(Stream fr)
+        {
+            Load(XmlTextReader.Create(fr));
+        }
+
+        public void Load(XmlReader reader)
+        {
+            Songs.Clear();
+            XmlDocument doc = new XmlDocument();
+            XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
+            nsmgr.AddNamespace("ns", XMLNS);
+            doc.Load(reader);
+            foreach (XmlElement xsong in doc.SelectNodes("/ns:InetSongDb/ns:song", nsmgr))
+            {
+                SongData song = new SongData();
+                song.Load(xsong);
+                Songs.Add(song);
+            }
+        }
     }
 }

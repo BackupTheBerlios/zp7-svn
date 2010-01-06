@@ -62,7 +62,7 @@ namespace zp8
             xslt.Transform(zp6doc, XmlWriter.Create(sb));
             using (StringReader sr = new StringReader(sb.ToString()))
             {
-                //xmldb.song.ReadXml(sr);
+                xmldb.Load(XmlTextReader.Create(sr));
             }
             //db.ImportSongs(sr, serverid);
         }
@@ -88,7 +88,7 @@ namespace zp8
 
         public override void Parse(Stream fr, InetSongDb xmldb, IWaitDialog wait)
         {
-            //xmldb.ReadXml(fr);
+            xmldb.Load(fr);
         }
     }
 

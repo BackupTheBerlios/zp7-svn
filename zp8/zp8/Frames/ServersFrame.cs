@@ -12,31 +12,65 @@ namespace zp8
     public partial class ServersFrame : UserControl
     {
         //SongDatabase m_dataset;
-        SongDatabase m_dbwrap;
+        SongDatabaseWrapper m_dbwrap;
         public ServersFrame()
         {
             InitializeComponent();
         }
 
-        /*
-        public void Bind(SongDatabase db)
+
+        public SongDatabaseWrapper SongDb
         {
-            m_dataset = db;
-            serverBindingSource.DataSource = db.DataSet.server;
+            get { return m_dbwrap; }
+            set
+            {
+                if (m_dbwrap != null) m_dbwrap.ChangedSongDatabase -= new EventHandler(m_dbwrap_ChangedSongDatabase);
+                m_dbwrap = value;
+                if (m_dbwrap != null) m_dbwrap.ChangedSongDatabase += new EventHandler(m_dbwrap_ChangedSongDatabase);
+                try { Reload(); }
+                catch { }
+            }
         }
-        */
+
+        void m_dbwrap_ChangedSongDatabase(object sender, EventArgs e)
+        {
+            Reload();
+        }
+
+        private void Reload()
+        {
+            if (m_dbwrap != null)
+            {
+                var tbl = m_dbwrap.GetServerTable();
+                dataGridView1.DataSource = tbl;
+            }
+            else
+            {
+                dataGridView1.DataSource = null;
+            }
+        }
+
+        private int GetServerID(int rowindex)
+        {
+            if (rowindex < 0 || rowindex >= dataGridView1.Rows.Count) return 0;
+            DataGridViewRow gridrow = dataGridView1.Rows[rowindex];
+            DataRow row = ((DataRowView)gridrow.DataBoundItem).Row;
+            return row.SafeInt(0);
+        }
+        /*
+                public void Bind(SongDatabase db)
+                {
+                    m_dataset = db;
+                    serverBindingSource.DataSource = db.DataSet.server;
+                }
+                */
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //ISongServer server = AddServerWizard.Run();
-            //if (server == null) return;
-            //SongDb.serverRow row = m_dbwrap.SongDb.server.NewserverRow();
-            //row.url = server.ToString();
-            //SongServerType st = SongServer.GetServerName(server);
-            //row.servertype = st.Name;
-            //row.config = SongServer.Save(server);
-            //row.isreadonly =  st.ReadOnly;
-            //m_dbwrap.SongDb.server.AddserverRow(row);
+            ISongServer server = AddServerWizard.Run();
+            if (server == null) return;
+            m_dbwrap.Database.InsertServer(server);
+            Reload();
         }
 
         //public SongDatabaseWrapper SongDb
@@ -126,11 +160,32 @@ namespace zp8
 
         private void button7_Click(object sender, EventArgs e)
         {
-            //SongDb.serverRow row = m_dbwrap.SelectedServer;
-            //ISongServer srv = SongServer.Load(row.servertype, row.config);
-            //PropertiesForm.Run(srv);
-            //row.config = SongServer.Save(srv);
-            //row.url = srv.ToString();
+            if (dataGridView1.CurrentCell != null)
+            {
+                int id = GetServerID(dataGridView1.CurrentCell.RowIndex);
+                ISongServer srv = m_dbwrap.Database.LoadServer(id);
+                if (srv != null)
+                {
+                    PropertiesForm.Run(srv);
+                    m_dbwrap.Database.SaveServer(srv, id);
+                    Reload();
+                }
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentCell != null)
+            {
+                int id = GetServerID(dataGridView1.CurrentCell.RowIndex);
+                m_dbwrap.Database.DeleteServer(id);
+                Reload();
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            Reload();
         }
     }
 }

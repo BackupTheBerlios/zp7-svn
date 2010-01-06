@@ -28,9 +28,8 @@ namespace zp8
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.serverBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button7 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
@@ -38,19 +37,18 @@ namespace zp8
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.urlDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.servertypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.configDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.saveXML = new System.Windows.Forms.SaveFileDialog();
             this.openXML = new System.Windows.Forms.OpenFileDialog();
-            this.button7 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.serverBindingSource)).BeginInit();
+            this.button8 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button9);
+            this.panel1.Controls.Add(this.button8);
             this.panel1.Controls.Add(this.button7);
             this.panel1.Controls.Add(this.button6);
             this.panel1.Controls.Add(this.button5);
@@ -63,6 +61,16 @@ namespace zp8
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(165, 441);
             this.panel1.TabIndex = 1;
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(26, 192);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(116, 23);
+            this.button7.TabIndex = 6;
+            this.button7.Text = "Upravit server";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button6
             // 
@@ -126,49 +134,14 @@ namespace zp8
             // 
             // dataGridView1
             // 
-            this.dataGridView1.AutoGenerateColumns = false;
+            this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.iDDataGridViewTextBoxColumn,
-            this.urlDataGridViewTextBoxColumn,
-            this.servertypeDataGridViewTextBoxColumn,
-            this.configDataGridViewTextBoxColumn});
-            this.dataGridView1.DataSource = this.serverBindingSource;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(415, 441);
             this.dataGridView1.TabIndex = 2;
-            // 
-            // iDDataGridViewTextBoxColumn
-            // 
-            this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
-            this.iDDataGridViewTextBoxColumn.HeaderText = "ID";
-            this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
-            this.iDDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // urlDataGridViewTextBoxColumn
-            // 
-            this.urlDataGridViewTextBoxColumn.DataPropertyName = "url";
-            this.urlDataGridViewTextBoxColumn.HeaderText = "URL";
-            this.urlDataGridViewTextBoxColumn.Name = "urlDataGridViewTextBoxColumn";
-            this.urlDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // servertypeDataGridViewTextBoxColumn
-            // 
-            this.servertypeDataGridViewTextBoxColumn.DataPropertyName = "servertype";
-            this.servertypeDataGridViewTextBoxColumn.HeaderText = "Typ serveru";
-            this.servertypeDataGridViewTextBoxColumn.Name = "servertypeDataGridViewTextBoxColumn";
-            this.servertypeDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // configDataGridViewTextBoxColumn
-            // 
-            this.configDataGridViewTextBoxColumn.DataPropertyName = "config";
-            this.configDataGridViewTextBoxColumn.HeaderText = "config";
-            this.configDataGridViewTextBoxColumn.Name = "configDataGridViewTextBoxColumn";
-            this.configDataGridViewTextBoxColumn.ReadOnly = true;
-            this.configDataGridViewTextBoxColumn.Visible = false;
             // 
             // saveXML
             // 
@@ -178,15 +151,25 @@ namespace zp8
             // 
             this.openXML.Filter = "XML soubory (*.xml)|*.xml";
             // 
-            // button7
+            // button8
             // 
-            this.button7.Location = new System.Drawing.Point(26, 192);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(116, 23);
-            this.button7.TabIndex = 6;
-            this.button7.Text = "Upravit server";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.button8.Location = new System.Drawing.Point(26, 222);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(116, 23);
+            this.button8.TabIndex = 7;
+            this.button8.Text = "Vymazat server";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(26, 251);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(116, 23);
+            this.button9.TabIndex = 8;
+            this.button9.Text = "Znovu naèíst";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // ServersFrame
             // 
@@ -196,7 +179,6 @@ namespace zp8
             this.Controls.Add(this.panel1);
             this.Name = "ServersFrame";
             this.Size = new System.Drawing.Size(580, 441);
-            ((System.ComponentModel.ISupportInitialize)(this.serverBindingSource)).EndInit();
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -205,7 +187,6 @@ namespace zp8
 
         #endregion
 
-        private System.Windows.Forms.BindingSource serverBindingSource;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridView dataGridView1;
@@ -221,5 +202,7 @@ namespace zp8
         private System.Windows.Forms.SaveFileDialog saveXML;
         private System.Windows.Forms.OpenFileDialog openXML;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button9;
     }
 }

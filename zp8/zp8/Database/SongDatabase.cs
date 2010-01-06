@@ -378,12 +378,13 @@ namespace zp8
             {
                 foreach (var song in db.Songs)
                 {
+                    **** tohle bude potreba domyslet as zoptimalizovat
                     if (song.NetID != null && serverid != null)
                     {
-                        ExecuteNonQuery("delete from songdata where @sid = (select server_id from song where song.id = songdata.song_id) and song.netID=@nid", "sid", serverid, "nid", song.NetID);
+                        ExecuteNonQuery("delete from songdata where song_id = (select song.id from song where song.netID=@nid and song.server_id=@sid)", "sid", serverid, "nid", song.NetID);
                         ExecuteNonQuery("delete from song where server_id = @sid and netID=@nid", "sid", serverid, "nid", song.NetID);
-                        //ExecuteNonQuery("insert into song
                     }
+                    InsertSong(tran, song, serverid);
                 }
                 tran.Commit();
             }
@@ -412,7 +413,12 @@ namespace zp8
 
         private void InsertSongItem(int song, SongDataItem item)
         {
-            ExecuteNonQuery("insert into songdata (song_id, datatype_id, label, textdata) values (@song, @datatype, @label, @data)",
+            InsertSongItem(null, song, item);
+        }
+
+        private void InsertSongItem(SQLiteTransaction tran, int song, SongDataItem item)
+        {
+            ExecuteNonQuery(tran, "insert into songdata (song_id, datatype_id, label, textdata) values (@song, @datatype, @label, @data)",
                 "song", song, "datatype", item.DataType, "label", item.Label, "data", item.TextData);
         }
 
@@ -431,9 +437,9 @@ namespace zp8
                             "published", song.Published, "id", song.LocalID);
         }
 
-        private void InsertSong(SongData song, int? serverid)
+        private void InsertSong(SQLiteTransaction tran, SongData song, int? serverid)
         {
-            ExecuteNonQuery(@"insert into song (title, groupname, author, lang, server_id, netID, transp, remark, published)
+            ExecuteNonQuery(tran, @"insert into song (title, groupname, author, lang, server_id, netID, transp, remark, published)
                              values
                              (@title, @groupname, @author, @lang, @server, @netid, @transp, @remark, @published)",
                             "title", song.Title, "groupname", song.GroupName, "author", song.Author, "lang", song.Lang,
@@ -442,8 +448,13 @@ namespace zp8
             song.LocalID = LastInsertId();
             foreach (var item in song.Items)
             {
-                InsertSongItem(song.LocalID, item);
+                InsertSongItem(tran, song.LocalID, item);
             }
+        }
+
+        private void InsertSong(SongData song, int? serverid)
+        {
+            InsertSong(null, song, serverid);
         }
 
         //public void SetSongServer(int song, int server)
@@ -456,6 +467,38 @@ namespace zp8
             string songids = String.Join(",", (from i in songs select i.ToString()).ToArray());
             ExecuteNonQuery("delete from songdata where song_id in (" + songids + ")");
             ExecuteNonQuery("delete from song where id in (" + songids + ")");
+        }
+
+        public void InsertServer(ISongServer server)
+        {
+            SongServerType st = SongServer.GetServerName(server);
+            ExecuteNonQuery(@"insert into server (url, servertype, config, isreadonly)
+                             values (@url, @type, @config, @readonly)",
+                            "url", server.ToString(), "type", st.Name, "config", SongServer.Save(server), "readonly", st.ReadOnly);
+        }
+
+        public ISongServer LoadServer(int id)
+        {
+            using (var reader = ExecuteReader("select servertype, config from server where id=@id", "id", id))
+            {
+                if (reader.Read())
+                {
+                    ISongServer srv = SongServer.Load(reader.SafeString(0), reader.SafeString(1));
+                    return srv;
+                }
+                return null;
+            }
+        }
+
+        public void SaveServer(ISongServer srv, int id)
+        {
+            ExecuteNonQuery("update server set url=@url, config=@config where id=@id",
+                "url", srv.ToString(), "config", SongServer.Save(srv), "id", id);
+        }
+
+        public void DeleteServer(int id)
+        {
+            ExecuteNonQuery("delete from server where id=@id", "id", id);
         }
     }
 }

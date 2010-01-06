@@ -148,12 +148,45 @@ namespace zp8
             xw.WriteStartElement("song");
             if (NetID != null) xw.WriteElementString("ID", NetID.ToString());
             if (Lang != null) xw.WriteElementString("lang", Lang);
-            if (SongText != null) xw.WriteElementString("songtext", SongText);
+            if (OrigText != null) xw.WriteElementString("songtext", OrigText);
             if (Author != null) xw.WriteElementString("author", Author);
             if (GroupName != null) xw.WriteElementString("groupname", GroupName);
             if (Title != null) xw.WriteElementString("title", Title);
             if (Published != null) xw.WriteElementString("published", Published.Value.ToString("s"));
             xw.WriteEndElement();
+        }
+
+        public void Load(XmlElement xml)
+        {
+            foreach (XmlNode child in xml.ChildNodes)
+            {
+                var elem = child as XmlElement;
+                if (elem == null) continue;
+                switch (elem.LocalName)
+                {
+                    case "ID":
+                        NetID = elem.InnerText;
+                        break;
+                    case "lang":
+                        Lang = elem.InnerText;
+                        break;
+                    case "songtext":
+                        OrigText = elem.InnerText;
+                        break;
+                    case "author":
+                        Author = elem.InnerText;
+                        break;
+                    case "groupname":
+                        GroupName = elem.InnerText;
+                        break;
+                    case "title":
+                        Title = elem.InnerText;
+                        break;
+                    case "published":
+                        Published = DateTime.Parse(elem.InnerText);
+                        break;
+                }
+            }
         }
 
         public void DeleteData(SongDataType datatype)

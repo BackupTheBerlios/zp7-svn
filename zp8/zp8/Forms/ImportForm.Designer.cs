@@ -28,13 +28,9 @@ namespace zp8
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImportForm));
-            this.serverBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.wizardPage1 = new Gui.Wizard.WizardPage();
-            this.lbserver = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.cbserver = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.description = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -47,15 +43,7 @@ namespace zp8
             this.wizardPage2 = new Gui.Wizard.WizardPage();
             this.header2 = new Gui.Wizard.Header();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.authorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.groupnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.songtextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.langDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.publishedDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.serverBindingSource)).BeginInit();
+            this.cbxServer = new zp8.ServerComboBox();
             this.wizardPage1.SuspendLayout();
             this.wizardPage3.SuspendLayout();
             this.wizard1.SuspendLayout();
@@ -63,15 +51,10 @@ namespace zp8
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // serverBindingSource
-            // 
-            this.serverBindingSource.DataMember = "server";
-            // 
             // wizardPage1
             // 
-            this.wizardPage1.Controls.Add(this.lbserver);
+            this.wizardPage1.Controls.Add(this.cbxServer);
             this.wizardPage1.Controls.Add(this.label3);
-            this.wizardPage1.Controls.Add(this.cbserver);
             this.wizardPage1.Controls.Add(this.label2);
             this.wizardPage1.Controls.Add(this.description);
             this.wizardPage1.Controls.Add(this.label1);
@@ -84,38 +67,14 @@ namespace zp8
             this.wizardPage1.Size = new System.Drawing.Size(567, 369);
             this.wizardPage1.TabIndex = 1;
             // 
-            // lbserver
-            // 
-            this.lbserver.DataSource = this.serverBindingSource;
-            this.lbserver.DisplayMember = "url";
-            this.lbserver.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.lbserver.Enabled = false;
-            this.lbserver.FormattingEnabled = true;
-            this.lbserver.Location = new System.Drawing.Point(275, 261);
-            this.lbserver.Name = "lbserver";
-            this.lbserver.Size = new System.Drawing.Size(121, 21);
-            this.lbserver.TabIndex = 7;
-            this.lbserver.ValueMember = "ID";
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(272, 245);
+            this.label3.Location = new System.Drawing.Point(56, 247);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(39, 13);
             this.label3.TabIndex = 6;
             this.label3.Text = "Server";
-            // 
-            // cbserver
-            // 
-            this.cbserver.AutoSize = true;
-            this.cbserver.Location = new System.Drawing.Point(59, 245);
-            this.cbserver.Name = "cbserver";
-            this.cbserver.Size = new System.Drawing.Size(88, 17);
-            this.cbserver.TabIndex = 5;
-            this.cbserver.Text = "Zadat server";
-            this.cbserver.UseVisualStyleBackColor = true;
-            this.cbserver.CheckedChanged += new System.EventHandler(this.cbserver_CheckedChanged);
             // 
             // label2
             // 
@@ -243,74 +202,28 @@ namespace zp8
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.iDDataGridViewTextBoxColumn,
-            this.titleDataGridViewTextBoxColumn,
-            this.authorDataGridViewTextBoxColumn,
-            this.groupnameDataGridViewTextBoxColumn,
-            this.remark,
-            this.songtextDataGridViewTextBoxColumn,
-            this.langDataGridViewTextBoxColumn,
-            this.publishedDataGridViewTextBoxColumn});
             this.dataGridView1.Location = new System.Drawing.Point(3, 74);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(557, 283);
             this.dataGridView1.TabIndex = 0;
             // 
-            // iDDataGridViewTextBoxColumn
+            // cbxServer
             // 
-            this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
-            this.iDDataGridViewTextBoxColumn.HeaderText = "ID";
-            this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
-            // 
-            // titleDataGridViewTextBoxColumn
-            // 
-            this.titleDataGridViewTextBoxColumn.DataPropertyName = "title";
-            this.titleDataGridViewTextBoxColumn.HeaderText = "Název";
-            this.titleDataGridViewTextBoxColumn.Name = "titleDataGridViewTextBoxColumn";
-            // 
-            // authorDataGridViewTextBoxColumn
-            // 
-            this.authorDataGridViewTextBoxColumn.DataPropertyName = "author";
-            this.authorDataGridViewTextBoxColumn.HeaderText = "Autor";
-            this.authorDataGridViewTextBoxColumn.Name = "authorDataGridViewTextBoxColumn";
-            // 
-            // groupnameDataGridViewTextBoxColumn
-            // 
-            this.groupnameDataGridViewTextBoxColumn.DataPropertyName = "groupname";
-            this.groupnameDataGridViewTextBoxColumn.HeaderText = "Skupina";
-            this.groupnameDataGridViewTextBoxColumn.Name = "groupnameDataGridViewTextBoxColumn";
-            // 
-            // remark
-            // 
-            this.remark.DataPropertyName = "remark";
-            this.remark.HeaderText = "Poznámka";
-            this.remark.Name = "remark";
-            // 
-            // songtextDataGridViewTextBoxColumn
-            // 
-            this.songtextDataGridViewTextBoxColumn.DataPropertyName = "songtext";
-            this.songtextDataGridViewTextBoxColumn.HeaderText = "Text";
-            this.songtextDataGridViewTextBoxColumn.Name = "songtextDataGridViewTextBoxColumn";
-            // 
-            // langDataGridViewTextBoxColumn
-            // 
-            this.langDataGridViewTextBoxColumn.DataPropertyName = "lang";
-            this.langDataGridViewTextBoxColumn.HeaderText = "lang";
-            this.langDataGridViewTextBoxColumn.Name = "langDataGridViewTextBoxColumn";
-            this.langDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // publishedDataGridViewTextBoxColumn
-            // 
-            this.publishedDataGridViewTextBoxColumn.DataPropertyName = "published";
-            this.publishedDataGridViewTextBoxColumn.HeaderText = "published";
-            this.publishedDataGridViewTextBoxColumn.Name = "publishedDataGridViewTextBoxColumn";
-            this.publishedDataGridViewTextBoxColumn.Visible = false;
+            this.cbxServer.Database = null;
+            this.cbxServer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxServer.Enabled = false;
+            this.cbxServer.FormattingEnabled = true;
+            this.cbxServer.Location = new System.Drawing.Point(59, 263);
+            this.cbxServer.Name = "cbxServer";
+            this.cbxServer.ServerID = null;
+            this.cbxServer.Size = new System.Drawing.Size(156, 21);
+            this.cbxServer.TabIndex = 7;
             // 
             // ImportForm
             // 
@@ -320,7 +233,6 @@ namespace zp8
             this.Controls.Add(this.wizard1);
             this.Name = "ImportForm";
             this.Text = "Import písní";
-            ((System.ComponentModel.ISupportInitialize)(this.serverBindingSource)).EndInit();
             this.wizardPage1.ResumeLayout(false);
             this.wizardPage1.PerformLayout();
             this.wizardPage3.ResumeLayout(false);
@@ -333,11 +245,8 @@ namespace zp8
 
         #endregion
 
-        private System.Windows.Forms.BindingSource serverBindingSource;
         private Gui.Wizard.WizardPage wizardPage1;
-        private System.Windows.Forms.ComboBox lbserver;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.CheckBox cbserver;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox description;
         private System.Windows.Forms.Label label1;
@@ -354,9 +263,9 @@ namespace zp8
         private System.Windows.Forms.DataGridViewTextBoxColumn titleDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn authorDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn groupnameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn remark;
         private System.Windows.Forms.DataGridViewTextBoxColumn songtextDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn langDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn publishedDataGridViewTextBoxColumn;
+        private ServerComboBox cbxServer;
     }
 }

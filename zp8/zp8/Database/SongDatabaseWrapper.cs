@@ -75,6 +75,14 @@ namespace zp8
             }
         }
 
+        public DataTable GetServerTable()
+        {
+            SQLiteDataAdapter adapter = new SQLiteDataAdapter("select id, url, servertype, isreadonly from server", Database.Connection);
+            DataTable res = new DataTable();
+            adapter.Fill(res);
+            return res;
+        }
+
         public SongData CurrentSong
         {
             get

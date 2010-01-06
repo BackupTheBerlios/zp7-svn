@@ -39,11 +39,13 @@ namespace zp8
             this.dolùOKvintuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nahoruOKvintuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lbxLinks = new System.Windows.Forms.ListBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.tbremark = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.cbuseserver = new System.Windows.Forms.CheckBox();
-            this.cbserver = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.tbgroup = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -55,12 +57,9 @@ namespace zp8
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tbtext = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.songView1 = new zp8.SongView();
             this.openLinkDialog = new System.Windows.Forms.OpenFileDialog();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.lbxLinks = new System.Windows.Forms.ListBox();
+            this.songView1 = new zp8.SongView();
+            this.cbxServer = new zp8.ServerComboBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -152,6 +151,7 @@ namespace zp8
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.cbxServer);
             this.panel1.Controls.Add(this.lbxLinks);
             this.panel1.Controls.Add(this.button3);
             this.panel1.Controls.Add(this.button2);
@@ -159,8 +159,6 @@ namespace zp8
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.tbremark);
             this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.cbuseserver);
-            this.panel1.Controls.Add(this.cbserver);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.tbgroup);
             this.panel1.Controls.Add(this.label3);
@@ -173,6 +171,44 @@ namespace zp8
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(209, 492);
             this.panel1.TabIndex = 3;
+            // 
+            // lbxLinks
+            // 
+            this.lbxLinks.FormattingEnabled = true;
+            this.lbxLinks.Location = new System.Drawing.Point(12, 256);
+            this.lbxLinks.Name = "lbxLinks";
+            this.lbxLinks.Size = new System.Drawing.Size(182, 108);
+            this.lbxLinks.TabIndex = 16;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(146, 225);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(30, 20);
+            this.button3.TabIndex = 15;
+            this.button3.Text = "...";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(110, 224);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(30, 20);
+            this.button2.TabIndex = 14;
+            this.button2.Text = "-";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(74, 224);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(30, 20);
+            this.button1.TabIndex = 13;
+            this.button1.Text = "+";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // label6
             // 
@@ -198,27 +234,6 @@ namespace zp8
             this.label5.Size = new System.Drawing.Size(57, 13);
             this.label5.TabIndex = 9;
             this.label5.Text = "Poznámka";
-            // 
-            // cbuseserver
-            // 
-            this.cbuseserver.AutoSize = true;
-            this.cbuseserver.Location = new System.Drawing.Point(137, 178);
-            this.cbuseserver.Name = "cbuseserver";
-            this.cbuseserver.Size = new System.Drawing.Size(57, 17);
-            this.cbuseserver.TabIndex = 8;
-            this.cbuseserver.Text = "Použít";
-            this.cbuseserver.UseVisualStyleBackColor = true;
-            this.cbuseserver.CheckedChanged += new System.EventHandler(this.cbuseserver_CheckedChanged);
-            // 
-            // cbserver
-            // 
-            this.cbserver.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbserver.FormattingEnabled = true;
-            this.cbserver.Location = new System.Drawing.Point(12, 194);
-            this.cbserver.Name = "cbserver";
-            this.cbserver.Size = new System.Drawing.Size(182, 21);
-            this.cbserver.TabIndex = 7;
-            this.cbserver.ValueMember = "ID";
             // 
             // label4
             // 
@@ -320,6 +335,10 @@ namespace zp8
             this.tabPage2.Text = "Náhled";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // openLinkDialog
+            // 
+            this.openLinkDialog.Filter = "MP3 soubory|*.mp3|Všechny soubory|*.*";
+            // 
             // songView1
             // 
             this.songView1.AutoScroll = true;
@@ -332,47 +351,17 @@ namespace zp8
             this.songView1.SongText = null;
             this.songView1.TabIndex = 0;
             // 
-            // openLinkDialog
+            // cbxServer
             // 
-            this.openLinkDialog.Filter = "MP3 soubory|*.mp3|Všechny soubory|*.*";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(74, 224);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(30, 20);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "+";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(110, 224);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(30, 20);
-            this.button2.TabIndex = 14;
-            this.button2.Text = "-";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click_1);
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(146, 225);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(30, 20);
-            this.button3.TabIndex = 15;
-            this.button3.Text = "...";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // lbxLinks
-            // 
-            this.lbxLinks.FormattingEnabled = true;
-            this.lbxLinks.Location = new System.Drawing.Point(12, 256);
-            this.lbxLinks.Name = "lbxLinks";
-            this.lbxLinks.Size = new System.Drawing.Size(182, 108);
-            this.lbxLinks.TabIndex = 16;
+            this.cbxServer.Database = null;
+            this.cbxServer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxServer.Enabled = false;
+            this.cbxServer.FormattingEnabled = true;
+            this.cbxServer.Location = new System.Drawing.Point(12, 197);
+            this.cbxServer.Name = "cbxServer";
+            this.cbxServer.ServerID = null;
+            this.cbxServer.Size = new System.Drawing.Size(182, 21);
+            this.cbxServer.TabIndex = 17;
             // 
             // EditSongForm
             // 
@@ -424,9 +413,7 @@ namespace zp8
         private System.Windows.Forms.ToolStripMenuItem nahoruToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem dolùOKvintuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nahoruOKvintuToolStripMenuItem;
-        private System.Windows.Forms.ComboBox cbserver;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.CheckBox cbuseserver;
         private System.Windows.Forms.TextBox tbremark;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
@@ -435,5 +422,6 @@ namespace zp8
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListBox lbxLinks;
+        private ServerComboBox cbxServer;
     }
 }

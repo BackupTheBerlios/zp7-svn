@@ -67,6 +67,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Book\DistribAlg.cs" />
+    <Compile Include="Controls\ServerComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Database\DbCreator.cs" />
     <Compile Include="Database\InetSongDb.cs" />
     <Compile Include="Database\InternetDatabase.cs" />

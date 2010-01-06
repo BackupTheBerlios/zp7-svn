@@ -32,7 +32,6 @@ namespace zp8
             this.wizard1 = new Gui.Wizard.Wizard();
             this.wizardPage2 = new Gui.Wizard.WizardPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.header2 = new Gui.Wizard.Header();
             this.wizardPage1 = new Gui.Wizard.WizardPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -89,21 +88,12 @@ namespace zp8
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.remark});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 64);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(512, 317);
             this.dataGridView1.TabIndex = 1;
-            // 
-            // remark
-            // 
-            this.remark.DataPropertyName = "remark";
-            this.remark.HeaderText = "Poznámka";
-            this.remark.Name = "remark";
-            this.remark.ReadOnly = true;
             // 
             // header2
             // 
@@ -309,7 +299,6 @@ namespace zp8
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn remark;
         private System.Windows.Forms.DataGridViewTextBoxColumn titleDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn groupnameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn authorDataGridViewTextBoxColumn;

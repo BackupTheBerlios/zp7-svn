@@ -20,7 +20,7 @@ namespace zp8
         {
             InitializeComponent();
             m_db = db;
-            //serverBindingSource.DataSource = m_db.DataSet.server;
+            cbxServer.Database = db;
             foreach (ISongParser type in SongFilters.EnumFilters<ISongParser>())
             {
                 m_types.Add(type);
@@ -38,9 +38,7 @@ namespace zp8
 
         private void Work()
         {
-            int? serverid = null;
-            if (cbserver.Checked) serverid = (int)lbserver.SelectedValue;
-            m_db.ImportSongs(m_xmldb, serverid);
+            m_db.ImportSongs(m_xmldb, cbxServer.ServerID);
         }
 
         public static bool Run(SongDatabase db)
@@ -52,11 +50,6 @@ namespace zp8
                 return true;
             }
             return false;
-        }
-
-        private void cbserver_CheckedChanged(object sender, EventArgs e)
-        {
-            lbserver.Enabled = cbserver.Checked;
         }
 
         private void wizardPage2_ShowFromNext(object sender, EventArgs e)
@@ -74,7 +67,7 @@ namespace zp8
             {
                 MessageBox.Show("Pøi importu nastala chyba:\n" + err.Message, "Zpìvníkátor", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            //songBindingSource.DataSource = m_xmldb.song;
+            dataGridView1.DataSource = m_xmldb.GetAsTable();
         }
     }
 }

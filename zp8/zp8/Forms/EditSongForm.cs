@@ -31,40 +31,8 @@ namespace zp8
             {
                 lbxLinks.Items.Add(data.TextData);
             }
-            if (m_db != null)
-            {
-                cbserver.Items.Clear();
-                using (var reader = m_db.ExecuteReader("select id, url from server"))
-                {
-                    while (reader.Read())
-                    {
-                        cbserver.Items.Add(reader[0].ToString());
-                    }
-                }
-                if (cbserver.Items.Count == 0)
-                {
-                    cbuseserver.Enabled = false;
-                    cbserver.Enabled = false;
-                }
-                else
-                {
-                    int? serverid = (int?)m_db.ExecuteScalar("select server_id from song where id=@id", "id", m_song.LocalID);
-                    cbuseserver.Checked = serverid != null;
-                    if (serverid == null)
-                    {
-                        cbserver.Enabled = false;
-                    }
-                    else
-                    {
-                        cbserver.SelectedValue = serverid;
-                    }
-                    if (cbserver.SelectedIndex < 0) cbserver.SelectedIndex = 0;
-                }
-            }
-            else
-            {
-                cbserver.Enabled = false;
-            }
+            cbxServer.Database = m_db;
+            cbxServer.ServerID = (int?)m_db.ExecuteScalar("select server_id from song where id=@id", "id", m_song.LocalID);
         }
 
         public static bool Run(SongDatabase db, SongData song)
@@ -95,7 +63,7 @@ namespace zp8
             m_song.Remark = tbremark.Text;
             m_song.DeleteData(SongDataType.Link);
             foreach (object link in lbxLinks.Items) m_song.AddLink(link.ToString());
-            m_db.SaveSong(m_song, cbuseserver.Checked ? (int)cbserver.SelectedValue : (int?)null);
+            m_db.SaveSong(m_song, cbxServer.ServerID);
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -127,11 +95,6 @@ namespace zp8
         private void nahoruOKvintuToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Transp(7);
-        }
-
-        private void cbuseserver_CheckedChanged(object sender, EventArgs e)
-        {
-            cbserver.Enabled = cbuseserver.Checked;
         }
 
         private void button1_Click_1(object sender, EventArgs e)
