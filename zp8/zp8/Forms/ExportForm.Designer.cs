@@ -28,9 +28,12 @@ namespace zp8
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExportForm));
             this.wizard1 = new Gui.Wizard.Wizard();
+            this.wizardPage2 = new Gui.Wizard.WizardPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.header2 = new Gui.Wizard.Header();
             this.wizardPage1 = new Gui.Wizard.WizardPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tbcondition = new System.Windows.Forms.TextBox();
@@ -45,23 +48,12 @@ namespace zp8
             this.label1 = new System.Windows.Forms.Label();
             this.lbformat = new System.Windows.Forms.ListBox();
             this.header3 = new Gui.Wizard.Header();
-            this.wizardPage2 = new Gui.Wizard.WizardPage();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.header2 = new Gui.Wizard.Header();
-            this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.groupnameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.authorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.langDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.songtextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.publishedDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.wizard1.SuspendLayout();
+            this.wizardPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.wizardPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.wizardPage3.SuspendLayout();
-            this.wizardPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // wizard1
@@ -79,6 +71,52 @@ namespace zp8
             this.wizardPage3});
             this.wizard1.Size = new System.Drawing.Size(512, 429);
             this.wizard1.TabIndex = 0;
+            // 
+            // wizardPage2
+            // 
+            this.wizardPage2.Controls.Add(this.dataGridView1);
+            this.wizardPage2.Controls.Add(this.header2);
+            this.wizardPage2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.wizardPage2.IsFinishPage = false;
+            this.wizardPage2.Location = new System.Drawing.Point(0, 0);
+            this.wizardPage2.Name = "wizardPage2";
+            this.wizardPage2.Size = new System.Drawing.Size(512, 381);
+            this.wizardPage2.TabIndex = 2;
+            this.wizardPage2.ShowFromNext += new System.EventHandler(this.wizardPage2_ShowFromNext);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.remark});
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 64);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.Size = new System.Drawing.Size(512, 317);
+            this.dataGridView1.TabIndex = 1;
+            // 
+            // remark
+            // 
+            this.remark.DataPropertyName = "remark";
+            this.remark.HeaderText = "Poznámka";
+            this.remark.Name = "remark";
+            this.remark.ReadOnly = true;
+            // 
+            // header2
+            // 
+            this.header2.BackColor = System.Drawing.SystemColors.Control;
+            this.header2.CausesValidation = false;
+            this.header2.Description = "Prohlížení exportovaných písní";
+            this.header2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.header2.Image = ((System.Drawing.Image)(resources.GetObject("header2.Image")));
+            this.header2.Location = new System.Drawing.Point(0, 0);
+            this.header2.Name = "header2";
+            this.header2.Size = new System.Drawing.Size(512, 64);
+            this.header2.TabIndex = 0;
+            this.header2.Title = "Export písní";
             // 
             // wizardPage1
             // 
@@ -230,100 +268,6 @@ namespace zp8
             this.header3.TabIndex = 0;
             this.header3.Title = "Export písní";
             // 
-            // wizardPage2
-            // 
-            this.wizardPage2.Controls.Add(this.dataGridView1);
-            this.wizardPage2.Controls.Add(this.header2);
-            this.wizardPage2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.wizardPage2.IsFinishPage = false;
-            this.wizardPage2.Location = new System.Drawing.Point(0, 0);
-            this.wizardPage2.Name = "wizardPage2";
-            this.wizardPage2.Size = new System.Drawing.Size(512, 381);
-            this.wizardPage2.TabIndex = 2;
-            this.wizardPage2.ShowFromNext += new System.EventHandler(this.wizardPage2_ShowFromNext);
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AutoGenerateColumns = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.iDDataGridViewTextBoxColumn,
-            this.remark,
-            this.titleDataGridViewTextBoxColumn,
-            this.groupnameDataGridViewTextBoxColumn,
-            this.authorDataGridViewTextBoxColumn,
-            this.langDataGridViewTextBoxColumn,
-            this.songtextDataGridViewTextBoxColumn,
-            this.publishedDataGridViewTextBoxColumn});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 64);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(512, 317);
-            this.dataGridView1.TabIndex = 1;
-            // 
-            // header2
-            // 
-            this.header2.BackColor = System.Drawing.SystemColors.Control;
-            this.header2.CausesValidation = false;
-            this.header2.Description = "Prohlížení exportovaných písní";
-            this.header2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.header2.Image = ((System.Drawing.Image)(resources.GetObject("header2.Image")));
-            this.header2.Location = new System.Drawing.Point(0, 0);
-            this.header2.Name = "header2";
-            this.header2.Size = new System.Drawing.Size(512, 64);
-            this.header2.TabIndex = 0;
-            this.header2.Title = "Export písní";
-            // 
-            // iDDataGridViewTextBoxColumn
-            // 
-            this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
-            this.iDDataGridViewTextBoxColumn.HeaderText = "ID";
-            this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
-            // 
-            // remark
-            // 
-            this.remark.DataPropertyName = "remark";
-            this.remark.HeaderText = "Poznámka";
-            this.remark.Name = "remark";
-            // 
-            // titleDataGridViewTextBoxColumn
-            // 
-            this.titleDataGridViewTextBoxColumn.DataPropertyName = "title";
-            this.titleDataGridViewTextBoxColumn.HeaderText = "Název";
-            this.titleDataGridViewTextBoxColumn.Name = "titleDataGridViewTextBoxColumn";
-            // 
-            // groupnameDataGridViewTextBoxColumn
-            // 
-            this.groupnameDataGridViewTextBoxColumn.DataPropertyName = "groupname";
-            this.groupnameDataGridViewTextBoxColumn.HeaderText = "Skupina";
-            this.groupnameDataGridViewTextBoxColumn.Name = "groupnameDataGridViewTextBoxColumn";
-            // 
-            // authorDataGridViewTextBoxColumn
-            // 
-            this.authorDataGridViewTextBoxColumn.DataPropertyName = "author";
-            this.authorDataGridViewTextBoxColumn.HeaderText = "Autor";
-            this.authorDataGridViewTextBoxColumn.Name = "authorDataGridViewTextBoxColumn";
-            // 
-            // langDataGridViewTextBoxColumn
-            // 
-            this.langDataGridViewTextBoxColumn.DataPropertyName = "lang";
-            this.langDataGridViewTextBoxColumn.HeaderText = "Jazyk";
-            this.langDataGridViewTextBoxColumn.Name = "langDataGridViewTextBoxColumn";
-            // 
-            // songtextDataGridViewTextBoxColumn
-            // 
-            this.songtextDataGridViewTextBoxColumn.DataPropertyName = "songtext";
-            this.songtextDataGridViewTextBoxColumn.HeaderText = "Text";
-            this.songtextDataGridViewTextBoxColumn.Name = "songtextDataGridViewTextBoxColumn";
-            this.songtextDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // publishedDataGridViewTextBoxColumn
-            // 
-            this.publishedDataGridViewTextBoxColumn.DataPropertyName = "published";
-            this.publishedDataGridViewTextBoxColumn.HeaderText = "Publikováno";
-            this.publishedDataGridViewTextBoxColumn.Name = "publishedDataGridViewTextBoxColumn";
-            this.publishedDataGridViewTextBoxColumn.Visible = false;
-            // 
             // ExportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -333,13 +277,13 @@ namespace zp8
             this.Name = "ExportForm";
             this.Text = "Export písní";
             this.wizard1.ResumeLayout(false);
+            this.wizardPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.wizardPage1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.wizardPage3.ResumeLayout(false);
             this.wizardPage3.PerformLayout();
-            this.wizardPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }

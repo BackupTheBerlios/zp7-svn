@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
+using System.IO;
+using System.Xml;
 
 namespace zp8
 {
     public class InetSongDb
     {
         public List<SongData> Songs = new List<SongData>();
+        public static string XMLNS = "http://zpevnik.net/InetSongDb.xsd";
 
         public DataTable GetAsTable()
         {
@@ -26,6 +29,21 @@ namespace zp8
                 res.Rows.Add(row);
             }
             return res;
+        }
+
+        public void Save(Stream fw)
+        {
+            using (XmlWriter xw = XmlWriter.Create(fw))
+            {
+                xw.WriteStartDocument(true);
+                xw.WriteStartElement("InetSongDb", XMLNS);
+                foreach (var song in Songs)
+                {
+                    song.Save(xw);
+                }
+                xw.WriteEndElement();
+                xw.WriteEndDocument();
+            }
         }
     }
 }

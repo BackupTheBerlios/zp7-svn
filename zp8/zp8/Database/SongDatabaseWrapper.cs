@@ -84,13 +84,18 @@ namespace zp8
             }
         }
 
+        public void DispatchReloadSongs()
+        {
+            if (SongSetChanged != null) SongSetChanged(this, EventArgs.Empty);
+        }
+
         public string SearchText
         {
             get { return m_searchText; }
             set
             {
                 m_searchText = value;
-                if (SongSetChanged != null) SongSetChanged(this, EventArgs.Empty);
+                DispatchReloadSongs();
             }
         }
     }

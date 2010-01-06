@@ -40,7 +40,7 @@ namespace zp8
         {
             int? serverid = null;
             if (cbserver.Checked) serverid = (int)lbserver.SelectedValue;
-            //m_db.ImportSongs(m_xmldb, serverid);
+            m_db.ImportSongs(m_xmldb, serverid);
         }
 
         public static bool Run(SongDatabase db)
@@ -64,7 +64,7 @@ namespace zp8
             try
             {
                 ISongParser type = m_types[imptype.SelectedIndex];
-                //m_xmldb = new InetSongDb();
+                m_xmldb = new InetSongDb();
                 using (IWaitDialog wait = WaitForm.Show("Import písní", true))
                 {
                     type.Parse(m_dynamicProperties, m_xmldb, wait);

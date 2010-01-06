@@ -59,6 +59,8 @@ namespace zp8
             {
                 while (reader.Read())
                 {
+                    string grp = reader.SafeString(0);
+                    if (grp == null) continue;
                     lbgroups.Items.Add(reader.SafeString(0));
                 }
             }

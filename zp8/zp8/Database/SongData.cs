@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Xml;
 
 namespace zp8
 {
@@ -117,6 +118,13 @@ namespace zp8
             set { m_remark = value; }
         }
 
+        DateTime? m_published;
+        public DateTime? Published
+        {
+            get { return m_published; }
+            set { m_published = value; }
+        }
+
         public string this[string name]
         {
             get
@@ -132,6 +140,37 @@ namespace zp8
                     case "remark": return Remark;
                 }
                 return "";
+            }
+        }
+
+        public void Save(XmlWriter xw)
+        {
+            xw.WriteStartElement("song");
+            if (NetID != null) xw.WriteElementString("ID", NetID.ToString());
+            if (Lang != null) xw.WriteElementString("lang", Lang);
+            if (SongText != null) xw.WriteElementString("songtext", SongText);
+            if (Author != null) xw.WriteElementString("author", Author);
+            if (GroupName != null) xw.WriteElementString("groupname", GroupName);
+            if (Title != null) xw.WriteElementString("title", Title);
+            if (Published != null) xw.WriteElementString("published", Published.Value.ToString("s"));
+            xw.WriteEndElement();
+        }
+
+        public void DeleteData(SongDataType datatype)
+        {
+            Items.RemoveAll(it => it.DataType == datatype);
+        }
+
+        public void AddLink(string link)
+        {
+            Items.Add(new SongDataItem { DataType = SongDataType.Link, TextData = link });
+        }
+
+        public IEnumerable<SongDataItem> GetData(SongDataType datatype)
+        {
+            foreach (var data in Items)
+            {
+                if (data.DataType == datatype) yield return data;
             }
         }
     }

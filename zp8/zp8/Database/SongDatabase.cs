@@ -6,6 +6,7 @@ using System.Xml;
 using System.Resources;
 using System.Windows.Forms;
 using System.Data;
+using System.Linq;
 
 using System.Data.SQLite;
 
@@ -331,15 +332,21 @@ namespace zp8
             }
         }
 
-        public void ExecuteNonQuery(string sql, params object[] args)
+        public void ExecuteNonQuery(SQLiteTransaction tran, string sql, params object[] args)
         {
             WantOpen();
             using (SQLiteCommand cmd = m_conn.CreateCommand())
             {
+                cmd.Transaction = tran;
                 cmd.CommandText = sql;
                 BindParams(cmd, args);
                 cmd.ExecuteNonQuery();
             }
+        }
+
+        public void ExecuteNonQuery(string sql, params object[] args)
+        {
+            ExecuteNonQuery((SQLiteTransaction)null, sql, args);
         }
 
         public SQLiteDataReader ExecuteReader(string sql, params object[] args)
@@ -364,6 +371,24 @@ namespace zp8
             + "inner join song on song.server_id = server.id where song.id=@id", "id", songid);
         }
 
+        public void ImportSongs(InetSongDb db, int? serverid)
+        {
+            WantOpen();
+            using (var tran = m_conn.BeginTransaction())
+            {
+                foreach (var song in db.Songs)
+                {
+                    if (song.NetID != null && serverid != null)
+                    {
+                        ExecuteNonQuery("delete from songdata where @sid = (select server_id from song where song.id = songdata.song_id) and song.netID=@nid", "sid", serverid, "nid", song.NetID);
+                        ExecuteNonQuery("delete from song where server_id = @sid and netID=@nid", "sid", serverid, "nid", song.NetID);
+                        //ExecuteNonQuery("insert into song
+                    }
+                }
+                tran.Commit();
+            }
+        }
+
         public SearchIndex SearchIndex
         {
             get
@@ -371,6 +396,66 @@ namespace zp8
                 if (m_searchIndex == null) m_searchIndex = new SearchIndex(this);
                 return m_searchIndex;
             }
+        }
+
+        public void SaveSong(SongData song, int ?serverid)
+        {
+            if (song.LocalID == 0)
+            {
+                InsertSong(song, serverid);
+            }
+            else
+            {
+                UpdateSong(song, serverid);
+            }
+        }
+
+        private void InsertSongItem(int song, SongDataItem item)
+        {
+            ExecuteNonQuery("insert into songdata (song_id, datatype_id, label, textdata) values (@song, @datatype, @label, @data)",
+                "song", song, "datatype", item.DataType, "label", item.Label, "data", item.TextData);
+        }
+
+        private void UpdateSong(SongData song, int ?serverid)
+        {
+            ExecuteNonQuery("delete from songdata where song_id=@id", "id", song.LocalID);
+            foreach (var item in song.Items)
+            {
+                InsertSongItem(song.LocalID, item);
+            }
+            ExecuteNonQuery(@"update song set title=@title, groupname=@groupname, author=@author, lang=@lang, 
+                            server_id=@server, netID=@netid, transp=@transp, remark=@remark, published=@published
+                            where id=@id",
+                            "title", song.Title, "groupname", song.GroupName, "author", song.Author, "lang", song.Lang,
+                            "server", serverid, "netid", song.NetID, "transp", song.Transp, "remark", song.Remark, 
+                            "published", song.Published, "id", song.LocalID);
+        }
+
+        private void InsertSong(SongData song, int? serverid)
+        {
+            ExecuteNonQuery(@"insert into song (title, groupname, author, lang, server_id, netID, transp, remark, published)
+                             values
+                             (@title, @groupname, @author, @lang, @server, @netid, @transp, @remark, @published)",
+                            "title", song.Title, "groupname", song.GroupName, "author", song.Author, "lang", song.Lang,
+                            "server", serverid, "netid", song.NetID, "transp", song.Transp, "remark", song.Remark,
+                            "published", song.Published);
+            song.LocalID = LastInsertId();
+            foreach (var item in song.Items)
+            {
+                InsertSongItem(song.LocalID, item);
+            }
+        }
+
+        //public void SetSongServer(int song, int server)
+        //{
+        //    ExecuteNonQuery("update song set server_id=@server where id=@song", "song", song, "server", server);
+        //}
+
+        public void DeleteSongs(List<int> songs)
+        {
+            string songids = String.Join(",", (from i in songs select i.ToString()).ToArray());
+            ExecuteNonQuery("delete from songdata where song_id in (" + songids + ")");
+            ExecuteNonQuery("delete from song where id in (" + songids + ")");
         }
     }
 }

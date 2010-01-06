@@ -76,7 +76,7 @@ namespace zp8
                 using (IWaitDialog wait = WaitForm.Show("Exportování písní", true))
                 {
                     ISongFormatter exp = frm.m_types[frm.lbformat.SelectedIndex];
-                    //exp.Format(frm.m_db, frm.m_dynamciProperties, wait);
+                    exp.Format(frm.m_db, frm.m_dynamciProperties, wait);
                 }
             }
         }

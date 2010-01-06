@@ -28,7 +28,6 @@ namespace zp8
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.píseòToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uložitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,17 +39,11 @@ namespace zp8
             this.dolùOKvintuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nahoruOKvintuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.tblink_2 = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.tblink_1 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.tbremark = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.cbuseserver = new System.Windows.Forms.CheckBox();
             this.cbserver = new System.Windows.Forms.ComboBox();
-            this.serverBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label4 = new System.Windows.Forms.Label();
             this.tbgroup = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -64,9 +57,12 @@ namespace zp8
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.songView1 = new zp8.SongView();
             this.openLinkDialog = new System.Windows.Forms.OpenFileDialog();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.lbxLinks = new System.Windows.Forms.ListBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.serverBindingSource)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -90,26 +86,26 @@ namespace zp8
             this.konecToolStripMenuItem,
             this.zavøítToolStripMenuItem});
             this.píseòToolStripMenuItem.Name = "píseòToolStripMenuItem";
-            this.píseòToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.píseòToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.píseòToolStripMenuItem.Text = "Píseò";
             // 
             // uložitToolStripMenuItem
             // 
             this.uložitToolStripMenuItem.Name = "uložitToolStripMenuItem";
             this.uložitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.uložitToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.uložitToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.uložitToolStripMenuItem.Text = "Uložit";
             this.uložitToolStripMenuItem.Click += new System.EventHandler(this.uložitToolStripMenuItem_Click);
             // 
             // konecToolStripMenuItem
             // 
             this.konecToolStripMenuItem.Name = "konecToolStripMenuItem";
-            this.konecToolStripMenuItem.Size = new System.Drawing.Size(146, 6);
+            this.konecToolStripMenuItem.Size = new System.Drawing.Size(141, 6);
             // 
             // zavøítToolStripMenuItem
             // 
             this.zavøítToolStripMenuItem.Name = "zavøítToolStripMenuItem";
-            this.zavøítToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.zavøítToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.zavøítToolStripMenuItem.Text = "Zavøít";
             this.zavøítToolStripMenuItem.Click += new System.EventHandler(this.zavøítToolStripMenuItem_Click);
             // 
@@ -121,14 +117,14 @@ namespace zp8
             this.dolùOKvintuToolStripMenuItem,
             this.nahoruOKvintuToolStripMenuItem});
             this.transpoziceToolStripMenuItem.Name = "transpoziceToolStripMenuItem";
-            this.transpoziceToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
+            this.transpoziceToolStripMenuItem.Size = new System.Drawing.Size(82, 20);
             this.transpoziceToolStripMenuItem.Text = "Transpozice";
             // 
             // nahoruToolStripMenuItem
             // 
             this.nahoruToolStripMenuItem.Name = "nahoruToolStripMenuItem";
             this.nahoruToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.nahoruToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.nahoruToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.nahoruToolStripMenuItem.Text = "Dolù";
             this.nahoruToolStripMenuItem.Click += new System.EventHandler(this.nahoruToolStripMenuItem_Click);
             // 
@@ -136,31 +132,30 @@ namespace zp8
             // 
             this.nahoruToolStripMenuItem1.Name = "nahoruToolStripMenuItem1";
             this.nahoruToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.nahoruToolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
+            this.nahoruToolStripMenuItem1.Size = new System.Drawing.Size(160, 22);
             this.nahoruToolStripMenuItem1.Text = "Nahoru";
             this.nahoruToolStripMenuItem1.Click += new System.EventHandler(this.nahoruToolStripMenuItem1_Click);
             // 
             // dolùOKvintuToolStripMenuItem
             // 
             this.dolùOKvintuToolStripMenuItem.Name = "dolùOKvintuToolStripMenuItem";
-            this.dolùOKvintuToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.dolùOKvintuToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.dolùOKvintuToolStripMenuItem.Text = "Dolù o kvintu";
             this.dolùOKvintuToolStripMenuItem.Click += new System.EventHandler(this.dolùOKvintuToolStripMenuItem_Click);
             // 
             // nahoruOKvintuToolStripMenuItem
             // 
             this.nahoruOKvintuToolStripMenuItem.Name = "nahoruOKvintuToolStripMenuItem";
-            this.nahoruOKvintuToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.nahoruOKvintuToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.nahoruOKvintuToolStripMenuItem.Text = "Nahoru o kvintu";
             this.nahoruOKvintuToolStripMenuItem.Click += new System.EventHandler(this.nahoruOKvintuToolStripMenuItem_Click);
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.lbxLinks);
+            this.panel1.Controls.Add(this.button3);
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.tblink_2);
-            this.panel1.Controls.Add(this.label7);
-            this.panel1.Controls.Add(this.tblink_1);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.tbremark);
             this.panel1.Controls.Add(this.label5);
@@ -179,57 +174,14 @@ namespace zp8
             this.panel1.Size = new System.Drawing.Size(209, 492);
             this.panel1.TabIndex = 3;
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(159, 270);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(35, 23);
-            this.button2.TabIndex = 16;
-            this.button2.Text = "...";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(157, 231);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(37, 23);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "...";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // tblink_2
-            // 
-            this.tblink_2.Location = new System.Drawing.Point(12, 273);
-            this.tblink_2.Name = "tblink_2";
-            this.tblink_2.Size = new System.Drawing.Size(141, 20);
-            this.tblink_2.TabIndex = 14;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 257);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(36, 13);
-            this.label7.TabIndex = 13;
-            this.label7.Text = "Link 2";
-            // 
-            // tblink_1
-            // 
-            this.tblink_1.Location = new System.Drawing.Point(12, 234);
-            this.tblink_1.Name = "tblink_1";
-            this.tblink_1.Size = new System.Drawing.Size(141, 20);
-            this.tblink_1.TabIndex = 12;
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 218);
+            this.label6.Location = new System.Drawing.Point(9, 229);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(36, 13);
+            this.label6.Size = new System.Drawing.Size(43, 13);
             this.label6.TabIndex = 11;
-            this.label6.Text = "Link 1";
+            this.label6.Text = "Odkazy";
             // 
             // tbremark
             // 
@@ -260,8 +212,6 @@ namespace zp8
             // 
             // cbserver
             // 
-            this.cbserver.DataSource = this.serverBindingSource;
-            this.cbserver.DisplayMember = "url";
             this.cbserver.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbserver.FormattingEnabled = true;
             this.cbserver.Location = new System.Drawing.Point(12, 194);
@@ -269,10 +219,6 @@ namespace zp8
             this.cbserver.Size = new System.Drawing.Size(182, 21);
             this.cbserver.TabIndex = 7;
             this.cbserver.ValueMember = "ID";
-            // 
-            // serverBindingSource
-            // 
-            this.serverBindingSource.DataMember = "server";
             // 
             // label4
             // 
@@ -382,12 +328,51 @@ namespace zp8
             this.songView1.Location = new System.Drawing.Point(3, 3);
             this.songView1.Name = "songView1";
             this.songView1.Size = new System.Drawing.Size(405, 460);
+            this.songView1.SongDb = null;
             this.songView1.SongText = null;
             this.songView1.TabIndex = 0;
             // 
             // openLinkDialog
             // 
             this.openLinkDialog.Filter = "MP3 soubory|*.mp3|Všechny soubory|*.*";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(74, 224);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(30, 20);
+            this.button1.TabIndex = 13;
+            this.button1.Text = "+";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(110, 224);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(30, 20);
+            this.button2.TabIndex = 14;
+            this.button2.Text = "-";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(146, 225);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(30, 20);
+            this.button3.TabIndex = 15;
+            this.button3.Text = "...";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // lbxLinks
+            // 
+            this.lbxLinks.FormattingEnabled = true;
+            this.lbxLinks.Location = new System.Drawing.Point(12, 256);
+            this.lbxLinks.Name = "lbxLinks";
+            this.lbxLinks.Size = new System.Drawing.Size(182, 108);
+            this.lbxLinks.TabIndex = 16;
             // 
             // EditSongForm
             // 
@@ -406,7 +391,6 @@ namespace zp8
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.serverBindingSource)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -441,17 +425,15 @@ namespace zp8
         private System.Windows.Forms.ToolStripMenuItem dolùOKvintuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nahoruOKvintuToolStripMenuItem;
         private System.Windows.Forms.ComboBox cbserver;
-        private System.Windows.Forms.BindingSource serverBindingSource;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox cbuseserver;
         private System.Windows.Forms.TextBox tbremark;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox tblink_2;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox tblink_1;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.OpenFileDialog openLinkDialog;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ListBox lbxLinks;
     }
 }

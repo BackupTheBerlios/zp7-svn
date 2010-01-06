@@ -147,7 +147,7 @@ namespace zp8
             songDatabaseWrapper1.Database = SelectedDatabase;
             LoadSbList();
             cbsongbook_SelectedIndexChanged(sender, e);
-            //UpdateDbState();
+            UpdateDbState();
         }
 
         //private void LoadCurrentDbOrSb()
@@ -239,8 +239,8 @@ namespace zp8
             //}
         }
 
-        //private void UpdateDbState()
-        //{
+        private void UpdateDbState()
+        {
         //    try
         //    {
         //        if (SelectedDatabase != null)
@@ -260,7 +260,7 @@ namespace zp8
         //    {
         //        m_updating_state = false;
         //    }
-        //}
+        }
 
         private void newSongList_Click(object sender, EventArgs e)
         {
@@ -352,11 +352,11 @@ namespace zp8
 
         private void importPísníToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            ImportForm.Run(songDatabaseWrapper1.Database);
+            UpdateDbState();
             //try
             //{
-            //    songDatabaseWrapper1.Database = null;
-            //    ImportForm.Run(SelectedDbOrSb);
-            //    UpdateDbState();
+            //    //songDatabaseWrapper1.Database = null;
             //}
             //finally
             //{
@@ -435,15 +435,20 @@ namespace zp8
 
         private void upravitPíseòToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (songView1.SongID > 0) EditSongForm.Run(SelectedDatabase, songView1.SongID);
+            if (songView1.SongID > 0)
+            {
+                EditSongForm.Run(SelectedDatabase, SelectedDatabase.LoadSong(songView1.SongID));
+                songDatabaseWrapper1.DispatchReloadSongs();
+            }
         }
 
         private void newSong_Click(object sender, EventArgs e)
         {
             if (SelectedDatabase != null)
             {
-                SelectedDatabase.ExecuteNonQuery("insert into song (title) values ('Nova pisen')");
-                EditSongForm.Run(SelectedDatabase, SelectedDatabase.LastInsertId());
+                //SelectedDatabase.ExecuteNonQuery("insert into song (title) values ('Nova pisen')");
+                EditSongForm.Run(SelectedDatabase, new SongData { Title = "Nova pisen" });
+                songDatabaseWrapper1.DispatchReloadSongs();
             }
         }
 
@@ -530,12 +535,12 @@ namespace zp8
 
         private void smazatToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //List<SongDb.songRow> songs = new List<SongDb.songRow>();
-            //songs.AddRange(songTable1.GetSelectedSongsOrFocused());
-            //if (MessageBox.Show(String.Format("Opravdu vymazat {0} písní ?", songs.Count), "Zpìvníkátor", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            //{
-            //    foreach (SongDb.songRow song in songs) song.Delete();
-            //}
+            var songs = songTable1.GetSelectedSongsOrFocused();
+            if (MessageBox.Show(String.Format("Opravdu vymazat {0} písní ?", songs.Count), "Zpìvníkátor", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                songDatabaseWrapper1.Database.DeleteSongs(songs);
+                songDatabaseWrapper1.DispatchReloadSongs();
+            }
         }
 
         private void obsahToolStripMenuItem_Click(object sender, EventArgs e)
@@ -584,6 +589,11 @@ namespace zp8
                 LoadDbList();
                 SelectedDatabase = newdb;
             }
+        }
+
+        private void znovuNaèístDatabáziToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            songDatabaseWrapper1.DispatchReloadSongs();
         }
     }
 }
