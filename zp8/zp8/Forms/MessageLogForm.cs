@@ -8,17 +8,18 @@ using System.Windows.Forms;
 
 namespace zp8
 {
-    public partial class MessageLog : Form, IWaitDialog
+    public partial class MessageLogForm : Form, IWaitDialog
     {
         bool m_canceled = false;
-        public WaitForm()
+        bool m_dialog = false;
+        public MessageLogForm()
         {
             InitializeComponent();
         }
 
-        public static MessageLog Show(string msg, bool cancelable)
+        public static MessageLogForm Show(string msg, bool cancelable)
         {
-            MessageLog win = new MessageLog();
+            MessageLogForm win = new MessageLogForm();
             win.Message(msg);
             win.button1.Visible = cancelable;
             win.Show();
@@ -50,6 +51,17 @@ namespace zp8
         private void button1_Click(object sender, EventArgs e)
         {
             m_canceled = true;
+            if (m_dialog) Close();
+        }
+
+        public void FinishAndWait()
+        {
+            Hide();
+            Text = "Akce dokonèena";
+            button1.Text = "OK";
+            button1.Visible = true;
+            m_dialog = true;
+            ShowDialog();
         }
     }
 }

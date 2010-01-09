@@ -32,7 +32,9 @@ namespace zp8
                 lbxLinks.Items.Add(data.TextData);
             }
             cbxServer.Database = m_db;
-            cbxServer.ServerID = (int?)m_db.ExecuteScalar("select server_id from song where id=@id", "id", m_song.LocalID);
+            object o = m_db.ExecuteScalar("select server_id from song where id=@id", "id", m_song.LocalID);
+            if (o == DBNull.Value) cbxServer.ServerID = null;
+            else cbxServer.ServerID = (int?)o;
         }
 
         public static bool Run(SongDatabase db, SongData song)

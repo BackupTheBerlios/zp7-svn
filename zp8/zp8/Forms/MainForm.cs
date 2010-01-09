@@ -353,6 +353,7 @@ namespace zp8
         private void importPísníToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ImportForm.Run(songDatabaseWrapper1.Database);
+            songDatabaseWrapper1.DispatchReloadSongs();
             UpdateDbState();
             //try
             //{

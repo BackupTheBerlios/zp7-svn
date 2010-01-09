@@ -38,7 +38,11 @@ namespace zp8
 
         private void Work()
         {
-            m_db.ImportSongs(m_xmldb, cbxServer.ServerID);
+            using (MessageLogForm dlg = MessageLogForm.Show("Importuji písnì", false))
+            {
+                m_db.ImportNewSongs(m_xmldb, cbxServer.ServerID, dlg);
+                dlg.FinishAndWait();
+            }
         }
 
         public static bool Run(SongDatabase db)

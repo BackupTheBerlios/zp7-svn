@@ -33,42 +33,28 @@ namespace zp8
         }
     }
 
-    /*
-    public struct SongServerInfo
-    {
-        public string URL;
-        public string Type;
-        public string Config;
-    }
-    */
-
     public interface ISongServer
     {
-        //string URL { get;}
-        //string Type { get;}
-        //string Config { get;}
-        void DownloadNew(SongDatabase db, int serverid);
-        void UploadChanges(SongDatabase db, int serverid);
-        void UploadWhole(SongDatabase db, int serverid);
-        //void Save(out SongServerInfo dst);
-        //void Load(SongServerInfo src);
+        void DownloadNew(SongDatabase db, int serverid, IWaitDialog dlg);
+        void UploadChanges(SongDatabase db, int serverid, IWaitDialog dlg);
+        void UploadWhole(SongDatabase db, int serverid, IWaitDialog dlg);
     }
 
     public abstract class BaseSongServer : DatAdmin.PropertyPageBase, ISongServer
     {
         #region ISongServer Members
 
-        public virtual void DownloadNew(SongDatabase db, int serverid)
+        public virtual void DownloadNew(SongDatabase db, int serverid, IWaitDialog dlg)
         {
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public virtual void UploadChanges(SongDatabase db, int serverid)
+        public virtual void UploadChanges(SongDatabase db, int serverid, IWaitDialog dlg)
         {
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public virtual void UploadWhole(SongDatabase db, int serverid)
+        public virtual void UploadWhole(SongDatabase db, int serverid, IWaitDialog dlg)
         {
             throw new Exception("The method or operation is not implemented.");
         }
@@ -81,15 +67,16 @@ namespace zp8
         protected abstract Stream Read(ref object request);
         protected virtual void CloseRead(object request) { }
 
-        public override void DownloadNew(SongDatabase db, int serverid)
+        public override void DownloadNew(SongDatabase db, int serverid, IWaitDialog dlg)
         {
-            //db.DeleteSongsFromServer(serverid);
+            InetSongDb xmldb = new InetSongDb();
             object request = null;
             using (Stream fr = Read(ref request))
             {
-                //db.MergeInternetXml(serverid, fr);
+                xmldb.Load(fr);
             }
             CloseRead(request);
+            db.DownloadSongsFromServer(xmldb, serverid, dlg);
         }
     }
 
@@ -98,28 +85,28 @@ namespace zp8
         protected abstract Stream Write(ref object request);
         protected virtual void CloseWrite(object request) { }
 
-        public override void UploadChanges(SongDatabase db, int serverid)
+        public override void UploadChanges(SongDatabase db, int serverid, IWaitDialog dlg)
         {
-            //InetSongDb xmldb = new InetSongDb();
-            //object req1 = null;
-            //using (Stream fr = Read(ref req1)) xmldb.ReadXml(fr);
-            //CloseRead(req1);
-
-            //db.UpdateInternetXml(serverid, xmldb);
-
-            //object req2 = null;
-            //using (Stream fw = Write(ref req2))
-            //{
-            //    xmldb.WriteXml(fw);
-            //}
-            //CloseWrite(req2);
-        }
-        public override void UploadWhole(SongDatabase db, int serverid)
-        {
+            InetSongDb xmldb = new InetSongDb();
+            object req1 = null;
+            using (Stream fr = Read(ref req1)) xmldb.Load(fr);
+            CloseRead(req1);
             object request = null;
             using (Stream fw = Write(ref request))
             {
-                //db.CreateInternetXml(serverid, fw);
+                db.PublishSongsChanges(serverid, xmldb, dlg);
+                xmldb.Save(fw);
+            }
+            CloseWrite(request);
+        }
+        public override void UploadWhole(SongDatabase db, int serverid, IWaitDialog dlg)
+        {
+            InetSongDb xmldb = new InetSongDb();
+            object request = null;
+            using (Stream fw = Write(ref request))
+            {
+                db.PublishAllSongs(serverid, xmldb, dlg);
+                xmldb.Save(fw);
             }
             CloseWrite(request);
         }

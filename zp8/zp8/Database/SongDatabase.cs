@@ -371,23 +371,55 @@ namespace zp8
             + "inner join song on song.server_id = server.id where song.id=@id", "id", songid);
         }
 
-        public void ImportSongs(InetSongDb db, int? serverid)
+        public void ImportNewSongs(InetSongDb db, int? serverid, IWaitDialog dlg)
         {
             WantOpen();
+            int imported = 0;
             using (var tran = m_conn.BeginTransaction())
             {
                 foreach (var song in db.Songs)
                 {
-                    **** tohle bude potreba domyslet as zoptimalizovat
-                    if (song.NetID != null && serverid != null)
-                    {
-                        ExecuteNonQuery("delete from songdata where song_id = (select song.id from song where song.netID=@nid and song.server_id=@sid)", "sid", serverid, "nid", song.NetID);
-                        ExecuteNonQuery("delete from song where server_id = @sid and netID=@nid", "sid", serverid, "nid", song.NetID);
-                    }
-                    InsertSong(tran, song, serverid);
+                    var scopy = song.Clone();
+                    scopy.NetID = null;
+                    InsertSong(tran, scopy, serverid, true);
+                    imported++;
                 }
                 tran.Commit();
             }
+            dlg.Message(String.Format("Importováno {0} písní", imported));
+        }
+
+        public void DownloadSongsFromServer(InetSongDb db, int? serverid, IWaitDialog dlg)
+        {
+            WantOpen();
+            int imported = 0;
+            using (var tran = m_conn.BeginTransaction())
+            {
+                ExecuteNonQuery("delete from songdata where song_id = (select song.id from song where song.server_id=@sid and song.localmodified=0)", "sid", serverid);
+                ExecuteNonQuery("delete from song where song.server_id=@sid and song.localmodified=0)", "sid", serverid);
+                List<string> modifiedNetIds = new List<string>();
+                using (var reader = ExecuteReader("select netID from song where server_id=@sid and localmodified=1", "sid", serverid))
+                {
+                    while (reader.Read())
+                    {
+                        modifiedNetIds.Add(reader.SafeString(0));
+                    }
+                }
+                foreach (var song in db.Songs)
+                {
+                    if (modifiedNetIds.Contains(song.NetID))
+                    {
+                        dlg.Message(String.Format("Ignoruji zmìnìnou píseò {0}, netID={1}", song.Title, song.NetID));
+                    }
+                    else
+                    {
+                        InsertSong(tran, song, serverid, false);
+                        imported++;
+                    }
+                }
+                tran.Commit();
+            }
+            dlg.Message(String.Format("Importováno {0} písní", imported));
         }
 
         public SearchIndex SearchIndex
@@ -403,7 +435,7 @@ namespace zp8
         {
             if (song.LocalID == 0)
             {
-                InsertSong(song, serverid);
+                InsertSong(song, serverid, true);
             }
             else
             {
@@ -430,21 +462,21 @@ namespace zp8
                 InsertSongItem(song.LocalID, item);
             }
             ExecuteNonQuery(@"update song set title=@title, groupname=@groupname, author=@author, lang=@lang, 
-                            server_id=@server, netID=@netid, transp=@transp, remark=@remark, published=@published
+                            server_id=@server, netID=@netid, transp=@transp, remark=@remark, published=@published, localmodified=1
                             where id=@id",
                             "title", song.Title, "groupname", song.GroupName, "author", song.Author, "lang", song.Lang,
                             "server", serverid, "netid", song.NetID, "transp", song.Transp, "remark", song.Remark, 
                             "published", song.Published, "id", song.LocalID);
         }
 
-        private void InsertSong(SQLiteTransaction tran, SongData song, int? serverid)
+        private void InsertSong(SQLiteTransaction tran, SongData song, int? serverid, bool localmodified)
         {
-            ExecuteNonQuery(tran, @"insert into song (title, groupname, author, lang, server_id, netID, transp, remark, published)
+            ExecuteNonQuery(tran, @"insert into song (title, groupname, author, lang, server_id, netID, transp, remark, published, localmodified)
                              values
-                             (@title, @groupname, @author, @lang, @server, @netid, @transp, @remark, @published)",
+                             (@title, @groupname, @author, @lang, @server, @netid, @transp, @remark, @published, @localmodified)",
                             "title", song.Title, "groupname", song.GroupName, "author", song.Author, "lang", song.Lang,
                             "server", serverid, "netid", song.NetID, "transp", song.Transp, "remark", song.Remark,
-                            "published", song.Published);
+                            "published", song.Published, "localmodified", localmodified);
             song.LocalID = LastInsertId();
             foreach (var item in song.Items)
             {
@@ -452,9 +484,9 @@ namespace zp8
             }
         }
 
-        private void InsertSong(SongData song, int? serverid)
+        private void InsertSong(SongData song, int? serverid, bool localmodified)
         {
-            InsertSong(null, song, serverid);
+            InsertSong(null, song, serverid, localmodified);
         }
 
         //public void SetSongServer(int song, int server)
@@ -464,9 +496,16 @@ namespace zp8
 
         public void DeleteSongs(List<int> songs)
         {
-            string songids = String.Join(",", (from i in songs select i.ToString()).ToArray());
-            ExecuteNonQuery("delete from songdata where song_id in (" + songids + ")");
-            ExecuteNonQuery("delete from song where id in (" + songids + ")");
+            using (SQLiteTransaction tran = m_conn.BeginTransaction())
+            {
+                string songids = String.Join(",", (from i in songs select i.ToString()).ToArray());
+                ExecuteNonQuery(@"insert into deletedsong
+                    select NULL, song.netID, song.server_id from song 
+                    where song.server_id is not null and song.netID is not null and song.id in (" + songids + ")");
+                ExecuteNonQuery(tran, "delete from songdata where song_id in (" + songids + ")");
+                ExecuteNonQuery(tran, "delete from song where id in (" + songids + ")");
+                tran.Commit();
+            }
         }
 
         public void InsertServer(ISongServer server)
@@ -499,6 +538,62 @@ namespace zp8
         public void DeleteServer(int id)
         {
             ExecuteNonQuery("delete from server where id=@id", "id", id);
+        }
+
+        private void ProcessPublishSong(SQLiteTransaction tran, InetSongDb xmldb, SongData song, IWaitDialog dlg)
+        {
+            if (song.NetID != null)
+            {
+                xmldb.UpdateSongByNetID(song);
+                ExecuteNonQuery("update song set published=@published, localmodified=0 where id=@id",
+                    "published", DateTime.UtcNow, "id", song.LocalID);
+            }
+            else
+            {
+                xmldb.AddSongWithNewNetID(song);
+                ExecuteNonQuery("update song set published=@published, localmodified=0, netID=@netid where id=@id",
+                    "published", DateTime.UtcNow, "id", song.LocalID, "netid", song.NetID);
+            }
+            dlg.Message(String.Format("Publikuji píseò {0}, netID={1}", song.Title, song.NetID));
+        }
+
+        public void PublishSongsChanges(int serverid, InetSongDb xmldb, IWaitDialog dlg)
+        {
+            var songs = new List<SongData>(this.LoadSongs(null, null, "song.server_id=" + serverid.ToString() + " and song.localmodified=1"));
+            using (SQLiteTransaction tran = m_conn.BeginTransaction())
+            {
+                foreach (var song in songs)
+                {
+                    ProcessPublishSong(tran, xmldb, song, dlg);
+                }
+                using (var reader = ExecuteReader("select ID, song_netID from deletedsong where server_id=@sid", "sid", serverid))
+                {
+                    while (reader.Read())
+                    {
+                        int id = reader.SafeInt(0);
+                        string netid = reader.SafeString(1);
+                        xmldb.DeleteSongByNetID(netid);
+                        dlg.Message(String.Format("Mažu píseò netID={0}", netid));
+                    }
+                }
+                ExecuteNonQuery("delete from deletedsong where server_id=@sid", "sid", serverid);
+                tran.Commit();
+            }
+        }
+
+        public void PublishAllSongs(int serverid, InetSongDb xmldb, IWaitDialog dlg)
+        {
+            xmldb.Songs.Clear();
+            var songs = new List<SongData>(this.LoadSongs(null, null, "song.server_id=" + serverid.ToString()));
+            using (SQLiteTransaction tran = m_conn.BeginTransaction())
+            {
+                foreach (var song in songs)
+                {
+                    ProcessPublishSong(tran, xmldb, song, dlg);
+                }
+                ExecuteNonQuery("delete from deletedsong where server_id=@sid", "sid", serverid);
+                tran.Commit();
+            }
         }
     }
 }

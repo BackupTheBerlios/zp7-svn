@@ -32,6 +32,11 @@ namespace zp8
         public SongDataType DataType;
         public string Label;
         public string TextData;
+
+        public SongDataItem Clone()
+        {
+            return (SongDataItem)MemberwiseClone();
+        }
     }
 
     public class SongData
@@ -205,6 +210,14 @@ namespace zp8
             {
                 if (data.DataType == datatype) yield return data;
             }
+        }
+
+        public SongData Clone()
+        {
+            var res = (SongData)MemberwiseClone();
+            res.Items = new List<SongDataItem>();
+            foreach (var item in Items) res.Items.Add(item.Clone());
+            return res;
         }
     }
 

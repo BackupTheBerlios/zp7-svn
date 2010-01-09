@@ -4,6 +4,7 @@ using System.Text;
 using System.Data;
 using System.IO;
 using System.Xml;
+using System.Linq;
 
 namespace zp8
 {
@@ -11,6 +12,8 @@ namespace zp8
     {
         public List<SongData> Songs = new List<SongData>();
         public static string XMLNS = "http://zpevnik.net/InetSongDb.xsd";
+
+        private int m_lastNetId = 0;
 
         public DataTable GetAsTable()
         {
@@ -63,6 +66,40 @@ namespace zp8
                 SongData song = new SongData();
                 song.Load(xsong);
                 Songs.Add(song);
+                if (!String.IsNullOrEmpty(song.NetID) && Int32.Parse(song.NetID) > m_lastNetId)
+                {
+                    m_lastNetId = Int32.Parse(song.NetID);
+                }
+            }
+        }
+
+        public int FindNetIdIndex(string netid)
+        {
+            return Songs.FindIndex(song => song.NetID == netid);
+        }
+
+        public void UpdateSongByNetID(SongData song)
+        {
+            int index = FindNetIdIndex(song.NetID);
+            if (index >= 0)
+            {
+                Songs[index] = song.Clone();
+            }
+        }
+
+        public void AddSongWithNewNetID(SongData song)
+        {
+            m_lastNetId += 1;
+            song.NetID = m_lastNetId.ToString();
+            Songs.Add(song.Clone());
+        }
+
+        public void DeleteSongByNetID(string netid)
+        {
+            int index = FindNetIdIndex(netid);
+            if (index >= 0)
+            {
+                Songs.RemoveAt(index);
             }
         }
     }

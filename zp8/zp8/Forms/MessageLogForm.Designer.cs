@@ -1,6 +1,6 @@
 namespace zp8
 {
-    partial class MessageLogFrame
+    partial class MessageLogForm
     {
         /// <summary>
         /// Required designer variable.

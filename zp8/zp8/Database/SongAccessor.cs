@@ -20,6 +20,8 @@ namespace zp8
         public static IEnumerable<SongData> LoadSongs(this SongDatabase db, string[] extracols, string joins, string conds)
         {
             if (extracols == null) extracols = new string[] { };
+            if (conds == null) conds = "1=1";
+            if (joins == null) joins = "";
             var res = new Dictionary<int, SongData>();
             string query = "select song.id,";
             foreach (string ec in extracols) query += ec + ",";
@@ -39,6 +41,7 @@ namespace zp8
                 }
             }
             using (var reader = db.ExecuteReader("select songdata.song_id,songdata.datatype_id,songdata.label,songdata.textdata from songdata "
+                + " inner join song on song.id = songdata.song_id "
                 + joins.Replace("#SONGID#", "songdata.song_id") + " where " + conds.Replace("#SONGID#", "songdata.song_id")))
             {
                 while (reader.Read())

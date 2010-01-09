@@ -86,74 +86,89 @@ namespace zp8
         //    }
         //}
 
-        //private delegate void ServerActionDelegate(SongDatabase db, ISongServer srv, int serverid);
+        private delegate void ServerActionDelegate(SongDatabase db, ISongServer srv, int serverid, IWaitDialog dlg);
 
-//        private void DoServerAction(ServerActionDelegate callback)
-//        {
-//#if (DEBUG)
-//            DoServerAction2(callback);
-//#else
-//            try
-//            {
-//                DoServerAction2(callback);
-//            }
-//            catch (Exception e)
-//            {
-//                MessageBox.Show("Pøi kominukaci se severem nastala chyba:\n" + e.Message, "Zpìvníkátor", MessageBoxButtons.OK, MessageBoxIcon.Error);
-//            }
-//#endif
-//        }
-
-        //private void DoServerAction2(ServerActionDelegate callback)
-        //{
-        //    using (IWaitDialog dlg = WaitForm.Show("Probíhá komunikace se serverem", false))
-        //    {
-        //        SongDb.serverRow row = m_dbwrap.SelectedServer;
-        //        ISongServer srv = SongServer.Load(row.servertype, row.config);
-        //        callback(m_dbwrap.Database, srv, row.ID);
-        //    }
-        //    MessageBox.Show("Akce probìhla úspìšnì");
-        //}
-
-        private void button3_Click(object sender, EventArgs e)
+        private void DoServerAction(ServerActionDelegate callback)
         {
-            //DoServerAction(delegate(SongDatabase db, ISongServer srv, int serverid)
-            //    { srv.UploadChanges(db, serverid); }
-            //);
+#if (DEBUG)
+            DoServerAction2(callback);
+#else
+            try
+            {
+                DoServerAction2(callback);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Pøi kominukaci se severem nastala chyba:\n" + e.Message, "Zpìvníkátor", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+#endif
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private int? SelectedServer
         {
-            //DoServerAction(delegate(SongDatabase db, ISongServer srv, int serverid)
-            //    { srv.DownloadNew(db, serverid); }
-            //);
+            get
+            {
+                if (dataGridView1.CurrentCell != null)
+                {
+                    int id = GetServerID(dataGridView1.CurrentCell.RowIndex);
+                    return id;
+                }
+                return null;
+            }
+        }
+
+        private void DoServerAction2(ServerActionDelegate callback)
+        {
+            if (SelectedServer != null)
+            {
+                int id = SelectedServer.Value;
+                using (MessageLogForm dlg = MessageLogForm.Show("Probíhá komunikace se serverem", false))
+                {
+                    ISongServer srv = m_dbwrap.Database.LoadServer(id);
+                    callback(m_dbwrap.Database, srv, id, dlg);
+                    dlg.Message("Akce probìhla úspìšnì");
+                    dlg.FinishAndWait();
+                }
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            //DoServerAction(delegate(SongDatabase db, ISongServer srv, int serverid)
-            //    { srv.UploadWhole(db, serverid); }
-            //);
+            DoServerAction((db, srv, sid, dlg) => { srv.UploadChanges(db, sid, dlg); });
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            if (saveXML.ShowDialog() == DialogResult.OK)
+            if (SelectedServer != null)
             {
-                using (FileStream fw = new FileStream(saveXML.FileName, FileMode.Create))
+                if (saveXML.ShowDialog() == DialogResult.OK)
                 {
-                    //m_dbwrap.Database.CreateInternetXml(m_dbwrap.SelectedServer.ID, fw);
+                    InetSongDb xmldb = new InetSongDb();
+                    xmldb.Songs.AddRange(m_dbwrap.Database.LoadSongs(null, null, "server_id=" + SelectedServer.ToString()));
+                    using (FileStream fw = new FileStream(saveXML.FileName, FileMode.Create))
+                    {
+                        xmldb.Save(fw);
+                    }
                 }
             }
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            if (openXML.ShowDialog() == DialogResult.OK)
+            if (SelectedServer != null)
             {
-                using (FileStream fr = new FileStream(openXML.FileName, FileMode.Open))
+                if (openXML.ShowDialog() == DialogResult.OK)
                 {
-                    //m_dbwrap.Database.MergeInternetXml(m_dbwrap.SelectedServer.ID, fr);
+                    InetSongDb xmldb = new InetSongDb();
+                    using (MessageLogForm dlg = MessageLogForm.Show("Importuji písnì", false))
+                    {
+                        using (FileStream fr = new FileStream(openXML.FileName, FileMode.Open))
+                        {
+                            xmldb.Load(fr);
+                        }
+                        m_dbwrap.Database.DownloadSongsFromServer(xmldb, SelectedServer, dlg);
+                        dlg.FinishAndWait();
+                    }
                 }
             }
         }
@@ -186,6 +201,16 @@ namespace zp8
         private void button9_Click(object sender, EventArgs e)
         {
             Reload();
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            DoServerAction((db, srv, sid, dlg) => { srv.UploadWhole(db, sid, dlg); });
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DoServerAction((db, srv, sid, dlg) => { srv.DownloadNew(db, sid, dlg); });
         }
     }
 }
