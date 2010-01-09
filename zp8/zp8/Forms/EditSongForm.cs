@@ -34,7 +34,7 @@ namespace zp8
             cbxServer.Database = m_db;
             object o = m_db.ExecuteScalar("select server_id from song where id=@id", "id", m_song.LocalID);
             if (o == DBNull.Value) cbxServer.ServerID = null;
-            else cbxServer.ServerID = (int?)o;
+            else cbxServer.ServerID = Int32.Parse(o.ToString());
         }
 
         public static bool Run(SongDatabase db, SongData song)
@@ -121,6 +121,14 @@ namespace zp8
                 {
                     lbxLinks.Items[lbxLinks.SelectedIndex] = openLinkDialog.FileName;
                 }
+            }
+        }
+
+        private void EditSongForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show("Opravdu zavøít editaci písnì?", "Zpìvníkátor", MessageBoxButtons.YesNo) != DialogResult.Yes)
+            {
+                e.Cancel = true;
             }
         }
     }

@@ -28,6 +28,7 @@ namespace zp8
         /// </summary>
         private void InitializeComponent()
         {
+            zp8.ServerComboBox.Item item1 = new zp8.ServerComboBox.Item();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.píseòToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uložitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,6 +40,7 @@ namespace zp8
             this.dolùOKvintuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nahoruOKvintuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cbxServer = new zp8.ServerComboBox();
             this.lbxLinks = new System.Windows.Forms.ListBox();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -57,9 +59,8 @@ namespace zp8
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tbtext = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.openLinkDialog = new System.Windows.Forms.OpenFileDialog();
             this.songView1 = new zp8.SongView();
-            this.cbxServer = new zp8.ServerComboBox();
+            this.openLinkDialog = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -171,6 +172,20 @@ namespace zp8
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(209, 492);
             this.panel1.TabIndex = 3;
+            // 
+            // cbxServer
+            // 
+            this.cbxServer.Database = null;
+            this.cbxServer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxServer.Enabled = false;
+            this.cbxServer.FormattingEnabled = true;
+            this.cbxServer.Items.AddRange(new object[] {
+            item1});
+            this.cbxServer.Location = new System.Drawing.Point(12, 197);
+            this.cbxServer.Name = "cbxServer";
+            this.cbxServer.ServerID = null;
+            this.cbxServer.Size = new System.Drawing.Size(182, 21);
+            this.cbxServer.TabIndex = 17;
             // 
             // lbxLinks
             // 
@@ -335,10 +350,6 @@ namespace zp8
             this.tabPage2.Text = "Náhled";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // openLinkDialog
-            // 
-            this.openLinkDialog.Filter = "MP3 soubory|*.mp3|Všechny soubory|*.*";
-            // 
             // songView1
             // 
             this.songView1.AutoScroll = true;
@@ -351,17 +362,9 @@ namespace zp8
             this.songView1.SongText = null;
             this.songView1.TabIndex = 0;
             // 
-            // cbxServer
+            // openLinkDialog
             // 
-            this.cbxServer.Database = null;
-            this.cbxServer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxServer.Enabled = false;
-            this.cbxServer.FormattingEnabled = true;
-            this.cbxServer.Location = new System.Drawing.Point(12, 197);
-            this.cbxServer.Name = "cbxServer";
-            this.cbxServer.ServerID = null;
-            this.cbxServer.Size = new System.Drawing.Size(182, 21);
-            this.cbxServer.TabIndex = 17;
+            this.openLinkDialog.Filter = "MP3 soubory|*.mp3|Všechny soubory|*.*";
             // 
             // EditSongForm
             // 
@@ -375,6 +378,7 @@ namespace zp8
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "EditSongForm";
             this.Text = "Úprava písnì";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EditSongForm_FormClosing);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditSongForm_KeyDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

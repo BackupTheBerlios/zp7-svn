@@ -41,19 +41,13 @@ namespace zp8
             this.cbdatabase = new System.Windows.Forms.ComboBox();
             this.TabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.songView1 = new zp8.SongView();
-            this.songDatabaseWrapper1 = new zp8.SongDatabaseWrapper(this.components);
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.songTable1 = new zp8.SongTable();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.songsByGroupFrame1 = new zp8.SongsByGroupFrame();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.serversFrame1 = new zp8.ServersFrame();
             this.tbsongbook = new System.Windows.Forms.TabPage();
-            this.songBookFrame1 = new zp8.SongBookFrame();
             this.StatusStrip1 = new System.Windows.Forms.StatusStrip();
             this.dbname = new System.Windows.Forms.ToolStripStatusLabel();
             this.dbsize = new System.Windows.Forms.ToolStripStatusLabel();
@@ -61,7 +55,6 @@ namespace zp8
             this.tspages = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.souborToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuNewDatabase = new System.Windows.Forms.ToolStripMenuItem();
             this.naèístToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.konecToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -108,6 +101,15 @@ namespace zp8
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.tiskPísnìToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportPísnìDoPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.songView1 = new zp8.SongView();
+            this.songDatabaseWrapper1 = new zp8.SongDatabaseWrapper(this.components);
+            this.songTable1 = new zp8.SongTable();
+            this.songsByGroupFrame1 = new zp8.SongsByGroupFrame();
+            this.serversFrame1 = new zp8.ServersFrame();
+            this.songBookFrame1 = new zp8.SongBookFrame();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.nováDatabázeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -239,24 +241,6 @@ namespace zp8
             this.tabPage1.Text = "Písnì";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // songView1
-            // 
-            this.songView1.AutoScroll = true;
-            this.songView1.BackColor = System.Drawing.SystemColors.Window;
-            this.songView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.songView1.Location = new System.Drawing.Point(430, 3);
-            this.songView1.Name = "songView1";
-            this.songView1.Size = new System.Drawing.Size(230, 358);
-            this.songView1.SongDb = this.songDatabaseWrapper1;
-            this.songView1.SongText = null;
-            this.songView1.TabIndex = 11;
-            // 
-            // songDatabaseWrapper1
-            // 
-            this.songDatabaseWrapper1.Database = null;
-            this.songDatabaseWrapper1.SearchText = null;
-            this.songDatabaseWrapper1.SongID = 0;
-            // 
             // splitter1
             // 
             this.splitter1.Location = new System.Drawing.Point(420, 3);
@@ -293,15 +277,6 @@ namespace zp8
             this.tabPage2.Text = "Tabulka";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // songTable1
-            // 
-            this.songTable1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.songTable1.Location = new System.Drawing.Point(3, 3);
-            this.songTable1.Name = "songTable1";
-            this.songTable1.Size = new System.Drawing.Size(384, 344);
-            this.songTable1.SongDb = this.songDatabaseWrapper1;
-            this.songTable1.TabIndex = 6;
-            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.songsByGroupFrame1);
@@ -313,15 +288,6 @@ namespace zp8
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Skupiny";
             this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // songsByGroupFrame1
-            // 
-            this.songsByGroupFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.songsByGroupFrame1.Location = new System.Drawing.Point(3, 3);
-            this.songsByGroupFrame1.Name = "songsByGroupFrame1";
-            this.songsByGroupFrame1.Size = new System.Drawing.Size(384, 344);
-            this.songsByGroupFrame1.SongDb = this.songDatabaseWrapper1;
-            this.songsByGroupFrame1.TabIndex = 0;
             // 
             // imageList1
             // 
@@ -345,15 +311,6 @@ namespace zp8
             this.tabPage3.Text = "Servery";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // serversFrame1
-            // 
-            this.serversFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.serversFrame1.Location = new System.Drawing.Point(3, 3);
-            this.serversFrame1.Name = "serversFrame1";
-            this.serversFrame1.Size = new System.Drawing.Size(657, 358);
-            this.serversFrame1.SongDb = this.songDatabaseWrapper1;
-            this.serversFrame1.TabIndex = 0;
-            // 
             // tbsongbook
             // 
             this.tbsongbook.Controls.Add(this.songBookFrame1);
@@ -365,16 +322,6 @@ namespace zp8
             this.tbsongbook.TabIndex = 3;
             this.tbsongbook.Text = "Uspoøádání zpìvníku";
             this.tbsongbook.UseVisualStyleBackColor = true;
-            // 
-            // songBookFrame1
-            // 
-            this.songBookFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.songBookFrame1.Location = new System.Drawing.Point(3, 3);
-            this.songBookFrame1.Name = "songBookFrame1";
-            this.songBookFrame1.Size = new System.Drawing.Size(657, 358);
-            this.songBookFrame1.SongBook = null;
-            this.songBookFrame1.TabIndex = 0;
-            this.songBookFrame1.ChangedPageInfo += new System.EventHandler(this.songBookFrame1_ChangedPageInfo);
             // 
             // StatusStrip1
             // 
@@ -448,20 +395,12 @@ namespace zp8
             // souborToolStripMenuItem
             // 
             this.souborToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuNewDatabase,
             this.naèístToolStripMenuItem1,
             this.toolStripMenuItem2,
             this.konecToolStripMenuItem1});
             this.souborToolStripMenuItem.Name = "souborToolStripMenuItem";
             this.souborToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.souborToolStripMenuItem.Text = "Soubor";
-            // 
-            // mnuNewDatabase
-            // 
-            this.mnuNewDatabase.Name = "mnuNewDatabase";
-            this.mnuNewDatabase.Size = new System.Drawing.Size(152, 22);
-            this.mnuNewDatabase.Text = "Nová databáze";
-            this.mnuNewDatabase.Click += new System.EventHandler(this.mnuNewDatabase_Click);
             // 
             // naèístToolStripMenuItem1
             // 
@@ -487,8 +426,11 @@ namespace zp8
             // 
             this.databázeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.znovuNaèístDatabáziToolStripMenuItem,
+            this.nováDatabázeToolStripMenuItem,
+            this.toolStripMenuItem3,
             this.importPísníToolStripMenuItem,
             this.exportPísníToolStripMenuItem,
+            this.toolStripMenuItem4,
             this.xToolStripMenuItem,
             this.otevøítVDatAdminuToolStripMenuItem});
             this.databázeToolStripMenuItem.Name = "databázeToolStripMenuItem";
@@ -611,21 +553,21 @@ namespace zp8
             // obecnéToolStripMenuItem
             // 
             this.obecnéToolStripMenuItem.Name = "obecnéToolStripMenuItem";
-            this.obecnéToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.obecnéToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.obecnéToolStripMenuItem.Text = "Obecné";
             this.obecnéToolStripMenuItem.Click += new System.EventHandler(this.obecnéToolStripMenuItem_Click);
             // 
             // stylyZpìvníkuToolStripMenuItem
             // 
             this.stylyZpìvníkuToolStripMenuItem.Name = "stylyZpìvníkuToolStripMenuItem";
-            this.stylyZpìvníkuToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.stylyZpìvníkuToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.stylyZpìvníkuToolStripMenuItem.Text = "Styly zpìvníku";
             this.stylyZpìvníkuToolStripMenuItem.Click += new System.EventHandler(this.stylyZpìvníkuToolStripMenuItem_Click);
             // 
             // filtryToolStripMenuItem
             // 
             this.filtryToolStripMenuItem.Name = "filtryToolStripMenuItem";
-            this.filtryToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.filtryToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.filtryToolStripMenuItem.Text = "Filtry";
             this.filtryToolStripMenuItem.Click += new System.EventHandler(this.filtryToolStripMenuItem_Click);
             // 
@@ -643,21 +585,21 @@ namespace zp8
             // 
             this.obsahToolStripMenuItem.Name = "obsahToolStripMenuItem";
             this.obsahToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.obsahToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.obsahToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.obsahToolStripMenuItem.Text = "Obsah";
             this.obsahToolStripMenuItem.Click += new System.EventHandler(this.obsahToolStripMenuItem_Click);
             // 
             // wWWStránkaToolStripMenuItem
             // 
             this.wWWStránkaToolStripMenuItem.Name = "wWWStránkaToolStripMenuItem";
-            this.wWWStránkaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.wWWStránkaToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.wWWStránkaToolStripMenuItem.Text = "WWW stránka";
             this.wWWStránkaToolStripMenuItem.Click += new System.EventHandler(this.wWWStránkaToolStripMenuItem_Click);
             // 
             // oProgramuToolStripMenuItem
             // 
             this.oProgramuToolStripMenuItem.Name = "oProgramuToolStripMenuItem";
-            this.oProgramuToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.oProgramuToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.oProgramuToolStripMenuItem.Text = "O programu";
             this.oProgramuToolStripMenuItem.Click += new System.EventHandler(this.oProgramuToolStripMenuItem_Click);
             // 
@@ -741,7 +683,7 @@ namespace zp8
             this.toolStripButton8.Name = "toolStripButton8";
             this.toolStripButton8.Size = new System.Drawing.Size(86, 22);
             this.toolStripButton8.Text = "Nová píseò";
-            this.toolStripButton8.Click += new System.EventHandler(this.newSongList_Click);
+            this.toolStripButton8.Click += new System.EventHandler(this.newSong_Click);
             // 
             // písnìToolStripMenuItem
             // 
@@ -762,7 +704,7 @@ namespace zp8
             this.nováPíseòToolStripMenuItem.Name = "nováPíseòToolStripMenuItem";
             this.nováPíseòToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.nováPíseòToolStripMenuItem.Text = "Nová píseò";
-            this.nováPíseòToolStripMenuItem.Click += new System.EventHandler(this.newSongList_Click);
+            this.nováPíseòToolStripMenuItem.Click += new System.EventHandler(this.newSong_Click);
             // 
             // prohlížetToolStripMenuItem
             // 
@@ -785,6 +727,7 @@ namespace zp8
             this.smazatToolStripMenuItem.Name = "smazatToolStripMenuItem";
             this.smazatToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.smazatToolStripMenuItem.Text = "Smazat";
+            this.smazatToolStripMenuItem.Click += new System.EventHandler(this.smazatToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -805,6 +748,78 @@ namespace zp8
             this.exportPísnìDoPDFToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.exportPísnìDoPDFToolStripMenuItem.Text = "Export písnì do PDF";
             this.exportPísnìDoPDFToolStripMenuItem.Click += new System.EventHandler(this.exportPísnìDoPDFToolStripMenuItem_Click);
+            // 
+            // songView1
+            // 
+            this.songView1.AutoScroll = true;
+            this.songView1.BackColor = System.Drawing.SystemColors.Window;
+            this.songView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.songView1.Location = new System.Drawing.Point(430, 3);
+            this.songView1.Name = "songView1";
+            this.songView1.Size = new System.Drawing.Size(230, 358);
+            this.songView1.SongDb = this.songDatabaseWrapper1;
+            this.songView1.SongText = null;
+            this.songView1.TabIndex = 11;
+            // 
+            // songDatabaseWrapper1
+            // 
+            this.songDatabaseWrapper1.Database = null;
+            this.songDatabaseWrapper1.SearchText = null;
+            this.songDatabaseWrapper1.SongID = 0;
+            // 
+            // songTable1
+            // 
+            this.songTable1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.songTable1.Location = new System.Drawing.Point(3, 3);
+            this.songTable1.Name = "songTable1";
+            this.songTable1.Size = new System.Drawing.Size(384, 344);
+            this.songTable1.SongDb = this.songDatabaseWrapper1;
+            this.songTable1.TabIndex = 6;
+            // 
+            // songsByGroupFrame1
+            // 
+            this.songsByGroupFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.songsByGroupFrame1.Location = new System.Drawing.Point(3, 3);
+            this.songsByGroupFrame1.Name = "songsByGroupFrame1";
+            this.songsByGroupFrame1.Size = new System.Drawing.Size(384, 344);
+            this.songsByGroupFrame1.SongDb = this.songDatabaseWrapper1;
+            this.songsByGroupFrame1.TabIndex = 0;
+            // 
+            // serversFrame1
+            // 
+            this.serversFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.serversFrame1.Location = new System.Drawing.Point(3, 3);
+            this.serversFrame1.Name = "serversFrame1";
+            this.serversFrame1.Size = new System.Drawing.Size(657, 358);
+            this.serversFrame1.SongDb = this.songDatabaseWrapper1;
+            this.serversFrame1.TabIndex = 0;
+            // 
+            // songBookFrame1
+            // 
+            this.songBookFrame1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.songBookFrame1.Location = new System.Drawing.Point(3, 3);
+            this.songBookFrame1.Name = "songBookFrame1";
+            this.songBookFrame1.Size = new System.Drawing.Size(657, 358);
+            this.songBookFrame1.SongBook = null;
+            this.songBookFrame1.TabIndex = 0;
+            this.songBookFrame1.ChangedPageInfo += new System.EventHandler(this.songBookFrame1_ChangedPageInfo);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(186, 6);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(186, 6);
+            // 
+            // nováDatabázeToolStripMenuItem
+            // 
+            this.nováDatabázeToolStripMenuItem.Name = "nováDatabázeToolStripMenuItem";
+            this.nováDatabázeToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.nováDatabázeToolStripMenuItem.Text = "Nová databáze";
+            this.nováDatabázeToolStripMenuItem.Click += new System.EventHandler(this.mnuNewDatabase_Click);
             // 
             // MainForm
             // 
@@ -912,7 +927,6 @@ namespace zp8
         private System.Windows.Forms.ToolStripButton toolStripButton8;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ToolStripMenuItem mnuNewDatabase;
         private SongDatabaseWrapper songDatabaseWrapper1;
         private System.Windows.Forms.ToolStripMenuItem databázeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem znovuNaèístDatabáziToolStripMenuItem;
@@ -928,6 +942,9 @@ namespace zp8
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem tiskPísnìToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportPísnìDoPDFToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem nováDatabázeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
     }
 }
 
