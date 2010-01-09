@@ -1,4 +1,4 @@
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -198,6 +198,12 @@
     <Compile Include="Frames\PreviewFrame.Designer.cs">
       <DependentUpon>PreviewFrame.cs</DependentUpon>
     </Compile>
+    <Compile Include="Frames\ServerListFrame.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Frames\ServerListFrame.Designer.cs">
+      <DependentUpon>ServerListFrame.cs</DependentUpon>
+    </Compile>
     <Compile Include="Frames\SongsByGroupFrame.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -346,6 +352,9 @@
     <EmbeddedResource Include="Frames\PreviewFrame.resx">
       <SubType>Designer</SubType>
       <DependentUpon>PreviewFrame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frames\ServerListFrame.resx">
+      <DependentUpon>ServerListFrame.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frames\SongsByGroupFrame.resx">
       <SubType>Designer</SubType>

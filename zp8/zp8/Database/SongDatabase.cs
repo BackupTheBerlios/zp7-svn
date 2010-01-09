@@ -9,6 +9,7 @@ using System.Data;
 using System.Linq;
 
 using System.Data.SQLite;
+using System.Net;
 
 namespace zp8
 {
@@ -349,15 +350,21 @@ namespace zp8
             ExecuteNonQuery((SQLiteTransaction)null, sql, args);
         }
 
-        public SQLiteDataReader ExecuteReader(string sql, params object[] args)
+        public SQLiteDataReader ExecuteReader(SQLiteTransaction tran, string sql, params object[] args)
         {
             WantOpen();
             using (SQLiteCommand cmd = m_conn.CreateCommand())
             {
                 cmd.CommandText = sql;
+                cmd.Transaction = tran;
                 BindParams(cmd, args);
                 return cmd.ExecuteReader();
             }
+        }
+
+        public SQLiteDataReader ExecuteReader(string sql, params object[] args)
+        {
+            return ExecuteReader(null, sql, args);
         }
 
         public int LastInsertId()
@@ -393,31 +400,28 @@ namespace zp8
         {
             WantOpen();
             int imported = 0;
-            using (var tran = m_conn.BeginTransaction())
+            ExecuteNonQuery("delete from songdata where song_id = (select song.id from song where song.server_id=@sid and song.localmodified=0)", "sid", serverid);
+            ExecuteNonQuery("delete from song where song.server_id=@sid and song.localmodified=0", "sid", serverid);
+            List<string> modifiedNetIds = new List<string>();
+            using (var reader = ExecuteReader("select netID from song where server_id=@sid and localmodified=1", "sid", serverid))
             {
-                ExecuteNonQuery("delete from songdata where song_id = (select song.id from song where song.server_id=@sid and song.localmodified=0)", "sid", serverid);
-                ExecuteNonQuery("delete from song where song.server_id=@sid and song.localmodified=0", "sid", serverid);
-                List<string> modifiedNetIds = new List<string>();
-                using (var reader = ExecuteReader("select netID from song where server_id=@sid and localmodified=1", "sid", serverid))
+                while (reader.Read())
                 {
-                    while (reader.Read())
-                    {
-                        modifiedNetIds.Add(reader.SafeString(0));
-                    }
+                    modifiedNetIds.Add(reader.SafeString(0));
                 }
-                foreach (var song in db.Songs)
+                reader.Close();
+            }
+            foreach (var song in db.Songs)
+            {
+                if (modifiedNetIds.Contains(song.NetID))
                 {
-                    if (modifiedNetIds.Contains(song.NetID))
-                    {
-                        dlg.Message(String.Format("Ignoruji zmìnìnou píseò {0}, netID={1}", song.Title, song.NetID));
-                    }
-                    else
-                    {
-                        InsertSong(tran, song, serverid, false);
-                        imported++;
-                    }
+                    dlg.Message(String.Format("Ignoruji zmìnìnou píseò {0}, netID={1}", song.Title, song.NetID));
                 }
-                tran.Commit();
+                else
+                {
+                    InsertSong(song, serverid, false);
+                    imported++;
+                }
             }
             dlg.Message(String.Format("Importováno {0} písní", imported));
         }
@@ -593,6 +597,50 @@ namespace zp8
                 }
                 ExecuteNonQuery("delete from deletedsong where server_id=@sid", "sid", serverid);
                 tran.Commit();
+            }
+        }
+
+        public void LoadServers(IWaitDialog dlg)
+        {
+            using (var reader = ExecuteReader("select id, url from serverlist"))
+            {
+                while (reader.Read())
+                {
+                    WebRequest req = WebRequest.Create(reader.SafeString(1));
+                    using (var resp = req.GetResponse())
+                    {
+                        using (var strm = resp.GetResponseStream())
+                        {
+                            XmlDocument doc = new XmlDocument();
+                            doc.Load(strm);
+                            foreach (XmlElement elem in doc.SelectNodes("/ServerList/Server/Url"))
+                            {
+                                string url = elem.InnerText;
+                                if ("0" == ExecuteScalar("select count(*) from server where url=@url", "url", url).ToString())
+                                {
+                                    var ss = new XmlSongServer { URL = url };
+                                    InsertServer(ss);
+                                    dlg.Message(String.Format("Pøidávám server {0}", ss));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void LoadNews(MessageLogForm dlg)
+        {
+            LoadServers(dlg);
+
+            using (var reader = ExecuteReader("select id from server"))
+            {
+                while (reader.Read())
+                {
+                    int serverid = reader.SafeInt(0);
+                    var srv = LoadServer(serverid);
+                    srv.DownloadNew(this, serverid, dlg);
+                }
             }
         }
     }

@@ -596,5 +596,15 @@ namespace zp8
         {
             songDatabaseWrapper1.DispatchReloadSongs();
         }
+
+        private void xToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dlg = MessageLogForm.Show("Stahuji novinky", false))
+            {
+                songDatabaseWrapper1.Database.LoadNews(dlg);
+                dlg.FinishAndWait();
+                songDatabaseWrapper1.DispatchReloadSongs();
+            }
+        }
     }
 }
