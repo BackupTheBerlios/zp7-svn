@@ -61,6 +61,7 @@ namespace zp8
             button1.Text = "OK";
             button1.Visible = true;
             m_dialog = true;
+            UseWaitCursor = false;
             ShowDialog();
         }
     }

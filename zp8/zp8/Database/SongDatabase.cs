@@ -396,7 +396,7 @@ namespace zp8
             using (var tran = m_conn.BeginTransaction())
             {
                 ExecuteNonQuery("delete from songdata where song_id = (select song.id from song where song.server_id=@sid and song.localmodified=0)", "sid", serverid);
-                ExecuteNonQuery("delete from song where song.server_id=@sid and song.localmodified=0)", "sid", serverid);
+                ExecuteNonQuery("delete from song where song.server_id=@sid and song.localmodified=0", "sid", serverid);
                 List<string> modifiedNetIds = new List<string>();
                 using (var reader = ExecuteReader("select netID from song where server_id=@sid and localmodified=1", "sid", serverid))
                 {
