@@ -29,7 +29,8 @@ namespace zp8
 
             InitializeComponent();
             Text = "Zpìvníkátor " + VersionInfo.Version;
-            WindowState = global::zp8.Properties.Settings.Default.MainWindowState;
+            try { WindowState = global::zp8.Properties.Settings.Default.MainWindowState; }
+            catch { }
 
             TabControl1.TabPages.Remove(tbsongbook);
         }

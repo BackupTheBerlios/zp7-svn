@@ -114,8 +114,8 @@
 Section "Program" Program
 #CREATE_CONTENT#
 
-  ;nsExec::Exec '"$INSTDIR\DatAdmin.install.exe"'
-  ;Delete "$INSTDIR\DatAdmin.install.exe"
+  nsExec::Exec '"$INSTDIR\zp8.install.exe"'
+  Delete "$INSTDIR\zp8.install.exe"
     
   ;Store installation folder
   WriteRegStr HKCU "Software\Zpevnikator#VERTYPE#" "" $INSTDIR
