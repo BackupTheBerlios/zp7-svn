@@ -9,7 +9,7 @@ namespace zp8
     {
         Dictionary<string, SongDatabase> m_dbs = new Dictionary<string, SongDatabase>();
         public static DbManager Manager = new DbManager();
-        public static string DbPath { get { return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "db"); } }
+        public static string DbPath { get { return Directories.DbDirectory; } }
 
         public void Refresh()
         {

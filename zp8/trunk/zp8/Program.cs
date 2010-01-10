@@ -14,6 +14,7 @@ namespace zp8
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Directories.CopyDefaultData();
 #if (DEBUG)
             Application.Run(new MainForm());
 #else

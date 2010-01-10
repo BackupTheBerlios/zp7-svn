@@ -1,0 +1,39 @@
+<Install>
+    <Directory path='lib/win32' parent='install' platforms='windows'>
+        <CopyAll src='extbin/win32'/>
+    </Directory>
+    <Directory path='lib/win64' parent='install' platforms='windows'>
+        <CopyAll src='extbin/win64'/>
+    </Directory>
+
+    <Directory path='' parent='install'>
+        <File name="zp8.exe" src="#BIN#/zp8.exe"/>
+        <File name="zp8.exe.config" src="zp8.install/Resources/exe32.config"/>
+        <File name="zp8.install.exe" src="zp8.install\bin\Release\zp8.install.exe" platforms="windows"/>
+        
+        <File name="DAWizard.dll" src="#BIN#/DAWizard.dll"/>
+        <File name="PdfSharp.dll" src="#BIN#/PdfSharp.dll"/>
+        <File name="PropertyGridEx.dll" src="#BIN#/PropertyGridEx.dll"/>
+        
+        <File name="zp8.chm" src="doc/zp8.chm"/>
+        
+        <CopyAll src='extbin/linux' platforms='debian linux'/>
+    </Directory>
+    
+    <Directory path='Zpevnikator' parent='appdata'/>
+    <Directory path='Zpevnikator/cfg' parent='appdata'>
+        <CopyAll src='cfg'/>
+    </Directory>
+    <Directory path='Zpevnikator/cfg/filters' parent='appdata'>
+        <CopyAll src='cfg/filters'/>
+    </Directory>
+    <Directory path='Zpevnikator/cfg/db' parent='appdata'>
+        <CopyAll src='cfg/db'/>
+    </Directory>
+    <Directory path='' parent='root' platforms='debian linux'>
+        <CopyAll src='install/linux-root'/>
+    </Directory>
+    <Directory path='' parent='root' platforms='debian'>
+        <CopyAll src='install/debian-root'/>
+    </Directory>
+</Install>

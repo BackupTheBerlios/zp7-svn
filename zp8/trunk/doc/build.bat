@@ -13,7 +13,7 @@ xsltproc xml2html.xslt mainwindow.xml>%outputdir%\mainwindow.html
 xsltproc xml2hhc.xslt zp8-hhc.xml>%outputdir%\zp8.hhc
 copy zp8.hhp %outputdir%\zp8.hhp
 copy zp8.hhk %outputdir%\zp8.hhk
-hhc %outputdir%\zp8.hhp
+"c:\Program Files\HTML Help Workshop\hhc" %outputdir%\zp8.hhp
 
 copy %outputdir%\zp8.chm zp8.chm
 

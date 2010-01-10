@@ -83,6 +83,7 @@
       <DependentUpon>SongDatabaseWrapper.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\SongServer.cs" />
+    <Compile Include="Directories.cs" />
     <Compile Include="Extensions\DataReaderExetension.cs" />
     <Compile Include="Extensions\DataRowExtension.cs" />
     <Compile Include="Filters\DirectorySongExporter.cs" />
@@ -218,6 +219,7 @@
     </Compile>
     <Compile Include="FromDatAdmin\EnumDescConverter.cs" />
     <Compile Include="FromDatAdmin\Errors.cs" />
+    <Compile Include="FromDatAdmin\IOTool.cs" />
     <Compile Include="FromDatAdmin\PropertyPageBase.cs" />
     <Compile Include="FromDatAdmin\YesNoTypeConverter.cs" />
     <Compile Include="GlobalCfg.cs" />

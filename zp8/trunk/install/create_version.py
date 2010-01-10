@@ -167,7 +167,6 @@ print 'Checkouting from SVN...'
 os.system("svn co %s/%s zpevnikator" % (SVNBASE, branch))
 
 os.chdir("zpevnikator")
-os.chdir("zp8")
 
 if '.rev' in version:
     version = version.replace('rev', svninfo('.')['Revision'])  
@@ -232,6 +231,6 @@ if not issnapshot:
     print 'Creating tag in SVN...'
     os.system('svn copy %s/%s %s/tags/%s -m "Creating tag %s"' % (SVNBASE, branch, SVNBASE, version, version))
 
-os.chdir("../../..")
+os.chdir("../..")
 
 emptydir(".bld")
