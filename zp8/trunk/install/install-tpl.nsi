@@ -12,7 +12,7 @@
 
   ;Name and file
   Name "Zpevnikator"
-  OutFile "zp-install.exe"
+  OutFile "zpevnikator-install.exe"
 
   ;Default installation folder
   InstallDir "$PROGRAMFILES\Zpevnikator#VERTYPE#"
