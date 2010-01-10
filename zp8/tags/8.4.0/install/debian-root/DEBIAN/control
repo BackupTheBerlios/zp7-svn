@@ -1,0 +1,16 @@
+Package: zpevnikator
+Version: #VERSION#
+Section: base, cli-mono
+Priority: optional
+Architecture: all
+Essential: no
+Depends: libmono-winforms2.0-cil, libsqlite3-0
+Pre-Depends: 
+Recommends: 
+Suggests: 
+Installed-Size: 4000
+Maintainer: Jan Prochazka <jan.prochazka@centrum.cz>
+Conflicts: 
+Replaces: 
+Provides:
+Description: Program pro praci s pisnickami - tisk, vyhledavani, transpozice

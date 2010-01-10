@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<help title="Filtry">
+    Filtr slouží k definici formátu pro export a import písní.
+<h2>Druhy filtrů - import/export</h2>
+<ul>
+    <li>pro export - vstup je vždy množina písní
+        <ul>
+            <li>výstupem je jeden soubor
+                <ul>
+                    <li>RTF soubor (s tímto formátem pracuje například Microsoft Word)</li>
+                    <li>HTML stránka</li>
+                    <li>Jednoduchý textový soubor</li>
+                    <li>XML soubor - internetová databáze</li>
+                </ul>
+            </li>
+            <li>výstupem je adresář</li>
+        </ul>
+    </li>
+    
+    <li>pro import - výsledek je vždy množina písní
+        <ul>
+            <li>vstupem je jeden soubor na disku nebo jedna stránka na internetu - na rozdíl od exportu
+            nejsou připravené šablony pro běžně používané formáty, je potřeba vyrobit filtr typu "Import z textu"
+            a nastavit potřebné vlastnosti</li>
+            <li>vstupem je celý web provázaný odkazy</li>
+        </ul>
+    </li>
+</ul>
+
+<h2>Druhy filtrů podle míry obecnosti</h2>
+<ul>
+    <li>pevné filtry - nedají se konfigurovat (takže nejsou vidět v dialogu Nastavení/Filtry), ale jsou
+        na výběr při exportu/importu písně</li>
+    <li>konfigurovatelné filtry konkrétní - dají se konfigurovat konkrétní nastavení, např. barva a velikost textu, 
+    formát souboru je dán pevně - RTF, HTML</li>
+    <li>konfigurovatelné filtry obecné - výstupem není konkrétní formát souboru, ale cokoliv, co si uživatel
+    nadefinuje (i když většinou to asi bude HTML) - "Export dle šablony"</li>
+</ul>
+
+</help>
+

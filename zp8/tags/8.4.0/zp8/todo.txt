@@ -1,0 +1,4 @@
+kdyz je ve zpevniku jen jedna pisen, nejde jednoduse zobrazit text pisne
+kdyz se prepne zobrazeni zpevnik/db, pri zmene filtru, mela by se zobrazit 
+aktualni pisen
+filtr by mel zvlast pro databazi a pro zpevnik

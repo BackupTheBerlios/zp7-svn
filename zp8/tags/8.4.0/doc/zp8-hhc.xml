@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<contents>
+<item title="Zpěvníkátor" href="start">
+    <item title="Hlavní menu" href="mainmenu"/>
+    <item title="Hlavní okno" href="mainwindow"/>
+    <item title="Styly zpěvníku" href="bookstyles"/>
+    <item title="Filtry" href="filters"/>
+</item>
+<item title="Návody">
+    <item title="Internetová databáze" href="inetdb"/>
+    <item title="Vytváření zpěvníku" href="howtobook"/>
+</item>
+</contents>
+

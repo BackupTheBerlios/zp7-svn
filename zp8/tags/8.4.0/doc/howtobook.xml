@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<help title="Vytváření zpěvníku">
+Výroba zpěvníků je hlavní úkol Zpěvníkátoru. Zpěvníkem se rozumí písničky s nějakým formátováním, aby se to
+dalo vytisknout a např. složit do sešitku A6.<br/>
+K vytvoření zpěvníku je potřeba mít v databázi písně, které pak mají být ve zpěvníku (může jich tam být samozřejmě víc).
+Hotový zpěvník se pak dá uložit pro další úpravy, vytisknout nebo exportovat do formátu PDF. <br/>
+<h2>Postup</h2>
+    <ul>
+        <li>menu Zpěvník/Nový vytvoří prázdný zpěvník</li>
+        <li>v dialogu Zpěvník/Změnit styl vyberte styl zpěvníku (A6 - sešítek A6, 
+        A5 - sešit A5, Kapela - nejúspornější formát na papír, 2 sloupce na jeden papír A4</li>
+        <li>Přepínače 
+            <tool num='1'>Databáze</tool> a 
+            <tool num='3'>Zpěvník</tool> nahoře slouží k přepínání seznamu písní databáze a zpěvníku</li>
+        <li>Klávesou F2 (nebo v menu Zpěvník-Přidat vybranou píseň do zpěvníku) se dají přidat písně do zpěvníku</li>
+        <li><tool num='18'>Ukazatel</tool> ukazuje počet listů A4 a počet nevyužitých stránek.</li>
+        <li>Po vybrání <tool num='3'>Zpěvníku</tool> se objeví záložka "Uspořádání zpěvníku", na které je vidět náhled zpěvníku 
+        (zpěvník bude vypadat na každé tiskárně trochu jinak, proto se dá zvolit tiskárna v seznamu "Formátovat pro tiskárnu"</li>
+        <li>přikaz menu Zpěvník/Vytisknout zařídí vytištění celého zpěvníku</li>
+    </ul>
+<h2>Obrázek</h2>
+<img src='img/scrshot1-marked.png'/>
+</help>
+

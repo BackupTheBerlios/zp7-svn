@@ -1,0 +1,8 @@
+Licenèní smlouva s koncovým uživatelem na program Zpìvníkátor.
+
+Zpìvníkátor je freeware, použítí není omezeno.
+
+Poskytnuté záruky
+
+Program DatAdmin je licencován "JAK JE", tzn. bez jakéhokoliv druhu záruky vèetnì záruky na naprostou bezchybnost produktu, bez omezení záruk obchodovatelnosti, použití èi pro konkrétní úèel apod. 
+Výrobce programu není odpovìdný koncovému uživateli nebo jiné osobì za jakékoli pøímé, nepøímé nebo náhodné škody jakéhokoli druhu (vèetnì ušlého zisku, obchodní újmy, nebo jiné ekonomické výhody) zapøíèinìné používáním programu DatAdmin.

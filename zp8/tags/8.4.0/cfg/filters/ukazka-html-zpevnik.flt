@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?><CustomFilter type="zp8.DirectorySongExporter"><DirectorySongExporter xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><Encoding>windows-1250</Encoding><WriteIndex>true</WriteIndex><IndexFileName>index.html</IndexFileName><IndexHeader>&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta http-equiv="content-type" content="text/html; charset=windows-1250"&gt;
+    &lt;meta name="generator" content="Zpevnikator 8.0"&gt;
+    &lt;title&gt;Zpěvníkátor 8.0 - ukázka HTML zpěvníku&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+&lt;h1&gt;Zpěvníkátor 8.0 - ukázka HTML zpěvníku&lt;/h1&gt;
+</IndexHeader><IndexGroupRepeat>&lt;a href='group_$[GROUPINDEX]/index.html'&gt;$[GROUP]&lt;/a&gt;&lt;br&gt;</IndexGroupRepeat><IndexBetweenGroupsAndSongs /><IndexSongRepeat /><IndexFooter>  &lt;/body&gt;
+&lt;/html&gt;</IndexFooter><WriteGroups>true</WriteGroups><GroupFileMask>group_$[GROUPINDEX]/index.html</GroupFileMask><GroupHeader>&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta http-equiv="content-type" content="text/html; charset=windows-1250"&gt;
+    &lt;meta name="generator" content="Zpevnikator 8.0"&gt;
+    &lt;title&gt;&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+
+&lt;h1&gt;Skupina $[GROUP]&lt;/h1&gt;</GroupHeader><GroupSongRepeat>&lt;a href='song_$[SONGINDEX].html'&gt;$[TITLE]&lt;/a&gt;&lt;br&gt;</GroupSongRepeat><GroupFooter>  &lt;/body&gt;
+&lt;/html&gt;</GroupFooter><WriteSeparateSongs>true</WriteSeparateSongs><WriteGroupedSongs>false</WriteGroupedSongs><GroupedSongsFileMask /><SongFileMask>group_$[GROUPINDEX]/song_$[SONGINDEX].html</SongFileMask><StreamFormatter>@zp8.StaticHtmlFormatter</StreamFormatter></DirectorySongExporter></CustomFilter>

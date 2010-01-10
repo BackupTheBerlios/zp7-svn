@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<help title="Styly zpěvníku">
+    Styl zpěvníku je pojmenovaná konfigurace zpěvníku. V instalaci zpěvníkátoru jsou 4 standardní, A4, A5, A6, Kapela,
+    v menu Nastavení/Styly zpěvníku si je možné definovat vlastní.
+    <h1>Přehled vlastností zpěvníku</h1>
+    <property-pages>
+        <page>
+            <name>Fonty</name>
+            <description>Nastavení všech formů ve zpěníku</description>
+        </page>
+        <page>
+            <name>Vzhled stránky</name>
+            <description>Počet stránek na A4, zda se tiskne na šířku/na výšku, okraje</description>
+        </page>
+        <page>
+            <name>Formátování</name>
+            <description>Definice záhlaví, zápatí (+číslování stránek), oddělování a pořadí písní</description>
+        </page>
+        <page>
+            <name>Obsah</name>
+            <description>Vlastnosti obsahu - počet sloupců, zda má být na začátku nebo na konci, pořadí písní v obsahu</description>
+        </page>
+    </property-pages>
+</help>
+

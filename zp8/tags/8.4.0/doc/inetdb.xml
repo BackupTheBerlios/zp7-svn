@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<help title="Internetová databáze">
+Internetová databáze je XML soubor s písničkami, pokud je vystavena na internetu, umí z ní zpěvníkátor jednoduše stahovat písně do své databáze.
+<br/>
+V tomto návodě popíšu, jak se dá vytvořit internetová databáze z databáze zpěvníkátoru 6.0.<br />
+<ul>
+	<li>V menu vyberte Databáze, Nová (&quot;Jméno databáze&quot; bude použito jako jméno souboru (zadává se bez připony), soubor bude v adresáři db)</li>
+	<li>Zvolte záložku &quot;Servery&quot;, tlačítko &quot;Přidat server&quot;</li>
+
+	<li>Typ serveru zvolte &quot;ftp&quot;</li>
+	<li>Zadejte přístupové údaje k FTP, <br />
+	</li>
+	<li>Dokončením průvodce vznikne řádek v tabulce servery s Vaším novým serverem</li>
+	<li>V menu Písně zvolte &quot;Import písní&quot;</li>
+	<li>Typ importovaných dat nechte &quot;Databáze zpěvníkátoru 6.0&quot;, zaškrtněte &quot;Zadat server&quot;, vyberte server, který jste před chvílí zadali</li>
+
+	<li>Na další kartě přidejte soubor s databází písní</li>
+	<li>Dokončením průvodce se do tabulky přidají písně z staré databáze</li>
+	<li>Na kartě &quot;Servery&quot; vyberte váš server, zvolte &quot;Kompletní upload&quot;</li>
+</ul>
+Tímto jsme vytvořili internetovou databázi, následujícím postupem pak databázi stáhnete do jiného počítače.
+<ul>
+	<li>V menu vyberte Databáze, Nová (&quot;Jméno databáze&quot; bude použito jako
+	jméno souboru (zadává se bez připony), soubor bude v adresáři db)</li>
+	<li>Zvolte záložku &quot;Servery&quot;, tlačítko &quot;Přidat server&quot;</li>
+	<li>Typ serveru zvolte &quot;xml&quot;</li>
+
+	<li>Zadejte adresu XML souboru na internetu</li>
+	<li>Dokončením průvodce vznikne řádek v tabulce servery s Vaším novým serverem</li>
+	<li>Stisknutím &quot;Stáhnout novnky&quot; se přeneseinternetová databáze do vašeho zpěvníkátoru</li>
+</ul>
+První uživatel má k databázi přístup pro čtení i pro zápi, takže může tam může pomocí tlačítka &quot;Odeslat změny&quot; kopírovat svoje změny, Druhý uživatel má přístup pouze pro čtení, takže může písně jen stahovat.  
+</help>

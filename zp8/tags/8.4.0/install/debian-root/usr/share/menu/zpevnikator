@@ -1,0 +1,4 @@
+?package(zpevnikator):needs="x11" section="Applications" \
+        title="Zpevnikator" command="/usr/bin/zpevnikator" \
+        icon="/usr/share/pixmaps/zpevnikator.png"
+

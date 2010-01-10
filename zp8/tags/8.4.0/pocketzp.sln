@@ -1,0 +1,25 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pocketzp", "pocketzp\pocketzp.csproj", "{2BB16A45-A09F-4731-8322-B531F760AE7A}"
+EndProject
+Project("{B900F1C2-3D47-4FEC-85B3-04AAF18C3634}") = "zpevnik-instppc", "zpevnik-instppc\zpevnik-instppc.vddproj", "{95F44761-F6A2-46CC-861B-8009869B387F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2BB16A45-A09F-4731-8322-B531F760AE7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BB16A45-A09F-4731-8322-B531F760AE7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BB16A45-A09F-4731-8322-B531F760AE7A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2BB16A45-A09F-4731-8322-B531F760AE7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BB16A45-A09F-4731-8322-B531F760AE7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BB16A45-A09F-4731-8322-B531F760AE7A}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{95F44761-F6A2-46CC-861B-8009869B387F}.Debug|Any CPU.ActiveCfg = Debug
+		{95F44761-F6A2-46CC-861B-8009869B387F}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

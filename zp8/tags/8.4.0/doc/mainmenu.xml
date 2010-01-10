@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<help title="Hlavní menu">
+<menuitems>
+    <menuitem>
+        <name>Soubor</name>
+        <menuitems>
+            <menuitem><name>Načíst</name><description>načte soubor, typicky zpěvník</description></menuitem>
+            <menuitem><name>Konec</name><description>ukončí program</description></menuitem>
+        </menuitems>
+    </menuitem>
+    <menuitem>
+        <name>Databáze</name><description>v tomto menu jsou dostupné všechny operace, které se provádějí s vybranou databází</description>
+        <menuitems>
+            <menuitem><name>Nová</name><description>vytvoří novou databázi</description></menuitem>
+            <menuitem><name>Uložit</name><description>uloží změny ve vybrané databázi na disk</description></menuitem>
+            <menuitem><name>Přidat vybranou píseň do databáze</name><description>typicky se da použít, pokud je vybraná píseň ze zpěvníku, tento příkaz ji pak přidá do databáze</description></menuitem>
+        </menuitems>
+    </menuitem>
+    <menuitem>
+        <name>Zpěvník</name><description>v tomto menu jsou dostupné všechny operace, které se provádějí s vybraným zpěvníkem</description>
+        <menuitems>
+            <menuitem><name>Nový</name><description>vytvoří nový zpěvník</description></menuitem>
+            <menuitem><name>Uložit</name><description>uloží zpěvník na disk</description></menuitem>
+            <menuitem><name>Uložit</name><description>uloží zpěvník na disk, nechá vybrat soubor</description></menuitem>
+            <menuitem><name>Vlastnosti</name><description>Zobrazí dialog s vlastnostmi zpěvníku, pokud nechcete vlastnosti zpěvníku nastavovat vždy znova jednotlivě, vytvořte si "Styl zpěvníku"</description></menuitem>
+            <menuitem><name>Změnit styl</name><description>umžňuje změnit styl zpěvníku, tedy např. zda se má tisknout na papír A4, A5, nebo A6</description></menuitem>
+            <menuitem><name>Export do PDF</name><description>exportuje zpěvník ve formátu PDF</description></menuitem>
+            <menuitem><name>Vytisknout</name><description>vytiskne zpevník, umožňuje vybrat cílovou tiskárnu</description></menuitem>
+            <menuitem><name>Přidat vybranou píseň do zpěvníku</name><description>pomocí tohoto příkazu se přidávají písně z databáze do zpěvníku</description></menuitem>
+        </menuitems>
+    </menuitem>
+    <menuitem>
+        <name>Písně</name><description>týká se vybrané databáze nebo zpěvníku, podle toho, který rozbalovací seznam je obarven žlutě</description>
+        <menuitems>
+            <menuitem><name>Nová píseň</name><description>přidá novou píseň do databáze/zpěvníku</description></menuitem>
+            <menuitem><name>Upravit píseň</name><description>vyvolá dialog na úpravu vybrané písně</description></menuitem>
+            <menuitem><name>Smazat</name><description>smaže vybrané písně</description></menuitem>
+            <menuitem><name>Tisk písně</name><description>vytiskne vybranou píseň</description></menuitem>
+            <menuitem><name>Export písně do PDF</name><description>uloži vybranou píseň do PDF formátu</description></menuitem>
+            <menuitem><name>Import písní</name><description>zobrazí průvodce importem písní</description></menuitem>
+            <menuitem><name>Export písní</name><description>zobrazí průvodce exoortem písní</description></menuitem>
+        </menuitems>
+    </menuitem>
+    <menuitem>
+        <name>Nastavení</name>
+        <menuitems>
+            <menuitem><name>Obecné</name><description>Obecné nastavení, např. fonty pro prohlížení a tisk písní</description></menuitem>
+            <menuitem><name>Styly zpěvníku</name><description>editace stylů zpěvníku - více <a href='bookstyles'>tady</a></description></menuitem>
+            <menuitem><name>Filtry</name><description>editace filtrů - nastavení exportu a importu písní, více <a href='filters'>tady</a></description></menuitem>
+        </menuitems>
+    </menuitem>
+</menuitems>
+</help>
+

@@ -1,0 +1,19 @@
+[OPTIONS]
+Title=Zpevnikator 8.0
+Auto Index=Yes
+Binary TOC=Yes
+Compatibility=1.1 or later
+Compiled file=zp8.chm
+Contents file=zp8.hhc
+Default Window=MsdnHelp
+Default topic=start.html
+Display compile progress=No
+Error log file=errorlog.log
+Full-text search=Yes
+Language=0x405
+;Index file=jqladmin.hhk
+
+[FILES]
+start.html
+
+[INFOTYPES]
