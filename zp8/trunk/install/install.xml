@@ -27,8 +27,11 @@
     <Directory path='Zpevnikator/cfg/filters' parent='appdata'>
         <CopyAll src='cfg/filters'/>
     </Directory>
-    <Directory path='Zpevnikator/cfg/db' parent='appdata'>
-        <CopyAll src='cfg/db'/>
+    <Directory path='Zpevnikator/cfg/bookstyles' parent='appdata'>
+        <CopyAll src='cfg/bookstyles'/>
+    </Directory>
+    <Directory path='Zpevnikator/db' parent='appdata'>
+        <CopyAll src='db'/>
     </Directory>
     <Directory path='' parent='root' platforms='debian linux'>
         <CopyAll src='install/linux-root'/>
