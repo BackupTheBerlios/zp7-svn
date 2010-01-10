@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/bin/mono $MONO_OPTIONS /usr/lib/zpevnikator/zp8.exe "$@"

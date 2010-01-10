@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Zpevnikator
+Comment=Program pro praci s pisnickami - tisk, vyhledavani, transpozice
+Exec=zpevnikator
+Terminal=false
+Type=Application
+Icon=zpevnikator
+Categories=GNOME;

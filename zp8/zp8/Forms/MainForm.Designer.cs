@@ -112,6 +112,7 @@ namespace zp8
             this.toolStripButton9 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.panel1.SuspendLayout();
             this.TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -747,21 +748,21 @@ namespace zp8
             // 
             this.obsahToolStripMenuItem.Name = "obsahToolStripMenuItem";
             this.obsahToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.obsahToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.obsahToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.obsahToolStripMenuItem.Text = "Obsah";
             this.obsahToolStripMenuItem.Click += new System.EventHandler(this.obsahToolStripMenuItem_Click);
             // 
             // wWWStránkaToolStripMenuItem
             // 
             this.wWWStránkaToolStripMenuItem.Name = "wWWStránkaToolStripMenuItem";
-            this.wWWStránkaToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.wWWStránkaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.wWWStránkaToolStripMenuItem.Text = "WWW stránka";
             this.wWWStránkaToolStripMenuItem.Click += new System.EventHandler(this.wWWStránkaToolStripMenuItem_Click);
             // 
             // oProgramuToolStripMenuItem
             // 
             this.oProgramuToolStripMenuItem.Name = "oProgramuToolStripMenuItem";
-            this.oProgramuToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.oProgramuToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.oProgramuToolStripMenuItem.Text = "O programu";
             this.oProgramuToolStripMenuItem.Click += new System.EventHandler(this.oProgramuToolStripMenuItem_Click);
             // 
@@ -797,7 +798,8 @@ namespace zp8
             this.toolStripButton3,
             this.toolStripButton9,
             this.toolStripButton2,
-            this.toolStripButton8});
+            this.toolStripButton8,
+            this.toolStripButton4});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(671, 25);
@@ -846,6 +848,15 @@ namespace zp8
             this.toolStripButton8.Size = new System.Drawing.Size(86, 22);
             this.toolStripButton8.Text = "Nová píseò";
             this.toolStripButton8.Click += new System.EventHandler(this.newSong_Click);
+            // 
+            // toolStripButton4
+            // 
+            this.toolStripButton4.Image = global::zp8.StdResources.server;
+            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.Size = new System.Drawing.Size(120, 22);
+            this.toolStripButton4.Text = "Stáhnout novinky";
+            this.toolStripButton4.Click += new System.EventHandler(this.xToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -974,6 +985,7 @@ namespace zp8
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
         private System.Windows.Forms.TabPage tabPage5;
         private zp8.Frames.ServerListFrame serverListFrame1;
+        private System.Windows.Forms.ToolStripButton toolStripButton4;
     }
 }
 
