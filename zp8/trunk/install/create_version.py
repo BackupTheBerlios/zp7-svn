@@ -6,26 +6,16 @@ import os, stat, zipfile, shutil, ftplib, string, time, sys, datetime
 from cStringIO import StringIO
 from lxml import etree
 
-#DEVENV = r'c:\Program Files\Microsoft Visual Studio 8\Common7\IDE\devenv'
 DEVENV = r'c:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv'
 MAKENSIS = r'c:\Program files\NSIS\makensis'
-#SVNBASE = 'https://subversion.savana.cz/datadmin' 
-SVNBASE = 'file:///c:/svn/datadmin2'
+SVNBASE = 'https://svn.berlios.de/svnroot/repos/zp7/zp8'
 
-# FTPHOST = 'ftp.datadmin.com'
-# FTPLOGIN = 'datadmincom'
-# FTPPASSWORD = 'Jv6TkZTM3q'
-
-FTPHOST = 'www.datadmin.com'
-FTPLOGIN = 'datadmin_com'
-FTPPASSWORD = 'draklesu'
-
-FTPHOST2 = 'www.jenasoft.com'
-FTPLOGIN2 = 'datadmin_jenasoft_com'
-FTPPASSWORD2 = 'draklesu'
+FTPHOST = 'www.jenasoft.com'
+FTPLOGIN = 'jenasoft_com'
+FTPPASSWORD = 'h89fe675gry'
 
 WINROOT = {'install': '$INSTDIR', 'appdata': '$APPDATA'}
-LINROOT = {'install': 'usr/lib/datadmin', 'appdata': 'etc/datadmin/.config', 'root':''}
+LINROOT = {'install': 'usr/lib/zpevnikator', 'appdata': 'etc/zpevnikator/.config', 'root':''}
 
 UNIX_PLATFORMS = ['linux', 'debian']
 
@@ -46,38 +36,32 @@ def doupload(host, user, password, root):
     ftp.login(user = user, passwd = password)
     
     if issnapshot:
-        fr = open("install/datadmin-install.exe", "rb")
-        ftp.storbinary("STOR %s/datadmin-%s.exe" % (root, version), fr)
+        fr = open("install/zpevnikator-install.exe", "rb")
+        ftp.storbinary("STOR %s/zpevnikator-%s.exe" % (root, version), fr)
         
-        fr = open("install/datadmin-linux.tgz", "rb")
-        ftp.storbinary("STOR %s/datadmin-%s.tgz" % (root, version), fr)
+        fr = open("install/zpevnikator-linux.tgz", "rb")
+        ftp.storbinary("STOR %s/zpevnikator-%s.tgz" % (root, version), fr)
         
-        fr = open("install/datadmin-debian.deb", "rb")
-        ftp.storbinary("STOR %s/datadmin-%s.deb" % (root, version), fr)
+        fr = open("install/zpevnikator-debian.deb", "rb")
+        ftp.storbinary("STOR %s/zpevnikator-%s.deb" % (root, version), fr)
     elif isbeta:
-        fr = open("install/datadmin-install.exe", "rb")
-        ftp.storbinary("STOR %s/datadmin-beta.exe" % root, fr)
+        fr = open("install/zpevnikator-install.exe", "rb")
+        ftp.storbinary("STOR %s/zpevnikator-beta.exe" % root, fr)
         
-        fr = open("install/datadmin-linux.tgz", "rb")
-        ftp.storbinary("STOR %s/datadmin-beta.tgz" % root, fr)
+        fr = open("install/zpevnikator-linux.tgz", "rb")
+        ftp.storbinary("STOR %s/zpevnikator-beta.tgz" % root, fr)
         
-        fr = open("install/datadmin-debian.deb", "rb")
-        ftp.storbinary("STOR %s/datadmin-beta.deb" % root, fr)
+        fr = open("install/zpevnikator-debian.deb", "rb")
+        ftp.storbinary("STOR %s/zpevnikator-beta.deb" % root, fr)
     else:
-        fr = open("install/datadmin-install.exe", "rb")
-        ftp.storbinary("STOR %s/datadmin-install.exe" % root, fr)
+        fr = open("install/zpevnikator-install.exe", "rb")
+        ftp.storbinary("STOR %s/zpevnikator-install.exe" % root, fr)
 
-        fr = open("install/datadmin-install.exe", "rb")
-        ftp.storbinary("STOR %s/datadmin2-install.exe" % root, fr)
+        fr = open("install/zpevnikator-linux.tgz", "rb")
+        ftp.storbinary("STOR %s/zpevnikator-linux.tgz" % root, fr)
 
-        fr = open("install/datadmin-linux.tgz", "rb")
-        ftp.storbinary("STOR %s/datadmin-linux.tgz" % root, fr)
-
-        fr = open("install/datadmin-debian.deb", "rb")
-        ftp.storbinary("STOR %s/datadmin-linux.deb" % root, fr)
-    
-        fr = open("install/datadmin-pad.xml", "rb")
-        ftp.storbinary("STOR %s/datadmin-pad.xml" % root, fr)
+        fr = open("install/zpevnikator-debian.deb", "rb")
+        ftp.storbinary("STOR %s/zpevnikator-linux.deb" % root, fr)
     
     ftp.quit()
 
@@ -122,7 +106,7 @@ def add_directory(dparent, relpath, extxml):
         delete_content_nsi = '  RMDir "%s\\%s"\n' % (WINROOT[dparent.attrib['parent']], relpath.replace('/', '\\')) + delete_content_nsi 
     for pl in UNIX_PLATFORMS:
         if isplatform(dparent, pl) and isplatform(extxml, pl):
-            dirname = os.path.join('datadmin-%s' % pl, LINROOT[dparent.attrib['parent']], relpath)
+            dirname = os.path.join('zpevnikator-%s' % pl, LINROOT[dparent.attrib['parent']], relpath)
             if not os.path.isdir(dirname): 
                 os.makedirs(dirname)
 
@@ -130,11 +114,11 @@ def add_file(dparent, fxml, relpath, fname, src):
     global create_content_nsi, delete_content_nsi
     if isplatform(dparent, 'windows') and isplatform(fxml, 'windows'):
         create_content_nsi += ' SetOutPath "%s"\n' % os.path.join(WINROOT[dparent.attrib['parent']], relpath).replace('/', '\\')
-        create_content_nsi += ' File %s\n' % src.replace('#BIN#', r'DatAdmin\bin\Release').replace('/', '\\') 
+        create_content_nsi += ' File %s\n' % src.replace('#BIN#', r'zp8\bin\Release').replace('/', '\\') 
         delete_content_nsi = ' Delete "%s"\n' % os.path.join(WINROOT[dparent.attrib['parent']], relpath, fname).replace('/', '\\') + delete_content_nsi
     for pl in UNIX_PLATFORMS:
         if isplatform(dparent, pl) and isplatform(fxml, pl):
-            shutil.copy(src.replace("#BIN#", r'DatAdmin\bin\Release'), os.path.join('datadmin-%s' % pl, LINROOT[dparent.attrib['parent']], relpath))
+            shutil.copy(src.replace("#BIN#", r'zp8\bin\Release'), os.path.join('zpevnikator-%s' % pl, LINROOT[dparent.attrib['parent']], relpath))
  
 
 def add_content(dparent, srcfolder, dstfolder, item):  
@@ -180,29 +164,25 @@ if not os.path.isdir('.bld') : os.mkdir(".bld")
 os.chdir(".bld")
 
 print 'Checkouting from SVN...'
-os.system("svn co %s/%s datadmin" % (SVNBASE, branch))
+os.system("svn co %s/%s zpevnikator" % (SVNBASE, branch))
 
-os.chdir("datadmin")
-os.chdir("DatAdmin")
+os.chdir("zpevnikator")
+os.chdir("zp8")
 
 if '.rev' in version:
     version = version.replace('rev', svninfo('.')['Revision'])  
 
-modify_version_file('DatAdmin.Core/VersionInfo.cs')
 modify_version_file('install/debian-root/DEBIAN/control')
 
-print 'Building DatAdmin...'
-os.system(r'"%s" DatAdmin3.sln /Build Release' % DEVENV)
-#os.system(r'"%s" DatAdmin2.sln /Build Debug' % DEVENV)
-#print 'Exporting packages...'
-#os.system(r'DatAdmin\bin\Debug\daci.exe exportaddons alladdons.adp --dir addons') # addons are in debug directory
+print 'Building Zpevnikator...'
+os.system(r'"%s" zp8.sln /Build Release' % DEVENV)
 
 print 'Creating installations...'
 os.chdir("install")
 # directory for linux distribution
 for pl in UNIX_PLATFORMS:
-    os.makedirs('datadmin-%s/usr/lib/datadmin' % pl) 
-    os.makedirs('datadmin-%s/etc/datadmin/appdata' % pl) 
+    os.makedirs('zpevnikator-%s/usr/lib/zpevnikator' % pl) 
+    os.makedirs('zpevnikator-%s/etc/zpevnikator/appdata' % pl) 
 doc = etree.parse(open('install.xml'))
 create_content_nsi = ''
 delete_content_nsi = ''
@@ -227,72 +207,27 @@ print 'Creating windows installer...'
 os.system('"%s" install-repl.nsi' % MAKENSIS)
 
 print 'Creating linux distributions...'
-os.system('tar -cv --file=datadmin-linux.tar datadmin-linux/*')
-os.system('gzip -9 < datadmin-linux.tar > datadmin-linux.tgz')
+os.system('tar -cv --file=zpevnikator-linux.tar zpevnikator-linux/*')
+os.system('gzip -9 < zpevnikator-linux.tar > zpevnikator-linux.tgz')
 
-os.system('tar -cv --file=datadmin-debian.tar datadmin-debian/*')
-os.system('gzip -9 < datadmin-debian.tar > datadmin-debian.tgz')
+os.system('tar -cv --file=zpevnikator-debian.tar zpevnikator-debian/*')
+os.system('gzip -9 < zpevnikator-debian.tar > zpevnikator-debian.tgz')
 
 print 'Copying to linux build machine...'
 os.system('ssh jena@jdesktop "rm -rf .dinst"') 
 os.system('ssh jena@jdesktop "mkdir .dinst"') 
-os.system('ssh jena@jdesktop "cat > .dinst/datadmin-debian.tgz" < datadmin-debian.tgz')
+os.system('ssh jena@jdesktop "cat > .dinst/zpevnikator-debian.tgz" < zpevnikator-debian.tgz')
 print 'Remote compiling debian distribution...'
 data = open('compile_linux.sh', 'r').read()
 open('compile_linux.sh', 'wb').write(data)
 os.system('ssh jena@jdesktop < compile_linux.sh') 
 print 'Download debian distribution...'
-os.system('ssh jena@jdesktop "cat .dinst/datadmin-debian.deb" > datadmin-debian.deb') 
+os.system('ssh jena@jdesktop "cat .dinst/zpevnikator-debian.deb" > zpevnikator-debian.deb') 
 
 os.chdir("..")
 
-# CREATE PAD FILE
-padtpl = open('install/datadmin-pad-template.xml').read()
-padtpl = padtpl.replace('#VERSION#', version)
-
-padtpl = padtpl.replace('#MONTH#', time.strftime('%m'))
-padtpl = padtpl.replace('#DAY#', time.strftime('%d'))
-padtpl = padtpl.replace('#YEAR#', time.strftime('%Y'))
-
-sizebytes = os.path.getsize('install/datadmin-install.exe')
-padtpl = padtpl.replace('#SIZE_BYTES#', str(sizebytes))
-padtpl = padtpl.replace('#SIZE_KBYTES#', str(sizebytes/1000))
-padtpl = padtpl.replace('#SIZE_MBYTES#', '%0.2f' % (sizebytes/1000000.0))
-open('install/datadmin-pad.xml', 'w').write(padtpl)
-
-if issnapshot:
-    doupload(FTPHOST, FTPLOGIN, FTPPASSWORD, '/datadmin.com/snapshot')
-elif isbeta:
-    doupload(FTPHOST, FTPLOGIN, FTPPASSWORD, '/datadmin.com')
-else: # release
-    doupload(FTPHOST, FTPLOGIN, FTPPASSWORD, '/datadmin.com')
-    doupload(FTPHOST2, FTPLOGIN2, FTPPASSWORD2, '')
-
-print 'Uploading version...'
-ftp = ftplib.FTP(FTPHOST)
-ftp.login(user = FTPLOGIN, passwd = FTPPASSWORD)
-if isbeta:
-    ftp.storbinary("STOR /datadmin.com/includes/datadmin/version-beta.php", StringIO('<?$ver_betaversion = "%s"; $ver_betachanged = "%s"; $ver_betafilename = "datadmin-beta.exe"; $ver_betafilename_tgz = "datadmin-beta.tgz"; $ver_betafilename_deb = "datadmin-beta.deb";?>' % (version, time.strftime('%Y-%m-%d %H:%M:%S')) ))
-if isrelease:
-    ftp.storbinary("STOR /datadmin.com/includes/datadmin/version.php", StringIO('<?$ver_version = "%s"; $ver_lastchanged = "%s";?>' % (version, time.strftime('%Y-%m-%d %H:%M:%S')) ))
-    
-if not issnapshot:
-    print 'Uploading changelog...'
-    os.system("svn co %s/changelog changelog" % SVNBASE)
-    ftp.storbinary("STOR /datadmin.com/changelog-release.txt", open('changelog/release.txt'))
-    ftp.storbinary("STOR /datadmin.com/changelog-beta.txt", open('changelog/beta.txt'))
-    
-ftp.quit()
-ftp = ftplib.FTP(FTPHOST2)
-ftp.login(user = FTPLOGIN2, passwd = FTPPASSWORD2)
-
-if isbeta:
-    ftp.storbinary("STOR includes/datadmin/version-beta.php", StringIO('<?$ver_betaversion = "%s"; $ver_betachanged = "%s"; $ver_betafilename = "datadmin-beta.exe"; $ver_betafilename_tgz = "datadmin-beta.tgz"; $ver_betafilename_deb = "datadmin-beta.deb";?>' % (version, time.strftime('%Y-%m-%d %H:%M:%S')) ))
-if isrelease:
-    ftp.storbinary("STOR includes/datadmin/version.php", StringIO('<?$ver_version = "%s"; $ver_lastchanged = "%s";?>' % (version, time.strftime('%Y-%m-%d %H:%M:%S')) ))
-
-ftp.quit()
-   
+doupload(FTPHOST, FTPLOGIN, FTPPASSWORD, '/new.jenasoft.com/download')
+  
 if not issnapshot:
     print 'Creating tag in SVN...'
     os.system('svn copy %s/%s %s/tags/%s -m "Creating tag %s"' % (SVNBASE, branch, SVNBASE, version, version))

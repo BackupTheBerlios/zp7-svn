@@ -15,10 +15,10 @@
   OutFile "zp-install.exe"
 
   ;Default installation folder
-  InstallDir "$PROGRAMFILES\Zpevnikator"
+  InstallDir "$PROGRAMFILES\Zpevnikator#VERTYPE#"
   
   ;Get installation folder from registry if available
-  InstallDirRegKey HKCU "Software\Zpevnikator" ""
+  InstallDirRegKey HKCU "Software\Zpevnikator#VERTYPE#" ""
 
 ;--------------------------------
 ;Variables
@@ -37,7 +37,7 @@
 
   ;Remember the installer language
   !define MUI_LANGDLL_REGISTRY_ROOT "HKCU" 
-  !define MUI_LANGDLL_REGISTRY_KEY "Software\Zpevnikator" 
+  !define MUI_LANGDLL_REGISTRY_KEY "Software\Zpevnikator#VERTYPE#" 
   !define MUI_LANGDLL_REGISTRY_VALUENAME "Installer Language"
 
 ;--------------------------------
@@ -54,7 +54,7 @@
   
   ;Start Menu Folder Page Configuration
   !define MUI_STARTMENUPAGE_REGISTRY_ROOT "HKCU" 
-  !define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\Zpevnikator" 
+  !define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\Zpevnikator#VERTYPE#" 
   !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "Start Menu Folder"
 
   !insertmacro MUI_PAGE_STARTMENU Application $STARTMENU_FOLDER
@@ -118,7 +118,7 @@ Section "Program" Program
   ;Delete "$INSTDIR\DatAdmin.install.exe"
     
   ;Store installation folder
-  WriteRegStr HKCU "Software\Zpevnikator" "" $INSTDIR
+  WriteRegStr HKCU "Software\Zpevnikator#VERTYPE#" "" $INSTDIR
   
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
@@ -127,8 +127,8 @@ Section "Program" Program
     
     ;Create shortcuts
     CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Zpevnikator.lnk" "$INSTDIR\zp8.exe"
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Zpevnikator#SPACEVERTYPE#.lnk" "$INSTDIR\zp8.exe"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall#SPACEVERTYPE#.lnk" "$INSTDIR\Uninstall.exe"
   
   !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
@@ -168,8 +168,8 @@ Section "Uninstall"
 #DELETE_CONTENT#
 
   !insertmacro MUI_STARTMENU_GETFOLDER Application $MUI_TEMP
-  Delete "$SMPROGRAMS\$MUI_TEMP\Zpevnikator.lnk"
-  Delete "$SMPROGRAMS\$MUI_TEMP\Uninstall.lnk"
+  Delete "$SMPROGRAMS\$MUI_TEMP\Zpevnikator#SPACEVERTYPE#.lnk"
+  Delete "$SMPROGRAMS\$MUI_TEMP\Uninstall#SPACEVERTYPE#.lnk"
 
   ;Delete empty start menu parent diretories
   StrCpy $MUI_TEMP "$SMPROGRAMS\$MUI_TEMP"
@@ -184,7 +184,7 @@ Section "Uninstall"
     StrCmp $MUI_TEMP $SMPROGRAMS startMenuDeleteLoopDone startMenuDeleteLoop
   startMenuDeleteLoopDone:
 
-  DeleteRegKey HKCU "Software\Zpevnikator"
+  DeleteRegKey HKCU "Software\Zpevnikator#VERTYPE#"
 
 SectionEnd
 
