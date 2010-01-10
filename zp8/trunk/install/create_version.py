@@ -12,7 +12,7 @@ SVNBASE = 'https://svn.berlios.de/svnroot/repos/zp7/zp8'
 
 FTPHOST = 'www.jenasoft.com'
 FTPLOGIN = 'jenasoft_com'
-FTPPASSWORD = 'h89fe675gry'
+FTPPASSWORD = 'draklesu'
 
 WINROOT = {'install': '$INSTDIR', 'appdata': '$APPDATA'}
 LINROOT = {'install': 'usr/lib/zpevnikator', 'appdata': 'etc/zpevnikator/.config', 'root':''}

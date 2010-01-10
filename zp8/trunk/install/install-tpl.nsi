@@ -43,7 +43,7 @@
 ;--------------------------------
 ;Pages
 
-  ůLicenseLangString myLicenseData 1033 "license-en.txt"
+  ;LicenseLangString myLicenseData 1033 "license-en.txt"
   LicenseLangString myLicenseData 1029 "license-cz.txt"
 
   ;LangString LANGID 1033 "en"
