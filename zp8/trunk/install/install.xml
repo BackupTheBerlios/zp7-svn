@@ -14,6 +14,7 @@
         <File name="DAWizard.dll" src="#BIN#/DAWizard.dll"/>
         <File name="PdfSharp.dll" src="#BIN#/PdfSharp.dll"/>
         <File name="PropertyGridEx.dll" src="#BIN#/PropertyGridEx.dll"/>
+        <File name="LinqBridge.dll" src="extbin/LinqBridge.dll"/>
         
         <File name="zp8.chm" src="doc/zp8.chm"/>
         
