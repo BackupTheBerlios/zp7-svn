@@ -172,6 +172,7 @@ if '.rev' in version:
     version = version.replace('rev', svninfo('.')['Revision'])  
 
 modify_version_file('install/debian-root/DEBIAN/control')
+modify_version_file('zp8/VersionInfo.cs')
 
 print 'Building Zpevnikator...'
 os.system(r'"%s" zp8.sln /Build Release' % DEVENV)

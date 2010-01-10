@@ -28,7 +28,7 @@ namespace zp8
             m_mainGraphics = Graphics.FromHwnd(Handle);
 
             InitializeComponent();
-            Text = "Zpìvníkátor " + VersionInfo.Version;
+            Text = "Zpìvníkátor " + VersionInfo.VERSION;
             try { WindowState = global::zp8.Properties.Settings.Default.MainWindowState; }
             catch { }
 
@@ -529,7 +529,7 @@ namespace zp8
         private void oProgramuToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string text = "";
-            text += "Zpìvníkátor " + VersionInfo.Version + "\r\n";
+            text += "Zpìvníkátor " + VersionInfo.VERSION + "\r\n";
             text += "(c) JenaSoft 1998-2007\r\n";
             text += "WWW: http://zpevnik.net";
             MessageBox.Show(text, "O programu...");
