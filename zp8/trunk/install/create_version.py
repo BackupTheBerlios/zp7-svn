@@ -228,6 +228,12 @@ os.chdir("..")
 
 doupload(FTPHOST, FTPLOGIN, FTPPASSWORD, '/new.jenasoft.com/download')
   
+print 'Uploading version...'
+if isrelease:
+    ftp = ftplib.FTP(FTPHOST)
+    ftp.login(user = FTPLOGIN, passwd = FTPPASSWORD)
+    ftp.storbinary("STOR /new.jenasoft.com/includes/zpevnikator/version.php", StringIO('<?$ver_version = "%s"; $ver_lastchanged = "%s";?>' % (version, time.strftime('%Y-%m-%d %H:%M:%S')) ))
+   
 if not issnapshot:
     print 'Creating tag in SVN...'
     os.system('svn copy %s/%s %s/tags/%s -m "Creating tag %s"' % (SVNBASE, branch, SVNBASE, version, version))
